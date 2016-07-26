@@ -1,21 +1,16 @@
 (function () {
     angular
     .module('vliller.home')
-    .controller('HomeController', ['uiGmapGoogleMapApi', 'uiGmapIsReady', 'Vlilles', '$scope', '$timeout', '$window', 'aetmToastService', '$log', '$q', 'aetmNetworkService', function (uiGmapGoogleMapApi, uiGmapIsReady, Vlilles, $scope, $timeout, $window, aetmToastService, $log, $q, aetmNetworkService) {
+    .controller('HomeController', ['uiGmapGoogleMapApi', 'uiGmapIsReady', 'Vlilles', '$scope', '$timeout', '$window', 'aetmToastService', '$log', '$q', 'aetmNetworkService', '$ionicLoading', function (uiGmapGoogleMapApi, uiGmapIsReady, Vlilles, $scope, $timeout, $window, aetmToastService, $log, $q, aetmNetworkService, $ionicLoading) {
         var vm = this,
-            activeMarker = null,
-            iconDefault,
-            iconActive,
             stationsFullList,
-            currentPosition = null,
-            OFFICE_TO_FAR_DISTANCE = 80000, // 80 km
             uiGmapIsReadyPromise = uiGmapIsReady.promise(1);
 
         vm.isLoading = true;
         vm.query = null;
         vm.isGPSActive = false;
-        vm.isClosestOfficeToFar = false;
         vm.isOffline = false;
+        vm.currentPosition = null;
 
         // $scope.$watch('$root.isOffline', function (newValue) {
         //     if (newValue === undefined) {
@@ -40,6 +35,17 @@
             },
             control: {},
             $loaded: false
+        };
+
+        vm.userMarker = {
+            id: 'userMarker',
+            options: {
+                icon: 'http://www.robotwoods.com/dev/misc/bluecircle.png'
+            },
+            coords: {
+                latitude: 50.6314446,
+                longitude: 3.0589064
+            }
         };
 
         /**
@@ -122,16 +128,73 @@
         }
 
         /**
-         * Center the map to given office
-         * @param Office office
+         * Center the map on the closest office or active the "too far mode"
+         *
+         * @param Position position
          */
-        function setCenterOffice(office) {
-            setCenterMap({
-                latitude: office.latitude,
-                longitude: office.longitude
-            });
+        function handleLocationActive(position) {
+            vm.userMarker.coords.latitude = position.coords.latitude;
+            vm.userMarker.coords.longitude = position.coords.longitude;
+
+            vm.currentPosition = position.coords;
+            vm.isGPSActive = true;
+
+            setCenterMap(vm.currentPosition);
         }
 
+
+        /**
+         * Toggle the GPS state and update current position.
+         */
+        vm.toggleGPS = function () {
+            if (vm.isGPSActive) {
+                vm.currentPosition = null;
+                vm.isGPSActive = false;
+                vm.isClosestOfficeToFar = false;
+
+                return;
+            }
+
+            document.addEventListener("deviceready", function () {
+                // Check if the GPS is available
+                cordova.plugins.diagnostic.isLocationEnabled(function (isLocationEnabled) {
+                    if (!isLocationEnabled) {
+                        aetmToastService.showError('Vous devez activer votre GPS pour utiliser cette fonctionnalité.', 'long');
+
+                        return;
+                    }
+
+                    // display loader to avoid "UX lag"
+                    $ionicLoading.show();
+
+                    // Get the current location
+                    navigator.geolocation.getCurrentPosition(function (position) {
+                        $ionicLoading.hide();
+
+                        $timeout(function () {
+                            handleLocationActive(position);
+                        });
+                    }, function (error) {
+                        $ionicLoading.hide();
+
+                        errorHandler(error);
+                    });
+                }, errorHandler);
+            }, false);
+        };
+
+        // TEMPORARY
+        vm.toggleGPS();
+
+        /**
+         * [markerClick description]
+         * @param  google.maps.Marker marker
+         * @param  String eventName
+         * @param  {[type]} station
+         */
+        vm.markerClick = function (marker, eventName, station) {
+            console.log(station.name);
+        };
 
         /**
          * Pull-to-refresh

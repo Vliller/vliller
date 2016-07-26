@@ -25,7 +25,6 @@
                 jsonMarker[attributes[j].name] = attributes[j].value;
             }
 
-            jsonMarker.id = i;
             jsonMarker.latitude = Number(jsonMarker.lat);
             jsonMarker.longitude = Number(jsonMarker.lng);
 

@@ -11,7 +11,7 @@
         <ion-refresher on-refresh="HomeCtrl.refresh()"></ion-refresher>
 
         <!-- map -->
-        <div class="map-container" data-tap-disabled="true" ng-hide="HomeCtrl.isClosestOfficeToFar ||
+        <div class="map-container" data-tap-disabled="true" ng-hide="
         HomeCtrl.isOffline ||
         HomeCtrl.isLoading">
             <ui-gmap-google-map
@@ -20,6 +20,12 @@
                 options="HomeCtrl.map.options"
                 control="HomeCtrl.map.control"
             >
+                <ui-gmap-marker
+                    idkey="HomeCtrl.userMarker.id"
+                    coords="HomeCtrl.userMarker.coords"
+                    options="HomeCtrl.userMarker.options"
+                ></ui-gmap-marker>
+
                 <ui-gmap-markers
                     models="HomeCtrl.stations"
                     coords="'self'"
