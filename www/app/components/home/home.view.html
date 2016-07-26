@@ -1,9 +1,31 @@
-<ion-view view-title="Ionic Blank Starter" class="home-view">
-    <ion-nav-bar align-title="center">
+<ion-view view-title="VLiller" class="home-view">
+    <ion-nav-bar align-title="center" class="bar-assertive">
         <ion-nav-back-button class="no-text"></ion-nav-back-button>
     </ion-nav-bar>
 
     <ion-content class="home-content">
+        <div class="content-loader" ng-if="HomeCtrl.isLoading" ng-cloak>
+            <ion-spinner icon="android" class="spinner-positive"></ion-spinner>
+        </div>
 
+        <ion-refresher on-refresh="HomeCtrl.refresh()"></ion-refresher>
+
+        <!-- map -->
+        <div class="map-container" data-tap-disabled="true" ng-hide="HomeCtrl.isClosestOfficeToFar ||
+        HomeCtrl.isOffline ||
+        HomeCtrl.isLoading">
+            <ui-gmap-google-map
+                center="HomeCtrl.map.center"
+                zoom="HomeCtrl.map.zoom"
+                options="HomeCtrl.map.options"
+                control="HomeCtrl.map.control"
+            >
+                <ui-gmap-markers
+                    models="HomeCtrl.stations"
+                    coords="'self'"
+                    click="HomeCtrl.markerClick"
+                ></ui-gmap-markers>
+            </ui-gmap-google-map>
+        </div>
     </ion-content>
 </ion-view>

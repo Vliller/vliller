@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-    .module('starter')
+    .module('vliller')
     .run(['$ionicPlatform', function ($ionicPlatform) {
 
         $ionicPlatform.ready(function () {

@@ -2,9 +2,15 @@
     'use strict';
 
     angular
-    .module('starter', [
+    .module('vliller', [
         'ionic',
-        'templates'
-    ]);
+        'templates',
+        'aetm-resource',
+        'aetm-toast',
+        'aetm-network',
+
+        'vliller.home'
+    ])
+    .constant('VLILLE_PROXY_URL', 'http://vlille-blckshrk.rhcloud.com');
 
 }());

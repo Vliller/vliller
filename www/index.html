@@ -12,7 +12,7 @@
     <!-- compiled css output -->
     <link href="assets/css/ionic.app.css" rel="stylesheet">
 </head>
-<body ng-app="starter" ng-cloak ng-strict-di>
+<body ng-app="vliller" ng-cloak ng-strict-di>
 
     <ion-nav-view></ion-nav-view>
 
@@ -25,7 +25,23 @@
     <!-- templates caching -->
     <script src="templates.js"></script>
 
+    <!-- bower -->
+    <script src="lib/lodash/dist/lodash.min.js"></script>
+    <script src="lib/angular-simple-logger/dist/angular-simple-logger.min.js"></script>
+    <script src="lib/angular-google-maps/dist/angular-google-maps.js"></script>
+    <script src="lib/angular-resource/angular-resource.min.js"></script>
+    <script src="lib/angular-cache/dist/angular-cache.min.js"></script>
+
+    <script src="lib/aetm-angular-cordova-network/dist/aetm-angular-cordova-network.min.js"></script>
+    <script src="lib/aetm-angular-cordova-toast/dist/aetm-angular-cordova-toast.min.js"></script>
+    <script src="lib/aetm-angular-resource/dist/aetm-angular-resource.min.js"></script>
+
     <!-- application files -->
+    <script src="app/components/home/home.module.js"></script>
+    <script src="app/components/home/home.controller.js"></script>
+
+    <script src="app/shared/vlilles/vlilles.service.js"></script>
+
     <script src="app/app.module.js"></script>
     <script src="app/app.config.js"></script>
     <script src="app/app.run.js"></script>

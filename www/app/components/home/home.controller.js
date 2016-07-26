@@ -1,0 +1,156 @@
+(function () {
+    angular
+    .module('vliller.home')
+    .controller('HomeController', ['uiGmapGoogleMapApi', 'uiGmapIsReady', 'Vlilles', '$scope', '$timeout', '$window', 'aetmToastService', '$log', '$q', 'aetmNetworkService', function (uiGmapGoogleMapApi, uiGmapIsReady, Vlilles, $scope, $timeout, $window, aetmToastService, $log, $q, aetmNetworkService) {
+        var vm = this,
+            activeMarker = null,
+            iconDefault,
+            iconActive,
+            stationsFullList,
+            currentPosition = null,
+            OFFICE_TO_FAR_DISTANCE = 80000, // 80 km
+            uiGmapIsReadyPromise = uiGmapIsReady.promise(1);
+
+        vm.isLoading = true;
+        vm.query = null;
+        vm.isGPSActive = false;
+        vm.isClosestOfficeToFar = false;
+        vm.isOffline = false;
+
+        // $scope.$watch('$root.isOffline', function (newValue) {
+        //     if (newValue === undefined) {
+        //         return;
+        //     }
+
+        //     vm.isOffline = newValue;
+        // });
+
+        // get stations list
+        vm.stations = Vlilles.query();
+
+        // default map values
+        vm.map = {
+            center: {
+                latitude: 50.6314446,
+                longitude: 3.0589064
+            },
+            zoom: 16,
+            options: {
+                disableDefaultUI: true
+            },
+            control: {},
+            $loaded: false
+        };
+
+        /**
+         * @param Object error
+         */
+        function errorHandler(error) {
+            if (error === 'offline') {
+                // aetmToastService.showError("Oups! Vous n'êtes pas connecté à Internet.");
+
+                return;
+            }
+
+            $log.debug(error);
+            aetmToastService.showError('Oups! Une erreur est survenue.');
+        }
+
+        /**
+         * @param  Array stations
+         */
+        function initStations(stations) {
+            // make a backup of the full list to apply filter later
+            // This is do here because we need
+            stationsFullList = angular.copy(stations);
+        }
+
+        // in offline mode we do not wait for the map to be loaded
+        if (vm.isOffline) {
+            uiGmapIsReadyPromise = $q.reject('offline');
+
+            // Init markers, etc.
+            vm.stations.$promise.then(initStations, errorHandler);
+        }
+
+        /**
+         * Promise of Google Maps API fully loaded.
+         * ALL CODE using `google.maps.*` need to be done here.
+         */
+        uiGmapGoogleMapApi.then(function (maps) {
+            // Init markers, etc.
+            vm.stations.$promise.then(initStations, errorHandler);
+        }, errorHandler);
+
+        /**
+         * Map loaded
+         */
+        uiGmapIsReadyPromise.then(function(instances) {
+            vm.map.$loaded = true;
+
+            // bug fix due to keyboard resize on next view (form)
+            $scope.$on('$stateChangeSuccess', function (event, toState) {
+                if (vm.map.$loaded && toState.name === 'app.appointments') {
+                    vm.map.control.refresh();
+                }
+            });
+        }, errorHandler);
+
+        /**
+         * Hide loader when everythings is loaded
+         */
+        $q.all([uiGmapIsReadyPromise, vm.stations.$promise]).finally(function () {
+            vm.isLoading = false;
+
+            $timeout(function () {
+                // refresh map to avoid bug due to ng-hide/show
+                if (vm.map.$loaded) {
+                    vm.map.control.refresh(vm.map.center);
+                }
+            }, 0);
+        });
+
+        /**
+         * Center the map to given office
+         * @param Object position
+         */
+        function setCenterMap(position) {
+            vm.map.center = {
+                latitude: position.latitude,
+                longitude: position.longitude
+            };
+        }
+
+        /**
+         * Center the map to given office
+         * @param Office office
+         */
+        function setCenterOffice(office) {
+            setCenterMap({
+                latitude: office.latitude,
+                longitude: office.longitude
+            });
+        }
+
+
+        /**
+         * Pull-to-refresh
+         */
+        vm.refresh = function () {
+            if (aetmNetworkService.isOffline()) {
+                $scope.$broadcast('scroll.refreshComplete');
+                return;
+            }
+
+            Vlilles.invalidateCache();
+            vm.stations = Vlilles.query();
+
+            vm.stations.$promise
+                .then(initStations, errorHandler)
+                .finally(function () {
+                    $scope.$broadcast('scroll.refreshComplete');
+                })
+            ;
+        };
+    }]);
+}());
