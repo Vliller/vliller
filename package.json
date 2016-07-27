@@ -24,7 +24,8 @@
     "ionic-plugin-keyboard",
     "cordova-plugin-geolocation",
     "cordova.plugins.diagnostic",
-    "cordova-plugin-x-toast"
+    "cordova-plugin-x-toast",
+    "uk.co.workingedge.phonegap.plugin.launchnavigator"
   ],
   "cordovaPlatforms": [
     "ios",
