@@ -15,6 +15,11 @@
     }
 }
 
+// force scroll expand (avoid loader to by stuck at the top)
+.scroll {
+    height: 100%;
+}
+
 .map-card {
     position: absolute;
     bottom: 0;
