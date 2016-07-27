@@ -15,6 +15,14 @@ $royal:                           #886aea !default;
 $dark:                            #444 !default;
 */
 
+// Fix header to be more material like
+$bar-height: 56px !default;
+// $button-bar-button-height: $bar-height !default;
+
+// material colors
+$assertive: #F44336 !default;
+$positive: #2196F3 !default;
+
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 

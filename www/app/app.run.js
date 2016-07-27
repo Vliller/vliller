@@ -4,7 +4,6 @@
     angular
     .module('vliller')
     .run(['$ionicPlatform', function ($ionicPlatform) {
-
         $ionicPlatform.ready(function () {
             if (window.cordova && window.cordova.plugins.Keyboard) {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard for form inputs)
@@ -15,9 +14,16 @@
             }
 
             if (window.StatusBar) {
-                StatusBar.styleLightContent();
+                // iOS
+                if (ionic.Platform.isIOS()) {
+                    StatusBar.styleLightContent();
+                }
+
+                // Android
+                else if (ionic.Platform.isAndroid()) {
+                    StatusBar.backgroundColorByHexString('#B71C1C');
+                }
             }
         });
     }]);
-
 }());
