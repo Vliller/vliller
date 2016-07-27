@@ -9,5 +9,6 @@
     "aetm-angular-cordova-network": "0.3.0",
     "aetm-angular-cordova-toast": "0.1.0",
     "aetm-angular-resource": "0.4.1"
-  }
+  },
+  "version": "0.1.0"
 }
