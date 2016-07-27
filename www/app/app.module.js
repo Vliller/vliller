@@ -11,6 +11,6 @@
 
         'vliller.home'
     ])
-    .constant('VLILLE_PROXY_URL', 'http://vlille-blckshrk.rhcloud.com');
+    .constant('VLILLE_PROXY_URL', 'http://dev.alexandrebonhomme.fr/vlille/web');
 
 }());

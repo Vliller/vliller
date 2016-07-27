@@ -55,7 +55,7 @@
                 <!-- station name, uptime and CB -->
                 <div class="item item-divider item-icon-right">
                     {{ HomeCtrl.activeStation.name }} <small class="lastupd">Il y a {{ HomeCtrl.activeStation.lastupd }}</small>
-                    <i ng-if="HomeCtrl.activeStation.paiement === 'AVEC_TPE'" class="icon ion-card"></i>
+                    <i ng-if="HomeCtrl.activeStation.payment === 'AVEC_TPE'" class="icon ion-card"></i>
                 </div>
 
                 <!-- station bike/attachs -->
@@ -77,10 +77,10 @@
                         <div class="col text-center" >
                         <div class="list">
                         <div class="item item-icon-left" ng-class="{
-                            'assertive-bg light': HomeCtrl.activeStation.attachs < 5
+                            'assertive-bg light': HomeCtrl.activeStation.docks < 5
                         }">
                             <i class="icon ion-flag"></i>
-                            <span class="item-number-value">{{ HomeCtrl.activeStation.attachs }}</span>
+                            <span class="item-number-value">{{ HomeCtrl.activeStation.docks }}</span>
 
                         </div>
                         </div>
@@ -90,7 +90,7 @@
 
                 <!-- navigate to -->
                 <div ng-click="HomeCtrl.navigate()" class="item item-icon-left positive">
-                   <i class="icon ion-navigate"></i> {{ HomeCtrl.activeStation.adress }}
+                   <i class="icon ion-navigate"></i> {{ HomeCtrl.activeStation.address }}
                 </div>
             </div>
         </div>
