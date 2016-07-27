@@ -6,6 +6,8 @@
             stationsFullList,
             currentPosition = null,
             navigationApp,
+            iconDefault,
+            iconActive,
             uiGmapIsReadyPromise = uiGmapIsReady.promise(1);
 
         vm.activeStation = null;
@@ -72,7 +74,7 @@
 
             // set station icon
             stations.forEach(function (station) {
-                station.icon = 'assets/img/cycling-red.png';
+                station.icon = iconDefault;
             });
 
             // make a backup of the full list to apply filter later
@@ -93,6 +95,18 @@
          * ALL CODE using `google.maps.*` need to be done here.
          */
         uiGmapGoogleMapApi.then(function (maps) {
+            // Init icon objects
+            iconDefault = {
+                url: 'assets/img/cycling-white.png',
+                scaledSize: new google.maps.Size(32, 37),
+                // anchor: new google.maps.Point(19/2, 32-2)
+            };
+            iconActive = {
+                url: 'assets/img/cycling-red.png',
+                scaledSize: new google.maps.Size(48, 55),
+                // anchor: new google.maps.Point(37/2, 61-3)
+            };
+
             // Init markers, etc.
             vm.stations.$promise.then(initStations, errorHandler);
         }, errorHandler);
@@ -136,20 +150,23 @@
 
             // set default icon on current office marker
             if (vm.activeStation) {
-                // vm.activeStation.icon = iconDefault;
+                vm.activeStation.icon = iconDefault;
             }
 
             // update new active office
-            vm.activeStation = Vlilles.get({id: station.id}, function () {
+            vm.activeStation = station;
+
+            // update icon and center map
+            vm.activeStation.icon = iconActive;
+
+            if (centerMap) {
+                setCenterMap(vm.activeStation);
+            }
+
+            // loads station details
+            Vlilles.get({id: station.id}, function (stationDetails) {
                 // get some missing informations from the previous request
-                angular.extend(vm.activeStation, station);
-
-                // update icon and center map
-                // vm.activeStation.icon = iconActive;
-
-                if (centerMap) {
-                    setCenterMap(vm.activeStation);
-                }
+                angular.extend(vm.activeStation, stationDetails);
 
                 vm.activeStation.$loaded = true;
             });
