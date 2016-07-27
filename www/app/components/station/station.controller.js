@@ -1,16 +1,11 @@
 (function () {
     angular
     .module('vliller.station')
-    .controller('StationController', ['Vlilles', '$stateParams', '$ionicLoading', function (Vlilles, $stateParams, $ionicLoading) {
+    .controller('StationController', ['Vlilles', '$stateParams', '$ionicLoading', '$scope', function (Vlilles, $stateParams, $ionicLoading, $scope) {
         var vm = this,
             navigationApp;
 
-        vm.station = Vlilles.get({id: $stateParams.id}, function () {
-            // get some missing informations from the previous request
-            angular.extend(vm.station, $stateParams.data);
-
-            vm.station.$loaded = true;
-        });
+        vm.station = Vlilles.get({id: $stateParams.id}, initStation);
 
         // Defines Google Maps by default if avaible
         document.addEventListener('deviceready', function () {
@@ -23,6 +18,13 @@
                 }
             });
         });
+
+        function initStation(station) {
+            // get some missing informations from the previous request
+            angular.extend(vm.station, $stateParams.data);
+
+            vm.station.$loaded = true;
+        }
 
         /**
          *
@@ -54,6 +56,19 @@
                     console.error(error);
                 });
             }, false);
+        };
+
+        /**
+         *
+         */
+        vm.refresh = function () {
+            vm.station = Vlilles.get({id: $stateParams.id});
+
+            vm.station.$promise
+                .then(initStation)
+                .finally(function () {
+                    $scope.$broadcast('scroll.refreshComplete');
+                });
         };
     }]);
 }());

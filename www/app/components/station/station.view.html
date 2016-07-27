@@ -8,23 +8,25 @@
             <ion-spinner icon="android" class="spinner-assertive"></ion-spinner>
         </div>
 
+        <ion-refresher on-refresh="StationCtrl.refresh()"></ion-refresher>
+
         <div class="list card">
-            <a ng-click="StationCtrl.navigate()" href="#" class="item item-icon-left positive">
+            <a ng-click="StationCtrl.navigate()" class="item item-icon-left positive">
                 <i class="icon ion-navigate"></i>
                 {{ StationCtrl.station.adress }}
             </a>
 
-            <a href="#" class="item item-icon-left">
+            <a class="item item-icon-left">
                 <i class="icon ion-android-bicycle"></i>
                 {{ StationCtrl.station.bikes }} vélos disponibles
             </a>
 
-            <a href="#" class="item item-icon-left">
+            <a class="item item-icon-left">
                 <i class="icon ion-flag"></i>
                 {{ StationCtrl.station.attachs }} attaches libres
             </a>
 
-            <a ng-if="StationCtrl.station.paiement === 'AVEC_TPE'" href="#" class="item item-icon-left">
+            <a ng-if="StationCtrl.station.paiement === 'AVEC_TPE'" class="item item-icon-left">
                 <i class="icon ion-card"></i>
                 Paiement par CB possible
             </a>
