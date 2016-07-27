@@ -83,12 +83,12 @@
         }
 
         // in offline mode we do not wait for the map to be loaded
-        if (vm.isOffline) {
-            uiGmapIsReadyPromise = $q.reject('offline');
+        // if (vm.isOffline) {
+        //     uiGmapIsReadyPromise = $q.reject('offline');
 
-            // Init markers, etc.
-            vm.stations.$promise.then(initStations, errorHandler);
-        }
+        //     // Init markers, etc.
+        //     vm.stations.$promise.then(initStations, errorHandler);
+        // }
 
         /**
          * Promise of Google Maps API fully loaded.
@@ -98,13 +98,11 @@
             // Init icon objects
             iconDefault = {
                 url: 'assets/img/cycling-white.png',
-                scaledSize: new google.maps.Size(32, 37),
-                // anchor: new google.maps.Point(19/2, 32-2)
+                scaledSize: new google.maps.Size(32, 37)
             };
             iconActive = {
                 url: 'assets/img/cycling-red.png',
-                scaledSize: new google.maps.Size(48, 55),
-                // anchor: new google.maps.Point(37/2, 61-3)
+                scaledSize: new google.maps.Size(48, 55)
             };
 
             // Init markers, etc.
@@ -116,13 +114,6 @@
          */
         uiGmapIsReadyPromise.then(function(instances) {
             vm.map.$loaded = true;
-
-            // bug fix due to keyboard resize on next view (form)
-            $scope.$on('$stateChangeSuccess', function (event, toState) {
-                if (vm.map.$loaded && toState.name === 'app.appointments') {
-                    vm.map.control.refresh();
-                }
-            });
         }, errorHandler);
 
         /**
@@ -219,7 +210,7 @@
         }
 
         /**
-         * Center the map on the closest office or active the "too far mode"
+         * Center the map on the closest station
          *
          * @param Position position
          */
@@ -280,7 +271,7 @@
         };
 
         /**
-         * [markerClick description]
+         *
          * @param  google.maps.Marker marker
          * @param  String eventName
          * @param  {[type]} station
