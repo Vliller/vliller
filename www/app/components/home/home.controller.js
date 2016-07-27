@@ -39,12 +39,12 @@
 
         vm.userMarker = {
             id: 'userMarker',
-            options: {
-                icon: 'http://www.robotwoods.com/dev/misc/bluecircle.png'
-            },
             coords: {
                 latitude: 50.6314446,
                 longitude: 3.0589064
+            },
+            options: {
+                icon: 'assets/img/user-pin.png'
             }
         };
 
@@ -66,6 +66,14 @@
          * @param  Array stations
          */
         function initStations(stations) {
+            // update GPS position
+            activeGPS();
+
+            // set station icon
+            stations.forEach(function (station) {
+                station.icon = 'assets/img/cycling-red.png';
+            });
+
             // make a backup of the full list to apply filter later
             // This is do here because we need
             stationsFullList = angular.copy(stations);
@@ -142,19 +150,7 @@
             setCenterMap(vm.currentPosition);
         }
 
-
-        /**
-         * Toggle the GPS state and update current position.
-         */
-        vm.toggleGPS = function () {
-            if (vm.isGPSActive) {
-                vm.currentPosition = null;
-                vm.isGPSActive = false;
-                vm.isClosestOfficeToFar = false;
-
-                return;
-            }
-
+        function activeGPS() {
             document.addEventListener("deviceready", function () {
                 // Check if the GPS is available
                 cordova.plugins.diagnostic.isLocationEnabled(function (isLocationEnabled) {
@@ -181,10 +177,22 @@
                     });
                 }, errorHandler);
             }, false);
-        };
+        }
 
-        // TEMPORARY
-        vm.toggleGPS();
+        /**
+         * Toggle the GPS state and update current position.
+         */
+        vm.activeGPS = function () {
+            // if (vm.isGPSActive) {
+            //     vm.currentPosition = null;
+            //     vm.isGPSActive = false;
+            //     vm.isClosestOfficeToFar = false;
+
+            //     return;
+            // }
+
+            activeGPS();
+        };
 
         /**
          * [markerClick description]
@@ -200,10 +208,10 @@
          * Pull-to-refresh
          */
         vm.refresh = function () {
-            if (aetmNetworkService.isOffline()) {
-                $scope.$broadcast('scroll.refreshComplete');
-                return;
-            }
+            // if (aetmNetworkService.isOffline()) {
+            //     $scope.$broadcast('scroll.refreshComplete');
+            //     return;
+            // }
 
             Vlilles.invalidateCache();
             vm.stations = Vlilles.query();
@@ -211,6 +219,8 @@
             vm.stations.$promise
                 .then(initStations, errorHandler)
                 .finally(function () {
+                    vm.map.control.refresh(vm.map.center);
+
                     $scope.$broadcast('scroll.refreshComplete');
                 })
             ;

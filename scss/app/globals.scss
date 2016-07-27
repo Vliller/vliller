@@ -1,0 +1,12 @@
+.content-loader {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .spinner svg {
+        width: 50px;
+        height: 50px;
+    }
+}

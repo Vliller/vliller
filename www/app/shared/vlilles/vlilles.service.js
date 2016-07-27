@@ -49,6 +49,9 @@
             jsonStation[stationData[i].nodeName] = stationData[i].innerHTML;
         }
 
+        jsonStation.latitude = Number(jsonStation.lat);
+        jsonStation.longitude = Number(jsonStation.lng);
+
         return jsonStation;
     }
 
@@ -65,7 +68,18 @@
                         var xmlObject = (new window.DOMParser()).parseFromString(stations, "text/xml");
 
                         return xmlStationsToJson(xmlObject);
-                    })
+                    }),
+                    cache: false
+                },
+                get: {
+                    method: 'GET',
+                    url: VLILLE_PROXY_URL + '/xml-stations.aspx?borne=:id',
+                    transformResponse: $http.defaults.transformResponse.concat(function (station) {
+                        var xmlObject = (new window.DOMParser()).parseFromString(station, "text/xml");
+
+                        return xmlStationToJson(xmlObject);
+                    }),
+                    cache: false
                 }
             }, {
                 cacheId: 'stations'
