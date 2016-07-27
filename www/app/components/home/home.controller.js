@@ -222,7 +222,10 @@
             currentPosition = position.coords;
             vm.isGPSActive = true;
 
-            setCenterMap(currentPosition);
+            // setCenterMap(currentPosition);
+            vm.map.zoom = 16;
+            vm.map.control.refresh(currentPosition);
+
             setActiveStation(computeClosestStation(currentPosition), false);
         }
 
@@ -256,7 +259,7 @@
         }
 
         /**
-         * Toggle the GPS state and update current position.
+         * Toggle GPS state and update current position.
          */
         vm.activeGPS = function () {
             // if (vm.isGPSActive) {
