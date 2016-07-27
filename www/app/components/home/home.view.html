@@ -51,6 +51,10 @@
                 <ion-spinner icon="android" class="spinner-assertive"></ion-spinner>
             </div>
 
+            <div>
+
+            </div>
+
             <div ng-if="HomeCtrl.activeStation.$loaded">
                 <!-- station name, uptime and CB -->
                 <div class="item item-divider item-icon-right">
@@ -60,7 +64,9 @@
 
                 <!-- station bike/attachs -->
                 <div class="item item-content">
-                    <div class="row no-padding">
+
+                    <!-- status 0 -->
+                    <div ng-if="HomeCtrl.activeStation.status === '0'" class="row no-padding">
                         <!-- bikes -->
                         <div class="col text-center">
                         <div class="list">
@@ -85,6 +91,16 @@
                         </div>
                         </div>
                         </div>
+                    </div>
+
+                    <!-- status 1 -->
+                    <div ng-if="HomeCtrl.activeStation.status === '1'" class="assertive">
+                        <i class="icon ion-alert-circled"></i>
+                    </div>
+
+                    <!-- status 2 -->
+                    <div ng-if="HomeCtrl.activeStation.status === '2'">
+
                     </div>
                 </div>
 
