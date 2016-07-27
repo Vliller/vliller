@@ -16,14 +16,20 @@
                 {{ StationCtrl.station.adress }}
             </a>
 
-            <a class="item item-icon-left">
+            <a class="item item-icon-left item-icon-right">
                 <i class="icon ion-android-bicycle"></i>
                 {{ StationCtrl.station.bikes }} vélos disponibles
+                <i class="icon" ng-class="{
+                    'ion-alert-circled assertive': StationCtrl.station.bikes < 5
+                }"></i>
             </a>
 
-            <a class="item item-icon-left">
+            <a class="item item-icon-left item-icon-right">
                 <i class="icon ion-flag"></i>
                 {{ StationCtrl.station.attachs }} attaches libres
+                <i class="icon" ng-class="{
+                    'ion-alert-circled assertive': StationCtrl.station.attachs < 5
+                }"></i>
             </a>
 
             <a ng-if="StationCtrl.station.paiement === 'AVEC_TPE'" class="item item-icon-left">
