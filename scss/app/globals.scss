@@ -25,12 +25,6 @@
     bottom: 0;
     left: 0;
     right: 0;
-    // height: 200px;
-
-    .item {
-        // font-size: 20px;
-        // font-weight: 500;
-    }
 
     .item-content {
         padding: 8px 6px;
@@ -44,5 +38,14 @@
 
     .lastupd {
         font-size: 10px;
+    }
+}
+
+.station-unavailable {
+    font-size: 26px;
+    vertical-align: middle;
+
+    .icon {
+        font-size: 34px;
     }
 }
