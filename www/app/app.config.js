@@ -22,15 +22,6 @@
                 controller: 'HomeController',
                 controllerAs: 'HomeCtrl'
             })
-            .state('station', {
-                url: '/station/:id',
-                templateUrl: 'components/station/station.view.html',
-                controller: 'StationController',
-                controllerAs: 'StationCtrl',
-                params: {
-                    data: null
-                }
-            })
         ;
     }]);
 }());

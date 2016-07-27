@@ -1,3 +1,7 @@
+.no-padding {
+    padding: 0 !important;
+}
+
 .content-loader {
     height: 100%;
     display: flex;
@@ -11,7 +15,34 @@
     }
 }
 
-.list .item {
-    font-size: 20px;
-    // font-weight: 500;
+// force scroll expand (avoid loader to by stuck at the top)
+.scroll {
+    height: 100%;
+}
+
+.map-card {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    // height: 200px;
+
+    .item {
+        // font-size: 20px;
+        // font-weight: 500;
+    }
+
+    .item-content {
+        padding: 8px 6px;
+
+    }
+
+    .item-number-value {
+        vertical-align: middle;
+        font-size: 32px;
+    }
+
+    .lastupd {
+        font-size: 10px;
+    }
 }

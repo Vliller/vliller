@@ -1,6 +1,6 @@
 {
   "name": "ionic-starter",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "ionic-starter: An Ionic project",
   "dependencies": {
     "gulp": "^3.5.6",
