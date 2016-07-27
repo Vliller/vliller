@@ -1,0 +1,35 @@
+<ion-view view-title="{{ StationCtrl.station.name }}" class="station-view">
+    <ion-nav-bar align-title="center" class="bar-assertive">
+        <ion-nav-back-button class="no-text"></ion-nav-back-button>
+    </ion-nav-bar>
+
+    <ion-content class="station-content">
+        <div class="content-loader" ng-if="!StationCtrl.station.$loaded" ng-cloak>
+            <ion-spinner icon="android" class="spinner-assertive"></ion-spinner>
+        </div>
+
+        <div class="list card">
+            <a href="#" class="item item-icon-left positive">
+                <i class="icon ion-navigate"></i>
+                {{ StationCtrl.station.adress }}
+            </a>
+
+            <a href="#" class="item item-icon-left">
+                <i class="icon ion-android-bicycle"></i>
+                {{ StationCtrl.station.bikes }} vélos disponibles
+            </a>
+
+            <a href="#" class="item item-icon-left">
+                <i class="icon ion-flag"></i>
+                {{ StationCtrl.station.attachs }} attaches libres
+            </a>
+
+            <a ng-if="StationCtrl.station.paiement === 'AVEC_TPE'" href="#" class="item item-icon-left">
+                <i class="icon ion-card"></i>
+                Paiement par CB possible
+            </a>
+        </div>
+
+        <!-- {{ StationCtrl.station | json }} -->
+    </ion-content>
+</ion-view>

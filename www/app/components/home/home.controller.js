@@ -1,7 +1,7 @@
 (function () {
     angular
     .module('vliller.home')
-    .controller('HomeController', ['uiGmapGoogleMapApi', 'uiGmapIsReady', 'Vlilles', '$scope', '$timeout', '$window', 'aetmToastService', '$log', '$q', 'aetmNetworkService', '$ionicLoading', function (uiGmapGoogleMapApi, uiGmapIsReady, Vlilles, $scope, $timeout, $window, aetmToastService, $log, $q, aetmNetworkService, $ionicLoading) {
+    .controller('HomeController', ['uiGmapGoogleMapApi', 'uiGmapIsReady', 'Vlilles', '$scope', '$timeout', '$window', 'aetmToastService', '$log', '$q', 'aetmNetworkService', '$ionicLoading', '$state', function (uiGmapGoogleMapApi, uiGmapIsReady, Vlilles, $scope, $timeout, $window, aetmToastService, $log, $q, aetmNetworkService, $ionicLoading, $state) {
         var vm = this,
             stationsFullList,
             uiGmapIsReadyPromise = uiGmapIsReady.promise(1);
@@ -201,7 +201,10 @@
          * @param  {[type]} station
          */
         vm.markerClick = function (marker, eventName, station) {
-            console.log(station.name);
+            $state.go('station', {
+                id: station.id,
+                data: station
+            });
         };
 
         /**
