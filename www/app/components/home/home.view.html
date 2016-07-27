@@ -63,7 +63,9 @@
                 </div>
 
                 <!-- station bike/attachs -->
-                <div class="item item-content">
+                <div class="item item-content" ng-class="{
+                    'assertive-bg': HomeCtrl.activeStation.status !== '0'
+                }">
 
                     <!-- status 0 -->
                     <div ng-if="HomeCtrl.activeStation.status === '0'" class="row no-padding">
@@ -93,14 +95,12 @@
                         </div>
                     </div>
 
-                    <!-- status 1 -->
-                    <div ng-if="HomeCtrl.activeStation.status === '1'" class="assertive">
-                        <i class="icon ion-alert-circled"></i>
-                    </div>
-
-                    <!-- status 2 -->
-                    <div ng-if="HomeCtrl.activeStation.status === '2'">
-
+                    <!-- status 1 & 2 -->
+                    <div ng-if="HomeCtrl.activeStation.status !== '0'" class="list">
+                        <div class="item item-icon-left station-unavailable assertive-bg light">
+                            <i class="icon ion-alert-circled"></i>
+                            Station indisponible
+                        </div>
                     </div>
                 </div>
 
