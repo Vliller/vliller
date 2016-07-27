@@ -4,13 +4,14 @@
     .controller('HomeController', ['uiGmapGoogleMapApi', 'uiGmapIsReady', 'Vlilles', '$scope', '$timeout', '$window', 'aetmToastService', '$log', '$q', 'aetmNetworkService', '$ionicLoading', '$state', function (uiGmapGoogleMapApi, uiGmapIsReady, Vlilles, $scope, $timeout, $window, aetmToastService, $log, $q, aetmNetworkService, $ionicLoading, $state) {
         var vm = this,
             stationsFullList,
+            currentPosition = null,
+            navigationApp,
             uiGmapIsReadyPromise = uiGmapIsReady.promise(1);
 
+        vm.activeStation = null;
         vm.isLoading = true;
-        vm.query = null;
         vm.isGPSActive = false;
         vm.isOffline = false;
-        vm.currentPosition = null;
 
         // $scope.$watch('$root.isOffline', function (newValue) {
         //     if (newValue === undefined) {
@@ -144,10 +145,10 @@
             vm.userMarker.coords.latitude = position.coords.latitude;
             vm.userMarker.coords.longitude = position.coords.longitude;
 
-            vm.currentPosition = position.coords;
+            currentPosition = position.coords;
             vm.isGPSActive = true;
 
-            setCenterMap(vm.currentPosition);
+            setCenterMap(currentPosition);
         }
 
         function activeGPS() {
@@ -184,7 +185,7 @@
          */
         vm.activeGPS = function () {
             // if (vm.isGPSActive) {
-            //     vm.currentPosition = null;
+            //     currentPosition = null;
             //     vm.isGPSActive = false;
             //     vm.isClosestOfficeToFar = false;
 
@@ -192,6 +193,7 @@
             // }
 
             activeGPS();
+            vm.activeStation = null;
         };
 
         /**
@@ -201,9 +203,13 @@
          * @param  {[type]} station
          */
         vm.markerClick = function (marker, eventName, station) {
-            $state.go('station', {
-                id: station.id,
-                data: station
+            setCenterMap(station);
+
+            vm.activeStation = Vlilles.get({id: station.id}, function () {
+                // get some missing informations from the previous request
+                angular.extend(vm.activeStation, station);
+
+                vm.activeStation.$loaded = true;
             });
         };
 
@@ -227,6 +233,37 @@
                     $scope.$broadcast('scroll.refreshComplete');
                 })
             ;
+        };
+
+        // Defines Google Maps by default if avaible
+        document.addEventListener('deviceready', function () {
+            launchnavigator.isAppAvailable(launchnavigator.APP.GOOGLE_MAPS, function (isAvailable) {
+                if(isAvailable){
+                    navigationApp = launchnavigator.APP.GOOGLE_MAPS;
+                } else{
+                    console.warn("Google Maps not available - falling back to user selection");
+                    navigationApp = launchnavigator.APP.USER_SELECT;
+                }
+            });
+        });
+
+        /**
+         *
+         */
+        vm.navigate = function () {
+            document.addEventListener('deviceready', function () {
+                // navigate to the station from current position
+                launchnavigator.navigate([
+                    vm.activeStation.latitude,
+                    vm.activeStation.longitude
+                ], {
+                    app: navigationApp || launchnavigator.APP.USER_SELECT,
+                    start: [
+                        currentPosition.latitude,
+                        currentPosition.longitude
+                    ]
+                });
+            }, false);
         };
     }]);
 }());
