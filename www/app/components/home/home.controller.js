@@ -126,6 +126,36 @@
         });
 
         /**
+         * Set the current active station.
+         * @param {[type]} station
+         */
+        function setActiveStation(station, centerMap) {
+            if (centerMap === undefined) {
+                centerMap = true;
+            }
+
+            // set default icon on current office marker
+            if (vm.activeStation) {
+                // vm.activeStation.icon = iconDefault;
+            }
+
+            // update new active office
+            vm.activeStation = Vlilles.get({id: station.id}, function () {
+                // get some missing informations from the previous request
+                angular.extend(vm.activeStation, station);
+
+                // update icon and center map
+                // vm.activeStation.icon = iconActive;
+
+                if (centerMap) {
+                    setCenterMap(vm.activeStation);
+                }
+
+                vm.activeStation.$loaded = true;
+            });
+        }
+
+        /**
          * Center the map to given office
          * @param Object position
          */
@@ -137,11 +167,47 @@
         }
 
         /**
+         * Compute the closest station using le Haversine formula.
+         * @param  Object position
+         * @return Station
+         */
+        function computeClosestStation(position) {
+            return vm.stations.reduce(function (closest, current) {
+                current.distance = getDistance(position, current);
+
+                return closest.distance > current.distance ? current : closest;
+            }, {
+                distance: Infinity
+            });
+        }
+
+        /**
+         * Haversine formula
+         * @see http://stackoverflow.com/a/1502821/5727772
+         */
+        function rad(x) {
+            return x * Math.PI / 180;
+        }
+        function getDistance(p1, p2) {
+            var R = 6378137; // Earth’s mean radius in meter
+            var dLat = rad(p2.latitude - p1.latitude);
+            var dLong = rad(p2.longitude - p1.longitude);
+            var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(rad(p1.latitude)) * Math.cos(rad(p2.latitude)) *
+            Math.sin(dLong / 2) * Math.sin(dLong / 2);
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            var d = R * c;
+
+            return d; // returns the distance in meter
+        }
+
+        /**
          * Center the map on the closest office or active the "too far mode"
          *
          * @param Position position
          */
         function handleLocationActive(position) {
+            // update this way to avoid digest problem with gmaps
             vm.userMarker.coords.latitude = position.coords.latitude;
             vm.userMarker.coords.longitude = position.coords.longitude;
 
@@ -149,6 +215,7 @@
             vm.isGPSActive = true;
 
             setCenterMap(currentPosition);
+            setActiveStation(computeClosestStation(currentPosition), false);
         }
 
         function activeGPS() {
@@ -193,7 +260,6 @@
             // }
 
             activeGPS();
-            vm.activeStation = null;
         };
 
         /**
@@ -203,14 +269,7 @@
          * @param  {[type]} station
          */
         vm.markerClick = function (marker, eventName, station) {
-            setCenterMap(station);
-
-            vm.activeStation = Vlilles.get({id: station.id}, function () {
-                // get some missing informations from the previous request
-                angular.extend(vm.activeStation, station);
-
-                vm.activeStation.$loaded = true;
-            });
+            setActiveStation(station);
         };
 
         /**
@@ -235,6 +294,11 @@
             ;
         };
 
+
+        /**
+         * NAVIGATION
+         */
+
         // Defines Google Maps by default if avaible
         document.addEventListener('deviceready', function () {
             launchnavigator.isAppAvailable(launchnavigator.APP.GOOGLE_MAPS, function (isAvailable) {
@@ -248,7 +312,7 @@
         });
 
         /**
-         *
+         * launch navigation application (Google Maps if avaible)
          */
         vm.navigate = function () {
             document.addEventListener('deviceready', function () {
