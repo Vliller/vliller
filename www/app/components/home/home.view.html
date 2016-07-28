@@ -17,8 +17,6 @@
             <ion-spinner icon="android" class="spinner-assertive"></ion-spinner>
         </div>
 
-        <ion-refresher on-refresh="HomeCtrl.refresh()"></ion-refresher>
-
         <!-- map -->
         <div class="map-container" data-tap-disabled="true" ng-hide="
         HomeCtrl.isOffline ||
@@ -28,6 +26,7 @@
                 zoom="HomeCtrl.map.zoom"
                 options="HomeCtrl.map.options"
                 control="HomeCtrl.map.control"
+                pan="true"
             >
                 <ui-gmap-marker
                     ng-if="HomeCtrl.isGPSActive"

@@ -175,6 +175,14 @@
         }
 
         /**
+         *
+         * @param Number zoom
+         */
+        function setZoomMap(zoom) {
+            vm.map.zoom = zoom;
+        }
+
+        /**
          * Compute the closest station using le Haversine formula.
          * @param  Object position
          * @return Station
@@ -222,9 +230,8 @@
             currentPosition = position.coords;
             vm.isGPSActive = true;
 
-            // setCenterMap(currentPosition);
-            vm.map.zoom = 16;
-            vm.map.control.refresh(currentPosition);
+            setCenterMap(currentPosition);
+            setZoomMap(16);
 
             setActiveStation(computeClosestStation(currentPosition), false);
         }
@@ -281,28 +288,6 @@
          */
         vm.markerClick = function (marker, eventName, station) {
             setActiveStation(station);
-        };
-
-        /**
-         * Pull-to-refresh
-         */
-        vm.refresh = function () {
-            // if (aetmNetworkService.isOffline()) {
-            //     $scope.$broadcast('scroll.refreshComplete');
-            //     return;
-            // }
-
-            Vlilles.invalidateCache();
-            vm.stations = Vlilles.query();
-
-            vm.stations.$promise
-                .then(initStations, errorHandler)
-                .finally(function () {
-                    vm.map.control.refresh(vm.map.center);
-
-                    $scope.$broadcast('scroll.refreshComplete');
-                })
-            ;
         };
 
 
