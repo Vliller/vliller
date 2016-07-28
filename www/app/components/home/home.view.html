@@ -3,11 +3,9 @@
         <ion-nav-back-button class="no-text"></ion-nav-back-button>
 
         <ion-nav-buttons side="right">
-            <!-- <button ng-click="HomeCtrl.refresh()" class="button button-clear">
-                <i class="icon ion-android-refresh"></i>
-            </button> -->
-            <button ng-click="HomeCtrl.activeGPS()" class="button button-clear">
-                <i class="icon ion-android-locate"></i>
+            <button ng-click="HomeCtrl.updatePosition()" class="button button-clear">
+                <i ng-if="!HomeCtrl.isGPSLoading" class="icon ion-android-locate"></i>
+                <ion-spinner ng-if="HomeCtrl.isGPSLoading" icon="android" class="spinner-light"></ion-spinner>
             </button>
         </ion-nav-buttons>
     </ion-nav-bar>
@@ -17,20 +15,16 @@
             <ion-spinner icon="android" class="spinner-assertive"></ion-spinner>
         </div>
 
-        <ion-refresher on-refresh="HomeCtrl.refresh()"></ion-refresher>
-
         <!-- map -->
-        <div class="map-container" data-tap-disabled="true" ng-hide="
-        HomeCtrl.isOffline ||
-        HomeCtrl.isLoading">
+        <div class="map-container" data-tap-disabled="true" ng-hide="HomeCtrl.isLoading">
             <ui-gmap-google-map
                 center="HomeCtrl.map.center"
                 zoom="HomeCtrl.map.zoom"
                 options="HomeCtrl.map.options"
                 control="HomeCtrl.map.control"
+                pan="true"
             >
                 <ui-gmap-marker
-                    ng-if="HomeCtrl.isGPSActive"
                     idkey="HomeCtrl.userMarker.id"
                     coords="HomeCtrl.userMarker.coords"
                     options="HomeCtrl.userMarker.options"

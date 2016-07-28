@@ -1,7 +1,7 @@
 (function () {
     angular
     .module('vliller.home')
-    .controller('HomeController', ['uiGmapGoogleMapApi', 'uiGmapIsReady', 'Vlilles', '$scope', '$timeout', '$window', 'aetmToastService', '$log', '$q', 'aetmNetworkService', '$ionicLoading', '$state', function (uiGmapGoogleMapApi, uiGmapIsReady, Vlilles, $scope, $timeout, $window, aetmToastService, $log, $q, aetmNetworkService, $ionicLoading, $state) {
+    .controller('HomeController', ['uiGmapGoogleMapApi', 'uiGmapIsReady', 'Vlilles', '$scope', '$timeout', 'aetmToastService', '$log', '$q', 'aetmNetworkService', '$ionicLoading', 'Location', function (uiGmapGoogleMapApi, uiGmapIsReady, Vlilles, $scope, $timeout, aetmToastService, $log, $q, aetmNetworkService, $ionicLoading, Location) {
         var vm = this,
             stationsFullList,
             currentPosition = null,
@@ -12,16 +12,7 @@
 
         vm.activeStation = null;
         vm.isLoading = true;
-        vm.isGPSActive = false;
-        vm.isOffline = false;
-
-        // $scope.$watch('$root.isOffline', function (newValue) {
-        //     if (newValue === undefined) {
-        //         return;
-        //     }
-
-        //     vm.isOffline = newValue;
-        // });
+        vm.isGPSLoading = false;
 
         // get stations list
         vm.stations = Vlilles.query();
@@ -55,12 +46,6 @@
          * @param Object error
          */
         function errorHandler(error) {
-            if (error === 'offline') {
-                // aetmToastService.showError("Oups! Vous n'êtes pas connecté à Internet.");
-
-                return;
-            }
-
             $log.debug(error);
             aetmToastService.showError('Oups! Une erreur est survenue.');
         }
@@ -70,7 +55,7 @@
          */
         function initStations(stations) {
             // update GPS position
-            activeGPS();
+            vm.updatePosition();
 
             // set station icon
             stations.forEach(function (station) {
@@ -81,14 +66,6 @@
             // This is do here because we need
             stationsFullList = angular.copy(stations);
         }
-
-        // in offline mode we do not wait for the map to be loaded
-        // if (vm.isOffline) {
-        //     uiGmapIsReadyPromise = $q.reject('offline');
-
-        //     // Init markers, etc.
-        //     vm.stations.$promise.then(initStations, errorHandler);
-        // }
 
         /**
          * Promise of Google Maps API fully loaded.
@@ -175,38 +152,11 @@
         }
 
         /**
-         * Compute the closest station using le Haversine formula.
-         * @param  Object position
-         * @return Station
+         *
+         * @param Number zoom
          */
-        function computeClosestStation(position) {
-            return vm.stations.reduce(function (closest, current) {
-                current.distance = getDistance(position, current);
-
-                return closest.distance > current.distance ? current : closest;
-            }, {
-                distance: Infinity
-            });
-        }
-
-        /**
-         * Haversine formula
-         * @see http://stackoverflow.com/a/1502821/5727772
-         */
-        function rad(x) {
-            return x * Math.PI / 180;
-        }
-        function getDistance(p1, p2) {
-            var R = 6378137; // Earth’s mean radius in meter
-            var dLat = rad(p2.latitude - p1.latitude);
-            var dLong = rad(p2.longitude - p1.longitude);
-            var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(rad(p1.latitude)) * Math.cos(rad(p2.latitude)) *
-            Math.sin(dLong / 2) * Math.sin(dLong / 2);
-            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-            var d = R * c;
-
-            return d; // returns the distance in meter
+        function setZoomMap(zoom) {
+            vm.map.zoom = zoom;
         }
 
         /**
@@ -220,57 +170,36 @@
             vm.userMarker.coords.longitude = position.coords.longitude;
 
             currentPosition = position.coords;
-            vm.isGPSActive = true;
 
-            // setCenterMap(currentPosition);
-            vm.map.zoom = 16;
-            vm.map.control.refresh(currentPosition);
+            setCenterMap(currentPosition);
+            setZoomMap(16);
 
-            setActiveStation(computeClosestStation(currentPosition), false);
-        }
-
-        function activeGPS() {
-            document.addEventListener("deviceready", function () {
-                // Check if the GPS is available
-                cordova.plugins.diagnostic.isLocationEnabled(function (isLocationEnabled) {
-                    if (!isLocationEnabled) {
-                        aetmToastService.showError('Vous devez activer votre GPS pour utiliser cette fonctionnalité.', 'long');
-
-                        return;
-                    }
-
-                    // display loader to avoid "UX lag"
-                    $ionicLoading.show();
-
-                    // Get the current location
-                    navigator.geolocation.getCurrentPosition(function (position) {
-                        $ionicLoading.hide();
-
-                        $timeout(function () {
-                            handleLocationActive(position);
-                        });
-                    }, function (error) {
-                        $ionicLoading.hide();
-
-                        errorHandler(error);
-                    });
-                }, errorHandler);
-            }, false);
+            // compute the closest station and set active
+            setActiveStation(Vlilles.computeClosestStation(currentPosition, vm.stations), false);
         }
 
         /**
-         * Toggle GPS state and update current position.
+         * Updates the current position
          */
-        vm.activeGPS = function () {
-            // if (vm.isGPSActive) {
-            //     currentPosition = null;
-            //     vm.isGPSActive = false;
-            //     vm.isClosestOfficeToFar = false;
+        vm.updatePosition = function () {
+            vm.isGPSLoading = true;
 
-            //     return;
-            // }
+            // Get current location
+            Location.getCurrentPosition()
+                .then(function (position) {
+                    handleLocationActive(position);
+                }, function (error) {
+                    if (error === 'locationDisabled') {
+                        aetmToastService.showError('Vous devez activer votre GPS pour utiliser cette fonctionnalité.', 'long');
 
-            activeGPS();
+                        return error;
+                    }
+
+                    errorHandler(error);
+                })
+                .finally(function () {
+                    vm.isGPSLoading = false;
+                });
         };
 
         /**
@@ -281,28 +210,6 @@
          */
         vm.markerClick = function (marker, eventName, station) {
             setActiveStation(station);
-        };
-
-        /**
-         * Pull-to-refresh
-         */
-        vm.refresh = function () {
-            // if (aetmNetworkService.isOffline()) {
-            //     $scope.$broadcast('scroll.refreshComplete');
-            //     return;
-            // }
-
-            Vlilles.invalidateCache();
-            vm.stations = Vlilles.query();
-
-            vm.stations.$promise
-                .then(initStations, errorHandler)
-                .finally(function () {
-                    vm.map.control.refresh(vm.map.center);
-
-                    $scope.$broadcast('scroll.refreshComplete');
-                })
-            ;
         };
 
 
