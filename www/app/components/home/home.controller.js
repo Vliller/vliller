@@ -12,7 +12,6 @@
 
         vm.activeStation = null;
         vm.isLoading = true;
-        vm.isGPSActive = false;
         vm.isGPSLoading = false;
 
         // get stations list
@@ -56,7 +55,7 @@
          */
         function initStations(stations) {
             // update GPS position
-            activeGPS();
+            vm.updatePosition();
 
             // set station icon
             stations.forEach(function (station) {
@@ -171,7 +170,6 @@
             vm.userMarker.coords.longitude = position.coords.longitude;
 
             currentPosition = position.coords;
-            vm.isGPSActive = true;
 
             setCenterMap(currentPosition);
             setZoomMap(16);
@@ -183,7 +181,7 @@
         /**
          * Updates the current position
          */
-        function activeGPS() {
+        vm.updatePosition = function () {
             vm.isGPSLoading = true;
 
             // Get current location
@@ -202,21 +200,6 @@
                 .finally(function () {
                     vm.isGPSLoading = false;
                 });
-        }
-
-        /**
-         * Toggle GPS state and update current position.
-         */
-        vm.activeGPS = function () {
-            // if (vm.isGPSActive) {
-            //     currentPosition = null;
-            //     vm.isGPSActive = false;
-            //     vm.isClosestOfficeToFar = false;
-
-            //     return;
-            // }
-
-            activeGPS();
         };
 
         /**
