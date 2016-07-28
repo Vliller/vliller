@@ -1,7 +1,7 @@
 (function () {
     angular
     .module('vliller.home')
-    .controller('HomeController', ['uiGmapGoogleMapApi', 'uiGmapIsReady', 'Vlilles', '$scope', '$timeout', '$window', 'aetmToastService', '$log', '$q', 'aetmNetworkService', '$ionicLoading', '$state', function (uiGmapGoogleMapApi, uiGmapIsReady, Vlilles, $scope, $timeout, $window, aetmToastService, $log, $q, aetmNetworkService, $ionicLoading, $state) {
+    .controller('HomeController', ['uiGmapGoogleMapApi', 'uiGmapIsReady', 'Vlilles', '$scope', '$timeout', '$window', 'aetmToastService', '$log', '$q', 'aetmNetworkService', '$ionicLoading', '$state', 'Location', function (uiGmapGoogleMapApi, uiGmapIsReady, Vlilles, $scope, $timeout, $window, aetmToastService, $log, $q, aetmNetworkService, $ionicLoading, $state, Location) {
         var vm = this,
             stationsFullList,
             currentPosition = null,
@@ -183,32 +183,25 @@
          * Updates the current position
          */
         function activeGPS() {
-            document.addEventListener("deviceready", function () {
-                // Check if the GPS is available
-                cordova.plugins.diagnostic.isLocationEnabled(function (isLocationEnabled) {
-                    if (!isLocationEnabled) {
+            // display loader to avoid "UX lag"
+            $ionicLoading.show();
+
+            // Get current location
+            Location.getCurrentPosition()
+                .then(function (position) {
+                    handleLocationActive(position);
+                }, function (error) {
+                    if (error === locationDisabled) {
                         aetmToastService.showError('Vous devez activer votre GPS pour utiliser cette fonctionnalité.', 'long');
 
                         return;
                     }
 
-                    // display loader to avoid "UX lag"
-                    $ionicLoading.show();
-
-                    // Get the current location
-                    navigator.geolocation.getCurrentPosition(function (position) {
-                        $ionicLoading.hide();
-
-                        $timeout(function () {
-                            handleLocationActive(position);
-                        });
-                    }, function (error) {
-                        $ionicLoading.hide();
-
-                        errorHandler(error);
-                    });
-                }, errorHandler);
-            }, false);
+                    errorHandler(error);
+                })
+                .finally(function () {
+                    $ionicLoading.hide();
+                });
         }
 
         /**
