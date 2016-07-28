@@ -1,7 +1,7 @@
 (function () {
     angular
     .module('vliller.home')
-    .controller('HomeController', ['uiGmapGoogleMapApi', 'uiGmapIsReady', 'Vlilles', '$scope', '$timeout', 'aetmToastService', '$log', '$q', 'aetmNetworkService', '$ionicLoading', 'Location', function (uiGmapGoogleMapApi, uiGmapIsReady, Vlilles, $scope, $timeout, aetmToastService, $log, $q, aetmNetworkService, $ionicLoading, Location) {
+    .controller('HomeController', ['uiGmapGoogleMapApi', 'uiGmapIsReady', 'Vlilles', '$scope', '$timeout', 'aetmToastService', '$log', '$q', 'aetmNetworkService', 'Location', function (uiGmapGoogleMapApi, uiGmapIsReady, Vlilles, $scope, $timeout, aetmToastService, $log, $q, aetmNetworkService, Location) {
         var vm = this,
             stationsFullList,
             currentPosition = null,
