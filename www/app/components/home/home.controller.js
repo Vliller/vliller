@@ -13,15 +13,6 @@
         vm.activeStation = null;
         vm.isLoading = true;
         vm.isGPSActive = false;
-        vm.isOffline = false;
-
-        // $scope.$watch('$root.isOffline', function (newValue) {
-        //     if (newValue === undefined) {
-        //         return;
-        //     }
-
-        //     vm.isOffline = newValue;
-        // });
 
         // get stations list
         vm.stations = Vlilles.query();
@@ -55,12 +46,6 @@
          * @param Object error
          */
         function errorHandler(error) {
-            if (error === 'offline') {
-                // aetmToastService.showError("Oups! Vous n'êtes pas connecté à Internet.");
-
-                return;
-            }
-
             $log.debug(error);
             aetmToastService.showError('Oups! Une erreur est survenue.');
         }
@@ -81,14 +66,6 @@
             // This is do here because we need
             stationsFullList = angular.copy(stations);
         }
-
-        // in offline mode we do not wait for the map to be loaded
-        // if (vm.isOffline) {
-        //     uiGmapIsReadyPromise = $q.reject('offline');
-
-        //     // Init markers, etc.
-        //     vm.stations.$promise.then(initStations, errorHandler);
-        // }
 
         /**
          * Promise of Google Maps API fully loaded.
