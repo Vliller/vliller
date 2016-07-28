@@ -13,6 +13,7 @@
         vm.activeStation = null;
         vm.isLoading = true;
         vm.isGPSActive = false;
+        vm.isGPSLoading = false;
 
         // get stations list
         vm.stations = Vlilles.query();
@@ -183,24 +184,23 @@
          * Updates the current position
          */
         function activeGPS() {
-            // display loader to avoid "UX lag"
-            $ionicLoading.show();
+            vm.isGPSLoading = true;
 
             // Get current location
             Location.getCurrentPosition()
                 .then(function (position) {
                     handleLocationActive(position);
                 }, function (error) {
-                    if (error === locationDisabled) {
+                    if (error === 'locationDisabled') {
                         aetmToastService.showError('Vous devez activer votre GPS pour utiliser cette fonctionnalité.', 'long');
 
-                        return;
+                        return error;
                     }
 
                     errorHandler(error);
                 })
                 .finally(function () {
-                    $ionicLoading.hide();
+                    vm.isGPSLoading = false;
                 });
         }
 

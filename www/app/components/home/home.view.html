@@ -3,11 +3,9 @@
         <ion-nav-back-button class="no-text"></ion-nav-back-button>
 
         <ion-nav-buttons side="right">
-            <!-- <button ng-click="HomeCtrl.refresh()" class="button button-clear">
-                <i class="icon ion-android-refresh"></i>
-            </button> -->
             <button ng-click="HomeCtrl.activeGPS()" class="button button-clear">
-                <i class="icon ion-android-locate"></i>
+                <i ng-if="!HomeCtrl.isGPSLoading" class="icon ion-android-locate"></i>
+                <ion-spinner ng-if="HomeCtrl.isGPSLoading" icon="android" class="spinner-light"></ion-spinner>
             </button>
         </ion-nav-buttons>
     </ion-nav-bar>
