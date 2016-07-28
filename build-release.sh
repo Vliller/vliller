@@ -4,7 +4,6 @@ PROJECT_NAME="CreaZAP"
 SCHEME_NAME="CreaZAP"
 
 ANDROID_BUILD_FOLDER="./platforms/android/build/outputs/apk"
-ANDROID_ARCH="armv7"
 
 IOS_FOLDER="./platforms/ios"
 IOS_BUILD_FOLDER=$IOS_FOLDER"/build"
@@ -31,10 +30,12 @@ fi
 
 if [ "$1" != "ios" ]; then
     printf "\033[0;35m\nSigning APK \e[0m\n"
-    jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $RELEASE_KEYSTORE $ANDROID_BUILD_FOLDER/android-$ANDROID_ARCH-release-unsigned.apk alexandrebonhomme
+    # jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $RELEASE_KEYSTORE $ANDROID_BUILD_FOLDER/android-x86-release-unsigned.apk alexandrebonhomme
+    jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $RELEASE_KEYSTORE $ANDROID_BUILD_FOLDER/android-armv7-release-unsigned.apk alexandrebonhomme
 
     printf "\033[0;35m\nAPK optimization \e[0m\n"
-    $ZIPALIGN -v 4 $ANDROID_BUILD_FOLDER/android-$ANDROID_ARCH-release-unsigned.apk $ANDROID_BUILD_FOLDER/$BUILD_DATE-$BUILD_VERSION-android-$ANDROID_ARCH-release.apk
+    # $ZIPALIGN -v 4 $ANDROID_BUILD_FOLDER/android-x86-release-unsigned.apk $ANDROID_BUILD_FOLDER/$BUILD_DATE-$BUILD_VERSION-android-x86-release.apk
+    $ZIPALIGN -v 4 $ANDROID_BUILD_FOLDER/android-armv7-release-unsigned.apk $ANDROID_BUILD_FOLDER/$BUILD_DATE-$BUILD_VERSION-android-armv7-release.apk
 fi
 
 if [ "$1" != "android" ]; then
@@ -49,7 +50,8 @@ fi
 
 if [ "$1" != "ios" ]; then
     printf "\nBuilt the following apk:\n"
-    printf "    \e[1m$ANDROID_BUILD_FOLDER/$BUILD_DATE-$BUILD_VERSION-android-$ANDROID_ARCH-release.apk\e[0m\n\n"
+    # printf "    \e[1m$ANDROID_BUILD_FOLDER/$BUILD_DATE-$BUILD_VERSION-android-x86-release.apk\e[0m\n\n"
+    printf "    \e[1m$ANDROID_BUILD_FOLDER/$BUILD_DATE-$BUILD_VERSION-android-armv7-release.apk\e[0m\n\n"
 fi
 
 if [ "$1" != "android" ]; then
