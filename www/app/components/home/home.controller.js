@@ -4,12 +4,11 @@
     .controller('HomeController', ['uiGmapGoogleMapApi', 'uiGmapIsReady', 'Vlilles', '$scope', '$timeout', 'aetmToastService', '$log', '$q', 'aetmNetworkService', 'Location', 'Navigation', function (uiGmapGoogleMapApi, uiGmapIsReady, Vlilles, $scope, $timeout, aetmToastService, $log, $q, aetmNetworkService, Location, Navigation) {
         var vm = this,
             map,
+            userMarker,
             stationsFullList,
             currentPosition = null,
-            navigationApp,
             iconDefault,
-            iconActive,
-            uiGmapIsReadyPromise = uiGmapIsReady.promise(1);
+            iconActive;
 
         vm.activeStation = null;
         vm.isLoading = true;
@@ -20,27 +19,7 @@
 
         // default map values
         vm.map = {
-            center: {
-                latitude: 50.6314446,
-                longitude: 3.0589064
-            },
-            zoom: 16,
-            options: {
-                disableDefaultUI: true
-            },
-            control: {},
             $loaded: false
-        };
-
-        vm.userMarker = {
-            id: 'userMarker',
-            coords: {
-                latitude: 50.6314446,
-                longitude: 3.0589064
-            },
-            options: {
-                icon: 'assets/img/user-pin.png'
-            }
         };
 
         /**
@@ -60,7 +39,15 @@
 
             // set station icon
             stations.forEach(function (station) {
-                station.icon = iconDefault;
+                map.addMarker({
+                    position: new google.maps.LatLng(station.latitude, station.longitude),
+                    icon: iconDefault,
+                    markerClick: function (marker) {
+                        setActiveStation(marker.get('station'));
+                    }
+                }, function (marker) {
+                    marker.set('station', station);
+                });
             });
 
             // make a backup of the full list to apply filter later
@@ -78,14 +65,21 @@
             vm.map.$loaded = true;
 
             // Init icon objects
-            // iconDefault = {
-            //     url: 'assets/img/cycling-white.png',
-            //     scaledSize: new google.maps.Size(32, 37)
-            // };
-            // iconActive = {
-            //     url: 'assets/img/cycling-red.png',
-            //     scaledSize: new google.maps.Size(48, 55)
-            // };
+            iconDefault = {
+                url: 'assets/img/cycling-white.png',
+                size: {
+                    width: 32,
+                    height: 37
+                }
+            };
+
+            iconActive = {
+                url: 'assets/img/cycling-red.png',
+                size: {
+                    width: 48,
+                    height: 55
+                }
+            };
 
             // Init markers, etc.
             vm.stations.$promise.then(initStations, errorHandler);
@@ -137,27 +131,27 @@
         }
 
         /**
-         *
-         * @param Number zoom
-         */
-        function setZoomMap(zoom) {
-            vm.map.zoom = zoom;
-        }
-
-        /**
          * Center the map on the closest station
          *
          * @param Position position
          */
         function handleLocationActive(position) {
-            // update this way to avoid digest problem with gmaps
-            vm.userMarker.coords.latitude = position.coords.latitude;
-            vm.userMarker.coords.longitude = position.coords.longitude;
-
             currentPosition = position.coords;
 
+            if (!userMarker) {
+                map.addMarker({
+                    position: new google.maps.LatLng(currentPosition.latitude, currentPosition.longitude),
+                    icon: {
+                        url: 'assets/img/user-pin.png'
+                    }
+                }, function (marker) {
+                    userMarker = marker;
+                });
+            } else {
+                userMarker.setPosition(new google.maps.LatLng(currentPosition.latitude, currentPosition.longitude));
+            }
+
             setCenterMap(currentPosition);
-            setZoomMap(16);
 
             // compute the closest station and set active
             setActiveStation(Vlilles.computeClosestStation(currentPosition, vm.stations), false);
