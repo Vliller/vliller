@@ -25,7 +25,15 @@
     "cordova-plugin-geolocation",
     "cordova.plugins.diagnostic",
     "cordova-plugin-x-toast",
-    "uk.co.workingedge.phonegap.plugin.launchnavigator"
+    "uk.co.workingedge.phonegap.plugin.launchnavigator",
+    {
+      "variables": {
+        "API_KEY_FOR_ANDROID": "AIzaSyCwaMhgCXRnhlbBulzNGi5BU0JBLej0FbI",
+        "API_KEY_FOR_IOS": "AIzaSyB7l0BYrnYjYqAY8tiX81XT6j-1iIz-YUY"
+      },
+      "locator": "cordova-plugin-googlemaps",
+      "id": "plugin.google.maps"
+    }
   ],
   "cordovaPlatforms": [
     "ios",
