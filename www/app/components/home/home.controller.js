@@ -3,6 +3,7 @@
     .module('vliller.home')
     .controller('HomeController', ['uiGmapGoogleMapApi', 'uiGmapIsReady', 'Vlilles', '$scope', '$timeout', 'aetmToastService', '$log', '$q', 'aetmNetworkService', 'Location', 'Navigation', function (uiGmapGoogleMapApi, uiGmapIsReady, Vlilles, $scope, $timeout, aetmToastService, $log, $q, aetmNetworkService, Location, Navigation) {
         var vm = this,
+            map,
             stationsFullList,
             currentPosition = null,
             navigationApp,
@@ -65,47 +66,30 @@
             // make a backup of the full list to apply filter later
             // This is do here because we need
             stationsFullList = angular.copy(stations);
+
+            vm.isLoading = false;
         }
-
-        /**
-         * Promise of Google Maps API fully loaded.
-         * ALL CODE using `google.maps.*` need to be done here.
-         */
-        uiGmapGoogleMapApi.then(function (maps) {
-            // Init icon objects
-            iconDefault = {
-                url: 'assets/img/cycling-white.png',
-                scaledSize: new google.maps.Size(32, 37)
-            };
-            iconActive = {
-                url: 'assets/img/cycling-red.png',
-                scaledSize: new google.maps.Size(48, 55)
-            };
-
-            // Init markers, etc.
-            vm.stations.$promise.then(initStations, errorHandler);
-        }, errorHandler);
 
         /**
          * Map loaded
          */
-        uiGmapIsReadyPromise.then(function(instances) {
+        vm.onMapReady = function (googleMap) {
+            map = googleMap;
             vm.map.$loaded = true;
-        }, errorHandler);
 
-        /**
-         * Hide loader when everythings is loaded
-         */
-        $q.all([uiGmapIsReadyPromise, vm.stations.$promise]).finally(function () {
-            vm.isLoading = false;
+            // Init icon objects
+            // iconDefault = {
+            //     url: 'assets/img/cycling-white.png',
+            //     scaledSize: new google.maps.Size(32, 37)
+            // };
+            // iconActive = {
+            //     url: 'assets/img/cycling-red.png',
+            //     scaledSize: new google.maps.Size(48, 55)
+            // };
 
-            $timeout(function () {
-                // refresh map to avoid bug due to ng-hide/show
-                if (vm.map.$loaded) {
-                    vm.map.control.refresh(vm.map.center);
-                }
-            }, 0);
-        });
+            // Init markers, etc.
+            vm.stations.$promise.then(initStations, errorHandler);
+        };
 
         /**
          * Set the current active station.
@@ -145,10 +129,11 @@
          * @param Object position
          */
         function setCenterMap(position) {
-            vm.map.center = {
-                latitude: position.latitude,
-                longitude: position.longitude
-            };
+            map.animateCamera({
+                target: new google.maps.LatLng(position.latitude, position.longitude),
+                zoom: 16,
+                duration: 1000
+            });
         }
 
         /**

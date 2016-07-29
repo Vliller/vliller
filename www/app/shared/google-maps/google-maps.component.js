@@ -7,7 +7,7 @@
             bindings: {
                 onMapReady: '&'
             },
-            template: '<div class="google-maps"></div>',
+            template: '<div class="aetm-google-maps"></div>',
             controller: ['$element', function ($element) {
                 var vm = this,
                     map;
@@ -17,7 +17,9 @@
                     map = plugin.google.maps.Map.getMap($element.children()[0]);
 
                     // Wait until the map is ready status.
-                    map.addEventListener(plugin.google.maps.event.MAP_READY, vm.onMapReady);
+                    map.addEventListener(plugin.google.maps.event.MAP_READY, function (map) {
+                        vm.onMapReady({map: map});
+                    });
                 }, false);
             }]
         });
