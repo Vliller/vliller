@@ -1,7 +1,7 @@
 (function () {
     angular
     .module('vliller.home')
-    .controller('HomeController', ['uiGmapGoogleMapApi', 'uiGmapIsReady', 'Vlilles', '$scope', '$timeout', 'aetmToastService', '$log', '$q', 'aetmNetworkService', 'Location', function (uiGmapGoogleMapApi, uiGmapIsReady, Vlilles, $scope, $timeout, aetmToastService, $log, $q, aetmNetworkService, Location) {
+    .controller('HomeController', ['uiGmapGoogleMapApi', 'uiGmapIsReady', 'Vlilles', '$scope', '$timeout', 'aetmToastService', '$log', '$q', 'aetmNetworkService', 'Location', 'Navigation', function (uiGmapGoogleMapApi, uiGmapIsReady, Vlilles, $scope, $timeout, aetmToastService, $log, $q, aetmNetworkService, Location, Navigation) {
         var vm = this,
             stationsFullList,
             currentPosition = null,
@@ -212,40 +212,11 @@
             setActiveStation(station);
         };
 
-
         /**
-         * NAVIGATION
-         */
-
-        // Defines Google Maps by default if avaible
-        document.addEventListener('deviceready', function () {
-            launchnavigator.isAppAvailable(launchnavigator.APP.GOOGLE_MAPS, function (isAvailable) {
-                if(isAvailable){
-                    navigationApp = launchnavigator.APP.GOOGLE_MAPS;
-                } else{
-                    console.warn("Google Maps not available - falling back to user selection");
-                    navigationApp = launchnavigator.APP.USER_SELECT;
-                }
-            });
-        });
-
-        /**
-         * launch navigation application (Google Maps if avaible)
+         * Launch navigation application (Google Maps if avaible)
          */
         vm.navigate = function () {
-            document.addEventListener('deviceready', function () {
-                // navigate to the station from current position
-                launchnavigator.navigate([
-                    vm.activeStation.latitude,
-                    vm.activeStation.longitude
-                ], {
-                    app: navigationApp || launchnavigator.APP.USER_SELECT,
-                    start: [
-                        currentPosition.latitude,
-                        currentPosition.longitude
-                    ]
-                });
-            }, false);
+            Navigation.navigate(currentPosition, vm.activeStation);
         };
     }]);
 }());

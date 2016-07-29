@@ -3,6 +3,7 @@
     .module('vliller.home', [
         'uiGmapgoogle-maps',
         'vliller.vlilles',
-        'vliller.location'
+        'vliller.location',
+        'vliller.navigation'
     ]);
 }());
