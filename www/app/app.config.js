@@ -16,18 +16,18 @@
         $urlRouterProvider.otherwise('/');
 
         $stateProvider
-            .state('home', {
-                url: '/',
-                templateUrl: 'components/home/home.view.html',
-                controller: 'HomeController',
-                controllerAs: 'HomeCtrl'
-            })
-            // .state('test', {
+            // .state('home', {
             //     url: '/',
-            //     templateUrl: 'components/test/test.view.html',
-            //     controller: 'TestController',
-            //     controllerAs: 'TestCtrl'
+            //     templateUrl: 'components/home/home.view.html',
+            //     controller: 'HomeController',
+            //     controllerAs: 'HomeCtrl'
             // })
+            .state('test', {
+                url: '/',
+                templateUrl: 'components/test/test.view.html',
+                controller: 'TestController',
+                controllerAs: 'TestCtrl'
+            })
         ;
     }]);
 }());
