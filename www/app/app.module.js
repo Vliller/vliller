@@ -9,8 +9,8 @@
         'aetm-toast',
         'aetm-network',
 
-        'vliller.home'
+        'vliller.home',
+        'vliller.test'
     ])
     .constant('VLILLE_PROXY_URL', 'http://dev.alexandrebonhomme.fr/vlille/web');
-
 }());
