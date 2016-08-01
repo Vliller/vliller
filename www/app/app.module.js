@@ -10,8 +10,7 @@
         'aetm-network',
 
         'vliller.home',
-        'vliller.google-maps',
-        'vliller.test'
+        'vliller.google-maps'
     ])
     .constant('VLILLE_PROXY_URL', 'http://dev.alexandrebonhomme.fr/vlille/web');
 }());
