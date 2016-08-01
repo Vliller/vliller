@@ -4,6 +4,7 @@
     .controller('HomeController', ['uiGmapGoogleMapApi', 'uiGmapIsReady', 'Vlilles', '$scope', '$timeout', 'aetmToastService', '$log', '$q', 'aetmNetworkService', 'Location', 'Navigation', function (uiGmapGoogleMapApi, uiGmapIsReady, Vlilles, $scope, $timeout, aetmToastService, $log, $q, aetmNetworkService, Location, Navigation) {
         var vm = this,
             map,
+            markers = [],
             userMarker,
             activeMarker,
             currentPosition = null,
@@ -52,6 +53,9 @@
                     }
                 }, function (marker) {
                     marker.set('station', station);
+
+                    // store list of markers
+                    markers.push(marker);
                 });
             });
 
