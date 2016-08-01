@@ -17,67 +17,67 @@
 
         <!-- map -->
         <div class="map-container" data-tap-disabled="true" ng-hide="HomeCtrl.isLoading">
-            <google-maps on-map-ready="HomeCtrl.onMapReady(map)"></google-maps>
-        </div>
-
-        <!-- station details -->
-        <div class="card map-card" ng-if="HomeCtrl.activeStation">
-            <div class="content-loader padding" ng-if="!HomeCtrl.activeStation.$loaded" ng-cloak>
-                <ion-spinner icon="android" class="spinner-assertive"></ion-spinner>
-            </div>
-
-            <div ng-if="HomeCtrl.activeStation.$loaded">
-                <!-- station name, uptime and CB -->
-                <div class="item item-divider item-icon-right">
-                    {{ HomeCtrl.activeStation.name }} <small class="lastupd">Il y a {{ HomeCtrl.activeStation.lastupd }}</small>
-                    <i ng-if="HomeCtrl.activeStation.payment === 'AVEC_TPE'" class="icon ion-card"></i>
-                </div>
-
-                <!-- station bike/attachs -->
-                <div class="item item-content" ng-class="{
-                    'assertive-bg': HomeCtrl.activeStation.status !== '0'
-                }">
-
-                    <!-- status 0 -->
-                    <div ng-if="HomeCtrl.activeStation.status === '0'" class="row no-padding">
-                        <!-- bikes -->
-                        <div class="col text-center">
-                        <div class="list">
-                        <div class="item item-icon-left" ng-class="{
-                            'assertive-bg light': HomeCtrl.activeStation.bikes < 5
-                        }">
-                            <i class="icon ion-android-bicycle"></i>
-                            <span class="item-number-value">{{ HomeCtrl.activeStation.bikes }}</span>
-                        </div>
-                        </div>
-                        </div>
-
-                        <!-- attachs -->
-                        <div class="col text-center" >
-                        <div class="list">
-                        <div class="item item-icon-left" ng-class="{
-                            'assertive-bg light': HomeCtrl.activeStation.docks < 5
-                        }">
-                            <i class="icon ion-flag"></i>
-                            <span class="item-number-value">{{ HomeCtrl.activeStation.docks }}</span>
-
-                        </div>
-                        </div>
-                        </div>
+            <div id="map-canvas" class="map-canvas">
+                <!-- station details -->
+                <div class="card map-card" ng-if="HomeCtrl.activeStation">
+                    <div class="content-loader padding" ng-if="!HomeCtrl.activeStation.$loaded" ng-cloak>
+                        <ion-spinner icon="android" class="spinner-assertive"></ion-spinner>
                     </div>
 
-                    <!-- status 1 & 2 -->
-                    <div ng-if="HomeCtrl.activeStation.status !== '0'" class="list">
-                        <div class="item item-icon-left station-unavailable assertive-bg light">
-                            <i class="icon ion-alert-circled"></i>
-                            Station indisponible
+                    <div ng-if="HomeCtrl.activeStation.$loaded">
+                        <!-- station name, uptime and CB -->
+                        <div class="item item-divider item-icon-right">
+                            {{ HomeCtrl.activeStation.name }} <small class="lastupd">Il y a {{ HomeCtrl.activeStation.lastupd }}</small>
+                            <i ng-if="HomeCtrl.activeStation.payment === 'AVEC_TPE'" class="icon ion-card"></i>
+                        </div>
+
+                        <!-- station bike/attachs -->
+                        <div class="item item-content" ng-class="{
+                            'assertive-bg': HomeCtrl.activeStation.status !== '0'
+                        }">
+
+                            <!-- status 0 -->
+                            <div ng-if="HomeCtrl.activeStation.status === '0'" class="row no-padding">
+                                <!-- bikes -->
+                                <div class="col text-center">
+                                <div class="list">
+                                <div class="item item-icon-left" ng-class="{
+                                    'assertive-bg light': HomeCtrl.activeStation.bikes < 5
+                                }">
+                                    <i class="icon ion-android-bicycle"></i>
+                                    <span class="item-number-value">{{ HomeCtrl.activeStation.bikes }}</span>
+                                </div>
+                                </div>
+                                </div>
+
+                                <!-- attachs -->
+                                <div class="col text-center" >
+                                <div class="list">
+                                <div class="item item-icon-left" ng-class="{
+                                    'assertive-bg light': HomeCtrl.activeStation.docks < 5
+                                }">
+                                    <i class="icon ion-flag"></i>
+                                    <span class="item-number-value">{{ HomeCtrl.activeStation.docks }}</span>
+
+                                </div>
+                                </div>
+                                </div>
+                            </div>
+
+                            <!-- status 1 & 2 -->
+                            <div ng-if="HomeCtrl.activeStation.status !== '0'" class="list">
+                                <div class="item item-icon-left station-unavailable assertive-bg light">
+                                    <i class="icon ion-alert-circled"></i>
+                                    Station indisponible
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- navigate to -->
+                        <div ng-click="HomeCtrl.navigate()" class="item item-icon-left positive">
+                           <i class="icon ion-navigate"></i> {{ HomeCtrl.activeStation.address }}
                         </div>
                     </div>
-                </div>
-
-                <!-- navigate to -->
-                <div ng-click="HomeCtrl.navigate()" class="item item-icon-left positive">
-                   <i class="icon ion-navigate"></i> {{ HomeCtrl.activeStation.address }}
                 </div>
             </div>
         </div>

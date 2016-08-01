@@ -23,6 +23,43 @@
             $loaded: false
         };
 
+        // Loads the map
+        document.addEventListener('deviceready', function () {
+            // Initialize the map view
+            var mapElement = plugin.google.maps.Map.getMap(document.getElementById('map-canvas'));
+
+            // Wait until the map is ready status.
+            mapElement.addEventListener(plugin.google.maps.event.MAP_READY, onMapReady);
+        }, false);
+
+        /**
+         * Map loaded
+         */
+        function onMapReady(gmap) {
+            map = gmap;
+            vm.map.$loaded = true;
+
+            // Init icon objects
+            iconDefault = {
+                url: 'www/assets/img/cycling-white.png',
+                size: {
+                    width: 32,
+                    height: 37
+                }
+            };
+
+            iconActive = {
+                url: 'www/assets/img/cycling-red.png',
+                size: {
+                    width: 48,
+                    height: 55
+                }
+            };
+
+            // Init markers, etc.
+            vm.stations.$promise.then(initStations, errorHandler);
+        }
+
         /**
          * @param Object error
          */
@@ -47,12 +84,11 @@
                     },
                     icon: iconDefault,
                     station: station,
-                    disableAutoPan: true
+                    disableAutoPan: true,
+                    markerClick: function (marker) {
+                        setActiveMarker(marker, true);
+                    }
                 }, function (marker) {
-                    marker.addEventListener(plugin.google.maps.event.MARKER_CLICK, function () {
-                        setActiveMarker(marker);
-                      });
-
                     // store list of markers
                     markers.push(marker);
                 });
@@ -60,34 +96,6 @@
 
             vm.isLoading = false;
         }
-
-        /**
-         * Map loaded
-         */
-        vm.onMapReady = function (googleMap) {
-            map = googleMap;
-            vm.map.$loaded = true;
-
-            // Init icon objects
-            iconDefault = {
-                url: 'www/assets/img/cycling-white.png',
-                size: {
-                    width: 32,
-                    height: 37
-                }
-            };
-
-            iconActive = {
-                url: 'www/assets/img/cycling-red.png',
-                size: {
-                    width: 48,
-                    height: 55
-                }
-            };
-
-            // Init markers, etc.
-            vm.stations.$promise.then(initStations, errorHandler);
-        };
 
         /**
          *
