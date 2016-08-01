@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget xmlns="http://www.w3.org/ns/widgets" id="com.alexetmanon.vliller" version="1.1.1" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget xmlns="http://www.w3.org/ns/widgets" id="com.alexetmanon.vliller" version="1.2.0" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>VLiller</name>
   <description>
         An Ionic Framework and Cordova project.
@@ -17,6 +17,10 @@
   <preference name="android-minSdkVersion" value="16" />
   <preference name="BackupWebStorage" value="none" />
   <preference name="SplashScreen" value="screen" />
+  <preference name="xwalkVersion" value="19+" />
+  <preference name="xwalkCommandLine" value="--disable-pull-to-refresh-effect" />
+  <preference name="xwalkMode" value="embedded" />
+  <preference name="xwalkMultipleApk" value="true" />
   <feature name="StatusBar">
     <param name="ios-package" onload="true" value="CDVStatusBar" />
   </feature>

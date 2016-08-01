@@ -1,14 +1,15 @@
 (function () {
     angular
     .module('vliller.home')
-    .controller('HomeController', ['uiGmapGoogleMapApi', 'uiGmapIsReady', 'Vlilles', '$scope', '$timeout', 'aetmToastService', '$log', '$q', 'aetmNetworkService', '$ionicLoading', 'Location', function (uiGmapGoogleMapApi, uiGmapIsReady, Vlilles, $scope, $timeout, aetmToastService, $log, $q, aetmNetworkService, $ionicLoading, Location) {
+    .controller('HomeController', ['Vlilles', '$scope', '$timeout', 'aetmToastService', '$log', '$q', 'aetmNetworkService', 'Location', 'Navigation', 'GoogleMapsTools', function (Vlilles, $scope, $timeout, aetmToastService, $log, $q, aetmNetworkService, Location, Navigation, GoogleMapsTools) {
         var vm = this,
-            stationsFullList,
+            map,
+            markers = [],
+            userMarker,
+            activeMarker,
             currentPosition = null,
-            navigationApp,
             iconDefault,
-            iconActive,
-            uiGmapIsReadyPromise = uiGmapIsReady.promise(1);
+            iconActive;
 
         vm.activeStation = null;
         vm.isLoading = true;
@@ -19,28 +20,45 @@
 
         // default map values
         vm.map = {
-            center: {
-                latitude: 50.6314446,
-                longitude: 3.0589064
-            },
-            zoom: 16,
-            options: {
-                disableDefaultUI: true
-            },
-            control: {},
             $loaded: false
         };
 
-        vm.userMarker = {
-            id: 'userMarker',
-            coords: {
-                latitude: 50.6314446,
-                longitude: 3.0589064
-            },
-            options: {
-                icon: 'assets/img/user-pin.png'
-            }
-        };
+        // Loads the map
+        document.addEventListener('deviceready', function () {
+            // Initialize the map view
+            var mapElement = plugin.google.maps.Map.getMap(document.getElementById('map-canvas'));
+
+            // Wait until the map is ready status.
+            mapElement.addEventListener(plugin.google.maps.event.MAP_READY, onMapReady);
+        }, false);
+
+        /**
+         * Map loaded
+         */
+        function onMapReady(gmap) {
+            map = gmap;
+            vm.map.$loaded = true;
+
+            // Init icon objects
+            iconDefault = {
+                url: 'www/assets/img/cycling-white.png',
+                size: {
+                    width: 32,
+                    height: 37
+                }
+            };
+
+            iconActive = {
+                url: 'www/assets/img/cycling-red.png',
+                size: {
+                    width: 48,
+                    height: 55
+                }
+            };
+
+            // Init markers, etc.
+            vm.stations.$promise.then(initStations, errorHandler);
+        }
 
         /**
          * @param Object error
@@ -57,77 +75,47 @@
             // update GPS position
             vm.updatePosition();
 
-            // set station icon
+            // add stations markers
             stations.forEach(function (station) {
-                station.icon = iconDefault;
+                map.addMarker({
+                    position: {
+                        lat: station.latitude,
+                        lng: station.longitude
+                    },
+                    icon: iconDefault,
+                    station: station,
+                    disableAutoPan: true,
+                    markerClick: function (marker) {
+                        setActiveMarker(marker, true);
+                    }
+                }, function (marker) {
+                    // store list of markers
+                    markers.push(marker);
+                });
             });
 
-            // make a backup of the full list to apply filter later
-            // This is do here because we need
-            stationsFullList = angular.copy(stations);
+            vm.isLoading = false;
         }
 
         /**
-         * Promise of Google Maps API fully loaded.
-         * ALL CODE using `google.maps.*` need to be done here.
+         *
+         * @param google.maps.Marker marker
          */
-        uiGmapGoogleMapApi.then(function (maps) {
-            // Init icon objects
-            iconDefault = {
-                url: 'assets/img/cycling-white.png',
-                scaledSize: new google.maps.Size(32, 37)
-            };
-            iconActive = {
-                url: 'assets/img/cycling-red.png',
-                scaledSize: new google.maps.Size(48, 55)
-            };
-
-            // Init markers, etc.
-            vm.stations.$promise.then(initStations, errorHandler);
-        }, errorHandler);
-
-        /**
-         * Map loaded
-         */
-        uiGmapIsReadyPromise.then(function(instances) {
-            vm.map.$loaded = true;
-        }, errorHandler);
-
-        /**
-         * Hide loader when everythings is loaded
-         */
-        $q.all([uiGmapIsReadyPromise, vm.stations.$promise]).finally(function () {
-            vm.isLoading = false;
-
-            $timeout(function () {
-                // refresh map to avoid bug due to ng-hide/show
-                if (vm.map.$loaded) {
-                    vm.map.control.refresh(vm.map.center);
-                }
-            }, 0);
-        });
-
-        /**
-         * Set the current active station.
-         * @param {[type]} station
-         */
-        function setActiveStation(station, centerMap) {
-            if (centerMap === undefined) {
-                centerMap = true;
-            }
+        function setActiveMarker(marker, centerMap) {
+            var station = marker.get('station');
 
             // set default icon on current office marker
-            if (vm.activeStation) {
-                vm.activeStation.icon = iconDefault;
+            if (activeMarker) {
+                activeMarker.setIcon(iconDefault);
             }
 
             // update new active office
+            activeMarker = marker;
             vm.activeStation = station;
 
             // update icon and center map
-            vm.activeStation.icon = iconActive;
-
-            if (centerMap) {
+            activeMarker.setIcon(iconActive);
+            if (centerMap !== false) {
                 setCenterMap(vm.activeStation);
             }
 
@@ -145,18 +133,14 @@
          * @param Object position
          */
         function setCenterMap(position) {
-            vm.map.center = {
-                latitude: position.latitude,
-                longitude: position.longitude
-            };
-        }
-
-        /**
-         *
-         * @param Number zoom
-         */
-        function setZoomMap(zoom) {
-            vm.map.zoom = zoom;
+            map.animateCamera({
+                target: {
+                    lat: position.latitude,
+                    lng: position.longitude
+                },
+                zoom: 16,
+                duration: 1000
+            });
         }
 
         /**
@@ -165,17 +149,38 @@
          * @param Position position
          */
         function handleLocationActive(position) {
-            // update this way to avoid digest problem with gmaps
-            vm.userMarker.coords.latitude = position.coords.latitude;
-            vm.userMarker.coords.longitude = position.coords.longitude;
-
             currentPosition = position.coords;
 
+            if (!userMarker) {
+                map.addMarker({
+                    position: {
+                        lat: currentPosition.latitude,
+                        lng: currentPosition.longitude
+                    },
+                    icon: {
+                        url: 'www/assets/img/user-pin.png',
+                        size: {
+                            width: 24,
+                            height: 24
+                        }
+                    },
+                    disableAutoPan: true
+
+                }, function (marker) {
+                    userMarker = marker;
+                });
+            } else {
+                userMarker.setPosition({
+                    lat: currentPosition.latitude,
+                    lng: currentPosition.longitude
+                });
+            }
+
             setCenterMap(currentPosition);
-            setZoomMap(16);
 
             // compute the closest station and set active
-            setActiveStation(Vlilles.computeClosestStation(currentPosition, vm.stations), false);
+            var closest = GoogleMapsTools.computeClosestMarker(currentPosition, markers);
+            setActiveMarker(closest, false);
         }
 
         /**
@@ -203,49 +208,10 @@
         };
 
         /**
-         *
-         * @param  google.maps.Marker marker
-         * @param  String eventName
-         * @param  {[type]} station
-         */
-        vm.markerClick = function (marker, eventName, station) {
-            setActiveStation(station);
-        };
-
-
-        /**
-         * NAVIGATION
-         */
-
-        // Defines Google Maps by default if avaible
-        document.addEventListener('deviceready', function () {
-            launchnavigator.isAppAvailable(launchnavigator.APP.GOOGLE_MAPS, function (isAvailable) {
-                if(isAvailable){
-                    navigationApp = launchnavigator.APP.GOOGLE_MAPS;
-                } else{
-                    console.warn("Google Maps not available - falling back to user selection");
-                    navigationApp = launchnavigator.APP.USER_SELECT;
-                }
-            });
-        });
-
-        /**
-         * launch navigation application (Google Maps if avaible)
+         * Launch navigation application (Google Maps if avaible)
          */
         vm.navigate = function () {
-            document.addEventListener('deviceready', function () {
-                // navigate to the station from current position
-                launchnavigator.navigate([
-                    vm.activeStation.latitude,
-                    vm.activeStation.longitude
-                ], {
-                    app: navigationApp || launchnavigator.APP.USER_SELECT,
-                    start: [
-                        currentPosition.latitude,
-                        currentPosition.longitude
-                    ]
-                });
-            }, false);
+            Navigation.navigate(currentPosition, vm.activeStation);
         };
     }]);
 }());
