@@ -17,26 +17,6 @@
 
         <!-- map -->
         <div class="map-container" data-tap-disabled="true" ng-hide="HomeCtrl.isLoading">
-            <!-- <ui-gmap-google-map
-                center="HomeCtrl.map.center"
-                zoom="HomeCtrl.map.zoom"
-                options="HomeCtrl.map.options"
-                control="HomeCtrl.map.control"
-                pan="true"
-            >
-                <ui-gmap-marker
-                    idkey="HomeCtrl.userMarker.id"
-                    coords="HomeCtrl.userMarker.coords"
-                    options="HomeCtrl.userMarker.options"
-                ></ui-gmap-marker>
-
-                <ui-gmap-markers
-                    models="HomeCtrl.stations"
-                    coords="'self'"
-                    click="HomeCtrl.markerClick"
-                    icon="'icon'"
-                ></ui-gmap-markers>
-            </ui-gmap-google-map> -->
             <google-maps on-map-ready="HomeCtrl.onMapReady(map)"></google-maps>
         </div>
 
