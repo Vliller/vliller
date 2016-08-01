@@ -6,7 +6,6 @@
             map,
             userMarker,
             activeMarker,
-            stationsFullList,
             currentPosition = null,
             iconDefault,
             iconActive;
@@ -55,10 +54,6 @@
                     marker.set('station', station);
                 });
             });
-
-            // make a backup of the full list to apply filter later
-            // This is do here because we need
-            stationsFullList = angular.copy(stations);
 
             vm.isLoading = false;
         }
