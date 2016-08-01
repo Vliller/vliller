@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('vliller.google-maps', [])
+        .module('vliller.google-maps')
         .component('googleMaps', {
             bindings: {
                 onMapReady: '&'

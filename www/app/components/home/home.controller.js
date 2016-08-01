@@ -1,7 +1,7 @@
 (function () {
     angular
     .module('vliller.home')
-    .controller('HomeController', ['Vlilles', '$scope', '$timeout', 'aetmToastService', '$log', '$q', 'aetmNetworkService', 'Location', 'Navigation', function (Vlilles, $scope, $timeout, aetmToastService, $log, $q, aetmNetworkService, Location, Navigation) {
+    .controller('HomeController', ['Vlilles', '$scope', '$timeout', 'aetmToastService', '$log', '$q', 'aetmNetworkService', 'Location', 'Navigation', 'GoogleMapsTools', function (Vlilles, $scope, $timeout, aetmToastService, $log, $q, aetmNetworkService, Location, Navigation, GoogleMapsTools) {
         var vm = this,
             map,
             markers = [],
@@ -46,13 +46,12 @@
                         lng: station.longitude
                     },
                     icon: iconDefault,
-                    markerClick: function (marker) {
-                        $scope.$apply(function () {
-                            setActiveMarker(marker);
-                        });
-                    }
+                    station: station,
+                    disableAutoPan: true
                 }, function (marker) {
-                    marker.set('station', station);
+                    marker.addEventListener(plugin.google.maps.event.MARKER_CLICK, function () {
+                        setActiveMarker(marker);
+                      });
 
                     // store list of markers
                     markers.push(marker);
@@ -94,7 +93,7 @@
          *
          * @param google.maps.Marker marker
          */
-        function setActiveMarker(marker) {
+        function setActiveMarker(marker, centerMap) {
             var station = marker.get('station');
 
             // set default icon on current office marker
@@ -108,40 +107,7 @@
 
             // update icon and center map
             activeMarker.setIcon(iconActive);
-            setCenterMap(vm.activeStation);
-
-            // loads station details
-            Vlilles.get({id: station.id}, function (stationDetails) {
-                // get some missing informations from the previous request
-                angular.extend(vm.activeStation, stationDetails);
-
-                vm.activeStation.$loaded = true;
-            });
-        }
-
-        /**
-         * TODO : replace by activeMarker
-         *
-         * Set the current active station.
-         * @param {[type]} station
-         */
-        function setActiveStation(station, centerMap) {
-            if (centerMap === undefined) {
-                centerMap = true;
-            }
-
-            // set default icon on current office marker
-            if (vm.activeStation) {
-                vm.activeStation.icon = iconDefault;
-            }
-
-            // update new active office
-            vm.activeStation = station;
-
-            // update icon and center map
-            vm.activeStation.icon = iconActive;
-
-            if (centerMap) {
+            if (centerMap !== false) {
                 setCenterMap(vm.activeStation);
             }
 
@@ -189,7 +155,8 @@
                             width: 24,
                             height: 24
                         }
-                    }
+                    },
+                    disableAutoPan: true
 
                 }, function (marker) {
                     userMarker = marker;
@@ -204,7 +171,8 @@
             setCenterMap(currentPosition);
 
             // compute the closest station and set active
-            setActiveStation(Vlilles.computeClosestStation(currentPosition, vm.stations), false);
+            var closest = GoogleMapsTools.computeClosestMarker(currentPosition, markers);
+            setActiveMarker(closest, false);
         }
 
         /**
