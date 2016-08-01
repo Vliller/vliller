@@ -37,7 +37,7 @@
             // update GPS position
             vm.updatePosition();
 
-            // set station icon
+            // add stations markers
             stations.forEach(function (station) {
                 map.addMarker({
                     position: {
@@ -69,7 +69,7 @@
 
             // Init icon objects
             iconDefault = {
-                url: 'assets/img/cycling-white.png',
+                url: 'www/assets/img/cycling-white.png',
                 size: {
                     width: 32,
                     height: 37
@@ -77,7 +77,7 @@
             };
 
             iconActive = {
-                url: 'assets/img/cycling-red.png',
+                url: 'www/assets/img/cycling-red.png',
                 size: {
                     width: 48,
                     height: 55
@@ -153,8 +153,13 @@
                         lng: currentPosition.longitude
                     },
                     icon: {
-                        url: 'assets/img/user-pin.png'
+                        url: 'www/assets/img/user-pin.png',
+                        size: {
+                            width: 24,
+                            height: 24
+                        }
                     }
+
                 }, function (marker) {
                     userMarker = marker;
                 });
