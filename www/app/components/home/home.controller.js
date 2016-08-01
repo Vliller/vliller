@@ -5,6 +5,7 @@
         var vm = this,
             map,
             userMarker,
+            activeMarker,
             stationsFullList,
             currentPosition = null,
             iconDefault,
@@ -46,7 +47,9 @@
                     },
                     icon: iconDefault,
                     markerClick: function (marker) {
-                        setActiveStation(marker.get('station'));
+                        $scope.$apply(function () {
+                            setActiveMarker(marker);
+                        });
                     }
                 }, function (marker) {
                     marker.set('station', station);
@@ -87,6 +90,35 @@
             // Init markers, etc.
             vm.stations.$promise.then(initStations, errorHandler);
         };
+
+        /**
+         *
+         * @param google.maps.Marker marker
+         */
+        function setActiveMarker(marker) {
+            var station = marker.get('station');
+
+            // set default icon on current office marker
+            if (activeMarker) {
+                activeMarker.setIcon(iconDefault);
+            }
+
+            // update new active office
+            activeMarker = marker;
+            vm.activeStation = station;
+
+            // update icon and center map
+            activeMarker.setIcon(iconActive);
+            setCenterMap(vm.activeStation);
+
+            // loads station details
+            Vlilles.get({id: station.id}, function (stationDetails) {
+                // get some missing informations from the previous request
+                angular.extend(vm.activeStation, stationDetails);
+
+                vm.activeStation.$loaded = true;
+            });
+        }
 
         /**
          * TODO : replace by activeMarker
@@ -198,16 +230,6 @@
                 .finally(function () {
                     vm.isGPSLoading = false;
                 });
-        };
-
-        /**
-         *
-         * @param  google.maps.Marker marker
-         * @param  String eventName
-         * @param  {[type]} station
-         */
-        vm.markerClick = function (marker, eventName, station) {
-            setActiveStation(station);
         };
 
         /**
