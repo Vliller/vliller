@@ -40,7 +40,10 @@
             // set station icon
             stations.forEach(function (station) {
                 map.addMarker({
-                    position: new google.maps.LatLng(station.latitude, station.longitude),
+                    position: {
+                        lat: station.latitude,
+                        lng: station.longitude
+                    },
                     icon: iconDefault,
                     markerClick: function (marker) {
                         setActiveStation(marker.get('station'));
@@ -86,6 +89,8 @@
         };
 
         /**
+         * TODO : replace by activeMarker
+         *
          * Set the current active station.
          * @param {[type]} station
          */
@@ -124,7 +129,10 @@
          */
         function setCenterMap(position) {
             map.animateCamera({
-                target: new google.maps.LatLng(position.latitude, position.longitude),
+                target: {
+                    lat: position.latitude,
+                    lng: position.longitude
+                },
                 zoom: 16,
                 duration: 1000
             });
@@ -140,7 +148,10 @@
 
             if (!userMarker) {
                 map.addMarker({
-                    position: new google.maps.LatLng(currentPosition.latitude, currentPosition.longitude),
+                    position: {
+                        lat: currentPosition.latitude,
+                        lng: currentPosition.longitude
+                    },
                     icon: {
                         url: 'assets/img/user-pin.png'
                     }
@@ -148,7 +159,10 @@
                     userMarker = marker;
                 });
             } else {
-                userMarker.setPosition(new google.maps.LatLng(currentPosition.latitude, currentPosition.longitude));
+                userMarker.setPosition({
+                    lat: currentPosition.latitude,
+                    lng: currentPosition.longitude
+                });
             }
 
             setCenterMap(currentPosition);
