@@ -20,8 +20,10 @@ $bar-height: 56px !default;
 // $button-bar-button-height: $bar-height !default;
 
 // material colors
-$assertive: #F44336 !default;
-$positive: #2196F3 !default;
+$assertive: #e52b38 !default;
+$positive: #1e97f7 !default;
+$energized: #d9a601 !default;
+$dark: rgba(0, 0, 0, 0.87) !default;
 
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
