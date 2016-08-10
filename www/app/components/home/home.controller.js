@@ -41,18 +41,18 @@
 
             // Init icon objects
             iconDefault = {
-                url: 'www/assets/img/cycling-white.png',
+                url: 'www/assets/img/vliller-marker-white.png',
                 size: {
-                    width: 32,
-                    height: 37
+                    width: 38,
+                    height: 45
                 }
             };
 
             iconActive = {
-                url: 'www/assets/img/cycling-red.png',
+                url: 'www/assets/img/vliller-marker-red.png',
                 size: {
-                    width: 48,
-                    height: 55
+                    width: 58,
+                    height: 67
                 }
             };
 
@@ -158,10 +158,10 @@
                         lng: currentPosition.longitude
                     },
                     icon: {
-                        url: 'www/assets/img/user-pin.png',
+                        url: 'www/assets/img/user-marker-blue.png',
                         size: {
-                            width: 24,
-                            height: 24
+                            width: 18,
+                            height: 18
                         }
                     },
                     disableAutoPan: true
