@@ -21,7 +21,7 @@
 
                 // Android
                 else if (ionic.Platform.isAndroid()) {
-                    StatusBar.backgroundColorByHexString('#B71C1C');
+                    StatusBar.backgroundColorByHexString('#b7212c');
                 }
             }
         });

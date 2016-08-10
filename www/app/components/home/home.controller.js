@@ -41,18 +41,18 @@
 
             // Init icon objects
             iconDefault = {
-                url: 'www/assets/img/cycling-white.png',
+                url: 'www/assets/img/vliller-marker-white.png',
                 size: {
-                    width: 32,
-                    height: 37
+                    width: 38,
+                    height: 45
                 }
             };
 
             iconActive = {
-                url: 'www/assets/img/cycling-red.png',
+                url: 'www/assets/img/vliller-marker-red.png',
                 size: {
-                    width: 48,
-                    height: 55
+                    width: 58,
+                    height: 67
                 }
             };
 
@@ -158,10 +158,10 @@
                         lng: currentPosition.longitude
                     },
                     icon: {
-                        url: 'www/assets/img/user-pin.png',
+                        url: 'www/assets/img/vliller-marker-user.png',
                         size: {
-                            width: 24,
-                            height: 24
+                            width: 18,
+                            height: 18
                         }
                     },
                     disableAutoPan: true
@@ -212,6 +212,68 @@
          */
         vm.navigate = function () {
             Navigation.navigate(currentPosition, vm.activeStation);
+        };
+
+        /**
+         * Compute css class according to the given number.
+         * 0        : red,
+         * ]0, 5]   : orange,
+         * ]5, inf[ : green
+         *
+         * @param  Number number
+         * @return String
+         */
+        vm.computeColorClass = function (number) {
+            if (number === 0) {
+                return 'assertive';
+            }
+
+            if (number <= 5) {
+                return 'energized';
+            }
+
+            return 'calm';
+        };
+
+        vm.computeBikesIcon = function (number) {
+            if (number === 0) {
+                return 'assets/img/vliller_bike-red.svg';
+            }
+
+            if (number <= 5) {
+                return 'assets/img/vliller_bike-orange.svg';
+            }
+
+            return 'assets/img/vliller_bike-green.svg';
+        };
+
+        vm.computeDocksIcon = function (number) {
+            if (number === 0) {
+                return 'assets/img/vliller_place-red.svg';
+            }
+
+            if (number <= 5) {
+                return 'assets/img/vliller_place-orange.svg';
+            }
+
+            return 'assets/img/vliller_place-green.svg';
+        };
+
+        /**
+         * Return a string format in meters or kilometers.
+         *
+         * @return String
+         */
+        vm.formatDistance = function () {
+            var distanceInMeter = Math.round(activeMarker.get('distance'));
+
+            // meters
+            if (distanceInMeter < 1000) {
+                return 'à ' + distanceInMeter + 'm';
+            }
+
+            // kilometers
+            return 'à ' + (distanceInMeter / 1000) + 'km';
         };
     }]);
 }());
