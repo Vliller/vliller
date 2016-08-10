@@ -4,8 +4,8 @@
 
         <ion-nav-buttons side="right">
             <button ng-click="HomeCtrl.updatePosition()" class="button button-clear">
-                <img ng-if="HomeCtrl.isGPSLoading" class="img-responsive" src="assets/img/md_gps.svg">
-                <ion-spinner ng-if="!HomeCtrl.isGPSLoading" icon="android" class="spinner-light"></ion-spinner>
+                <img ng-if="!HomeCtrl.isGPSLoading" class="img-responsive" src="assets/img/md_gps.svg">
+                <ion-spinner ng-if="HomeCtrl.isGPSLoading" icon="android" class="spinner-light"></ion-spinner>
             </button>
         </ion-nav-buttons>
     </ion-nav-bar>
