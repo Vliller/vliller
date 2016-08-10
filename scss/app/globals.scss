@@ -15,9 +15,34 @@
     }
 }
 
+.img-responsive {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
 // force scroll expand (avoid loader to by stuck at the top)
 .scroll {
     height: 100%;
+}
+
+.bar-header {
+    .title {
+        padding: 15px 5px;
+
+        .img-responsive {
+            max-height: 100%;
+        }
+    }
+
+    .buttons.buttons-right {
+        padding-right: 5px;
+
+        .icon:before {
+            font-size: 28px !important;
+            line-height: 44px !important;
+        }
+    }
 }
 
 .map-card {
