@@ -213,5 +213,50 @@
         vm.navigate = function () {
             Navigation.navigate(currentPosition, vm.activeStation);
         };
+
+        /**
+         * Compute css class according to the given number.
+         * 0        : red,
+         * ]0, 5]   : orange,
+         * ]5, inf[ : green
+         *
+         * @param  Number number
+         * @return String
+         */
+        vm.computeColorClass = function (number) {
+            if (number === 0) {
+                return 'assertive';
+            }
+
+            if (number <= 5) {
+                return 'energized';
+            }
+
+            return 'calm';
+        };
+
+        vm.computeBikesIcon = function (number) {
+            if (number === 0) {
+                return 'assets/img/vliller_bike-red.svg';
+            }
+
+            if (number <= 5) {
+                return 'assets/img/vliller_bike-orange.svg';
+            }
+
+            return 'assets/img/vliller_bike-green.svg';
+        };
+
+        vm.computeDocksIcon = function (number) {
+            if (number === 0) {
+                return 'assets/img/vliller_place-red.svg';
+            }
+
+            if (number <= 5) {
+                return 'assets/img/vliller_place-orange.svg';
+            }
+
+            return 'assets/img/vliller_place-green.svg';
+        };
     }]);
 }());

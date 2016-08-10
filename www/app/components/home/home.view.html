@@ -34,65 +34,53 @@
 
                         <!-- station name, uptime and CB -->
                         <div class="item item-header">
-                            <div class="station-name">{{ HomeCtrl.activeStation.name }}</div>
+                            <p class="station-name">{{ HomeCtrl.activeStation.name }}</p>
 
-                            <div class="station-lastupd">Il y a {{ HomeCtrl.activeStation.lastupd }}</div>
+                            <p class="text-small text-grey">Il y a {{ HomeCtrl.activeStation.lastupd }}</p>
 
                             <!-- CB -->
                             <div class="station-cb">
-                                <img ng-if="HomeCtrl.activeStation.payment === 'AVEC_TPE'" class="img-responsive" src="assets/img/vliller-cb.png">
-                                <img ng-if="HomeCtrl.activeStation.payment !== 'AVEC_TPE'" class="img-responsive" src="assets/img/vliller-no-cb.png">
+                                <img ng-show="HomeCtrl.activeStation.payment === 'AVEC_TPE'" class="img-responsive" src="assets/img/vliller-cb.png">
+                                <img ng-hide="HomeCtrl.activeStation.payment === 'AVEC_TPE'" class="img-responsive" src="assets/img/vliller-no-cb.png">
                             </div>
                         </div>
 
                         <!-- station bike/attachs -->
-                        <div class="item item-content" ng-class="{
-                            'assertive-bg': HomeCtrl.activeStation.status !== '0'
-                        }">
+                        <div class="item item-content" ng-if="HomeCtrl.activeStation.status === '0'">
 
-                            <!-- status 0 -->
-                            <div ng-if="HomeCtrl.activeStation.status === '0'" class="row no-padding">
-                                <!-- bikes -->
-                                <div class="col text-center">
-                                <div class="list">
-                                <div class="item item-icon-left" ng-class="{
-                                    'assertive-bg light': HomeCtrl.activeStation.bikes < 5
-                                }">
-                                    <i class="icon ion-android-bicycle"></i>
-                                    <span class="item-number-value">{{ HomeCtrl.activeStation.bikes }}</span>
-                                </div>
-                                </div>
-                                </div>
+                            <!-- bikes -->
+                            <div class="station-bikes">
+                                <div class="station-number">
+                                    <div class="station-number-text {{ HomeCtrl.computeColorClass(HomeCtrl.activeStation.bikes) }}">{{ HomeCtrl.activeStation.bikes }}</div>
 
-                                <!-- attachs -->
-                                <div class="col text-center" >
-                                <div class="list">
-                                <div class="item item-icon-left" ng-class="{
-                                    'assertive-bg light': HomeCtrl.activeStation.docks < 5
-                                }">
-                                    <i class="icon ion-flag"></i>
-                                    <span class="item-number-value">{{ HomeCtrl.activeStation.docks }}</span>
-
+                                    <div><img class="img-responsive" ng-src="{{ HomeCtrl.computeBikesIcon(HomeCtrl.activeStation.bikes) }}"></div>
                                 </div>
-                                </div>
-                                </div>
+                                <p class="text-small">vélos disponibles</p>
                             </div>
 
-                            <!-- status 1 & 2 -->
-                            <div ng-if="HomeCtrl.activeStation.status !== '0'" class="list">
-                                <div class="item item-icon-left station-unavailable assertive-bg light">
-                                    <i class="icon ion-alert-circled"></i>
-                                    Station indisponible
+                            <!-- docks -->
+                            <div class="station-docks">
+                                <div class="station-number">
+                                    <div class="station-number-text {{ HomeCtrl.computeColorClass(HomeCtrl.activeStation.docks) }}">{{ HomeCtrl.activeStation.docks }}</div>
+
+                                    <div><img class="img-responsive" ng-src="{{ HomeCtrl.computeDocksIcon(HomeCtrl.activeStation.docks) }}"></div>
                                 </div>
+                                <p class="text-small">places libres</p>
                             </div>
                         </div>
+
+                        <!-- station HS -->
+                        <div class="item item-content" ng-if="HomeCtrl.activeStation.status !== '0'">
+
+                            <!-- TODO -->
+                            Station indisponible
+
+                        </div>
                     </div>
-
-
                 </div>
 
                 <!-- navigate to -->
-                <div ng-click="HomeCtrl.navigate()" class="floating-button positive-bg">
+                <div ng-click="HomeCtrl.navigate()" ng-if="HomeCtrl.activeStation.$loaded" class="floating-button positive-bg">
                    <img class="img-responsive" src="assets/img/md_directions.svg">
                 </div>
 

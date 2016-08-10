@@ -1,3 +1,8 @@
+body {
+    font-family: RobotoDraft;
+    font-weight: 400;
+}
+
 .no-padding {
     padding: 0 !important;
 }
@@ -19,6 +24,15 @@
     display: block;
     max-width: 100%;
     height: auto;
+}
+
+.text-small {
+    font-size: 11px !important;
+    line-height: 1 !important;
+}
+
+.text-grey {
+    color: rgba(0, 0, 0, 0.54) !important;
 }
 
 // force scroll expand (avoid loader to by stuck at the top)
@@ -65,21 +79,18 @@
 
         .item-header {
             background-color: #f5f5f5;
-            padding-right: 96px;
+            padding-bottom: 8px;
+            padding-top: 10px;
 
             .station-name {
-                font-size: 16px;
-            }
-
-            .station-lastupd {
-                font-size: 10px;
-                color: rgba(0, 0, 0, 0.54);
+                color: rgba(0, 0, 0, 0.87);
+                font-size: 18px;
             }
 
             .station-cb {
                 position: absolute;
                 top: 16px;
-                bottom: 30px;
+                bottom: 16px;
                 right: 80px;
 
                 img {
@@ -89,7 +100,57 @@
         }
 
         .item-content {
-            padding: 8px 6px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+
+            padding: 0;
+
+            .station-bikes,
+            .station-docks {
+                flex-grow: 1;
+                flex-basis: 0;
+
+                text-align: center;
+                padding: 8px 15px;
+            }
+
+            .station-bikes {
+                border-right: solid 1px rgba(0, 0, 0, 0.12);
+
+                .station-number .station-number-text {
+                    margin-right: -20px;
+                }
+
+                .img-responsive {
+                    margin-left: 10px;
+                }
+            }
+
+            .station-number {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: flex-end;
+                margin-bottom: 5px;
+
+                div {
+                    flex-grow: 1;
+                    flex-basis: 0;
+                }
+
+                .station-number-text {
+                    display: inline-block;
+                    font-family: RobotoDraft;
+                    font-weight: 300;
+                    font-size: 40px;
+                    line-height: 1;
+                    margin-bottom: -4px;
+                    margin-left: -10px;
+                    margin-right: -10px;
+                }
+            }
         }
 
         .item-number-value {
