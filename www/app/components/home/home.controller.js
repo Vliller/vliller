@@ -158,7 +158,7 @@
                         lng: currentPosition.longitude
                     },
                     icon: {
-                        url: 'www/assets/img/user-marker-blue.png',
+                        url: 'www/assets/img/vliller-marker-user.png',
                         size: {
                             width: 18,
                             height: 18
@@ -212,6 +212,68 @@
          */
         vm.navigate = function () {
             Navigation.navigate(currentPosition, vm.activeStation);
+        };
+
+        /**
+         * Compute css class according to the given number.
+         * 0        : red,
+         * ]0, 5]   : orange,
+         * ]5, inf[ : green
+         *
+         * @param  Number number
+         * @return String
+         */
+        vm.computeColorClass = function (number) {
+            if (number === 0) {
+                return 'assertive';
+            }
+
+            if (number <= 5) {
+                return 'energized';
+            }
+
+            return 'calm';
+        };
+
+        vm.computeBikesIcon = function (number) {
+            if (number === 0) {
+                return 'assets/img/vliller_bike-red.svg';
+            }
+
+            if (number <= 5) {
+                return 'assets/img/vliller_bike-orange.svg';
+            }
+
+            return 'assets/img/vliller_bike-green.svg';
+        };
+
+        vm.computeDocksIcon = function (number) {
+            if (number === 0) {
+                return 'assets/img/vliller_place-red.svg';
+            }
+
+            if (number <= 5) {
+                return 'assets/img/vliller_place-orange.svg';
+            }
+
+            return 'assets/img/vliller_place-green.svg';
+        };
+
+        /**
+         * Return a string format in meters or kilometers.
+         *
+         * @return String
+         */
+        vm.formatDistance = function () {
+            var distanceInMeter = Math.round(activeMarker.get('distance'));
+
+            // meters
+            if (distanceInMeter < 1000) {
+                return 'à ' + distanceInMeter + 'm';
+            }
+
+            // kilometers
+            return 'à ' + (distanceInMeter / 1000) + 'km';
         };
     }]);
 }());

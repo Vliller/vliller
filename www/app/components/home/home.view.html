@@ -1,14 +1,18 @@
-<ion-view view-title="VLiller" class="home-view">
+<ion-view class="home-view">
     <ion-nav-bar class="bar-assertive">
         <ion-nav-back-button class="no-text"></ion-nav-back-button>
 
         <ion-nav-buttons side="right">
             <button ng-click="HomeCtrl.updatePosition()" class="button button-clear">
-                <i ng-if="!HomeCtrl.isGPSLoading" class="icon ion-android-locate"></i>
+                <img ng-if="!HomeCtrl.isGPSLoading" class="img-responsive" src="assets/img/md_gps.svg">
                 <ion-spinner ng-if="HomeCtrl.isGPSLoading" icon="android" class="spinner-light"></ion-spinner>
             </button>
         </ion-nav-buttons>
     </ion-nav-bar>
+
+    <ion-nav-title>
+        <img class="img-responsive" src="assets/img/vliller-header-logo.png">
+    </ion-nav-title>
 
     <ion-content class="home-content">
         <div class="content-loader" ng-if="HomeCtrl.isLoading" ng-cloak>
@@ -18,6 +22,8 @@
         <!-- map -->
         <div class="map-container" data-tap-disabled="true" ng-hide="HomeCtrl.isLoading">
             <div id="map-canvas" class="map-canvas">
+            <div class="card-container">
+
                 <!-- station details -->
                 <div class="card map-card" ng-if="HomeCtrl.activeStation">
                     <div class="content-loader padding" ng-if="!HomeCtrl.activeStation.$loaded" ng-cloak>
@@ -25,60 +31,63 @@
                     </div>
 
                     <div ng-if="HomeCtrl.activeStation.$loaded">
+
                         <!-- station name, uptime and CB -->
-                        <div class="item item-divider item-icon-right">
-                            {{ HomeCtrl.activeStation.name }} <small class="lastupd">Il y a {{ HomeCtrl.activeStation.lastupd }}</small>
-                            <i ng-if="HomeCtrl.activeStation.payment === 'AVEC_TPE'" class="icon ion-card"></i>
+                        <div class="item item-header">
+                            <p class="station-name">{{ HomeCtrl.activeStation.name }} <span class="positive station-distance">{{ HomeCtrl.formatDistance() }}</span></p>
+
+                            <p class="text-small text-grey">Il y a {{ HomeCtrl.activeStation.lastupd }}</p>
+
+                            <!-- CB -->
+                            <div class="station-cb">
+                                <img ng-show="HomeCtrl.activeStation.payment === 'AVEC_TPE'" class="img-responsive" src="assets/img/vliller-cb.png">
+                                <img ng-hide="HomeCtrl.activeStation.payment === 'AVEC_TPE'" class="img-responsive" src="assets/img/vliller-no-cb.png">
+                            </div>
                         </div>
 
                         <!-- station bike/attachs -->
-                        <div class="item item-content" ng-class="{
-                            'assertive-bg': HomeCtrl.activeStation.status !== '0'
-                        }">
+                        <div class="item item-content" ng-if="HomeCtrl.activeStation.status === '0'">
 
-                            <!-- status 0 -->
-                            <div ng-if="HomeCtrl.activeStation.status === '0'" class="row no-padding">
-                                <!-- bikes -->
-                                <div class="col text-center">
-                                <div class="list">
-                                <div class="item item-icon-left" ng-class="{
-                                    'assertive-bg light': HomeCtrl.activeStation.bikes < 5
-                                }">
-                                    <i class="icon ion-android-bicycle"></i>
-                                    <span class="item-number-value">{{ HomeCtrl.activeStation.bikes }}</span>
-                                </div>
-                                </div>
+                            <!-- bikes -->
+                            <div class="station-bikes">
+                                <div class="station-number">
+                                    <div class="station-number-text {{ HomeCtrl.computeColorClass(HomeCtrl.activeStation.bikes) }}">{{ HomeCtrl.activeStation.bikes }}</div>
+
+                                    <div><img class="img-responsive" ng-src="{{ HomeCtrl.computeBikesIcon(HomeCtrl.activeStation.bikes) }}"></div>
                                 </div>
 
-                                <!-- attachs -->
-                                <div class="col text-center" >
-                                <div class="list">
-                                <div class="item item-icon-left" ng-class="{
-                                    'assertive-bg light': HomeCtrl.activeStation.docks < 5
-                                }">
-                                    <i class="icon ion-flag"></i>
-                                    <span class="item-number-value">{{ HomeCtrl.activeStation.docks }}</span>
-
-                                </div>
-                                </div>
-                                </div>
+                                <p ng-if="HomeCtrl.activeStation.bikes > 1" class="text-small">vélos disponibles</p>
+                                <p ng-if="HomeCtrl.activeStation.bikes <= 1" class="text-small">vélo disponible</p>
                             </div>
 
-                            <!-- status 1 & 2 -->
-                            <div ng-if="HomeCtrl.activeStation.status !== '0'" class="list">
-                                <div class="item item-icon-left station-unavailable assertive-bg light">
-                                    <i class="icon ion-alert-circled"></i>
-                                    Station indisponible
+                            <!-- docks -->
+                            <div class="station-docks">
+                                <div class="station-number">
+                                    <div class="station-number-text {{ HomeCtrl.computeColorClass(HomeCtrl.activeStation.docks) }}">{{ HomeCtrl.activeStation.docks }}</div>
+
+                                    <div><img class="img-responsive" ng-src="{{ HomeCtrl.computeDocksIcon(HomeCtrl.activeStation.docks) }}"></div>
                                 </div>
+
+                                <p ng-if="HomeCtrl.activeStation.docks > 1" class="text-small">places libres</p>
+                                <p ng-if="HomeCtrl.activeStation.docks <= 1" class="text-small">place libre</p>
                             </div>
                         </div>
 
-                        <!-- navigate to -->
-                        <div ng-click="HomeCtrl.navigate()" class="item item-icon-left positive">
-                           <i class="icon ion-navigate"></i> {{ HomeCtrl.activeStation.address }}
+                        <!-- station HS -->
+                        <div class="item item-content" ng-if="HomeCtrl.activeStation.status !== '0'">
+                            <p class="station-dead assertive">
+                                Station indisponible
+                            </pb>
                         </div>
                     </div>
                 </div>
+
+                <!-- navigate to -->
+                <div ng-click="HomeCtrl.navigate()" ng-if="HomeCtrl.activeStation.$loaded" class="floating-button positive-bg">
+                   <img class="img-responsive" src="assets/img/md_directions.svg">
+                </div>
+
+            </div>
             </div>
         </div>
     </ion-content>
