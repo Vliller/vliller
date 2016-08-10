@@ -45,24 +45,76 @@
     }
 }
 
-.map-card {
+.card-container {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
 
-    .item-content {
-        padding: 8px 6px;
+    .map-card {
+        // for floating button (because of map overlay)
+        margin-top: 28px;
 
+        border-radius: 2px;
+        background-color: #fff;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
+
+        .item {
+            border: none;
+        }
+
+        .item-header {
+            background-color: #f5f5f5;
+            padding-right: 96px;
+
+            .station-name {
+                font-size: 16px;
+            }
+
+            .station-lastupd {
+                font-size: 10px;
+                color: rgba(0, 0, 0, 0.54);
+            }
+
+            .station-cb {
+                position: absolute;
+                top: 16px;
+                bottom: 30px;
+                right: 80px;
+
+                img {
+                    max-height: 100%;
+                }
+            }
+        }
+
+        .item-content {
+            padding: 8px 6px;
+        }
+
+        .item-number-value {
+            vertical-align: middle;
+            font-size: 32px;
+        }
     }
 
-    .item-number-value {
-        vertical-align: middle;
-        font-size: 32px;
-    }
+    .floating-button {
+        display: block;
+        position: absolute;
+        width: 56px;
+        height: 56px;
+        padding: 15px;
+        top: 0;
+        right: 0;
+        z-index: 100;
+        margin-right: 20px;
 
-    .lastupd {
-        font-size: 10px;
+        border-radius: 50%;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+
+        img {
+            width: 100%;
+        }
     }
 }
 
