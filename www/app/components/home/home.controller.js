@@ -158,7 +158,7 @@
                         lng: currentPosition.longitude
                     },
                     icon: {
-                        url: 'www/assets/img/user-marker-blue.png',
+                        url: 'www/assets/img/vliller-marker-user.png',
                         size: {
                             width: 18,
                             height: 18
