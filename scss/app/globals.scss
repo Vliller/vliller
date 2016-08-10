@@ -52,9 +52,8 @@ body {
     .buttons.buttons-right {
         padding-right: 5px;
 
-        .icon:before {
-            font-size: 28px !important;
-            line-height: 44px !important;
+        .spinner svg {
+            margin-top: 5px;
         }
     }
 }
@@ -142,7 +141,6 @@ body {
 
                 .station-number-text {
                     display: inline-block;
-                    font-family: RobotoDraft;
                     font-weight: 300;
                     font-size: 40px;
                     line-height: 1;
@@ -150,6 +148,13 @@ body {
                     margin-left: -10px;
                     margin-right: -10px;
                 }
+            }
+
+            .station-dead {
+                font-weight: 300;
+                font-size: 24px;
+                text-align: center;
+                padding: 16px;
             }
         }
 

@@ -4,8 +4,8 @@
 
         <ion-nav-buttons side="right">
             <button ng-click="HomeCtrl.updatePosition()" class="button button-clear">
-                <i ng-if="!HomeCtrl.isGPSLoading" class="icon ion-android-locate"></i>
-                <ion-spinner ng-if="HomeCtrl.isGPSLoading" icon="android" class="spinner-light"></ion-spinner>
+                <img ng-if="HomeCtrl.isGPSLoading" class="img-responsive" src="assets/img/md_gps.svg">
+                <ion-spinner ng-if="!HomeCtrl.isGPSLoading" icon="android" class="spinner-light"></ion-spinner>
             </button>
         </ion-nav-buttons>
     </ion-nav-bar>
@@ -71,10 +71,9 @@
 
                         <!-- station HS -->
                         <div class="item item-content" ng-if="HomeCtrl.activeStation.status !== '0'">
-
-                            <!-- TODO -->
-                            Station indisponible
-
+                            <p class="station-dead assertive">
+                                Station indisponible
+                            </pb>
                         </div>
                     </div>
                 </div>
