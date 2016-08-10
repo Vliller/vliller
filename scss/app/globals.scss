@@ -84,6 +84,10 @@ body {
             .station-name {
                 color: rgba(0, 0, 0, 0.87);
                 font-size: 18px;
+
+                .station-distance {
+                    font-size: 16px;
+                }
             }
 
             .station-cb {

@@ -258,5 +258,22 @@
 
             return 'assets/img/vliller_place-green.svg';
         };
+
+        /**
+         * Return a string format in meters or kilometers.
+         *
+         * @return String
+         */
+        vm.formatDistance = function () {
+            var distanceInMeter = Math.round(activeMarker.get('distance'));
+
+            // meters
+            if (distanceInMeter < 1000) {
+                return 'à ' + distanceInMeter + 'm';
+            }
+
+            // kilometers
+            return 'à ' + (distanceInMeter / 1000) + 'km';
+        };
     }]);
 }());
