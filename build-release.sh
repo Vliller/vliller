@@ -1,7 +1,7 @@
 #! /bin/bash
 
-PROJECT_NAME="CreaZAP"
-SCHEME_NAME="CreaZAP"
+PROJECT_NAME="VLiller"
+SCHEME_NAME="VLiller"
 
 ANDROID_BUILD_FOLDER="./platforms/android/build/outputs/apk"
 
@@ -24,7 +24,6 @@ if [ "$1" != "ios" ]; then
 fi
 if [ "$1" != "android" ]; then
     printf "\033[0;35m\nIonic build \033[1;35miOS \e[0m\n"
-    ionic plugin add cordova-plugin-wkwebview
     ionic build --release ios
 fi
 
@@ -44,8 +43,6 @@ if [ "$1" != "android" ]; then
 
     printf "\033[0;35m\nBuild IPA package \e[0m\n"
     xcodebuild -project $IOS_FOLDER"/"$PROJECT_NAME.xcodeproj -scheme $SCHEME_NAME -archivePath $IOS_FOLDER"/"$PROJECT_NAME -configuration Release archive
-
-    ionic plugin rm com.telerik.plugins.wkwebview
 fi
 
 if [ "$1" != "ios" ]; then
