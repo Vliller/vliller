@@ -57,8 +57,8 @@
                                     <div><img class="img-responsive" ng-src="{{ HomeCtrl.computeBikesIcon(HomeCtrl.activeStation.bikes) }}"></div>
                                 </div>
 
-                                <p ng-if="HomeCtrl.activeStation.bikes > 1" class="text-small">vélos disponibles</p>
-                                <p ng-if="HomeCtrl.activeStation.bikes <= 1" class="text-small">vélo disponible</p>
+                                <p ng-if="HomeCtrl.activeStation.bikes > 1" class="text-small text-grey">vélos disponibles</p>
+                                <p ng-if="HomeCtrl.activeStation.bikes <= 1" class="text-small text-grey">vélo disponible</p>
                             </div>
 
                             <!-- docks -->
@@ -69,8 +69,8 @@
                                     <div><img class="img-responsive" ng-src="{{ HomeCtrl.computeDocksIcon(HomeCtrl.activeStation.docks) }}"></div>
                                 </div>
 
-                                <p ng-if="HomeCtrl.activeStation.docks > 1" class="text-small">places libres</p>
-                                <p ng-if="HomeCtrl.activeStation.docks <= 1" class="text-small">place libre</p>
+                                <p ng-if="HomeCtrl.activeStation.docks > 1" class="text-small text-grey">places libres</p>
+                                <p ng-if="HomeCtrl.activeStation.docks <= 1" class="text-small text-grey">place libre</p>
                             </div>
                         </div>
 

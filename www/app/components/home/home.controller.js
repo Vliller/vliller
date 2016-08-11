@@ -242,26 +242,26 @@
 
         vm.computeBikesIcon = function (number) {
             if (number === 0) {
-                return 'assets/img/vliller_bike-red.svg';
+                return 'assets/img/vliller_bike-red.png';
             }
 
             if (number <= 5) {
-                return 'assets/img/vliller_bike-orange.svg';
+                return 'assets/img/vliller_bike-orange.png';
             }
 
-            return 'assets/img/vliller_bike-green.svg';
+            return 'assets/img/vliller_bike-green.png';
         };
 
         vm.computeDocksIcon = function (number) {
             if (number === 0) {
-                return 'assets/img/vliller_place-red.svg';
+                return 'assets/img/vliller_place-red.png';
             }
 
             if (number <= 5) {
-                return 'assets/img/vliller_place-orange.svg';
+                return 'assets/img/vliller_place-orange.png';
             }
 
-            return 'assets/img/vliller_place-green.svg';
+            return 'assets/img/vliller_place-green.png';
         };
 
         /**
