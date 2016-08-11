@@ -91,13 +91,24 @@ body {
             padding-bottom: 8px;
             padding-top: 10px;
 
+            .station-name,
+            .station-distance {
+                display: inline-block;
+                vertical-align: bottom;
+                line-height: 1.5;
+            }
+
             .station-name {
+                max-width: 45%;
                 color: rgba(0, 0, 0, 0.87);
                 font-size: 18px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
 
-                .station-distance {
-                    font-size: 16px;
-                }
+            .station-distance {
+                font-size: 16px;
             }
 
             .station-cb {

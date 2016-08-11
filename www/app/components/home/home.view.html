@@ -34,7 +34,8 @@
 
                         <!-- station name, uptime and CB -->
                         <div class="item item-header">
-                            <p class="station-name">{{ HomeCtrl.activeStation.name }} <span class="positive station-distance">{{ HomeCtrl.formatDistance() }}</span></p>
+                            <div class="station-name">{{ HomeCtrl.activeStation.name }}</div>
+                            <div class="positive station-distance">{{ HomeCtrl.formatDistance() }}</div>
 
                             <p class="text-small text-grey">Il y a {{ HomeCtrl.activeStation.lastupd }}</p>
 
