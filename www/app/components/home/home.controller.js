@@ -125,6 +125,11 @@
                 angular.extend(vm.activeStation, stationDetails);
 
                 vm.activeStation.$loaded = true;
+
+                // to avoid touch bug after card resizing
+                $timeout(function () {
+                    map.refreshLayout();
+                }, 100);
             });
         }
 
