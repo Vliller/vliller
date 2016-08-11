@@ -1,21 +1,21 @@
-<ion-view class="home-view">
+<ion-view class="home-view" hide-back-button="true">
     <ion-nav-bar class="bar-assertive">
         <ion-nav-back-button class="no-text"></ion-nav-back-button>
 
         <ion-nav-buttons side="right">
             <button ng-click="HomeCtrl.updatePosition()" class="button button-clear">
-                <img ng-if="!HomeCtrl.isGPSLoading" class="img-responsive" src="assets/img/md_gps.svg">
-                <ion-spinner ng-if="HomeCtrl.isGPSLoading" icon="android" class="spinner-light"></ion-spinner>
+                <img ng-hide="HomeCtrl.isGPSLoading" class="img-responsive" src="assets/img/md_gps.svg">
+                <ion-spinner ng-show="HomeCtrl.isGPSLoading" icon="android" class="spinner-light"></ion-spinner>
             </button>
         </ion-nav-buttons>
     </ion-nav-bar>
 
     <ion-nav-title>
-        <img class="img-responsive" src="assets/img/vliller-header-logo.png">
+        <img class="img-responsive bar-header-logo" src="assets/img/vliller-header-logo.png">
     </ion-nav-title>
 
     <ion-content class="home-content">
-        <div class="content-loader" ng-if="HomeCtrl.isLoading" ng-cloak>
+        <div class="content-loader" ng-show="HomeCtrl.isLoading" ng-cloak>
             <ion-spinner icon="android" class="spinner-assertive"></ion-spinner>
         </div>
 
