@@ -125,6 +125,11 @@
                 angular.extend(vm.activeStation, stationDetails);
 
                 vm.activeStation.$loaded = true;
+
+                // to avoid touch bug after card resizing
+                $timeout(function () {
+                    map.refreshLayout();
+                }, 100);
             });
         }
 
@@ -265,15 +270,21 @@
          * @return String
          */
         vm.formatDistance = function () {
-            var distanceInMeter = Math.round(activeMarker.get('distance'));
+            var distanceInMeter = activeMarker.get('distance'),
+                distanceString = 'à ';
 
             // meters
             if (distanceInMeter < 1000) {
-                return 'à ' + distanceInMeter + 'm';
+                distanceString += Math.round(distanceInMeter) + 'm';
             }
 
             // kilometers
-            return 'à ' + (distanceInMeter / 1000) + 'km';
+            // @see http://www.jacklmoore.com/notes/rounding-in-javascript/
+            else {
+                distanceString += Number(Math.round((distanceInMeter / 1000) + 'e1') + 'e-1') + 'km';
+            }
+
+            return distanceString;
         };
     }]);
 }());
