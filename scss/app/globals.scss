@@ -44,7 +44,7 @@ body {
     .title {
         padding: 15px 5px;
 
-        .img-responsive {
+        .bar-header-logo {
             max-height: 100%;
         }
     }
@@ -56,6 +56,16 @@ body {
             margin-top: 5px;
         }
     }
+}
+
+// align center on iOS
+.platform-ios .bar-header-logo {
+    margin: 0 auto;
+}
+
+// align left on Android
+.platform-android .bar-header-logo {
+    margin: 0;
 }
 
 .card-container {
