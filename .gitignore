@@ -10,6 +10,7 @@ engine/
 www/assets/css/ionic.app.css
 www/assets/css/ionic.app.min.css
 www/templates.js
+.DS_Store
 
 # bower files
 www/lib/

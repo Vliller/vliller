@@ -1,6 +1,6 @@
 {
   "name": "ionic-starter",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "ionic-starter: An Ionic project",
   "dependencies": {
     "gulp": "^3.5.6",
@@ -19,7 +19,7 @@
     "cordova-plugin-device",
     "cordova-plugin-console",
     "cordova-plugin-whitelist",
-    "cordova-plugin-splashscreen@2.1.0",
+    "cordova-plugin-splashscreen",
     "cordova-plugin-statusbar",
     "ionic-plugin-keyboard",
     "cordova-plugin-geolocation",
