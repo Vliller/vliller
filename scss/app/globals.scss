@@ -76,7 +76,7 @@ body {
 
     .map-card {
         // for floating button (because of map overlay)
-        margin-top: 28px;
+        // margin-top: 28px;
 
         border-radius: 2px;
         background-color: #fff;
@@ -183,23 +183,33 @@ body {
             font-size: 32px;
         }
     }
+}
+
+.floating-buttons {
+    z-index: 100;
+    position: absolute;
+    bottom: 9em;
+    right: 20px;
 
     .floating-button {
+        &:first-child {
+            margin-bottom: 10px;
+        }
+
         display: block;
-        position: absolute;
         width: 56px;
         height: 56px;
         padding: 15px;
-        top: 0;
-        right: 0;
-        z-index: 100;
-        margin-right: 20px;
 
         border-radius: 50%;
         box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
 
-        img {
-            width: 100%;
+        .md-icon {
+            fill: $light;
+        }
+
+        &.light-bg .md-icon {
+            fill: $positive
         }
     }
 }
