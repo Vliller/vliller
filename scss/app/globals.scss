@@ -68,19 +68,25 @@ body {
     margin: 0;
 }
 
+/**
+ * Information card
+ */
+$card-height: 154px;
+
 .card-container {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
+    height: $card-height;
+    padding: 0 10px 20px 10px;
 
     .map-card {
-        // for floating button (because of map overlay)
-        // margin-top: 28px;
-
         border-radius: 2px;
         background-color: #fff;
         box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
+        margin: 0;
+        height: 100%;
 
         .item {
             border: none;
@@ -185,11 +191,16 @@ body {
     }
 }
 
+/**
+ * Floating buttons (GPS and direction)
+ */
 .floating-buttons {
     z-index: 100;
     position: absolute;
-    bottom: 9em;
     right: 20px;
+
+    // 28px = floating button half size
+    bottom: $card-height - 28px;
 
     .floating-button {
         &:first-child {
