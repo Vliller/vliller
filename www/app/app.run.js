@@ -38,6 +38,11 @@
                     $rootScope.side_menu.style.visibility = "hidden";
                 }
             });
+
+            // store app version to $rootScope
+            cordova.getAppVersion.getVersionNumber().then(function (version) {
+                $rootScope.appVersion = version;
+            });
         });
     }]);
 }());

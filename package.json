@@ -33,7 +33,8 @@
       },
       "locator": "cordova-plugin-googlemaps",
       "id": "plugin.google.maps"
-    }
+    },
+    "cordova-plugin-app-version"
   ],
   "cordovaPlatforms": [
     "android",
