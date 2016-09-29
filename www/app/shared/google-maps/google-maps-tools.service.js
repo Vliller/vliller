@@ -23,7 +23,7 @@
     }
 
     angular
-        .module('vliller.google-maps')
+        .module('vliller.google-maps', [])
         .factory('GoogleMapsTools', [function () {
             return {
                 /**
