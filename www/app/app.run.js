@@ -3,7 +3,7 @@
 
     angular
     .module('vliller')
-    .run(['$ionicPlatform', function ($ionicPlatform) {
+    .run(['$ionicPlatform', '$rootScope', '$ionicSideMenuDelegate', function ( $ionicPlatform, $rootScope,$ionicSideMenuDelegate) {
         $ionicPlatform.ready(function () {
             if (window.cordova && window.cordova.plugins.Keyboard) {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard for form inputs)
@@ -24,6 +24,20 @@
                     StatusBar.backgroundColorByHexString('#b7212c');
                 }
             }
+
+            // Side menu
+            $rootScope.side_menu = document.getElementsByTagName("ion-side-menu")[0];
+            $rootScope.side_menu.style.visibility = "hidden";
+
+            $rootScope.$watch(function () {
+                return $ionicSideMenuDelegate.isOpenRight();
+            },function (isOpen) {
+                if (isOpen) {
+                    $rootScope.side_menu.style.visibility = "visible";
+                } else {
+                    $rootScope.side_menu.style.visibility = "hidden";
+                }
+            });
         });
     }]);
 }());

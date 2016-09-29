@@ -1,0 +1,44 @@
+// Menu toggle icon
+.nav-bar-container {
+    .menu-icon {
+        @extend .ion-android-more-vertical;
+    }
+}
+
+// Menu size/position
+.menu.menu-right {
+    width: calc(100% - 50px) !important;
+}
+
+.menu-open {
+    .menu-content {
+        transform: translate3d(calc(50px - 100%), 0, 0) !important;
+    }
+
+    // replace "more" icon by an arrow
+    .menu-icon:before {
+        content: "\f30f";
+    }
+}
+
+/**
+ * Sidemenu view
+ */
+.sidemenu-view {
+    color: $light;
+    padding: 40px;
+    background-image: linear-gradient(to top, #a71e45, #e52b38 100%, #e52b38);
+
+    .sidemenu-header {
+        text-align: center;
+        padding: 0 20px 30px 20px;
+
+        h4 {
+            color: $light;
+        }
+
+        .img-responsive {
+            margin: auto;
+        }
+    }
+}

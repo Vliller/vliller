@@ -30,6 +30,10 @@
 
             // Wait until the map is ready status.
             mapElement.addEventListener(plugin.google.maps.event.MAP_READY, onMapReady);
+
+            mapElement.addEventListener(plugin.google.maps.event.CAMERA_CHANGE, function (e) {
+                console.log(e)
+            });
         }, false);
 
         /**
