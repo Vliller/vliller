@@ -12,6 +12,8 @@
         'vliller.home',
         'vliller.sidemenu'
     ])
+    .constant('PRODUCTION_MODE', false)
+
     .constant('VLILLE_PROXY_URL', 'http://dev.alexandrebonhomme.fr/vlille/web')
 
     .constant('ANDROID_APP_ID', 'com.alexetmanon.vliller')

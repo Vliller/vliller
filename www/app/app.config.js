@@ -6,9 +6,15 @@
     .config([
         '$urlRouterProvider',
         '$stateProvider',
+        '$logProvider',
+        '$compileProvider',
+        'PRODUCTION_MODE',
         function (
             $urlRouterProvider,
-            $stateProvider) {
+            $stateProvider,
+            $logProvider,
+            $compileProvider,
+            PRODUCTION_MODE) {
 
         /**
          * Routes
@@ -32,5 +38,13 @@
                 }
             })
         ;
+
+        /**
+         * Logs
+         */
+        if (PRODUCTION_MODE) {
+            $logProvider.debugEnabled(false);
+            $compileProvider.debugInfoEnabled(false);
+        }
     }]);
 }());
