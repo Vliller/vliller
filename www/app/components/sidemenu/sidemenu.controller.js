@@ -21,8 +21,8 @@
          *
          * @param String link
          */
-        vm.openLink= function (link) {
-            window.open(link, '_system');
+        vm.openLink = function (link) {
+            cordova.InAppBrowser.open(link, '_system');
         };
     }]);
 }());
