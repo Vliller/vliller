@@ -13,6 +13,14 @@
 }
 
 // Menu size/position
+
+body.menu-open .menu.menu-right {
+    visibility: visible;
+}
+.menu.menu-right {
+    visibility: hidden;
+}
+
 .menu.menu-right {
     width: calc(100% - 50px) !important;
 }
