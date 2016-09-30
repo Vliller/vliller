@@ -35,7 +35,8 @@
       "id": "plugin.google.maps"
     },
     "cordova-plugin-app-version",
-    "cordova-plugin-inappbrowser"
+    "cordova-plugin-inappbrowser",
+    "cordova-plugin-x-socialsharing"
   ],
   "cordovaPlatforms": [
     "android",
