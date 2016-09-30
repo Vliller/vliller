@@ -67,7 +67,8 @@
         padding: 10px 0;
 
         h4 {
-            margin-top: 0;
+            margin-top: 5px;
+            margin-bottom: 0;
             color: $light;
             font-weight: bold;
         }
@@ -78,6 +79,11 @@
         line-height: 1.7;
         color: rgba(255, 255, 255, 0.7);
         padding: 20px 0;
+
+        a {
+            font-weight: bold;
+            color: rgba(255, 255, 255, 0.7);
+        }
     }
 
     .button {
