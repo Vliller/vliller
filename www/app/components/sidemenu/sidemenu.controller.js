@@ -24,5 +24,12 @@
         vm.openLink = function (link) {
             cordova.InAppBrowser.open(link, '_system');
         };
+
+        /**
+         * Show Instabug form
+         */
+        vm.openBugReport = function () {
+            cordova.plugins.instabug.invoke('bug');
+        };
     }]);
 }());
