@@ -5,37 +5,47 @@
     }
 }
 
+/**
+ * Sidemenu animation
+ */
+$sidemenu-animation-time: 400ms;
+
 // slow down side menu animation
-.menu-animated {
-    -webkit-transition-duration: 1000ms;
-    -moz-transition-duration: 1000ms;
-    transition-duration: 1000ms;
+.menu-animated,
+.menu.menu-right {
+    -webkit-transition-duration: $sidemenu-animation-time;
+    transition-duration: $sidemenu-animation-time;
 }
 
 // Menu size/position
-
-body.menu-open .menu.menu-right {
-    visibility: visible;
-}
 .menu.menu-right {
-    visibility: hidden;
-}
-
-.menu.menu-right {
+    transform: translate3d(100%, 0, 0) !important;
     width: calc(100% - 50px) !important;
 }
 
+.menu-content:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0);
+    z-index: -1;
+
+    -webkit-transition: all $sidemenu-animation-time ease;
+    transition: all $sidemenu-animation-time ease;
+}
+
 .menu-open {
+    .menu.menu-right {
+        transform: translate3d(0, 0, 0) !important;
+    }
+
     .menu-content {
         transform: translate3d(calc(50px - 100%), 0, 0) !important;
 
         &:after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
             background-color: rgba(50, 50, 50, 0.5);
             z-index: 1000;
         }
