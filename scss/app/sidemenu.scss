@@ -7,9 +7,9 @@
 
 // slow down side menu animation
 .menu-animated {
-    -webkit-transition-duration: 400ms;
-    -moz-transition-duration: 400ms;
-    transition-duration: 400ms;
+    -webkit-transition-duration: 1000ms;
+    -moz-transition-duration: 1000ms;
+    transition-duration: 1000ms;
 }
 
 // Menu size/position
@@ -32,11 +32,6 @@
             z-index: 1000;
         }
     }
-
-    // replace "more" icon by an arrow
-    // .menu-icon:before {
-    //     content: "\f30f";
-    // }
 }
 
 /**
