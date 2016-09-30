@@ -45,18 +45,6 @@
             }
 
             /**
-             * Side menu bug fix for Google Maps plugin
-             */
-            // $rootScope.side_menu = document.getElementsByTagName('ion-side-menu')[0];
-            // $rootScope.side_menu.style.visibility = 'hidden';
-
-            // $rootScope.$watch(function () {
-            //     return $ionicSideMenuDelegate.getOpenRatio();
-            // }, function (openRatio) {
-            //     $rootScope.side_menu.style.visibility = openRatio === 0 ? 'visible' : 'hidden';
-            // });
-
-            /**
              * App version plugin
              */
             cordova.getAppVersion.getVersionNumber().then(function (version) {

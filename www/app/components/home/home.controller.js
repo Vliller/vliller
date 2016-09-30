@@ -45,7 +45,7 @@
             vm.map.$loaded = true;
 
             $scope.$watch(function () {
-                return $ionicSideMenuDelegate.isOpenRight();
+                return $ionicSideMenuDelegate.isOpen();
             }, function (isOpen) {
                 // disabled the map clic if the side menu is open
                 map.setClickable(!isOpen);
