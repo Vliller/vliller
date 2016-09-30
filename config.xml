@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget xmlns="http://www.w3.org/ns/widgets" id="com.alexetmanon.vliller" version="1.5.0" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>VLiller</name>
-  <description>
-        An Ionic Framework and Cordova project.
-    </description>
-  <author email="you@example.com" href="http://example.com.com/">
-      Your Name Here
-    </author>
+<widget xmlns="http://www.w3.org/ns/widgets" id="com.alexetmanon.vliller" version="1.5.1" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <name>Vliller</name>
+  <description>1 clic, 1 vélo, 1 place !</description>
+  <author email="wall-e@alexetmanon.com" href="http://alexetmanon.com/">alex et manon</author>
   <content src="index.html" />
   <access origin="*" />
   <allow-intent href="*" />
