@@ -8,19 +8,15 @@
 /**
  * Sidemenu animation
  */
-$sidemenu-animation-time: 300ms;
-
-// slow down side menu animation
-.menu-animated,
-.menu.menu-right {
-    -webkit-transition-duration: $sidemenu-animation-time;
-    transition-duration: $sidemenu-animation-time;
-}
+$sidemenu-animation-time: 200ms;
 
 // Menu size/position
 .menu.menu-right {
     transform: translate3d(100%, 0, 0) !important;
     width: calc(100% - 50px) !important;
+
+    -webkit-transition: transform $sidemenu-animation-time ease;
+    transition: transform $sidemenu-animation-time ease;
 }
 
 .menu-content:after {
@@ -33,8 +29,8 @@ $sidemenu-animation-time: 300ms;
     background-color: rgba(0, 0, 0, 0);
     z-index: -1;
 
-    -webkit-transition: all $sidemenu-animation-time ease;
-    transition: all $sidemenu-animation-time ease;
+    -webkit-transition: background-color $sidemenu-animation-time ease;
+    transition: background-color $sidemenu-animation-time ease;
 }
 
 .menu-open {
