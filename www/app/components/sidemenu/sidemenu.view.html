@@ -1,0 +1,35 @@
+<ion-content class="sidemenu-view">
+    <header class="sidemenu-header white-border-bottom">
+        <img class="img-responsive" src="assets/img/vliller-header-sidemenu-logo.svg">
+    </header>
+
+    <div class="sidemenu-main white-border-bottom">
+
+        <button ng-click="SidemenuCtrl.openBugReport()" class="button button-light button-block button-feedback">AIDEZ-NOUS, RAPPORTEZ UN BUG</button>
+
+        <button ng-click="SidemenuCtrl.openSocialSharing()" class="button button-light button-clear">
+            <!-- share icon -->
+            <svg fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0z" fill="none"/><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg><span class="padding-left">Partager l'application</span>
+        </button>
+
+        <button class="button button-light button-clear" ng-click="SidemenuCtrl.rateApp()">
+            <!-- star icon -->
+            <svg fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/><path d="M0 0h24v24H0z" fill="none"/></svg><span class="padding-left">Noter l'application</span>
+        </button>
+
+        <a href="mailto:bonjour@alexetmanon.com?subject=[Vliller]%20" class="button button-light button-clear">
+            <!-- mail icon -->
+            <svg fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/><path d="M0 0h24v24H0z" fill="none"/></svg><span class="padding-left">Nous contacter</span>
+        </a>
+    </div>
+
+    <div class="sidemenu-about white-border-bottom">
+        <h4>À propos</h4>
+        <button ng-click="SidemenuCtrl.openLink('https://github.com/blckshrk/vliller')" class="button button-light button-clear">Données &amp; sources</button>
+    </div>
+
+    <footer class="sidemenu-footer">
+        <p>Conçu et développé par <a ng-click="SidemenuCtrl.openLink('http://alexetmanon.com')">alex&nbsp;et&nbsp;manon</a></p>
+        <p>Version {{ appVersion }}</p>
+    </footer>
+</ion-content>

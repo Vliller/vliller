@@ -1,7 +1,7 @@
 (function () {
     angular
     .module('vliller.home')
-    .controller('HomeController', ['Vlilles', '$scope', '$timeout', 'aetmToastService', '$log', '$q', 'aetmNetworkService', 'Location', 'Navigation', 'GoogleMapsTools', function (Vlilles, $scope, $timeout, aetmToastService, $log, $q, aetmNetworkService, Location, Navigation, GoogleMapsTools) {
+    .controller('HomeController', ['Vlilles', '$scope', '$timeout', 'aetmToastService', '$log', '$q', 'aetmNetworkService', 'Location', 'Navigation', 'GoogleMapsTools', '$ionicSideMenuDelegate', function (Vlilles, $scope, $timeout, aetmToastService, $log, $q, aetmNetworkService, Location, Navigation, GoogleMapsTools, $ionicSideMenuDelegate) {
         var vm = this,
             map,
             markers = [],
@@ -30,6 +30,11 @@
 
             // Wait until the map is ready status.
             mapElement.addEventListener(plugin.google.maps.event.MAP_READY, onMapReady);
+
+            // TODO
+            mapElement.addEventListener(plugin.google.maps.event.CAMERA_CHANGE, function (e) {
+                console.log(e)
+            });
         }, false);
 
         /**
@@ -38,6 +43,13 @@
         function onMapReady(gmap) {
             map = gmap;
             vm.map.$loaded = true;
+
+            $scope.$watch(function () {
+                return $ionicSideMenuDelegate.isOpen();
+            }, function (isOpen) {
+                // disabled the map clic if the side menu is open
+                map.setClickable(!isOpen);
+            });
 
             // Init icon objects
             iconDefault = {
@@ -64,7 +76,7 @@
          * @param Object error
          */
         function errorHandler(error) {
-            $log.debug(error);
+            $log.error(error);
             aetmToastService.showError('Oups! Une erreur est survenue.');
         }
 

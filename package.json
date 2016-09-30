@@ -1,6 +1,6 @@
 {
   "name": "ionic-starter",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "ionic-starter: An Ionic project",
   "dependencies": {
     "gulp": "^3.5.6",
@@ -33,7 +33,10 @@
       },
       "locator": "cordova-plugin-googlemaps",
       "id": "plugin.google.maps"
-    }
+    },
+    "cordova-plugin-app-version",
+    "cordova-plugin-inappbrowser",
+    "cordova-plugin-x-socialsharing"
   ],
   "cordovaPlatforms": [
     "android",

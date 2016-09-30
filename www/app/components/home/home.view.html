@@ -3,29 +3,31 @@
         <ion-nav-back-button class="no-text"></ion-nav-back-button>
 
         <ion-nav-buttons side="right">
-            <button ng-click="HomeCtrl.updatePosition()" class="button button-clear">
-                <img ng-hide="HomeCtrl.isGPSLoading" class="img-responsive" src="assets/img/md_gps.svg">
-                <ion-spinner ng-show="HomeCtrl.isGPSLoading" icon="android" class="spinner-light"></ion-spinner>
-            </button>
+            <button class="button button-icon button-clear menu-icon" menu-toggle="right"></button>
         </ion-nav-buttons>
     </ion-nav-bar>
 
     <ion-nav-title>
-        <img class="img-responsive bar-header-logo" src="assets/img/vliller-header-logo.png">
+        <img class="img-responsive bar-header-logo" src="assets/img/vliller-header-logo.svg">
     </ion-nav-title>
 
-    <ion-content class="home-content">
+    <ion-content class="home-content" scroll="false">
         <div class="content-loader" ng-show="HomeCtrl.isLoading" ng-cloak>
             <ion-spinner icon="android" class="spinner-assertive"></ion-spinner>
         </div>
 
         <!-- map -->
         <div class="map-container" data-tap-disabled="true" ng-hide="HomeCtrl.isLoading">
+
+            <!-- every elements in the div will be display over the map layout -->
             <div id="map-canvas" class="map-canvas">
-            <div class="card-container">
+
+                <!-- overlay card -->
+                <div class="card-container">
 
                 <!-- station details -->
                 <div class="card map-card" ng-if="HomeCtrl.activeStation">
+
                     <div class="content-loader padding" ng-hide="HomeCtrl.activeStation.$loaded" ng-cloak>
                         <ion-spinner icon="android" class="spinner-assertive"></ion-spinner>
                     </div>
@@ -82,13 +84,23 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- navigate to -->
-                <div ng-click="HomeCtrl.navigate()" ng-show="HomeCtrl.activeStation.$loaded" class="floating-button positive-bg">
-                   <img class="img-responsive" src="assets/img/md_directions.svg">
                 </div>
 
-            </div>
+                <!-- this will be dynamically positionned -->
+                <div class="floating-buttons" ng-show="HomeCtrl.activeStation.$loaded">
+
+                    <!-- localisation -->
+                    <div ng-click="HomeCtrl.updatePosition()"  class="floating-button light-bg">
+                        <!-- gps icon -->
+                       <svg class="md-icon" height="26" viewBox="0 0 24 24" width="26" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>
+                    </div>
+
+                    <!-- navigate to -->
+                    <div ng-click="HomeCtrl.navigate()" class="floating-button positive-bg">
+                        <!-- direction icon -->
+                       <svg class="md-icon" height="26" viewBox="0 0 24 24" width="26" xmlns="http://www.w3.org/2000/svg"><path d="M21.71 11.29l-9-9c-.39-.39-1.02-.39-1.41 0l-9 9c-.39.39-.39 1.02 0 1.41l9 9c.39.39 1.02.39 1.41 0l9-9c.39-.38.39-1.01 0-1.41zM14 14.5V12h-4v3H8v-4c0-.55.45-1 1-1h5V7.5l3.5 3.5-3.5 3.5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+                    </div>
+                </div>
             </div>
         </div>
     </ion-content>
