@@ -4,6 +4,9 @@
     .controller('SidemenuController', ['ANDROID_APP_ID', 'IOS_APP_ID', function (ANDROID_APP_ID, IOS_APP_ID) {
         var vm = this;
 
+        /**
+         * Open the app store page
+         */
         vm.rateApp = function () {
             if (ionic.Platform.isAndroid()) {
                 window.open('market://details?id=' + ANDROID_APP_ID);
@@ -14,5 +17,12 @@
             }
         };
 
+        /**
+         *
+         * @param String link
+         */
+        vm.openLink= function (link) {
+            window.open(link, '_system');
+        };
     }]);
 }());
