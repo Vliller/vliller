@@ -1,7 +1,7 @@
 (function () {
     angular
     .module('vliller.sidemenu')
-    .controller('SidemenuController', ['ANDROID_APP_ID', 'IOS_APP_ID', 'VLILLER_SITE_URL', function (ANDROID_APP_ID, IOS_APP_ID, VLILLER_SITE_URL) {
+    .controller('SidemenuController', ['$log', 'ANDROID_APP_ID', 'IOS_APP_ID', 'VLILLER_SITE_URL', function ($log, ANDROID_APP_ID, IOS_APP_ID, VLILLER_SITE_URL) {
         var vm = this;
 
         /**
@@ -13,7 +13,7 @@
             } else if (ionic.Platform.isIOS()) {
                 cordova.InAppBrowser.open('itms-apps://itunes.apple.com/fr/app/vliller/id' + IOS_APP_ID + '?mt=8', '_system');
             } else {
-                console.error('Unknow platform?!');
+                $log.error('Rate app - Unknow platform?!');
             }
         };
 

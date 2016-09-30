@@ -7,12 +7,14 @@
         '$ionicPlatform',
         '$rootScope',
         '$ionicSideMenuDelegate',
+        '$log',
         'INSTABUG_ANDROID_TOKEN',
         'INSTABUG_IOS_TOKEN',
         function (
             $ionicPlatform,
             $rootScope,
             $ionicSideMenuDelegate,
+            $log,
             INSTABUG_ANDROID_TOKEN,
             INSTABUG_IOS_TOKEN) {
         $ionicPlatform.ready(function () {
@@ -64,11 +66,9 @@
                     // enableIntroDialog: false
                 },
                 function () {
-                    console.log('Instabug initialized.');
+                    $log.debug('Instabug initialized.');
                 },
-                function (error) {
-                    console.error(error);
-                }
+                $log.error
             );
         });
     }]);

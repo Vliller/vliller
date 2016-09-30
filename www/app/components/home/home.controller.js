@@ -31,6 +31,7 @@
             // Wait until the map is ready status.
             mapElement.addEventListener(plugin.google.maps.event.MAP_READY, onMapReady);
 
+            // TODO
             mapElement.addEventListener(plugin.google.maps.event.CAMERA_CHANGE, function (e) {
                 console.log(e)
             });
@@ -75,7 +76,7 @@
          * @param Object error
          */
         function errorHandler(error) {
-            $log.debug(error);
+            $log.error(error);
             aetmToastService.showError('Oups! Une erreur est survenue.');
         }
 
