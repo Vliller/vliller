@@ -16,11 +16,20 @@
         $urlRouterProvider.otherwise('/');
 
         $stateProvider
-            .state('home', {
+            .state('app', {
                 url: '/',
-                templateUrl: 'components/home/home.view.html',
-                controller: 'HomeController',
-                controllerAs: 'HomeCtrl'
+                views: {
+                    'home': {
+                        templateUrl: 'components/home/home.view.html',
+                        controller: 'HomeController',
+                        controllerAs: 'HomeCtrl'
+                    },
+                    'sidemenu': {
+                        templateUrl: 'components/sidemenu/sidemenu.view.html',
+                        controller: 'SidemenuController',
+                        controllerAs: 'SidemenuCtrl'
+                    }
+                }
             })
         ;
     }]);

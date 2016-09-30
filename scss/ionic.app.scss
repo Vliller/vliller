@@ -21,6 +21,7 @@ $bar-height: 56px !default;
 
 // material colors
 $assertive: #e52b38 !default;
+$assertive-dark: #a40233 !default;
 $positive: #1e97f7 !default;
 $energized: #d9a601 !default;
 $calm: #33d699 !default;
@@ -35,3 +36,4 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include custom styles
 @import "scss/app/globals";
 @import "scss/app/google-maps";
+@import "scss/app/sidemenu";

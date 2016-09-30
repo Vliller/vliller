@@ -58,6 +58,10 @@ body {
     }
 }
 
+.white-border-bottom {
+    border-bottom: solid 1px rgba(255, 255, 255, 0.7);
+}
+
 // align center on iOS
 .platform-ios .bar-header-logo {
     margin: 0 auto;
@@ -66,6 +70,12 @@ body {
 // align left on Android
 .platform-android .bar-header-logo {
     margin: 0;
+}
+
+.home-view {
+    .scroll-content {
+        overflow: visible !important;
+    }
 }
 
 /**
