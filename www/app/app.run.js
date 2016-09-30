@@ -18,6 +18,9 @@
             INSTABUG_ANDROID_TOKEN,
             INSTABUG_IOS_TOKEN) {
         $ionicPlatform.ready(function () {
+            /**
+             * Keyboard plugin
+             */
             if (window.cordova && window.cordova.plugins.Keyboard) {
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard for form inputs)
                 cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -26,7 +29,9 @@
                 cordova.plugins.Keyboard.disableScroll(true);
             }
 
-            // Status bar
+            /**
+             * StatusBar plugin
+             */
             if (window.StatusBar) {
                 // iOS
                 if (ionic.Platform.isIOS()) {
@@ -39,22 +44,28 @@
                 }
             }
 
-            // Side menu
-            $rootScope.side_menu = document.getElementsByTagName('ion-side-menu')[0];
-            $rootScope.side_menu.style.visibility = 'hidden';
+            /**
+             * Side menu bug fix for Google Maps plugin
+             */
+            // $rootScope.side_menu = document.getElementsByTagName('ion-side-menu')[0];
+            // $rootScope.side_menu.style.visibility = 'hidden';
 
-            $rootScope.$watch(function () {
-                return $ionicSideMenuDelegate.isOpenRight();
-            }, function (isOpen) {
-                $rootScope.side_menu.style.visibility = isOpen ? 'visible' : 'hidden';
-            });
+            // $rootScope.$watch(function () {
+            //     return $ionicSideMenuDelegate.getOpenRatio();
+            // }, function (openRatio) {
+            //     $rootScope.side_menu.style.visibility = openRatio === 0 ? 'visible' : 'hidden';
+            // });
 
-            // store app version to $rootScope
+            /**
+             * App version plugin
+             */
             cordova.getAppVersion.getVersionNumber().then(function (version) {
                 $rootScope.appVersion = version;
             });
 
-            // Instabug
+            /**
+             * Instabug plugin
+             */
             cordova.plugins.instabug.activate(
                 {
                     android: INSTABUG_ANDROID_TOKEN,
