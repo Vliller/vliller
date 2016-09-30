@@ -5,6 +5,13 @@
     }
 }
 
+// slow down side menu animation
+.menu-animated {
+    -webkit-transition-duration: 400ms;
+    -moz-transition-duration: 400ms;
+    transition-duration: 400ms;
+}
+
 // Menu size/position
 .menu.menu-right {
     width: calc(100% - 50px) !important;
@@ -13,12 +20,23 @@
 .menu-open {
     .menu-content {
         transform: translate3d(calc(50px - 100%), 0, 0) !important;
+
+        &:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: rgba(50, 50, 50, 0.5);
+            z-index: 1000;
+        }
     }
 
     // replace "more" icon by an arrow
-    .menu-icon:before {
-        content: "\f30f";
-    }
+    // .menu-icon:before {
+    //     content: "\f30f";
+    // }
 }
 
 /**
@@ -28,17 +46,66 @@
     color: $light;
     padding: 40px;
     background-image: linear-gradient(to top, #a71e45, #e52b38 100%, #e52b38);
+    box-shadow: 0 16px 16px 0 rgba(0, 0, 0, 0.24), 0 0 16px 0 rgba(0, 0, 0, 0.18);
+
+     // BUG FIX THE FUCKING SCROLL BAR
+    .scroll {
+        padding-top: 1px;
+    }
 
     .sidemenu-header {
         text-align: center;
         padding: 0 20px 30px 20px;
 
-        h4 {
-            color: $light;
-        }
-
         .img-responsive {
             margin: auto;
         }
+    }
+
+    .sidemenu-main,
+    .sidemenu-about {
+        padding: 10px 0;
+
+        h4 {
+            margin-top: 0;
+            color: $light;
+            font-weight: bold;
+        }
+    }
+
+    .sidemenu-footer {
+        font-size: 12px;
+        line-height: 1.7;
+        color: rgba(255, 255, 255, 0.7);
+        padding: 20px 0;
+
+        a {
+            font-weight: bold;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.7);
+        }
+    }
+
+    .button {
+        min-height: 42px;
+    }
+
+    .button.button-light.button-clear {
+        padding: 0;
+        color: $light;
+
+        svg, span {
+            vertical-align: middle;
+        }
+    }
+
+    .button-feedback, .button-feedback:hover {
+        color: $positive-dark;
+        background-color: #ffeeee;
+        border-radius: 2px;
+        font-size: 12px;
+        font-weight: bold;
+        letter-spacing: 0.4px;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
     }
 }

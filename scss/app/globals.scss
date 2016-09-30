@@ -72,6 +72,12 @@ body {
     margin: 0;
 }
 
+.home-view {
+    .scroll-content {
+        overflow: visible !important;
+    }
+}
+
 /**
  * Information card
  */

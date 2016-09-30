@@ -31,7 +31,7 @@
 
             $rootScope.$watch(function () {
                 return $ionicSideMenuDelegate.isOpenRight();
-            },function (isOpen) {
+            }, function (isOpen) {
                 if (isOpen) {
                     $rootScope.side_menu.style.visibility = "visible";
                 } else {

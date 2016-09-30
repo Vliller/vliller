@@ -1,7 +1,7 @@
 (function () {
     angular
     .module('vliller.home')
-    .controller('HomeController', ['Vlilles', '$scope', '$timeout', 'aetmToastService', '$log', '$q', 'aetmNetworkService', 'Location', 'Navigation', 'GoogleMapsTools', function (Vlilles, $scope, $timeout, aetmToastService, $log, $q, aetmNetworkService, Location, Navigation, GoogleMapsTools) {
+    .controller('HomeController', ['Vlilles', '$scope', '$timeout', 'aetmToastService', '$log', '$q', 'aetmNetworkService', 'Location', 'Navigation', 'GoogleMapsTools', '$ionicSideMenuDelegate', function (Vlilles, $scope, $timeout, aetmToastService, $log, $q, aetmNetworkService, Location, Navigation, GoogleMapsTools, $ionicSideMenuDelegate) {
         var vm = this,
             map,
             markers = [],
@@ -42,6 +42,13 @@
         function onMapReady(gmap) {
             map = gmap;
             vm.map.$loaded = true;
+
+            $scope.$watch(function () {
+                return $ionicSideMenuDelegate.isOpenRight();
+            }, function (isOpen) {
+                // disabled the map clic if the side menu is open
+                map.setClickable(!isOpen);
+            });
 
             // Init icon objects
             iconDefault = {
