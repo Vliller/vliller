@@ -1,16 +1,17 @@
-$animation-duration: 300ms;
+$floating-button-animation-duration: 300ms;
+$floating-button-size: 56px
 
 .floating-button {
     display: block;
-    width: 56px;
-    height: 56px;
+    width: $floating-button-size;
+    height: $floating-button-size;
     padding: 15px;
 
     border-radius: 50%;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
 
-    -webkit-animation: scale-in $animation-duration;
-    animation: scale-in $animation-duration;
+    -webkit-animation: scale-in $floating-button-animation-duration;
+    animation: scale-in $floating-button-animation-duration;
 
     // default color
     .floating-button-icon {
