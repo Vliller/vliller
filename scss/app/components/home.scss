@@ -114,9 +114,9 @@ $card-height: 154px;
 
             .station-dead {
                 font-weight: 300;
-                font-size: 24px;
                 text-align: center;
                 padding: 16px;
+                white-space: normal;
             }
         }
 
@@ -124,15 +124,6 @@ $card-height: 154px;
             vertical-align: middle;
             font-size: 32px;
         }
-    }
-}
-
-.station-unavailable {
-    font-size: 26px;
-    vertical-align: middle;
-
-    .icon {
-        font-size: 34px;
     }
 }
 
