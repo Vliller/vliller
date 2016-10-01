@@ -32,9 +32,27 @@
             // Wait until the map is ready status.
             mapElement.addEventListener(plugin.google.maps.event.MAP_READY, onMapReady);
 
-            // TODO
-            mapElement.addEventListener(plugin.google.maps.event.CAMERA_CHANGE, function (e) {
-                console.log(e)
+            // track the camera position to check if the user marker is still centered
+            mapElement.addEventListener(plugin.google.maps.event.CAMERA_CHANGE, function (event) {
+                if (!currentPosition) {
+                    return;
+                }
+
+                // removes useless decimals before doing the comparison
+                // @see http://gis.stackexchange.com/a/8674
+                var cameraPosition = event.target,
+                    latCamera = cameraPosition.lat.toFixed(5),
+                    lonCamera = cameraPosition.lng.toFixed(5),
+                    latUser = currentPosition.latitude.toFixed(5),
+                    lonUser = currentPosition.longitude.toFixed(5);
+
+                $timeout(function () {
+                    if (latCamera === latUser && lonCamera === lonUser) {
+                        vm.isGPSCentered = true;
+                    } else {
+                        vm.isGPSCentered = false;
+                    }
+                });
             });
         }, false);
 

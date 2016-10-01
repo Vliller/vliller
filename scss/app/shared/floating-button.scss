@@ -17,6 +17,14 @@ $animation-duration: 300ms;
         fill: $grey;
     }
 
+    &.light-fill .floating-button-icon {
+        fill: $light;
+    }
+
+    &.positive-fill .floating-button-icon {
+        fill: $positive;
+    }
+
     // loader inside button
     .floating-button-spinner {
         display: none;
