@@ -130,13 +130,14 @@
          *
          */
         function refreshMarkerIcons() {
-            markers.forEach(function (marker) {
-                if (marker.id === activeMarker.id) {
-                    return;
+            var i = markers.length;
+            while (i--) {
+                if (markers[i].id === activeMarker.id) {
+                    continue;
                 }
 
-                marker.setIcon(iconDefault);
-            });
+                markers[i].setIcon(iconDefault);
+            }
         }
 
         /**
