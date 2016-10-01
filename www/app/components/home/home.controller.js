@@ -38,16 +38,20 @@
                     return;
                 }
 
-                // removes useless decimals before doing the comparison
-                // @see http://gis.stackexchange.com/a/8674
-                var cameraPosition = event.target,
-                    latCamera = cameraPosition.lat.toFixed(5),
-                    lonCamera = cameraPosition.lng.toFixed(5),
-                    latUser = currentPosition.latitude.toFixed(5),
-                    lonUser = currentPosition.longitude.toFixed(5);
-
+                /**
+                 * Computes delta between lat/lon
+                 * @see http://mathjs.org/docs/datatypes/numbers.html#equality
+                 *
+                 * EPSILON is the accuracy we want
+                 * @see http://gis.stackexchange.com/a/8674
+                 */
                 $timeout(function () {
-                    if (latCamera === latUser && lonCamera === lonUser) {
+                    var EPSILON = 1e-5,
+                        cameraPosition = event.target,
+                        latDelta = Math.abs(cameraPosition.lat - currentPosition.latitude),
+                        lonDelta = Math.abs(cameraPosition.lng - currentPosition.longitude);
+
+                    if (latDelta < EPSILON && lonDelta < EPSILON) {
                         vm.isGPSCentered = true;
                     } else {
                         vm.isGPSCentered = false;
