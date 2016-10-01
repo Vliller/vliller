@@ -9,7 +9,12 @@
             activeMarker,
             currentPosition = null,
             iconDefault,
-            iconActive;
+            iconNormal,
+            iconSmall,
+            iconActive,
+            iconUnavaible,
+            mapZoom,
+            ZOOM_THRESHOLD = 14;
 
         vm.activeStation = null;
         vm.isLoading = true;
@@ -51,7 +56,7 @@
             });
 
             // Init icon objects
-            iconDefault = {
+            iconNormal = {
                 url: 'www/assets/img/vliller-marker-white.png',
                 size: {
                     width: 38,
@@ -59,29 +64,32 @@
                 }
             };
 
-            iconActive = {
-                url: 'www/assets/img/vliller-marker-red.png',
-                size: {
-                    width: 58,
-                    height: 67
-                }
-            };
-
-            iconUnavaible = {
-                url: 'www/assets/img/vliller-marker-grey.png',
-                size: {
-                    width: 58,
-                    height: 67
-                }
-            };
-
-            iconTiny = {
+            iconSmall = {
                 url: 'www/assets/img/vliller-marker-red-small.png',
                 size: {
                     width: 12,
                     height: 12
                 }
             };
+
+            iconActive = {
+                url: 'www/assets/img/vliller-marker-red.png',
+                size: {
+                    width: 60,
+                    height: 69
+                }
+            };
+
+            iconUnavaible = {
+                url: 'www/assets/img/vliller-marker-grey.png',
+                size: {
+                    width: 60,
+                    height: 69
+                }
+            };
+
+            // by default icons are normal
+            iconDefault = iconNormal;
 
             // Init markers, etc.
             vm.stations.$promise.then(initStations, errorHandler);
@@ -91,33 +99,64 @@
          * Map camera position/zoom changed
          */
         function onCameraChange(event) {
+            updateGPSCentered(event.target);
+            updateMarkerIcon(event.zoom);
+        }
+
+        /**
+         *
+         * @param Integer zoomLevel
+         */
+        function updateMarkerIcon(zoom) {
+            if (zoom < ZOOM_THRESHOLD && mapZoom >= ZOOM_THRESHOLD) {
+                // we are "unzooming"
+                // change the marker icon for the small one
+                iconDefault = iconSmall;
+
+                refreshMarkerIcons();
+            } else if (zoom > ZOOM_THRESHOLD && mapZoom <= ZOOM_THRESHOLD) {
+                // we are "zooming"
+                // change the marker icon for the normal one
+                iconDefault = iconNormal;
+
+                refreshMarkerIcons();
+            }
+
+            // stores zoom value
+            mapZoom = zoom;
+        }
+
+        /**
+         *
+         */
+        function refreshMarkerIcons() {
+            markers.forEach(function (marker) {
+                if (marker.id === activeMarker.id) {
+                    return;
+                }
+
+                marker.setIcon(iconDefault);
+            });
+        }
+
+        /**
+         * Tracks the camera position to check if the user marker is still centered.
+         *
+         * Computes delta between lat/lon
+         * @see http://mathjs.org/docs/datatypes/numbers.html#equality
+         *
+         * EPSILON is the accuracy we want
+         * @see http://gis.stackexchange.com/a/8674
+         *
+         * @param Object cameraPosition
+         */
+        function updateGPSCentered(cameraPosition) {
             if (!currentPosition) {
                 return;
             }
 
-            /**
-             * Tracks zoom level to adapt markers
-             * TODO : perf
-             */
-            var ZOOM_THRESOLD = 20,
-                markerIcon = event.zoom > ZOOM_THRESOLD ? iconTiny : iconDefault;
-            markers.forEach(function (marker) {
-                marker.setIcon(markerIcon);
-            });
-            activeMarker.setIcon(iconActive);
-
-            /**
-             * Tracks the camera position to check if the user marker is still centered.
-             *
-             * Computes delta between lat/lon
-             * @see http://mathjs.org/docs/datatypes/numbers.html#equality
-             *
-             * EPSILON is the accuracy we want
-             * @see http://gis.stackexchange.com/a/8674
-             */
             $timeout(function () {
                 var EPSILON = 1e-5,
-                    cameraPosition = event.target,
                     latDelta = Math.abs(cameraPosition.lat - currentPosition.latitude),
                     lonDelta = Math.abs(cameraPosition.lng - currentPosition.longitude);
 
