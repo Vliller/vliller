@@ -1,0 +1,15 @@
+$assertive: #e52b38 !default;
+$assertive-dark: #a40233 !default;
+$positive: #1e97f7 !default;
+$energized: #d9a601 !default;
+$calm: #33d699 !default;
+$dark: rgba(0, 0, 0, 0.87) !default;
+$grey: rgba(0, 0, 0, 0.5) !default;
+
+.light-fill {
+    fill: $light;
+}
+
+.positive-fill {
+    fill: $positive;
+}
