@@ -32,32 +32,8 @@
             // Wait until the map is ready status.
             mapElement.addEventListener(plugin.google.maps.event.MAP_READY, onMapReady);
 
-            // track the camera position to check if the user marker is still centered
-            mapElement.addEventListener(plugin.google.maps.event.CAMERA_CHANGE, function (event) {
-                if (!currentPosition) {
-                    return;
-                }
-
-                /**
-                 * Computes delta between lat/lon
-                 * @see http://mathjs.org/docs/datatypes/numbers.html#equality
-                 *
-                 * EPSILON is the accuracy we want
-                 * @see http://gis.stackexchange.com/a/8674
-                 */
-                $timeout(function () {
-                    var EPSILON = 1e-5,
-                        cameraPosition = event.target,
-                        latDelta = Math.abs(cameraPosition.lat - currentPosition.latitude),
-                        lonDelta = Math.abs(cameraPosition.lng - currentPosition.longitude);
-
-                    if (latDelta < EPSILON && lonDelta < EPSILON) {
-                        vm.isGPSCentered = true;
-                    } else {
-                        vm.isGPSCentered = false;
-                    }
-                });
-            });
+            // camera change listener
+            mapElement.addEventListener(plugin.google.maps.event.CAMERA_CHANGE, onCameraChange);
         }, false);
 
         /**
@@ -99,8 +75,58 @@
                 }
             };
 
+            iconTiny = {
+                url: 'www/assets/img/vliller-marker-red-small.png',
+                size: {
+                    width: 12,
+                    height: 12
+                }
+            };
+
             // Init markers, etc.
             vm.stations.$promise.then(initStations, errorHandler);
+        }
+
+        /**
+         * Map camera position/zoom changed
+         */
+        function onCameraChange(event) {
+            if (!currentPosition) {
+                return;
+            }
+
+            /**
+             * Tracks zoom level to adapt markers
+             * TODO : perf
+             */
+            var ZOOM_THRESOLD = 20,
+                markerIcon = event.zoom > ZOOM_THRESOLD ? iconTiny : iconDefault;
+            markers.forEach(function (marker) {
+                marker.setIcon(markerIcon);
+            });
+            activeMarker.setIcon(iconActive);
+
+            /**
+             * Tracks the camera position to check if the user marker is still centered.
+             *
+             * Computes delta between lat/lon
+             * @see http://mathjs.org/docs/datatypes/numbers.html#equality
+             *
+             * EPSILON is the accuracy we want
+             * @see http://gis.stackexchange.com/a/8674
+             */
+            $timeout(function () {
+                var EPSILON = 1e-5,
+                    cameraPosition = event.target,
+                    latDelta = Math.abs(cameraPosition.lat - currentPosition.latitude),
+                    lonDelta = Math.abs(cameraPosition.lng - currentPosition.longitude);
+
+                if (latDelta < EPSILON && lonDelta < EPSILON) {
+                    vm.isGPSCentered = true;
+                } else {
+                    vm.isGPSCentered = false;
+                }
+            });
         }
 
         /**
