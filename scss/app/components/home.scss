@@ -127,6 +127,15 @@ $card-height: 154px;
     }
 }
 
+.station-unavailable {
+    font-size: 26px;
+    vertical-align: middle;
+
+    .icon {
+        font-size: 34px;
+    }
+}
+
 /**
  * Floating buttons (GPS and direction)
  */
@@ -142,30 +151,5 @@ $card-height: 154px;
         &:first-child {
             margin-bottom: 10px;
         }
-
-        display: block;
-        width: 56px;
-        height: 56px;
-        padding: 15px;
-
-        border-radius: 50%;
-        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
-
-        .md-icon {
-            fill: $light;
-        }
-
-        &.light-bg .md-icon {
-            fill: $positive
-        }
-    }
-}
-
-.station-unavailable {
-    font-size: 26px;
-    vertical-align: middle;
-
-    .icon {
-        font-size: 34px;
     }
 }

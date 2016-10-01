@@ -35,6 +35,8 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 // Include custom styles
 @import "scss/app/app";
+@import "scss/app/shared/google-maps";
+@import "scss/app/shared/floating-button";
 @import "scss/app/components/home";
 @import "scss/app/components/sidemenu";
-@import "scss/app/shared/google-maps";
+

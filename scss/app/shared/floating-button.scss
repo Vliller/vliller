@@ -1,0 +1,33 @@
+$animation-duration: 300ms;
+
+.floating-button {
+    display: block;
+    width: 56px;
+    height: 56px;
+    padding: 15px;
+
+    border-radius: 50%;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+
+    -webkit-animation: scale-in $animation-duration;
+    animation: scale-in $animation-duration;
+
+    .md-icon {
+        fill: $light;
+    }
+
+    &.light-bg .md-icon {
+        fill: $positive
+    }
+}
+
+@keyframes scale-in {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
