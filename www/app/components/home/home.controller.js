@@ -14,6 +14,7 @@
         vm.activeStation = null;
         vm.isLoading = true;
         vm.isGPSLoading = false;
+        vm.isGPSCentered = false;
 
         // get stations list
         vm.stations = Vlilles.query();
@@ -31,9 +32,27 @@
             // Wait until the map is ready status.
             mapElement.addEventListener(plugin.google.maps.event.MAP_READY, onMapReady);
 
-            // TODO
-            mapElement.addEventListener(plugin.google.maps.event.CAMERA_CHANGE, function (e) {
-                console.log(e)
+            // track the camera position to check if the user marker is still centered
+            mapElement.addEventListener(plugin.google.maps.event.CAMERA_CHANGE, function (event) {
+                if (!currentPosition) {
+                    return;
+                }
+
+                // removes useless decimals before doing the comparison
+                // @see http://gis.stackexchange.com/a/8674
+                var cameraPosition = event.target,
+                    latCamera = cameraPosition.lat.toFixed(5),
+                    lonCamera = cameraPosition.lng.toFixed(5),
+                    latUser = currentPosition.latitude.toFixed(5),
+                    lonUser = currentPosition.longitude.toFixed(5);
+
+                $timeout(function () {
+                    if (latCamera === latUser && lonCamera === lonUser) {
+                        vm.isGPSCentered = true;
+                    } else {
+                        vm.isGPSCentered = false;
+                    }
+                });
             });
         }, false);
 
@@ -135,6 +154,11 @@
             Vlilles.get({id: station.id}, function (stationDetails) {
                 // get some missing informations from the previous request
                 angular.extend(vm.activeStation, stationDetails);
+
+                // bug fix for stations with no bike and no dock
+                if (vm.activeStation.bikes === 0 && vm.activeStation.docks === 0) {
+                    vm.activeStation.status = -1;
+                }
 
                 vm.activeStation.$loaded = true;
 

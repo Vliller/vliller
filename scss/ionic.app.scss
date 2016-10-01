@@ -19,22 +19,19 @@ $dark:                            #444 !default;
 $bar-height: 56px !default;
 // $button-bar-button-height: $bar-height !default;
 
-// material colors
-$assertive: #e52b38 !default;
-$assertive-dark: #a40233 !default;
-$positive: #1e97f7 !default;
-$energized: #d9a601 !default;
-$calm: #33d699 !default;
-$dark: rgba(0, 0, 0, 0.87) !default;
+// custom colors
+@import "scss/app/shared/colors";
 
 // The path for our ionicons font files, relative to the built CSS in www/css
-$ionicons-font-path: "../lib/ionic/fonts" !default;
+$ionicons-font-path: "../../lib/ionic/fonts" !default;
 
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
 // Include custom styles
 @import "scss/app/app";
+@import "scss/app/shared/google-maps";
+@import "scss/app/shared/floating-button";
 @import "scss/app/components/home";
 @import "scss/app/components/sidemenu";
-@import "scss/app/shared/google-maps";
+
