@@ -87,6 +87,14 @@
                 }
             };
 
+            iconUnavaible = {
+                url: 'www/assets/img/vliller-marker-grey.png',
+                size: {
+                    width: 58,
+                    height: 67
+                }
+            };
+
             // Init markers, etc.
             vm.stations.$promise.then(initStations, errorHandler);
         }
@@ -144,20 +152,23 @@
             activeMarker = marker;
             vm.activeStation = station;
 
-            // update icon and center map
-            activeMarker.setIcon(iconActive);
+            // center map
             if (centerMap !== false) {
                 setCenterMap(vm.activeStation);
             }
 
-            // loads station details
+            /**
+             * Loads station details
+             */
             Vlilles.get({id: station.id}, function (stationDetails) {
                 // get some missing informations from the previous request
                 angular.extend(vm.activeStation, stationDetails);
 
-                // bug fix for stations with no bike and no dock
-                if (vm.activeStation.bikes === 0 && vm.activeStation.docks === 0) {
-                    vm.activeStation.status = -1;
+                // update marker
+                if (vm.activeStation.status === '0') {
+                    activeMarker.setIcon(iconActive);
+                } else {
+                    activeMarker.setIcon(iconUnavaible);
                 }
 
                 vm.activeStation.$loaded = true;
