@@ -14,6 +14,7 @@
         vm.activeStation = null;
         vm.isLoading = true;
         vm.isGPSLoading = false;
+        vm.isGPSCentered = false;
 
         // get stations list
         vm.stations = Vlilles.query();
@@ -31,9 +32,31 @@
             // Wait until the map is ready status.
             mapElement.addEventListener(plugin.google.maps.event.MAP_READY, onMapReady);
 
-            // TODO
-            mapElement.addEventListener(plugin.google.maps.event.CAMERA_CHANGE, function (e) {
-                console.log(e)
+            // track the camera position to check if the user marker is still centered
+            mapElement.addEventListener(plugin.google.maps.event.CAMERA_CHANGE, function (event) {
+                if (!currentPosition) {
+                    return;
+                }
+
+                /**
+                 * Computes delta between lat/lon
+                 * @see http://mathjs.org/docs/datatypes/numbers.html#equality
+                 *
+                 * EPSILON is the accuracy we want
+                 * @see http://gis.stackexchange.com/a/8674
+                 */
+                $timeout(function () {
+                    var EPSILON = 1e-5,
+                        cameraPosition = event.target,
+                        latDelta = Math.abs(cameraPosition.lat - currentPosition.latitude),
+                        lonDelta = Math.abs(cameraPosition.lng - currentPosition.longitude);
+
+                    if (latDelta < EPSILON && lonDelta < EPSILON) {
+                        vm.isGPSCentered = true;
+                    } else {
+                        vm.isGPSCentered = false;
+                    }
+                });
             });
         }, false);
 
@@ -62,6 +85,14 @@
 
             iconActive = {
                 url: 'www/assets/img/vliller-marker-red.png',
+                size: {
+                    width: 58,
+                    height: 67
+                }
+            };
+
+            iconUnavaible = {
+                url: 'www/assets/img/vliller-marker-grey.png',
                 size: {
                     width: 58,
                     height: 67
@@ -125,16 +156,24 @@
             activeMarker = marker;
             vm.activeStation = station;
 
-            // update icon and center map
-            activeMarker.setIcon(iconActive);
+            // center map
             if (centerMap !== false) {
                 setCenterMap(vm.activeStation);
             }
 
-            // loads station details
+            /**
+             * Loads station details
+             */
             Vlilles.get({id: station.id}, function (stationDetails) {
                 // get some missing informations from the previous request
                 angular.extend(vm.activeStation, stationDetails);
+
+                // update marker
+                if (vm.activeStation.status === '0') {
+                    activeMarker.setIcon(iconActive);
+                } else {
+                    activeMarker.setIcon(iconUnavaible);
+                }
 
                 vm.activeStation.$loaded = true;
 

@@ -1,7 +1,7 @@
 #! /bin/bash
 
-PROJECT_NAME="VLiller"
-SCHEME_NAME="VLiller"
+PROJECT_NAME="Vliller"
+SCHEME_NAME="Vliller"
 
 ANDROID_BUILD_FOLDER="./platforms/android/build/outputs/apk"
 

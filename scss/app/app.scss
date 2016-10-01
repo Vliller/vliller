@@ -1,0 +1,73 @@
+body {
+    font-family: RobotoDraft;
+    font-weight: 400;
+}
+
+.no-padding {
+    padding: 0 !important;
+}
+
+.content-loader {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .spinner svg {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+.img-responsive {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.text-small {
+    font-size: 11px !important;
+    line-height: 1 !important;
+}
+
+.text-grey {
+    color: $grey !important;
+}
+
+// force scroll expand (avoid loader to by stuck at the top)
+.scroll {
+    height: 100%;
+}
+
+.bar-header {
+    .title {
+        padding: 15px 5px;
+
+        .bar-header-logo {
+            max-height: 100%;
+        }
+    }
+
+    .buttons.buttons-right {
+        padding-right: 5px;
+
+        .spinner svg {
+            margin-top: 5px;
+        }
+    }
+}
+
+.white-border-bottom {
+    border-bottom: solid 1px rgba(255, 255, 255, 0.7);
+}
+
+// align center on iOS
+.platform-ios .bar-header-logo {
+    margin: 0 auto;
+}
+
+// align left on Android
+.platform-android .bar-header-logo {
+    margin: 0;
+}
