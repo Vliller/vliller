@@ -6,14 +6,12 @@
     .run([
         '$ionicPlatform',
         '$rootScope',
-        '$ionicSideMenuDelegate',
         '$log',
         'INSTABUG_ANDROID_TOKEN',
         'INSTABUG_IOS_TOKEN',
         function (
             $ionicPlatform,
             $rootScope,
-            $ionicSideMenuDelegate,
             $log,
             INSTABUG_ANDROID_TOKEN,
             INSTABUG_IOS_TOKEN) {
