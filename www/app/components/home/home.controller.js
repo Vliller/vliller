@@ -214,7 +214,7 @@
             var station = marker.get('station');
 
             // set default icon on current office marker
-            if (activeMarker) {
+            if (activeMarker && activeMarker.id !== marker.id) {
                 activeMarker.setIcon(iconDefault);
             }
 
