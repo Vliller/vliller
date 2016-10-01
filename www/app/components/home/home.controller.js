@@ -14,6 +14,7 @@
         vm.activeStation = null;
         vm.isLoading = true;
         vm.isGPSLoading = false;
+        vm.isGPSCentered = false;
 
         // get stations list
         vm.stations = Vlilles.query();
@@ -135,6 +136,11 @@
             Vlilles.get({id: station.id}, function (stationDetails) {
                 // get some missing informations from the previous request
                 angular.extend(vm.activeStation, stationDetails);
+
+                // bug fix for stations with no bike and no dock
+                if (vm.activeStation.bikes === 0 && vm.activeStation.docks === 0) {
+                    vm.activeStation.status = -1;
+                }
 
                 vm.activeStation.$loaded = true;
 
