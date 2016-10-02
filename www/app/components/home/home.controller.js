@@ -8,11 +8,9 @@
         '$log',
         '$ionicSideMenuDelegate',
         'aetmToastService',
-        'aetmNetworkService',
         'Location',
         'Navigation',
         'GoogleMapsTools',
-
         function (
             Vlilles,
             $scope,
@@ -20,7 +18,6 @@
             $log,
             $ionicSideMenuDelegate,
             aetmToastService,
-            aetmNetworkService,
             Location,
             Navigation,
             GoogleMapsTools) {
@@ -73,8 +70,16 @@
             $scope.$watch(function () {
                 return $ionicSideMenuDelegate.isOpen();
             }, function (isOpen) {
-                // disabled the map clic if the side menu is open
-                map.setClickable(!isOpen);
+                if (isOpen) {
+                    map.setClickable(false);
+                } else {
+                    map.setClickable(true);
+
+                    // to avoid bug after menu closed
+                    $timeout(function () {
+                        map.refreshLayout();
+                    }, 200); // animation duration
+                }
             });
 
             // Init icon objects
