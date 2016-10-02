@@ -3,7 +3,7 @@
 
     angular
         .module('vliller.navigation', [])
-        .factory('Navigation', ['$q', function ($q) {
+        .factory('Navigation', ['$q', '$log', function ($q, $log) {
             var navigationApp;
 
             // Defines Google Maps by default if avaible
@@ -12,7 +12,7 @@
                     if (isAvailable) {
                         navigationApp = launchnavigator.APP.GOOGLE_MAPS;
                     } else {
-                        console.warn("Google Maps not available - falling back to user selection");
+                        $log.debug("Google Maps not available - falling back to user selection");
                         navigationApp = launchnavigator.APP.USER_SELECT;
                     }
                 });
