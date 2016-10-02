@@ -15,7 +15,7 @@ $floating-button-size: 56px;
 
     // default color
     .floating-button-icon {
-        fill: $grey;
+        fill: rgba(0, 0, 0, 0.5);
     }
 
     &.light-fill .floating-button-icon {

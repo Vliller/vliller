@@ -47,7 +47,7 @@ $sidemenu-animation-time: 200ms;
 .sidemenu-view {
     color: $light;
     padding: 40px;
-    background-image: linear-gradient(to top, #a71e45, #e52b38 100%, #e52b38);
+    background-image: linear-gradient(to top, #a71e45, $lipstick 100%, $lipstick);
     box-shadow: 0 16px 16px 0 rgba(0, 0, 0, 0.24), 0 0 16px 0 rgba(0, 0, 0, 0.18);
 
      // BUG FIX THE FUCKING SCROLL BAR
@@ -102,7 +102,7 @@ $sidemenu-animation-time: 200ms;
     }
 
     .button-feedback, .button-feedback:hover {
-        color: $assertive-dark;
+        color: $cranberry;
         background-color: #ffeeee;
         border-radius: 2px;
         font-size: 12px;
