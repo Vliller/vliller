@@ -29,7 +29,7 @@ $card-height: 154px;
         }
 
         .item-header {
-            background-color: #f5f5f5;
+            background-color: $white;
             padding-bottom: 8px;
             padding-top: 10px;
 
@@ -42,7 +42,7 @@ $card-height: 154px;
 
             .station-name {
                 max-width: 45%;
-                color: rgba(0, 0, 0, 0.87);
+                color: $black-87;
                 font-size: 18px;
                 white-space: nowrap;
                 overflow: hidden;
