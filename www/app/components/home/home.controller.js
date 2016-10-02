@@ -1,7 +1,29 @@
 (function () {
     angular
     .module('vliller.home')
-    .controller('HomeController', ['Vlilles', '$scope', '$timeout', 'aetmToastService', '$log', '$q', 'aetmNetworkService', 'Location', 'Navigation', 'GoogleMapsTools', '$ionicSideMenuDelegate', function (Vlilles, $scope, $timeout, aetmToastService, $log, $q, aetmNetworkService, Location, Navigation, GoogleMapsTools, $ionicSideMenuDelegate) {
+    .controller('HomeController', [
+        'Vlilles',
+        '$scope',
+        '$timeout',
+        '$log',
+        '$ionicSideMenuDelegate',
+        'aetmToastService',
+        'aetmNetworkService',
+        'Location',
+        'Navigation',
+        'GoogleMapsTools',
+
+        function (
+            Vlilles,
+            $scope,
+            $timeout,
+            $log,
+            $ionicSideMenuDelegate,
+            aetmToastService,
+            aetmNetworkService,
+            Location,
+            Navigation,
+            GoogleMapsTools) {
         var vm = this,
             map,
             markers = [],
@@ -127,7 +149,7 @@
         }
 
         /**
-         *
+         * Refresh marker icons (except active one)
          */
         function refreshMarkerIcons() {
             var i = markers.length;

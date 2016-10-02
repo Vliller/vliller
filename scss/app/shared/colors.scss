@@ -1,8 +1,14 @@
+$lipstick: #e52b38;
+$cranberry: #a40233;
+$azure: #1e97f7;
+$white: #f5f5f5;
+$black-54: rgba(0, 0, 0, 0.54);
+$black-87: rgba(0, 0, 0, 0.87);
+
+// Ionic override
 $light: #fff !default;
-$assertive: #e52b38 !default;
-$assertive-dark: #a40233 !default;
-$positive: #1e97f7 !default;
+$assertive: $lipstick !default;
+$positive: $azure !default;
 $energized: #d9a601 !default;
 $calm: #33d699 !default;
-$dark: rgba(0, 0, 0, 0.87) !default;
-$grey: rgba(0, 0, 0, 0.5) !default;
+$dark: $black-87 !default;

@@ -9,12 +9,14 @@
         '$logProvider',
         '$compileProvider',
         'PRODUCTION_MODE',
+        'aetmToastServiceProvider',
         function (
             $urlRouterProvider,
             $stateProvider,
             $logProvider,
             $compileProvider,
-            PRODUCTION_MODE) {
+            PRODUCTION_MODE,
+            aetmToastServiceProvider) {
 
         /**
          * Routes
@@ -46,5 +48,14 @@
             $logProvider.debugEnabled(false);
             $compileProvider.debugInfoEnabled(false);
         }
+
+        /**
+         * Toasts
+         */
+        aetmToastServiceProvider.errorConfig({
+            styling: {
+                backgroundColor: '#e52b38',
+            }
+        });
     }]);
 }());
