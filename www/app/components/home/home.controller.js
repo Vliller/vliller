@@ -70,13 +70,23 @@
             $scope.$watch(function () {
                 return $ionicSideMenuDelegate.isOpen();
             }, function (isOpen) {
-                map.setVisible(false);
+                if (isOpen) {
+                    map.setVisible(false);
+                } else {
+                    $timeout(function () {
+                        map.refreshLayout();
+                        map.setVisible(true);
+                    }, 200); // animation duration
+                }
 
-                $timeout(function () {
-                    map.refreshLayout();
-                    map.setVisible(true);
-                    map.setClickable(!isOpen);
-                }, 200); // animation duration
+                // @see https://github.com/mapsplugin/cordova-plugin-googlemaps/wiki/Map.refreshLayout()#code-with-jquery-mobile
+                // map.setVisible(false);
+
+                // $timeout(function () {
+                //     map.refreshLayout();
+                //     map.setVisible(true);
+                //     map.setClickable(!isOpen);
+                // }, 200); // animation duration
             });
 
             // Init icon objects
