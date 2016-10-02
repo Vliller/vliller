@@ -41,6 +41,9 @@ body {
 }
 
 .bar-header {
+    border: none !important;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16),0 2px 10px 0 rgba(0, 0, 0, 0.12) !important;
+
     .title {
         padding: 15px 5px;
 
@@ -50,6 +53,7 @@ body {
     }
 
     .buttons.buttons-right {
+        opacity: 0.8;
         padding-right: 5px;
 
         .spinner svg {
