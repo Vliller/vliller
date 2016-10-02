@@ -71,15 +71,22 @@
                 return $ionicSideMenuDelegate.isOpen();
             }, function (isOpen) {
                 if (isOpen) {
-                    map.setClickable(false);
+                    map.setVisible(false);
                 } else {
-                    map.setClickable(true);
-
-                    // to avoid bug after menu closed
                     $timeout(function () {
                         map.refreshLayout();
+                        map.setVisible(true);
                     }, 200); // animation duration
                 }
+
+                // @see https://github.com/mapsplugin/cordova-plugin-googlemaps/wiki/Map.refreshLayout()#code-with-jquery-mobile
+                // map.setVisible(false);
+
+                // $timeout(function () {
+                //     map.refreshLayout();
+                //     map.setVisible(true);
+                //     map.setClickable(!isOpen);
+                // }, 200); // animation duration
             });
 
             // Init icon objects
