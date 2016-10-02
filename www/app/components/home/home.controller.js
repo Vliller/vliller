@@ -70,16 +70,13 @@
             $scope.$watch(function () {
                 return $ionicSideMenuDelegate.isOpen();
             }, function (isOpen) {
-                if (isOpen) {
-                    map.setClickable(false);
-                } else {
-                    map.setClickable(true);
+                map.setVisible(false);
 
-                    // to avoid bug after menu closed
-                    $timeout(function () {
-                        map.refreshLayout();
-                    }, 200); // animation duration
-                }
+                $timeout(function () {
+                    map.refreshLayout();
+                    map.setVisible(true);
+                    map.setClickable(!isOpen);
+                }, 200); // animation duration
             });
 
             // Init icon objects
