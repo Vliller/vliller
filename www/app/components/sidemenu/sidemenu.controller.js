@@ -1,7 +1,16 @@
 (function () {
     angular
     .module('vliller.sidemenu')
-    .controller('SidemenuController', ['$log', 'ANDROID_APP_ID', 'IOS_APP_ID', 'VLILLER_SITE_URL', function ($log, ANDROID_APP_ID, IOS_APP_ID, VLILLER_SITE_URL) {
+    .controller('SidemenuController', [
+        '$log',
+        'ANDROID_APP_ID',
+        'IOS_APP_ID',
+        'VLILLER_SITE_URL',
+        function (
+            $log,
+            ANDROID_APP_ID,
+            IOS_APP_ID,
+            VLILLER_SITE_URL) {
         var vm = this;
 
         /**
