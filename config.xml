@@ -3,7 +3,7 @@
   <name>Vliller</name>
   <description>1 clic, 1 vélo, 1 place !</description>
   <author email="wall-e@alexetmanon.com" href="http://alexetmanon.com/">alex et manon</author>
-  <content src="index.html" />
+  <content src="index.min.html" />
   <access origin="*" />
   <allow-intent href="*" />
   <allow-navigation href="*" />
