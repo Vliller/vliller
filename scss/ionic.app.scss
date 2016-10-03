@@ -23,10 +23,62 @@ $bar-height: 56px !default;
 @import "scss/app/colors";
 
 // The path for our ionicons font files, relative to the built CSS in www/css
-$ionicons-font-path: "../../lib/ionic/fonts" !default;
+// $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 // Include all of Ionic
-@import "www/lib/ionic/scss/ionic";
+// @import "lib/ionic/scss/ionic";
+@import
+  // Ionicons
+  // "lib/ionic/scss/ionicons/ionicons.scss",
+
+  // Variables
+  "lib/ionic/scss/mixins",
+  "lib/ionic/scss/variables",
+
+  // Base
+  "lib/ionic/scss/reset",
+  "lib/ionic/scss/scaffolding",
+  "lib/ionic/scss/type",
+
+  // Components
+  "lib/ionic/scss/action-sheet",
+  "lib/ionic/scss/backdrop",
+  "lib/ionic/scss/bar",
+  "lib/ionic/scss/tabs",
+  "lib/ionic/scss/menu",
+  "lib/ionic/scss/modal",
+  "lib/ionic/scss/popover",
+  "lib/ionic/scss/popup",
+  "lib/ionic/scss/loading",
+  "lib/ionic/scss/items",
+  "lib/ionic/scss/list",
+  "lib/ionic/scss/badge",
+  "lib/ionic/scss/slide-box",
+  "lib/ionic/scss/slides",
+  "lib/ionic/scss/refresher",
+  "lib/ionic/scss/spinner",
+
+  // Forms
+  "lib/ionic/scss/form",
+  "lib/ionic/scss/checkbox",
+  "lib/ionic/scss/toggle",
+  "lib/ionic/scss/radio",
+  "lib/ionic/scss/range",
+  "lib/ionic/scss/select",
+  "lib/ionic/scss/progress",
+
+  // Buttons
+  "lib/ionic/scss/button",
+  "lib/ionic/scss/button-bar",
+
+  // Util
+  "lib/ionic/scss/grid",
+  "lib/ionic/scss/util",
+  "lib/ionic/scss/platform",
+
+  // Animations
+  "lib/ionic/scss/animations",
+  "lib/ionic/scss/transitions";
 
 // Include custom styles
 @import "scss/app/fonts";

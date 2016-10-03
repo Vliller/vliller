@@ -2,15 +2,13 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no,width=device-width">
     <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
 
     <title>vliller</title>
 
-    <link href="lib/ionic/css/ionic.min.css" rel="stylesheet">
-
     <!-- compiled css output -->
-    <link href="assets/css/ionic.app.min.css" rel="stylesheet">
+    <link href="ionic.app.css" rel="stylesheet">
 </head>
 <body ng-app="vliller" ng-strict-di>
 
@@ -29,41 +27,6 @@
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
 
-    <!-- build:js scripts.js -->
-
-    <!-- ionic/angularjs js -->
-    <script src="lib/ionic/js/ionic.bundle.js"></script>
-
-    <!-- templates caching -->
-    <script src="templates.js"></script>
-
-    <!-- bower -->
-    <script src="lib/angular-resource/angular-resource.min.js"></script>
-    <script src="lib/angular-cache/dist/angular-cache.min.js"></script>
-
-    <script src="lib/aetm-angular-cordova-network/dist/aetm-angular-cordova-network.min.js"></script>
-    <script src="lib/aetm-angular-cordova-toast/dist/aetm-angular-cordova-toast.min.js"></script>
-    <script src="lib/aetm-angular-resource/dist/aetm-angular-resource.min.js"></script>
-
-    <!-- application files -->
-    <script src="app/components/home/home.module.js"></script>
-    <script src="app/components/home/home.controller.js"></script>
-
-    <script src="app/components/sidemenu/sidemenu.module.js"></script>
-    <script src="app/components/sidemenu/sidemenu.controller.js"></script>
-
-    <script src="app/shared/vlilles/vlilles.service.js"></script>
-
-    <script src="app/shared/location/location.service.js"></script>
-
-    <script src="app/shared/navigation/navigation.service.js"></script>
-
-    <script src="app/shared/google-maps/google-maps-tools.service.js"></script>
-
-    <script src="app/app.module.js"></script>
-    <script src="app/app.config.js"></script>
-    <script src="app/app.run.js"></script>
-
-    <!-- endbuild -->
+    <script src="scripts.js"></script>
 </body>
 </html>
