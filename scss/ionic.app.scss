@@ -83,6 +83,7 @@ $bar-height: 56px !default;
 // Include custom styles
 @import "scss/app/fonts";
 @import "scss/app/app";
+@import "scss/app/shared/doorbell";
 @import "scss/app/shared/google-maps";
 @import "scss/app/shared/floating-button";
 @import "scss/app/components/home";

@@ -3,11 +3,13 @@
     .module('vliller.sidemenu')
     .controller('SidemenuController', [
         '$log',
+        '$rootScope',
         'ANDROID_APP_ID',
         'IOS_APP_ID',
         'VLILLER_SITE_URL',
         function (
             $log,
+            $rootScope,
             ANDROID_APP_ID,
             IOS_APP_ID,
             VLILLER_SITE_URL) {
@@ -38,7 +40,12 @@
          * Show Instabug form
          */
         vm.openBugReport = function () {
-            cordova.plugins.instabug.invoke('bug');
+            // defines some usefull properties
+            window.doorbell.setProperty('version', $rootScope.appVersion);
+            window.doorbell.setProperty('platform', ionic.Platform.device());
+
+            // open the box
+            window.doorbell.show();
         };
 
         /**
