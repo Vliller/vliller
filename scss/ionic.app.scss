@@ -20,7 +20,7 @@ $bar-height: 56px !default;
 // $button-bar-button-height: $bar-height !default;
 
 // custom colors
-@import "scss/app/shared/colors";
+@import "scss/app/colors";
 
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../../lib/ionic/fonts" !default;
@@ -29,6 +29,7 @@ $ionicons-font-path: "../../lib/ionic/fonts" !default;
 @import "www/lib/ionic/scss/ionic";
 
 // Include custom styles
+@import "scss/app/fonts";
 @import "scss/app/app";
 @import "scss/app/shared/google-maps";
 @import "scss/app/shared/floating-button";
