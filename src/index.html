@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline' https://embed.doorbell.io/; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://embed.doorbell.io/">
 
     <title>vliller</title>
 
@@ -63,5 +63,35 @@
     <script src="app/app.run.js"></script>
 
     <!-- endbuild -->
+
+    <!-- Doorbell integration -->
+    <script type="text/javascript">
+        window.doorbellOptions = {
+            hideButton: true,
+            appKey: 'H68QrpukSt2H37sHD97P7tT0vh1VRdJi1hvjLPGPYu0vCjXnkZQoSvk0Llt5xIub',
+            strings: {
+                'title': 'Remarques & suggestions',
+                'intro-text': '', // Empty by default
+                'feedback-textarea-placeholder': 'Ton message, tes suggestions, tes remarques...',
+                'feedback-label': '',
+                'email-input-placeholder': 'Ton adresse email',
+                'email-label': '',
+                'submit-button-text': 'Envoyer',
+                'submitting-button-text': 'Envoi en cours...',
+
+                'message-success' : 'Message reçu cinq sur cinq ! :-)',
+                'message-error-missing-email': 'Ton adresse email est obligatoire !',
+                'message-error-invalid-email': 'Ton adresse email n\'est pas valide :-/',
+                'message-error-missing-message': 'Écris-nous donc un petit message ! :-)',
+                'message-error-message-too-short': 'Il semblerait que ton message soit un peu trop court :-/'
+            }
+        };
+        (function(w, d, t) {
+            var hasLoaded = false;
+            function l() { if (hasLoaded) { return; } hasLoaded = true; window.doorbellOptions.windowLoaded = true; var g = d.createElement(t);g.id = 'doorbellScript';g.type = 'text/javascript';g.async = true;g.src = 'https://embed.doorbell.io/button/4561?t='+(new Date().getTime());(d.getElementsByTagName('head')[0]||d.getElementsByTagName('body')[0]).appendChild(g); }
+            if (w.attachEvent) { w.attachEvent('onload', l); } else if (w.addEventListener) { w.addEventListener('load', l, false); } else { l(); }
+            if (d.readyState == 'complete') { l(); }
+        }(window, document, 'script'));
+    </script>
 </body>
 </html>
