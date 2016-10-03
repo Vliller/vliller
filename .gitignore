@@ -7,10 +7,9 @@ plugins/
 engine/
 
 # auto generated files
-www/assets/css/ionic.app.css
-www/assets/css/ionic.app.min.css
-www/templates.js
+.tmp/
+www/
 .DS_Store
 
 # bower files
-www/lib/
+lib/
