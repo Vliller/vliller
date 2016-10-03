@@ -7,8 +7,10 @@
   "dependencies": {
     "aetm-angular-cordova-network": "0.3.0",
     "aetm-angular-cordova-toast": "0.2.0",
-    "aetm-angular-resource": "0.4.1",
-    "robotodraft": "1.1.0"
+    "aetm-angular-resource": "0.4.1"
   },
-  "version": "1.5.7"
+  "version": "1.5.8",
+  "resolutions": {
+    "angular": "^1.5.3"
+  }
 }
