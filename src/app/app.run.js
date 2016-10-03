@@ -50,23 +50,9 @@
             });
 
             /**
-             * Instabug plugin
+             * Splashscreen
              */
-            cordova.plugins.instabug.activate(
-                {
-                    android: INSTABUG_ANDROID_TOKEN,
-                    ios: INSTABUG_IOS_TOKEN
-                },
-                'shake',
-                {
-                    commentRequired: true,
-                    // enableIntroDialog: false
-                },
-                function () {
-                    $log.debug('Instabug initialized.');
-                },
-                $log.error
-            );
+            navigator.splashscreen.hide();
         });
     }]);
 }());
