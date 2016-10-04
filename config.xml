@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget xmlns="http://www.w3.org/ns/widgets" id="com.alexetmanon.vliller" version="1.5.9" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget xmlns="http://www.w3.org/ns/widgets" id="com.alexetmanon.vliller" version="1.5.10" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Vliller</name>
   <description>1 clic, 1 vélo, 1 place !</description>
   <author email="wall-e@alexetmanon.com" href="http://alexetmanon.com/">alex et manon</author>
@@ -68,7 +68,7 @@
     <splash height="960" src="resources/ios/splash/Default@2x~iphone.png" width="640" />
     <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
     <config-file parent="UIStatusBarHidden" platform="ios" target="*-Info.plist">
-        <true/>
+        <true />
     </config-file>
   </platform>
   <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
