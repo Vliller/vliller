@@ -37,7 +37,8 @@
     },
     "cordova-plugin-app-version",
     "cordova-plugin-inappbrowser",
-    "cordova-plugin-x-socialsharing"
+    "cordova-plugin-x-socialsharing",
+    "cordova-custom-config"
   ],
   "cordovaPlatforms": [
     "android",
