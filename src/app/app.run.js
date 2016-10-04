@@ -30,16 +30,14 @@
             /**
              * StatusBar plugin
              */
-            if (window.StatusBar) {
-                // iOS
-                if (ionic.Platform.isIOS()) {
-                    StatusBar.styleLightContent();
-                }
+            // iOS
+            if (ionic.Platform.isIOS()) {
+                StatusBar.styleLightContent();
+            }
 
-                // Android
-                else if (ionic.Platform.isAndroid()) {
-                    StatusBar.backgroundColorByHexString('#b7212c');
-                }
+            // Android
+            else if (ionic.Platform.isAndroid()) {
+                StatusBar.backgroundColorByHexString('#b7212c');
             }
 
             /**

@@ -37,7 +37,7 @@ body {
 
 // force scroll expand (avoid loader to by stuck at the top)
 .scroll {
-    height: 100%;
+    min-height: 100%;
 }
 
 .bar-header {
@@ -61,6 +61,11 @@ body {
             margin-top: 5px;
         }
     }
+}
+
+// remove margin logo to allow left alignment
+.platform-ios .bar-header-logo {
+    margin: 0 !important;
 }
 
 .white-border-bottom {

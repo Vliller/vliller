@@ -1,7 +1,7 @@
 {
   "name": "vliller",
   "version": "1.5.9",
-  "description": "vliller : 1 clic, 1 v\u00e9lo, 1 place !",
+  "description": "vliller : 1 clic, 1 vélo, 1 place !",
   "devDependencies": {
     "gulp": "^3.5.6",
     "gulp-sass": "^2.0.4",
@@ -32,7 +32,7 @@
         "API_KEY_FOR_ANDROID": "AIzaSyCwaMhgCXRnhlbBulzNGi5BU0JBLej0FbI",
         "API_KEY_FOR_IOS": "AIzaSyB7l0BYrnYjYqAY8tiX81XT6j-1iIz-YUY"
       },
-      "locator": "cordova-plugin-googlemaps",
+      "locator": "https://github.com/phonegap-googlemaps-plugin/cordova-plugin-googlemaps",
       "id": "plugin.google.maps"
     },
     "cordova-plugin-app-version",
