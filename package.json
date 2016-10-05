@@ -1,6 +1,6 @@
 {
   "name": "vliller",
-  "version": "1.5.12",
+  "version": "1.5.13",
   "description": "vliller : 1 clic, 1 v\u00e9lo, 1 place !",
   "devDependencies": {
     "gulp": "^3.5.6",
