@@ -19,7 +19,6 @@
   <preference name="AutoHideSplashScreen" value="false" />
   <preference name="ShowSplashScreenSpinner" value="false" />
   <preference name="SplashMaintainAspectRatio" value="true" />
-  <preference name="android-minSdkVersion" value="16" />
   <preference name="BackupWebStorage" value="none" />
   <preference name="xwalkVersion" value="19+" />
   <preference name="xwalkCommandLine" value="--disable-pull-to-refresh-effect" />
@@ -33,6 +32,7 @@
     <param name="ios-package" onload="true" value="CDVStatusBar" />
   </feature>
   <platform name="android">
+    <preference name="android-minSdkVersion" value="16" />
     <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
     <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
     <icon density="hdpi" src="resources/android/icon/drawable-hdpi-icon.png" />
@@ -50,6 +50,7 @@
     <config-file parent="UIStatusBarHidden" platform="ios" target="*-Info.plist">
       <true />
     </config-file>
+    <preference name="ios-XCBuildConfiguration-TARGETED_DEVICE_FAMILY" value="1" />
     <icon height="57" src="resources/ios/icon/icon.png" width="57" />
     <icon height="114" src="resources/ios/icon/icon@2x.png" width="114" />
     <icon height="40" src="resources/ios/icon/icon-40.png" width="40" />
