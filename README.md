@@ -13,3 +13,7 @@ Voir : https://github.com/alexetmanon/vliller-api
 ## TODO
 - Roadmap
 - Implémenter un moteur de recherche
+
+## Licence
+
+GNU GPL v3

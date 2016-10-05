@@ -18,6 +18,9 @@ ZIPALIGN=$ANDROID_HOME/build-tools/23.0.1/zipalign
 # build release
 printf "\033[1;35mStart BUILD RELEASE \e[0m\n"
 
+# prepare files (scss, js, etc.)
+gulp
+
 if [ "$1" != "ios" ]; then
     printf "\033[0;35m\nIonic build \033[1;35mAndroid \e[0m\n"
     ionic build --release android
