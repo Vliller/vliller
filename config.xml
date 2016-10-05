@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget xmlns="http://www.w3.org/ns/widgets" id="com.alexetmanon.vliller" version="1.5.11" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget xmlns="http://www.w3.org/ns/widgets" id="com.alexetmanon.vliller" version="1.5.12" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Vliller</name>
   <description>1 clic, 1 vélo, 1 place !</description>
   <author email="wall-e@alexetmanon.com" href="http://alexetmanon.com/">alex et manon</author>
   <content src="index.html" />
   <access origin="*" />
-  <allow-intent href="*" />
-  <allow-navigation href="*" />
+  <allow-intent href="http://*/*" />
+  <allow-intent href="https://*/*" />
+  <allow-intent href="mailto:*" />
+  <allow-intent href="market://*" />
+  <allow-intent href="itms-apps://*" />
+  <allow-navigation href="file://*" />
   <preference name="Orientation" value="portrait" />
   <preference name="webviewbounce" value="false" />
   <preference name="UIWebViewBounce" value="false" />
@@ -24,6 +28,7 @@
   <preference name="CrosswalkAnimatable" value="true" />
   <preference name="StatusBarOverlaysWebView" value="true" />
   <preference name="StatusBarStyle" value="lightcontent" />
+  <preference name="SplashScreenDelay" value="3000" />
   <feature name="StatusBar">
     <param name="ios-package" onload="true" value="CDVStatusBar" />
   </feature>
@@ -42,6 +47,9 @@
     <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
   </platform>
   <platform name="ios">
+    <config-file parent="UIStatusBarHidden" platform="ios" target="*-Info.plist">
+      <true />
+    </config-file>
     <icon height="57" src="resources/ios/icon/icon.png" width="57" />
     <icon height="114" src="resources/ios/icon/icon@2x.png" width="114" />
     <icon height="40" src="resources/ios/icon/icon-40.png" width="40" />
@@ -67,9 +75,6 @@
     <splash height="1024" src="resources/ios/splash/Default-Portrait~ipad.png" width="768" />
     <splash height="960" src="resources/ios/splash/Default@2x~iphone.png" width="640" />
     <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
-    <config-file parent="UIStatusBarHidden" platform="ios" target="*-Info.plist">
-        <true />
-    </config-file>
   </platform>
   <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
 </widget>
