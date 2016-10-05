@@ -19,5 +19,7 @@
     .constant('ANDROID_APP_ID', 'com.alexetmanon.vliller')
     .constant('IOS_APP_ID', '')
 
+    .constant('GOOGLE_ANALYTICS_ID', 'UA-85251159-1')
+
     .constant('VLILLER_SITE_URL', 'http://vliller.alexetmanon.com');
 }());

@@ -7,15 +7,22 @@
         '$ionicPlatform',
         '$rootScope',
         '$log',
-        'INSTABUG_ANDROID_TOKEN',
-        'INSTABUG_IOS_TOKEN',
+        'GOOGLE_ANALYTICS_ID',
         function (
             $ionicPlatform,
             $rootScope,
             $log,
-            INSTABUG_ANDROID_TOKEN,
-            INSTABUG_IOS_TOKEN) {
+            GOOGLE_ANALYTICS_ID) {
         $ionicPlatform.ready(function () {
+            /**
+             * Google Analytics
+             */
+            window.ga.startTrackerWithId(GOOGLE_ANALYTICS_ID, function () {
+                $log.info('Google Analytics started');
+            }, $log.error);
+
+            window.ga.enableUncaughtExceptionReporting(true);
+
             /**
              * Keyboard plugin
              */
@@ -45,6 +52,7 @@
              */
             cordova.getAppVersion.getVersionNumber().then(function (version) {
                 $rootScope.appVersion = version;
+                window.ga.setAppVersion(version);
             });
 
             /**
