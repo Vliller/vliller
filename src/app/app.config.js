@@ -8,6 +8,7 @@
         '$stateProvider',
         '$logProvider',
         '$compileProvider',
+        '$provide',
         'PRODUCTION_MODE',
         'aetmToastServiceProvider',
         function (
@@ -15,6 +16,7 @@
             $stateProvider,
             $logProvider,
             $compileProvider,
+            $provide,
             PRODUCTION_MODE,
             aetmToastServiceProvider) {
 
@@ -48,6 +50,21 @@
             $logProvider.debugEnabled(false);
             $compileProvider.debugInfoEnabled(false);
         }
+
+        // override error log to track messages with GA
+        $provide.decorator('$log', ['$delegate', function ($delegate) {
+            var originalError = $delegate.error;
+
+            $delegate.error = function (message) {
+                document.addEventListener('deviceready', function () {
+                    window.ga.trackException(message, false);
+                });
+
+                originalError.apply($delegate, arguments);
+            };
+
+            return $delegate;
+        }]);
 
         /**
          * Toasts
