@@ -12,7 +12,7 @@
         'vliller.home',
         'vliller.sidemenu'
     ])
-    .constant('PRODUCTION_MODE', false)
+    .constant('PRODUCTION_MODE', true)
 
     .constant('VLILLE_PROXY_URL', 'http://dev.alexandrebonhomme.fr/vlille/web')
 
