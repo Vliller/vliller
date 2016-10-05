@@ -5,8 +5,12 @@
   <author email="wall-e@alexetmanon.com" href="http://alexetmanon.com/">alex et manon</author>
   <content src="index.html" />
   <access origin="*" />
-  <allow-intent href="*" />
-  <allow-navigation href="*" />
+  <allow-intent href="http://*/*" />
+  <allow-intent href="https://*/*" />
+  <allow-intent href="mailto:*" />
+  <allow-intent href="market://*" />
+  <allow-intent href="itms-apps://*"/>
+  <allow-navigation href="file://*" />
   <preference name="Orientation" value="portrait" />
   <preference name="webviewbounce" value="false" />
   <preference name="UIWebViewBounce" value="false" />
