@@ -52,7 +52,7 @@
                         </div>
 
                         <!-- station bike/attachs -->
-                        <div class="item item-content" ng-if="HomeCtrl.activeStation.status === '0'">
+                        <div class="item item-content" ng-if="HomeCtrl.activeStation.status === '0' && !HomeCtrl.isOffline">
 
                             <!-- bikes -->
                             <div class="station-bikes">
@@ -80,8 +80,13 @@
                         </div>
 
                         <!-- station HS -->
-                        <div class="item item-content" ng-if="HomeCtrl.activeStation.status !== '0'">
+                        <div class="item item-content" ng-if="HomeCtrl.activeStation.status !== '0' && !HomeCtrl.isOffline">
                             <p class="station-dead">Cette station semble indispoblie,<br> mais tu peux tenter ta chance un peu plus loin&nbsp;!</p>
+                        </div>
+
+                        <!-- Offline -->
+                        <div class="item item-content" ng-if="HomeCtrl.isOffline">
+                            <p class="station-dead">Vous devez être connecté à Internet pour pouvoir afficher ces informations :-/</p>
                         </div>
                     </div>
                 </div>

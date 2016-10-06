@@ -41,21 +41,21 @@
         vm.isLoading = true;
         vm.isGPSLoading = false;
         vm.isGPSCentered = false;
-        // vm.isOffline = aetmNetworkService.isOffline();
+        vm.isOffline = aetmNetworkService.isOffline();
 
-        // // updates offline status
-        // $scope.$watch('$root.isOffline', function (newValue) {
-        //     if (newValue === undefined) {
-        //         return;
-        //     }
+        // updates offline status
+        $scope.$watch('$root.isOffline', function (newValue) {
+            if (newValue === undefined) {
+                return;
+            }
 
-        //     vm.isOffline = newValue;
-        // });
+            vm.isOffline = newValue;
+        });
 
-        // // Invalidate cache to get the stations list updated
-        // if (!vm.isOffline) {
-        //     Vlilles.invalidateCache();
-        // }
+        // Invalidate cache to get the stations list updated
+        if (!vm.isOffline) {
+            Vlilles.invalidateCache();
+        }
 
         // get stations list
         vm.stations = Vlilles.query();
