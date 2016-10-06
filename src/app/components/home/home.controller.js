@@ -11,6 +11,7 @@
         'Location',
         'Navigation',
         'GoogleMapsTools',
+        'aetmNetworkService',
         function (
             Vlilles,
             $scope,
@@ -20,7 +21,8 @@
             aetmToastService,
             Location,
             Navigation,
-            GoogleMapsTools) {
+            GoogleMapsTools,
+            aetmNetworkService) {
         var vm = this,
             map,
             markers = [],
@@ -39,6 +41,21 @@
         vm.isLoading = true;
         vm.isGPSLoading = false;
         vm.isGPSCentered = false;
+        // vm.isOffline = aetmNetworkService.isOffline();
+
+        // // updates offline status
+        // $scope.$watch('$root.isOffline', function (newValue) {
+        //     if (newValue === undefined) {
+        //         return;
+        //     }
+
+        //     vm.isOffline = newValue;
+        // });
+
+        // // Invalidate cache to get the stations list updated
+        // if (!vm.isOffline) {
+        //     Vlilles.invalidateCache();
+        // }
 
         // get stations list
         vm.stations = Vlilles.query();
@@ -164,8 +181,7 @@
          * Refresh marker icons (except active one)
          */
         function refreshMarkerIcons() {
-            var i = markers.length;
-            while (i--) {
+            for (var i = 0, len = markers.length; i < len; i += 1) {
                 if (markers[i].id === activeMarker.id) {
                     continue;
                 }
@@ -212,32 +228,47 @@
         }
 
         /**
+         * Set clicked marker as active
+         * @param  Object marker
+         */
+        function markerClick(marker) {
+            setActiveMarker(marker, true);
+        }
+
+        /**
          * @param  Array stations
          */
         function initStations(stations) {
-            // update GPS position
-            vm.updatePosition();
+            // avoids function declaration inside loop
+            function callback(marker) {
+                // store list of markers
+                markers.push(marker);
 
-            // add stations markers
-            stations.forEach(function (station) {
+                /**
+                 * addMarker is async, so we need to wait until all the marker are adds to the map.
+                 * @see https://github.com/mapsplugin/cordova-plugin-googlemaps/wiki/Marker#create-multiple-markers
+                 */
+                if (markers.length === stations.length) {
+                    vm.isLoading = false;
+
+                    // update GPS position
+                    vm.updatePosition();
+                }
+            }
+
+            // adds stations markers on map
+            for (var i = 0, len = stations.length; i < len; i += 1) {
                 map.addMarker({
                     position: {
-                        lat: station.latitude,
-                        lng: station.longitude
+                        lat: stations[i].latitude,
+                        lng: stations[i].longitude
                     },
                     icon: iconDefault,
-                    station: station,
+                    station: stations[i],
                     disableAutoPan: true,
-                    markerClick: function (marker) {
-                        setActiveMarker(marker, true);
-                    }
-                }, function (marker) {
-                    // store list of markers
-                    markers.push(marker);
-                });
-            });
-
-            vm.isLoading = false;
+                    markerClick: markerClick
+                }, callback);
+            }
         }
 
         /**
