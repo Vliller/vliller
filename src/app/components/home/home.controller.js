@@ -300,26 +300,39 @@
             }
 
             /**
-             * Loads station details
+             * Handle Offline case
              */
-            Vlilles.get({id: station.id}, function (stationDetails) {
-                // get some missing informations from the previous request
-                angular.extend(vm.activeStation, stationDetails);
-
+            if (vm.isOffline) {
                 // update marker
-                if (vm.activeStation.status === '0') {
-                    activeMarker.setIcon(iconActive);
-                } else {
-                    activeMarker.setIcon(iconUnavaible);
-                }
-
-                vm.activeStation.$loaded = true;
+                activeMarker.setIcon(iconActive);
 
                 // to avoid touch bug after card resizing
                 $timeout(function () {
                     map.refreshLayout();
                 }, 100);
-            });
+            } else {
+                /**
+                 * Loads station details
+                 */
+                Vlilles.get({id: station.id}, function (stationDetails) {
+                    // get some missing informations from the previous request
+                    angular.extend(vm.activeStation, stationDetails);
+
+                    // update marker
+                    if (vm.activeStation.status === '0') {
+                        activeMarker.setIcon(iconActive);
+                    } else {
+                        activeMarker.setIcon(iconUnavaible);
+                    }
+
+                    vm.activeStation.$loaded = true;
+
+                    // to avoid touch bug after card resizing
+                    $timeout(function () {
+                        map.refreshLayout();
+                    }, 100);
+                });
+            }
         }
 
         /**
