@@ -43,6 +43,11 @@
         vm.isGPSCentered = false;
         vm.isOffline = false;
 
+        // default map values
+        vm.map = {
+            $loaded: false
+        };
+
         // updates offline status
         $scope.$watch('$root.isOffline', function (newValue) {
             if (newValue === undefined) {
@@ -51,11 +56,6 @@
 
             vm.isOffline = newValue;
         });
-
-        // default map values
-        vm.map = {
-            $loaded: false
-        };
 
         // Loads the map
         document.addEventListener('deviceready', function () {
@@ -275,6 +275,7 @@
             // set default icon on current office marker
             if (activeMarker && activeMarker.id !== marker.id) {
                 activeMarker.setIcon(iconDefault);
+                vm.activeStation.$loaded = false;
             }
 
             // update new active office
