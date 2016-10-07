@@ -42,11 +42,11 @@
         vm.isGPSLoading = false;
         vm.isGPSCentered = false;
         vm.isOffline = false;
+        vm.isMapLoaded = false;
 
-        // default map values
-        vm.map = {
-            $loaded: false
-        };
+        // get stations list
+        vm.stations = Vlilles.query();
+        vm.stations.$cached = !!Vlilles.getCache().info().size;
 
         // updates offline status
         $scope.$watch('$root.isOffline', function (newValue) {
@@ -65,10 +65,13 @@
             // Invalidate cache to get the stations list updated
             if (!vm.isOffline) {
                 Vlilles.invalidateCache();
+                vm.stations = Vlilles.query();
             }
 
-            // get stations list
-            vm.stations = Vlilles.query();
+            // update cache status
+            vm.stations.$promise.then(function () {
+                vm.stations.$cached = !!Vlilles.getCache().info().size;
+            });
 
             // Initialize the map view
             var mapElement = plugin.google.maps.Map.getMap(document.getElementById('map-canvas'));
@@ -85,7 +88,6 @@
          */
         function onMapReady(gmap) {
             map = gmap;
-            vm.map.$loaded = true;
 
             $scope.$watch(function () {
                 return $ionicSideMenuDelegate.isOpen();
@@ -243,7 +245,7 @@
                  * @see https://github.com/mapsplugin/cordova-plugin-googlemaps/wiki/Marker#create-multiple-markers
                  */
                 if (markers.length === stations.length) {
-                    vm.isLoading = false;
+                    vm.isMapLoaded = true;
 
                     // update GPS position
                     vm.updatePosition();
