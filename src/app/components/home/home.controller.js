@@ -55,6 +55,11 @@
             }
 
             vm.isOffline = newValue;
+
+            // reload data if needed
+            if (vm.isOffline === false && !vm.stations.$cached) {
+                vm.stations = Vlilles.query();
+            }
         });
 
         // Loads the map
@@ -219,6 +224,11 @@
          * @param Object error
          */
         function errorHandler(error) {
+            // no network error
+            if (vm.isOffline && error.status === -1) {
+                return;
+            }
+
             $log.error(error);
             aetmToastService.showError('Oups! Une erreur est survenue.');
         }
