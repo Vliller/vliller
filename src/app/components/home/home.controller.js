@@ -7,6 +7,7 @@
         '$timeout',
         '$log',
         '$ionicSideMenuDelegate',
+        '$ionicPlatform',
         'aetmToastService',
         'Location',
         'Navigation',
@@ -18,6 +19,7 @@
             $timeout,
             $log,
             $ionicSideMenuDelegate,
+            $ionicPlatform,
             aetmToastService,
             Location,
             Navigation,
@@ -98,6 +100,17 @@
                     loadsActiveStationDetails(vm.activeStation.id);
                 }
             }
+        });
+
+        /**
+         * Updates gps position on resume.
+         */
+        var destroyOnResume = $ionicPlatform.on('resume', function () {
+            vm.updatePosition();
+        });
+
+        $scope.$on('$destroy', function () {
+          destroyOnResume(); // i.e. removes itself when context destroyed
         });
 
         // Loads the map
