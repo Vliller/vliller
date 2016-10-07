@@ -37,7 +37,7 @@ gulp.task('templates', function (done) {
 gulp.task('compress', ['sass', 'templates'], function (done) {
   gulp.src('./src/index.html')
     .pipe(useref())
-    .pipe(gulpif('*.js', uglify()))
+    // .pipe(gulpif('*.js', uglify()))
     .pipe(gulpif('*.html', htmlmin()))
     .pipe(gulp.dest('./www/'))
     .on('end', done);

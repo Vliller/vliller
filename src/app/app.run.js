@@ -7,11 +7,13 @@
         '$ionicPlatform',
         '$rootScope',
         '$log',
+        'aetmNetworkService',
         'GOOGLE_ANALYTICS_ID',
         function (
             $ionicPlatform,
             $rootScope,
             $log,
+            aetmNetworkService,
             GOOGLE_ANALYTICS_ID) {
         $ionicPlatform.ready(function () {
             /**
@@ -56,9 +58,26 @@
             });
 
             /**
+             * Network information
+             */
+            $rootScope.isOnline = aetmNetworkService.isOnline();
+            $rootScope.isOffline = !$rootScope.isOnline;
+
+            /**
              * Splashscreen
              */
             navigator.splashscreen.hide();
+        });
+
+        // Online/Offline
+        $rootScope.$on('aetm-network:online', function () {
+            $rootScope.isOnline = true;
+            $rootScope.isOffline = false;
+        });
+
+        $rootScope.$on('aetm-network:offline', function () {
+            $rootScope.isOnline = false;
+            $rootScope.isOffline = true;
         });
     }]);
 }());
