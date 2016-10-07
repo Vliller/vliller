@@ -30,13 +30,43 @@
             activeMarker,
             currentPosition = null,
             iconDefault,
-            iconNormal,
-            iconSmall,
-            iconActive,
-            iconUnavaible,
-            mapZoom,
+            icons = {},
+            mapZoom = 16, // default value
             ZOOM_THRESHOLD = 14;
 
+        // Init icons object
+        icons = {
+            iconNormal: {
+                url: 'www/assets/img/vliller-marker-white.png',
+                size: {
+                    width: 38,
+                    height: 45
+                }
+            },
+            iconSmall: {
+                url: 'www/assets/img/vliller-marker-red-small.png',
+                size: {
+                    width: 12,
+                    height: 12
+                }
+            },
+            iconActive: {
+                url: 'www/assets/img/vliller-marker-red.png',
+                size: {
+                    width: 60,
+                    height: 69
+                }
+            },
+            iconUnavaible: {
+                url: 'www/assets/img/vliller-marker-grey.png',
+                size: {
+                    width: 60,
+                    height: 69
+                }
+            }
+        };
+
+        // view binds
         vm.activeStation = null;
         vm.isLoading = true;
         vm.isGPSLoading = false;
@@ -115,41 +145,8 @@
                 }
             });
 
-            // Init icon objects
-            iconNormal = {
-                url: 'www/assets/img/vliller-marker-white.png',
-                size: {
-                    width: 38,
-                    height: 45
-                }
-            };
-
-            iconSmall = {
-                url: 'www/assets/img/vliller-marker-red-small.png',
-                size: {
-                    width: 12,
-                    height: 12
-                }
-            };
-
-            iconActive = {
-                url: 'www/assets/img/vliller-marker-red.png',
-                size: {
-                    width: 60,
-                    height: 69
-                }
-            };
-
-            iconUnavaible = {
-                url: 'www/assets/img/vliller-marker-grey.png',
-                size: {
-                    width: 60,
-                    height: 69
-                }
-            };
-
             // by default icons are normal
-            iconDefault = iconNormal;
+            iconDefault = icons.iconNormal;
 
             // Init markers, etc.
             vm.stations.$promise.then(initStations, errorHandler);
@@ -171,13 +168,13 @@
             if (zoom < ZOOM_THRESHOLD && mapZoom >= ZOOM_THRESHOLD) {
                 // we are "unzooming"
                 // change the marker icon for the small one
-                iconDefault = iconSmall;
+                iconDefault = icons.iconSmall;
 
                 refreshMarkerIcons();
             } else if (zoom > ZOOM_THRESHOLD && mapZoom <= ZOOM_THRESHOLD) {
                 // we are "zooming"
                 // change the marker icon for the normal one
-                iconDefault = iconNormal;
+                iconDefault = icons.iconNormal;
 
                 refreshMarkerIcons();
             }
@@ -312,7 +309,7 @@
              */
             if (vm.isOffline) {
                 // update marker
-                activeMarker.setIcon(iconActive);
+                activeMarker.setIcon(icons.iconActive);
 
                 // to avoid touch bug after card resizing
                 $timeout(function () {
@@ -333,9 +330,9 @@
 
                 // update marker
                 if (vm.activeStation.status === '0') {
-                    activeMarker.setIcon(iconActive);
+                    activeMarker.setIcon(icons.iconActive);
                 } else {
-                    activeMarker.setIcon(iconUnavaible);
+                    activeMarker.setIcon(icons.iconUnavaible);
                 }
 
                 vm.activeStation.$loaded = true;
