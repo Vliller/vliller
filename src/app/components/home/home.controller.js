@@ -41,7 +41,7 @@
         vm.isLoading = true;
         vm.isGPSLoading = false;
         vm.isGPSCentered = false;
-        vm.isOffline = aetmNetworkService.isOffline();
+        vm.isOffline = false;
 
         // updates offline status
         $scope.$watch('$root.isOffline', function (newValue) {
@@ -52,14 +52,6 @@
             vm.isOffline = newValue;
         });
 
-        // Invalidate cache to get the stations list updated
-        if (!vm.isOffline) {
-            Vlilles.invalidateCache();
-        }
-
-        // get stations list
-        vm.stations = Vlilles.query();
-
         // default map values
         vm.map = {
             $loaded: false
@@ -67,6 +59,17 @@
 
         // Loads the map
         document.addEventListener('deviceready', function () {
+            // get network status
+            vm.isOffline = aetmNetworkService.isOffline();
+
+            // Invalidate cache to get the stations list updated
+            if (!vm.isOffline) {
+                Vlilles.invalidateCache();
+            }
+
+            // get stations list
+            vm.stations = Vlilles.query();
+
             // Initialize the map view
             var mapElement = plugin.google.maps.Map.getMap(document.getElementById('map-canvas'));
 

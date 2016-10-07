@@ -22,6 +22,7 @@ $card-height: 154px;
     padding: 0 10px 20px 10px;
 
     .map-card {
+        position: relative;
         border-radius: 2px;
         background-color: #fff;
         box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
@@ -127,6 +128,15 @@ $card-height: 154px;
         .item-number-value {
             vertical-align: middle;
             font-size: 32px;
+        }
+
+        .content-loader,
+        .content-offline {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
         }
     }
 }
