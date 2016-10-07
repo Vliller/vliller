@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget xmlns="http://www.w3.org/ns/widgets" id="com.alexetmanon.vliller" version="1.6.1" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget xmlns="http://www.w3.org/ns/widgets" id="com.alexetmanon.vliller" version="1.7.0" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Vliller</name>
   <description>1 clic, 1 vélo, 1 place !</description>
   <author email="wall-e@alexetmanon.com" href="http://alexetmanon.com/">alex et manon</author>

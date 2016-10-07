@@ -7,6 +7,7 @@
         '$timeout',
         '$log',
         '$ionicSideMenuDelegate',
+        '$ionicPlatform',
         'aetmToastService',
         'Location',
         'Navigation',
@@ -18,6 +19,7 @@
             $timeout,
             $log,
             $ionicSideMenuDelegate,
+            $ionicPlatform,
             aetmToastService,
             Location,
             Navigation,
@@ -30,43 +32,103 @@
             activeMarker,
             currentPosition = null,
             iconDefault,
-            iconNormal,
-            iconSmall,
-            iconActive,
-            iconUnavaible,
-            mapZoom,
+            icons = {},
+            mapZoom = 16, // default value
             ZOOM_THRESHOLD = 14;
 
+        // Init icons object
+        icons = {
+            iconNormal: {
+                url: 'www/assets/img/vliller-marker-white.png',
+                size: {
+                    width: 38,
+                    height: 45
+                }
+            },
+            iconSmall: {
+                url: 'www/assets/img/vliller-marker-red-small.png',
+                size: {
+                    width: 12,
+                    height: 12
+                }
+            },
+            iconActive: {
+                url: 'www/assets/img/vliller-marker-red.png',
+                size: {
+                    width: 60,
+                    height: 69
+                }
+            },
+            iconUnavaible: {
+                url: 'www/assets/img/vliller-marker-grey.png',
+                size: {
+                    width: 60,
+                    height: 69
+                }
+            }
+        };
+
+        // view binds
         vm.activeStation = null;
         vm.isLoading = true;
         vm.isGPSLoading = false;
         vm.isGPSCentered = false;
-        // vm.isOffline = aetmNetworkService.isOffline();
-
-        // // updates offline status
-        // $scope.$watch('$root.isOffline', function (newValue) {
-        //     if (newValue === undefined) {
-        //         return;
-        //     }
-
-        //     vm.isOffline = newValue;
-        // });
-
-        // // Invalidate cache to get the stations list updated
-        // if (!vm.isOffline) {
-        //     Vlilles.invalidateCache();
-        // }
+        vm.isOffline = false;
+        vm.isMapLoaded = false;
 
         // get stations list
         vm.stations = Vlilles.query();
+        vm.stations.$cached = !!Vlilles.getCache().info().size;
 
-        // default map values
-        vm.map = {
-            $loaded: false
-        };
+        // updates offline status
+        $scope.$watch('$root.isOffline', function (newValue) {
+            if (newValue === undefined) {
+                return;
+            }
+
+            vm.isOffline = newValue;
+
+            // reload data if needed
+            if (vm.isOffline === false) {
+                // stations list
+                if(!vm.stations.$cached) {
+                    vm.stations = Vlilles.query();
+                }
+
+                // active station
+                if (vm.activeStation && !vm.activeStation.$loaded) {
+                    loadsActiveStationDetails(vm.activeStation.id);
+                }
+            }
+        });
+
+        /**
+         * Updates gps position on resume.
+         */
+        var destroyOnResume = $ionicPlatform.on('resume', function () {
+            vm.updatePosition();
+        });
+
+        $scope.$on('$destroy', function () {
+          destroyOnResume(); // i.e. removes itself when context destroyed
+        });
 
         // Loads the map
         document.addEventListener('deviceready', function () {
+            // get network status
+            vm.isOffline = aetmNetworkService.isOffline();
+
+            // Invalidate cache to get the stations list updated
+            if (!vm.isOffline) {
+                Vlilles.invalidateCache();
+                vm.stations = Vlilles.query();
+            }
+
+            // update cache status
+            vm.stations.$promise.then(function () {
+                vm.stations.$cached = !!Vlilles.getCache().info().size;
+            });
+
             // Initialize the map view
             var mapElement = plugin.google.maps.Map.getMap(document.getElementById('map-canvas'));
 
@@ -82,7 +144,6 @@
          */
         function onMapReady(gmap) {
             map = gmap;
-            vm.map.$loaded = true;
 
             $scope.$watch(function () {
                 return $ionicSideMenuDelegate.isOpen();
@@ -95,52 +156,10 @@
                         map.setVisible(true);
                     }, 200); // animation duration
                 }
-
-                // @see https://github.com/mapsplugin/cordova-plugin-googlemaps/wiki/Map.refreshLayout()#code-with-jquery-mobile
-                // map.setVisible(false);
-
-                // $timeout(function () {
-                //     map.refreshLayout();
-                //     map.setVisible(true);
-                //     map.setClickable(!isOpen);
-                // }, 200); // animation duration
             });
 
-            // Init icon objects
-            iconNormal = {
-                url: 'www/assets/img/vliller-marker-white.png',
-                size: {
-                    width: 38,
-                    height: 45
-                }
-            };
-
-            iconSmall = {
-                url: 'www/assets/img/vliller-marker-red-small.png',
-                size: {
-                    width: 12,
-                    height: 12
-                }
-            };
-
-            iconActive = {
-                url: 'www/assets/img/vliller-marker-red.png',
-                size: {
-                    width: 60,
-                    height: 69
-                }
-            };
-
-            iconUnavaible = {
-                url: 'www/assets/img/vliller-marker-grey.png',
-                size: {
-                    width: 60,
-                    height: 69
-                }
-            };
-
             // by default icons are normal
-            iconDefault = iconNormal;
+            iconDefault = icons.iconNormal;
 
             // Init markers, etc.
             vm.stations.$promise.then(initStations, errorHandler);
@@ -162,13 +181,13 @@
             if (zoom < ZOOM_THRESHOLD && mapZoom >= ZOOM_THRESHOLD) {
                 // we are "unzooming"
                 // change the marker icon for the small one
-                iconDefault = iconSmall;
+                iconDefault = icons.iconSmall;
 
                 refreshMarkerIcons();
             } else if (zoom > ZOOM_THRESHOLD && mapZoom <= ZOOM_THRESHOLD) {
                 // we are "zooming"
                 // change the marker icon for the normal one
-                iconDefault = iconNormal;
+                iconDefault = icons.iconNormal;
 
                 refreshMarkerIcons();
             }
@@ -223,6 +242,11 @@
          * @param Object error
          */
         function errorHandler(error) {
+            // no network error
+            if (vm.isOffline && error.status === -1) {
+                return;
+            }
+
             $log.error(error);
             aetmToastService.showError('Oups! Une erreur est survenue.');
         }
@@ -249,7 +273,7 @@
                  * @see https://github.com/mapsplugin/cordova-plugin-googlemaps/wiki/Marker#create-multiple-markers
                  */
                 if (markers.length === stations.length) {
-                    vm.isLoading = false;
+                    vm.isMapLoaded = true;
 
                     // update GPS position
                     vm.updatePosition();
@@ -281,6 +305,7 @@
             // set default icon on current office marker
             if (activeMarker && activeMarker.id !== marker.id) {
                 activeMarker.setIcon(iconDefault);
+                vm.activeStation.$loaded = false;
             }
 
             // update new active office
@@ -293,17 +318,34 @@
             }
 
             /**
-             * Loads station details
+             * Handle Offline case
              */
-            Vlilles.get({id: station.id}, function (stationDetails) {
+            if (vm.isOffline) {
+                // update marker
+                activeMarker.setIcon(icons.iconActive);
+
+                // to avoid touch bug after card resizing
+                $timeout(function () {
+                    map.refreshLayout();
+                }, 100);
+            } else {
+                loadsActiveStationDetails(station.id);
+            }
+        }
+
+        /**
+         * Loads station details
+         */
+        function loadsActiveStationDetails(stationId) {
+            return Vlilles.get({id: stationId}, function (stationDetails) {
                 // get some missing informations from the previous request
                 angular.extend(vm.activeStation, stationDetails);
 
                 // update marker
                 if (vm.activeStation.status === '0') {
-                    activeMarker.setIcon(iconActive);
+                    activeMarker.setIcon(icons.iconActive);
                 } else {
-                    activeMarker.setIcon(iconUnavaible);
+                    activeMarker.setIcon(icons.iconUnavaible);
                 }
 
                 vm.activeStation.$loaded = true;
