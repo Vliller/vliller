@@ -57,8 +57,16 @@
             vm.isOffline = newValue;
 
             // reload data if needed
-            if (vm.isOffline === false && !vm.stations.$cached) {
-                vm.stations = Vlilles.query();
+            if (vm.isOffline === false) {
+                // stations list
+                if(!vm.stations.$cached) {
+                    vm.stations = Vlilles.query();
+                }
+
+                // active station
+                if (vm.activeStation && !vm.activeStation.$loaded) {
+                    loadsActiveStationDetails(vm.activeStation.id);
+                }
             }
         });
 
@@ -311,28 +319,32 @@
                     map.refreshLayout();
                 }, 100);
             } else {
-                /**
-                 * Loads station details
-                 */
-                Vlilles.get({id: station.id}, function (stationDetails) {
-                    // get some missing informations from the previous request
-                    angular.extend(vm.activeStation, stationDetails);
-
-                    // update marker
-                    if (vm.activeStation.status === '0') {
-                        activeMarker.setIcon(iconActive);
-                    } else {
-                        activeMarker.setIcon(iconUnavaible);
-                    }
-
-                    vm.activeStation.$loaded = true;
-
-                    // to avoid touch bug after card resizing
-                    $timeout(function () {
-                        map.refreshLayout();
-                    }, 100);
-                });
+                loadsActiveStationDetails(station.id);
             }
+        }
+
+        /**
+         * Loads station details
+         */
+        function loadsActiveStationDetails(stationId) {
+            return Vlilles.get({id: stationId}, function (stationDetails) {
+                // get some missing informations from the previous request
+                angular.extend(vm.activeStation, stationDetails);
+
+                // update marker
+                if (vm.activeStation.status === '0') {
+                    activeMarker.setIcon(iconActive);
+                } else {
+                    activeMarker.setIcon(iconUnavaible);
+                }
+
+                vm.activeStation.$loaded = true;
+
+                // to avoid touch bug after card resizing
+                $timeout(function () {
+                    map.refreshLayout();
+                }, 100);
+            });
         }
 
         /**
