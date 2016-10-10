@@ -156,17 +156,10 @@
 
             // watch heading
             headingWatchID = navigator.compass.watchHeading(function (heading) {
-                if (Math.abs(heading - currentHeading) < HEADING_THRESOLD) {
-                    return;
-                }
-
                 // udapte heading value
-                currentHeading = heading;
-
-                // updateUserMarkerHeading(heading.magneticHeading, 450);
-                userMarker.setRotation(heading.magneticHeading);
+                currentHeading = heading.magneticHeading;
             }, $log.error, {
-                frequency: 500 // 500ms
+                frequency: 100 // 100ms
             });
 
             // manage sidemenu
@@ -199,71 +192,16 @@
         }
 
         /**
-         * Modulo function
-         * @see http://javascript.about.com/od/problemsolving/a/modulobug.htm
-         * @param  Number x
-         * @param  Number y
-         * @return Number
+         * /!\ Should be called in requestAnimationFrame().
+         *
+         * Indicates the user heading by rotating the position icon.
+         * Initially called during the user marker creation.
          */
-        function mod(x, y) {
-            return ((x%y)+y)%y;
-        }
+        function updateUserHeading() {
+            userMarker.setRotation(currentHeading);
 
-        /**
-         * Updates the user marker heading (rotation) smoothly
-         * @param  Number heading
-         * @param  Number duration
-         */
-        function updateUserMarkerHeading(heading, duration) {
-            if (!userMarker) {
-                return;
-            }
-
-            var oldHeading,
-                newHeading,
-                headingDelta1,
-                headingDelta2,
-                animationRef,
-                animationStep = 50, // 50ms
-                animationFrameCount = 0,
-                animationFrameTotal,
-                animationHeadingStep;
-
-            newHeading = userMarker.getRotation();
-
-            animationFrameTotal = duration / animationStep;
-
-            // looks for the smallest rotation
-            headingDelta1 = mod(heading - newHeading, 360);
-            headingDelta2 = mod(newHeading - heading, 360);
-
-            if (headingDelta1 > headingDelta2) {
-                animationHeadingStep = headingDelta2 / (duration / animationStep);
-            } else {
-                animationHeadingStep = headingDelta1 / (duration / animationStep);
-            }
-
-            // setInterval callback
-            function callback() {
-                oldHeading = newHeading;
-                newHeading = mod(oldHeading + animationHeadingStep, 360);
-
-                console.log(animationHeadingStep)
-                console.log(newHeading)
-
-                // update marker heading
-                userMarker.setRotation(newHeading);
-
-                // animation end
-                if (animationFrameCount >= animationFrameTotal) {
-                    clearInterval(animationRef);
-                } else {
-                    animationFrameCount += 1;
-                }
-            }
-
-            // run animation
-            animationRef = setInterval(callback, animationStep);
+            // recursive call to requestAnimationFrame()
+            ionic.requestAnimationFrame(updateUserHeading);
         }
 
         /**
@@ -494,6 +432,9 @@
 
                     // changes anchor position for rotation
                     userMarker.setIconAnchor(14, 14);
+
+                    // update heading
+                    ionic.requestAnimationFrame(updateUserHeading);
                 });
             } else {
                 userMarker.setPosition({
