@@ -34,7 +34,8 @@
             iconDefault,
             icons = {},
             mapZoom = 16, // default value
-            ZOOM_THRESHOLD = 14;
+            ZOOM_THRESHOLD = 14,
+            headingWatchID;
 
         // Init icons object
         icons = {
@@ -109,8 +110,14 @@
             vm.updatePosition();
         });
 
+        // clear things
         $scope.$on('$destroy', function () {
-          destroyOnResume(); // i.e. removes itself when context destroyed
+            destroyOnResume(); // i.e. removes itself when context destroyed
+
+            // remove heading watcher
+            if (headingWatchID) {
+                navigator.compass.clearWatch(headingWatchID);
+            }
         });
 
         // Loads the map
@@ -145,6 +152,16 @@
         function onMapReady(gmap) {
             map = gmap;
 
+            // watch user heading
+            headingWatchID = navigator.compass.watchHeading(function (heading) {
+                map.moveCamera({
+                  'bearing': heading.magneticHeading
+                });
+            }, $log.error, {
+                frequency: 500
+            });
+
+            // manage sidemenu
             $scope.$watch(function () {
                 return $ionicSideMenuDelegate.isOpen();
             }, function (isOpen) {

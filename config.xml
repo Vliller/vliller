@@ -16,6 +16,7 @@
   <preference name="UIWebViewBounce" value="false" />
   <preference name="DisallowOverscroll" value="true" />
   <preference name="SplashScreen" value="screen" />
+  <preference name="SplashScreenDelay" value="3000" />
   <preference name="AutoHideSplashScreen" value="false" />
   <preference name="ShowSplashScreenSpinner" value="false" />
   <preference name="SplashMaintainAspectRatio" value="true" />
@@ -27,7 +28,6 @@
   <preference name="CrosswalkAnimatable" value="true" />
   <preference name="StatusBarOverlaysWebView" value="true" />
   <preference name="StatusBarStyle" value="lightcontent" />
-  <preference name="SplashScreenDelay" value="3000" />
   <feature name="StatusBar">
     <param name="ios-package" onload="true" value="CDVStatusBar" />
   </feature>
