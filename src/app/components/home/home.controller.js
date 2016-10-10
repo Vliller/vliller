@@ -36,8 +36,7 @@
             mapZoom = 16, // default value
             ZOOM_THRESHOLD = 14,
             headingWatchID,
-            currentHeading = 0,
-            HEADING_THRESOLD = 5; // 5deg
+            currentHeading = 0;
 
         // Init icons object
         icons = {
@@ -421,7 +420,7 @@
                     icon: {
                         url: 'www/assets/img/vliller-marker-user.png',
                         size: {
-                            width: 28,
+                            width: 18,
                             height: 28
                         }
                     },
