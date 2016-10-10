@@ -420,19 +420,17 @@
                     icon: {
                         url: 'www/assets/img/vliller-marker-user.png',
                         size: {
-                            width: 18,
-                            height: 28
-                        }
+                            width: 22,
+                            height: 34
+                        },
+                        anchor: [11, 23]
                     },
                     disableAutoPan: true
 
                 }, function (marker) {
                     userMarker = marker;
 
-                    // changes anchor position for rotation
-                    userMarker.setIconAnchor(14, 14);
-
-                    // update heading
+                    // updates heading
                     ionic.requestAnimationFrame(updateUserHeading);
                 });
             } else {
