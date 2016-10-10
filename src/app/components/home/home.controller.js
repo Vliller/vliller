@@ -35,7 +35,9 @@
             icons = {},
             mapZoom = 16, // default value
             ZOOM_THRESHOLD = 14,
-            headingWatchID;
+            headingWatchID,
+            currentHeading = 0,
+            HEADING_THRESOLD = 5; // 5deg
 
         // Init icons object
         icons = {
@@ -154,11 +156,15 @@
 
             // watch heading
             headingWatchID = navigator.compass.watchHeading(function (heading) {
-
-                // set user marker orientation based on the heading
-                if (userMarker) {
-                    userMarker.setRotation(heading.magneticHeading);
+                if (Math.abs(heading - currentHeading) < HEADING_THRESOLD) {
+                    return;
                 }
+
+                // udapte heading value
+                currentHeading = heading;
+
+                // updateUserMarkerHeading(heading.magneticHeading, 450);
+                userMarker.setRotation(heading.magneticHeading);
             }, $log.error, {
                 frequency: 500 // 500ms
             });
@@ -190,6 +196,74 @@
         function onCameraChange(event) {
             updateGPSCentered(event.target);
             updateMarkerIcon(event.zoom);
+        }
+
+        /**
+         * Modulo function
+         * @see http://javascript.about.com/od/problemsolving/a/modulobug.htm
+         * @param  Number x
+         * @param  Number y
+         * @return Number
+         */
+        function mod(x, y) {
+            return ((x%y)+y)%y;
+        }
+
+        /**
+         * Updates the user marker heading (rotation) smoothly
+         * @param  Number heading
+         * @param  Number duration
+         */
+        function updateUserMarkerHeading(heading, duration) {
+            if (!userMarker) {
+                return;
+            }
+
+            var oldHeading,
+                newHeading,
+                headingDelta1,
+                headingDelta2,
+                animationRef,
+                animationStep = 50, // 50ms
+                animationFrameCount = 0,
+                animationFrameTotal,
+                animationHeadingStep;
+
+            newHeading = userMarker.getRotation();
+
+            animationFrameTotal = duration / animationStep;
+
+            // looks for the smallest rotation
+            headingDelta1 = mod(heading - newHeading, 360);
+            headingDelta2 = mod(newHeading - heading, 360);
+
+            if (headingDelta1 > headingDelta2) {
+                animationHeadingStep = headingDelta2 / (duration / animationStep);
+            } else {
+                animationHeadingStep = headingDelta1 / (duration / animationStep);
+            }
+
+            // setInterval callback
+            function callback() {
+                oldHeading = newHeading;
+                newHeading = mod(oldHeading + animationHeadingStep, 360);
+
+                console.log(animationHeadingStep)
+                console.log(newHeading)
+
+                // update marker heading
+                userMarker.setRotation(newHeading);
+
+                // animation end
+                if (animationFrameCount >= animationFrameTotal) {
+                    clearInterval(animationRef);
+                } else {
+                    animationFrameCount += 1;
+                }
+            }
+
+            // run animation
+            animationRef = setInterval(callback, animationStep);
         }
 
         /**
@@ -409,8 +483,12 @@
                     icon: {
                         url: 'www/assets/img/vliller-marker-user.png',
                         size: {
-                            width: 18,
-                            height: 18
+                            width: 28,
+                            height: 28
+                        },
+                        origin: {
+                            x: 14,
+                            y: 14
                         }
                     },
                     disableAutoPan: true
