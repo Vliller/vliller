@@ -34,7 +34,9 @@
             iconDefault,
             icons = {},
             mapZoom = 16, // default value
-            ZOOM_THRESHOLD = 14;
+            ZOOM_THRESHOLD = 14,
+            headingWatchID,
+            currentHeading = 0;
 
         // Init icons object
         icons = {
@@ -109,8 +111,14 @@
             vm.updatePosition();
         });
 
+        // clear things
         $scope.$on('$destroy', function () {
-          destroyOnResume(); // i.e. removes itself when context destroyed
+            destroyOnResume(); // i.e. removes itself when context destroyed
+
+            // remove heading watcher
+            if (headingWatchID) {
+                navigator.compass.clearWatch(headingWatchID);
+            }
         });
 
         // Loads the map
@@ -145,6 +153,15 @@
         function onMapReady(gmap) {
             map = gmap;
 
+            // watch heading
+            headingWatchID = navigator.compass.watchHeading(function (heading) {
+                // udapte heading value
+                currentHeading = heading.magneticHeading;
+            }, $log.error, {
+                frequency: 100 // 100ms
+            });
+
+            // manage sidemenu
             $scope.$watch(function () {
                 return $ionicSideMenuDelegate.isOpen();
             }, function (isOpen) {
@@ -171,6 +188,19 @@
         function onCameraChange(event) {
             updateGPSCentered(event.target);
             updateMarkerIcon(event.zoom);
+        }
+
+        /**
+         * /!\ Should be called in requestAnimationFrame().
+         *
+         * Indicates the user heading by rotating the position icon.
+         * Initially called during the user marker creation.
+         */
+        function updateUserHeading() {
+            userMarker.setRotation(currentHeading);
+
+            // recursive call to requestAnimationFrame()
+            ionic.requestAnimationFrame(updateUserHeading);
         }
 
         /**
@@ -380,6 +410,7 @@
         function handleLocationActive(position) {
             currentPosition = position.coords;
 
+            // TODO refactor
             if (!userMarker) {
                 map.addMarker({
                     position: {
@@ -389,14 +420,18 @@
                     icon: {
                         url: 'www/assets/img/vliller-marker-user.png',
                         size: {
-                            width: 18,
-                            height: 18
-                        }
+                            width: 22,
+                            height: 34
+                        },
+                        anchor: [11, 23]
                     },
                     disableAutoPan: true
 
                 }, function (marker) {
                     userMarker = marker;
+
+                    // updates heading
+                    ionic.requestAnimationFrame(updateUserHeading);
                 });
             } else {
                 userMarker.setPosition({
