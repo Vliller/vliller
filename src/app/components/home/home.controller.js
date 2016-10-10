@@ -485,16 +485,15 @@
                         size: {
                             width: 28,
                             height: 28
-                        },
-                        origin: {
-                            x: 14,
-                            y: 14
                         }
                     },
                     disableAutoPan: true
 
                 }, function (marker) {
                     userMarker = marker;
+
+                    // changes anchor position for rotation
+                    userMarker.setIconAnchor(14, 14);
                 });
             } else {
                 userMarker.setPosition({
