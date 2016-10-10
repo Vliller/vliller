@@ -152,13 +152,15 @@
         function onMapReady(gmap) {
             map = gmap;
 
-            // watch user heading
+            // watch heading
             headingWatchID = navigator.compass.watchHeading(function (heading) {
-                map.moveCamera({
-                  'bearing': heading.magneticHeading
-                });
+
+                // set user marker orientation based on the heading
+                if (userMarker) {
+                    userMarker.setRotation(heading.magneticHeading);
+                }
             }, $log.error, {
-                frequency: 500
+                frequency: 500 // 500ms
             });
 
             // manage sidemenu
@@ -397,6 +399,7 @@
         function handleLocationActive(position) {
             currentPosition = position.coords;
 
+            // TODO refactor
             if (!userMarker) {
                 map.addMarker({
                     position: {
