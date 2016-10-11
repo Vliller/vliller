@@ -1,7 +1,7 @@
 {
   "name": "vliller",
   "version": "1.8.0",
-  "description": "vliller : 1 clic, 1 v\u00e9lo, 1 place !",
+  "description": "vliller : 1 clic, 1 vélo, 1 place !",
   "devDependencies": {
     "bower": "^1.3.3",
     "gulp": "^3.5.6",
@@ -26,21 +26,21 @@
     "cordova-plugin-geolocation",
     "cordova.plugins.diagnostic",
     "cordova-plugin-x-toast",
-    {
-      "variables": {
-        "API_KEY_FOR_ANDROID": "AIzaSyCwaMhgCXRnhlbBulzNGi5BU0JBLej0FbI",
-        "API_KEY_FOR_IOS": "AIzaSyB7l0BYrnYjYqAY8tiX81XT6j-1iIz-YUY"
-      },
-      "locator": "https://github.com/phonegap-googlemaps-plugin/cordova-plugin-googlemaps",
-      "id": "plugin.google.maps"
-    },
     "cordova-plugin-app-version",
     "cordova-plugin-inappbrowser",
     "cordova-plugin-x-socialsharing",
     "cordova-custom-config",
     "cordova-plugin-google-analytics",
     "cordova-plugin-network-information",
-    "cordova-plugin-device-orientation"
+    "cordova-plugin-device-orientation",
+    {
+      "variables": {
+        "API_KEY_FOR_ANDROID": "AIzaSyCwaMhgCXRnhlbBulzNGi5BU0JBLej0FbI",
+        "API_KEY_FOR_IOS": "AIzaSyB7l0BYrnYjYqAY8tiX81XT6j-1iIz-YUY"
+      },
+      "locator": "https://github.com/phonegap-googlemaps-plugin/cordova-plugin-googlemaps",
+      "id": "cordova-plugin-googlemaps"
+    }
   ],
   "cordovaPlatforms": [
     "android",
