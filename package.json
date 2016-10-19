@@ -32,6 +32,7 @@
     "cordova-custom-config",
     "cordova-plugin-google-analytics",
     "cordova-plugin-network-information",
+    "cordova-plugin-request-location-accuracy",
     "cordova-plugin-device-orientation",
     {
       "variables": {

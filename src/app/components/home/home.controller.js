@@ -36,7 +36,8 @@
             mapZoom = 16, // default value
             ZOOM_THRESHOLD = 14,
             headingWatchID,
-            currentHeading = 0;
+            currentHeading = 0,
+            lille = {latitude: 50.633333, longitude: 3.066667};
 
         // Init icons object
         icons = {
@@ -305,8 +306,8 @@
                 if (markers.length === stations.length) {
                     vm.isMapLoaded = true;
 
-                    // update GPS position
-                    vm.updatePosition();
+                    // Check if GPS enable and start to update GPS position
+                    requestGPSAndUpdateLocation();
                 }
             }
 
@@ -445,6 +446,34 @@
             // compute the closest station and set active
             var closest = GoogleMapsTools.computeClosestMarker(currentPosition, markers);
             setActiveMarker(closest, false);
+        }
+
+        /**
+         * Check if GPS is enabled,
+         * Display a popup asking to turn on GPS if disabled
+         * Then start to update user's location
+         */
+        function requestGPSAndUpdateLocation() {
+            cordova.plugins.locationAccuracy.canRequest(function(canRequest){
+                if(canRequest){
+                    cordova.plugins.locationAccuracy.request(function(){
+                        vm.updatePosition();
+                    }, function (error){
+                        if(error){
+                            if(error.code !== cordova.plugins.locationAccuracy.ERROR_USER_DISAGREED){ // Android only
+                                if(window.confirm("Failed to automatically set Location Mode to 'High Accuracy'. Would you like to switch to the Location Settings page and do this manually?")){
+                                    cordova.plugins.diagnostic.switchToLocationSettings();
+                                }
+                            }
+                        }
+                    }, cordova.plugins.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY // iOS will ignore this
+                    );
+
+                    setCenterMap(lille);
+                } else { // GPS already enabled
+                    vm.updatePosition();
+                }
+            });
         }
 
         /**
