@@ -1,4 +1,4 @@
-# VLiller
+# Vliller
 
 Si toi aussi tu veux seulement une application pour trouver la station la plus proche en un instant. Allez viens ! On est bien !
 
@@ -19,7 +19,7 @@ https://github.com/alexetmanon/vliller-api
 
 https://github.com/alexetmanon/vliller/wiki/Roadmap
 
-## Contribution
+## Contributions
 
 https://github.com/alexetmanon/vliller/wiki/Contributions
 
