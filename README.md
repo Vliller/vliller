@@ -21,7 +21,7 @@ https://github.com/alexetmanon/vliller/wiki/Roadmap
 
 ## Contribution
 
-A venir
+https://github.com/alexetmanon/vliller/wiki/Contributions
 
 ## Licence
 
