@@ -4,12 +4,14 @@
     .controller('SidemenuController', [
         '$log',
         '$rootScope',
+        '$ionicSideMenuDelegate',
         'ANDROID_APP_ID',
         'IOS_APP_ID',
         'VLILLER_SITE_URL',
         function (
             $log,
             $rootScope,
+            $ionicSideMenuDelegate,
             ANDROID_APP_ID,
             IOS_APP_ID,
             VLILLER_SITE_URL) {
@@ -55,6 +57,13 @@
             window.plugins.socialsharing.shareWithOptions({
                 url: VLILLER_SITE_URL
             });
+        };
+
+        /**
+         * Close side menu
+         */
+        vm.close = function () {
+            $ionicSideMenuDelegate.toggleRight(false);
         };
     }]);
 }());
