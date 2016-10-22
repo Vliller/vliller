@@ -453,7 +453,9 @@
 
                 }, function (marker) {
                     // avoid duplication bug
-                    userMarker.remove();
+                    if (userMarker) {
+                        userMarker.remove();
+                    }
 
                     // updates marker ref
                     userMarker = marker;
