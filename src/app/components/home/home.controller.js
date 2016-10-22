@@ -76,6 +76,7 @@
         vm.isLoading = true;
         vm.isGPSLoading = false;
         vm.isGPSCentered = false;
+        vm.isGPSActive = true;
         vm.isOffline = false;
         vm.isMapLoaded = false;
 
@@ -103,6 +104,16 @@
                     loadsActiveStationDetails(vm.activeStation.id);
                 }
             }
+        });
+
+        // updates GPS status
+        $scope.$watch('$root.isLocationActive', function (newValue) {
+            // gps switch to on
+            if (vm.isGPSActive === false && newValue === true) {
+                vm.updatePosition();
+            }
+
+            vm.isGPSActive = newValue;
         });
 
         /**
@@ -232,7 +243,8 @@
          */
         function refreshMarkerIcons() {
             for (var i = 0, len = markers.length; i < len; i += 1) {
-                if (markers[i].id === activeMarker.id) {
+                // do not refresh active marker
+                if (activeMarker && activeMarker.id === markers[i].id) {
                     continue;
                 }
 
@@ -306,8 +318,14 @@
                 if (markers.length === stations.length) {
                     vm.isMapLoaded = true;
 
-                    // Check if GPS enable and start to update GPS position
-                    requestGPSAndUpdateLocation();
+                    // request to active location if needed
+                    Location.requestLocation().then(function () {
+                        // update GPS position
+                        vm.updatePosition();
+                    }, function () {
+                        // center map on Lille if the user do not active is GPS
+                        setCenterMap(lille);
+                    });
                 }
             }
 
@@ -449,34 +467,6 @@
         }
 
         /**
-         * Check if GPS is enabled,
-         * Display a popup asking to turn on GPS if disabled
-         * Then start to update user's location
-         */
-        function requestGPSAndUpdateLocation() {
-            cordova.plugins.locationAccuracy.canRequest(function(canRequest){
-                if(canRequest){
-                    cordova.plugins.locationAccuracy.request(function(){
-                        vm.updatePosition();
-                    }, function (error){
-                        if(error){
-                            if(error.code !== cordova.plugins.locationAccuracy.ERROR_USER_DISAGREED){ // Android only
-                                if(window.confirm("Failed to automatically set Location Mode to 'High Accuracy'. Would you like to switch to the Location Settings page and do this manually?")){
-                                    cordova.plugins.diagnostic.switchToLocationSettings();
-                                }
-                            }
-                        }
-                    }, cordova.plugins.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY // iOS will ignore this
-                    );
-
-                    setCenterMap(lille);
-                } else { // GPS already enabled
-                    vm.updatePosition();
-                }
-            });
-        }
-
-        /**
          * Updates the current position
          */
         vm.updatePosition = function () {
@@ -493,6 +483,7 @@
                         return error;
                     }
 
+                    // other error cases
                     errorHandler(error);
                 })
                 .finally(function () {
