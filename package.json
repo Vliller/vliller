@@ -41,7 +41,8 @@
       },
       "locator": "https://github.com/phonegap-googlemaps-plugin/cordova-plugin-googlemaps",
       "id": "cordova-plugin-googlemaps"
-    }
+    },
+    "cordova-plugin-crosswalk-webview"
   ],
   "cordovaPlatforms": [
     "android",
