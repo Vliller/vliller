@@ -64,6 +64,17 @@
             $rootScope.isOffline = !$rootScope.isOnline;
 
             /**
+             * Location
+             */
+            // default value
+            $rootScope.isLocationActive = true;
+
+            // set initial value
+            cordova.plugins.diagnostic.isLocationEnabled(function (isLocationActive) {
+                $rootScope.isLocationActive = isLocationActive;
+            });
+
+            /**
              * Splashscreen
              */
             navigator.splashscreen.hide();
@@ -78,6 +89,11 @@
         $rootScope.$on('aetm-network:offline', function () {
             $rootScope.isOnline = false;
             $rootScope.isOffline = true;
+        });
+
+        // Location
+        $rootScope.$on('Location:update', function (e, isLocationActive) {
+            $rootScope.isLocationActive = isLocationActive;
         });
     }]);
 }());

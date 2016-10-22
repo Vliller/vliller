@@ -36,7 +36,13 @@
             mapZoom = 16, // default value
             ZOOM_THRESHOLD = 14,
             headingWatchID,
-            currentHeading = 0;
+            currentHeading = 0,
+
+            // Lille
+            DEFAULT_POSITION = {
+                latitude: 50.633333,
+                longitude: 3.066667
+            };
 
         // Init icons object
         icons = {
@@ -75,6 +81,7 @@
         vm.isLoading = true;
         vm.isGPSLoading = false;
         vm.isGPSCentered = false;
+        vm.isGPSActive = true;
         vm.isOffline = false;
         vm.isMapLoaded = false;
 
@@ -102,6 +109,16 @@
                     loadsActiveStationDetails(vm.activeStation.id);
                 }
             }
+        });
+
+        // updates GPS status
+        $scope.$watch('$root.isLocationActive', function (newValue) {
+            // gps switch to on
+            if (vm.isGPSActive === false && newValue === true) {
+                vm.updatePosition();
+            }
+
+            vm.isGPSActive = newValue;
         });
 
         /**
@@ -231,7 +248,8 @@
          */
         function refreshMarkerIcons() {
             for (var i = 0, len = markers.length; i < len; i += 1) {
-                if (markers[i].id === activeMarker.id) {
+                // do not refresh active marker
+                if (activeMarker && activeMarker.id === markers[i].id) {
                     continue;
                 }
 
@@ -305,8 +323,14 @@
                 if (markers.length === stations.length) {
                     vm.isMapLoaded = true;
 
-                    // update GPS position
-                    vm.updatePosition();
+                    // request to active location if needed
+                    Location.requestLocation().then(function () {
+                        // update GPS position
+                        vm.updatePosition();
+                    }, function () {
+                        // center map on Lille if the user do not active is GPS
+                        setCenterMap(DEFAULT_POSITION);
+                    });
                 }
             }
 
@@ -464,6 +488,7 @@
                         return error;
                     }
 
+                    // other error cases
                     errorHandler(error);
                 })
                 .finally(function () {
