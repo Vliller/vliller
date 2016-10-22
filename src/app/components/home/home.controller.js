@@ -37,7 +37,12 @@
             ZOOM_THRESHOLD = 14,
             headingWatchID,
             currentHeading = 0,
-            lille = {latitude: 50.633333, longitude: 3.066667};
+
+            // Lille
+            DEFAULT_POSITION = {
+                latitude: 50.633333,
+                longitude: 3.066667
+            };
 
         // Init icons object
         icons = {
@@ -324,7 +329,7 @@
                         vm.updatePosition();
                     }, function () {
                         // center map on Lille if the user do not active is GPS
-                        setCenterMap(lille);
+                        setCenterMap(DEFAULT_POSITION);
                     });
                 }
             }
