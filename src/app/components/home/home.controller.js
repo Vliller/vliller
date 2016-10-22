@@ -452,6 +452,10 @@
                     disableAutoPan: true
 
                 }, function (marker) {
+                    // avoid duplication bug
+                    userMarker.remove();
+
+                    // updates marker ref
                     userMarker = marker;
 
                     // updates heading
