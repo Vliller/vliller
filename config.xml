@@ -50,6 +50,9 @@
     <config-file parent="UIStatusBarHidden" platform="ios" target="*-Info.plist">
       <true />
     </config-file>
+    <config-file parent="NSLocationWhenInUseUsageDescription" platform="ios" target="*-Info.plist">
+      <string>Cette application récupère ponctuellement votre position pour l'afficher sur la carte.</string>
+    </config-file>
     <preference name="ios-XCBuildConfiguration-TARGETED_DEVICE_FAMILY" value="1" />
     <icon height="57" src="resources/ios/icon/icon.png" width="57" />
     <icon height="114" src="resources/ios/icon/icon@2x.png" width="114" />
