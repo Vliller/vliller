@@ -1,6 +1,6 @@
 # 1.8.1
 
-- Amélioration du menu lattéral (swipe, bouton pour refermer, espacement iOS)
+- Amélioration du menu latéral (swipe, bouton pour refermer, espacement iOS)
 - Meilleur gestion du GPS (popup d'activation, auto-centrage sur Lille, bouton activé/désactivé)
 
 # 1.8.0

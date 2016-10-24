@@ -27,6 +27,7 @@ if __name__ == '__main__':
     #
     ET.register_namespace('', 'http://www.w3.org/ns/widgets')
     ET.register_namespace('cdv', 'http://cordova.apache.org/ns/1.0')
+    ET.register_namespace('android', 'http://schemas.android.com/apk/res/android')
 
     tree = ET.parse('config.xml')
     root = tree.getroot()

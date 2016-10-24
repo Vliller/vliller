@@ -9,7 +9,7 @@
      */
     angular
         .module('vliller.location', [])
-        .factory('Location', ['$q', '$rootScope', '$ionicPopup', '$timeout', function ($q, $rootScope, $ionicPopup, $timeout) {
+        .factory('Location', ['$q', '$rootScope', '$timeout', function ($q, $rootScope, $timeout) {
 
             document.addEventListener('deviceready', function () {
                 if (!cordova.plugins.diagnostic) {
@@ -83,31 +83,6 @@
                             );
                         });
                     }, false);
-
-                    defer.promise.catch(function (error) {
-                        // Android only
-                        if (error && error.code !== cordova.plugins.locationAccuracy.ERROR_USER_DISAGREED) {
-
-                            return $ionicPopup.confirm({
-                                title: "Vliller a besoin de votre position",
-                                template: "Impossible d'activer le GPS automatiquement. Voullez-vous ouvrir les préférences et l'activer la localisation 'haute précision' manuellement ?",
-                                cancelText: "Annuler",
-                                okText: "Ouvrir les paramètres"
-                            }).then(function (confirm) {
-                                // open location settings
-                                if (confirm) {
-                                    cordova.plugins.diagnostic.switchToLocationSettings();
-                                } else {
-                                    // throw an error
-                                    throw {
-                                        code: cordova.plugins.locationAccuracy.ERROR_USER_DISAGREED
-                                    };
-                                }
-                            });
-                        }
-
-                        return error;
-                    });
 
                     return defer.promise;
                 }
