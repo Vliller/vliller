@@ -9,7 +9,7 @@
     "aetm-angular-cordova-toast": "0.2.0",
     "aetm-angular-resource": "0.4.1"
   },
-  "version": "1.8.2",
+  "version": "1.8.2-halloween",
   "resolutions": {
     "angular": "^1.5.3"
   }
