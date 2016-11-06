@@ -3,36 +3,8 @@
         overflow: visible !important;
     }
 
-    .bar .button svg {
+    .bar .button svg{
         vertical-align: middle;
-    }
-
-    .bar-header {
-        box-shadow: none !important;
-        background: transparent !important;
-    }
-
-    .bar-header-halloween-bg {
-        position: absolute;
-        top: -50px;
-        height: 140px;
-        width: 100%;
-        background: url('assets/img/vliller-header-bg-halloween.svg') center top no-repeat;
-        background-size: auto 100%;
-    }
-}
-
-.home-content {
-    top: $bar-height - 20px !important;
-}
-
-.platform-ios.platform-cordova {
-    .home-content {
-        top: $bar-height - 20px + $ios-statusbar-height !important;
-    }
-
-    .bar-header-halloween-bg {
-        top: -50px + $ios-statusbar-height;
     }
 }
 
