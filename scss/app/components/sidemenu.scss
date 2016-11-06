@@ -98,6 +98,8 @@ $sidemenu-animation-time: 200ms;
     }
 
     .button.button-light.button-clear {
+        display: block;
+        text-align: left;
         padding: 0;
         color: $light;
 
