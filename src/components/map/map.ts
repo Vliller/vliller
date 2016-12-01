@@ -1,0 +1,56 @@
+import { Component } from '@angular/core';
+import { Platform } from 'ionic-angular';
+
+declare var plugin: any;
+
+// TODO: put this in constructor arguments
+const DEFAULT_POSITION = {
+    latitude: 50.633333,
+    longitude: 3.066667
+};
+
+@Component({
+    selector: 'map',
+    template: '<div id="map-canvas" class="map-canvas"></div>'
+})
+
+export class Map {
+    private _mapInstance: any;
+
+    constructor(platform: Platform) {
+        platform.ready().then(() => {
+            this.prepareMapInstance().then(this.initMap.bind(this));
+        });
+    }
+
+    /**
+     *
+     * @return {Promise<any>} Promise returning the map instance on resolve
+     */
+    private prepareMapInstance(): Promise<any> {
+        let mapElement = document.getElementById('map-canvas');
+
+        return new Promise<any>(
+            resolve => plugin.google.maps.Map.getMap(mapElement).one(plugin.google.maps.event.MAP_READY, resolve)
+        );
+    }
+
+    private initMap(mapInstance: any) {
+        this._mapInstance = mapInstance;
+
+        // TODO: load stations
+
+        this.setCenterMap(DEFAULT_POSITION);
+    }
+
+    public setCenterMap(position: any) {
+        this._mapInstance.animateCamera({
+            target: {
+                lat: position.latitude,
+                lng: position.longitude
+            },
+            zoom: 16,
+            duration: 1000
+        });
+    }
+}
