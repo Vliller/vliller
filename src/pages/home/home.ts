@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-
 import { NavController } from 'ionic-angular';
+
+import { VlilleStation } from '../../components/vlilles/vlille-station';
 
 @Component({
     selector: 'page-home',
@@ -8,6 +9,8 @@ import { NavController } from 'ionic-angular';
 })
 
 export class Home {
+    vlilles: VlilleStation[];
+
     constructor(public navCtrl: NavController) {
 
     }
