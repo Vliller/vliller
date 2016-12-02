@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Platform } from 'ionic-angular';
+import { Observable } from 'rxjs/Observable';
 
 import { VlilleStationResume } from '../vlille/vlille';
 
@@ -19,7 +20,7 @@ const DEFAULT_POSITION = {
 export class Map {
     private _mapInstance: any;
 
-    @Input() stations: VlilleStationResume[];
+    @Input() stations: Observable<VlilleStationResume[]>;
 
     constructor(platform: Platform) {
         platform.ready().then(() => {
@@ -42,7 +43,9 @@ export class Map {
     private initMap(mapInstance: any) {
         this._mapInstance = mapInstance;
 
-        // TODO: load stations
+        this.stations.subscribe(stations => {
+            // TODO: load stations
+        });
 
         this.setCenterMap(DEFAULT_POSITION);
     }

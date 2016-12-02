@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { Observable } from 'rxjs/Observable';
 
-import { VlilleStationResume } from '../../components/vlille/vlille';
+import { VlilleService, VlilleStationResume } from '../../components/vlille/vlille';
 
 @Component({
     selector: 'page-home',
@@ -9,9 +10,9 @@ import { VlilleStationResume } from '../../components/vlille/vlille';
 })
 
 export class Home {
-    stations: VlilleStationResume[];
+    stations: Observable<VlilleStationResume[]>;
 
-    constructor(public navCtrl: NavController) {
-
+    constructor(private vlilleService: VlilleService) {
+        this.stations = vlilleService.getAll();
     }
 }

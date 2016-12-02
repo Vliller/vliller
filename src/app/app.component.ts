@@ -2,6 +2,9 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
+// Add the RxJS Observable operators.
+import './rxjs-operators';
+
 import { Home } from '../pages/home/home';
 
 
