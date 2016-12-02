@@ -6,7 +6,5 @@ import { Component } from '@angular/core';
 })
 
 export class StationCard {
-    constructor() {
-
-    }
+    constructor() {}
 }
