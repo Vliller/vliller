@@ -37,8 +37,10 @@ export class VlilleService {
     constructor(private http: Http) {}
 
     get(id: number): Observable<VlilleStationDetails> {
-        // TODO
-        return null;
+        return this.http
+            .get(API_BASE + API_ENDPOINT + '/' + id)
+            .map((response: Response) => <VlilleStationDetails>response.json())
+            .catch(this.handleError);
     }
 
     getAll(): Observable<VlilleStationResume[]> {
