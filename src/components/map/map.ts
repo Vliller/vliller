@@ -19,6 +19,7 @@ const DEFAULT_POSITION = {
 
 export class Map {
     private _mapInstance: any;
+    private markers: any;
 
     @Input() stations: Observable<VlilleStationResume[]>;
 
@@ -44,11 +45,80 @@ export class Map {
         this._mapInstance = mapInstance;
 
         this.stations.subscribe(stations => {
-            // TODO: load stations
-            console.log(stations);
+            this.initStations(stations);
         });
 
         this.setCenterMap(DEFAULT_POSITION);
+    }
+
+    private initStations(stations: VlilleStationResume[]) {
+        // avoids function declaration inside loop
+        function callback(marker) {
+            // store list of markers
+            this.markers.push(marker);
+
+            /**
+             * addMarker is async, so we need to wait until all the marker are adds to the map.
+             * @see https://github.com/mapsplugin/cordova-plugin-googlemaps/wiki/Marker#create-multiple-markers
+             */
+            // if (this.markers.length !== stations.length) {
+            //     return;
+            // }
+
+            // all markers are init
+            // vm.isMapLoaded = true;
+
+            // request to active location if needed
+            // Location.requestLocation().then(function () {
+            //     // update GPS position
+            //     vm.updatePosition();
+            // }, function (error) {
+            //     // center map on Lille if the user do not active is GPS
+            //     setCenterMap(DEFAULT_POSITION);
+
+            //     // Android only
+            //     if (error && error.code !== cordova.plugins.locationAccuracy.ERROR_USER_DISAGREED) {
+
+            //         // disables
+            //         map.setClickable(false);
+
+            //         // open popup asking for settings
+            //         return $ionicPopup.confirm({
+            //             title: "Vliller a besoin de votre position",
+            //             template: "Impossible d'activer le GPS automatiquement. Voullez-vous ouvrir les préférences et l'activer la localisation \"haute précision\" manuellement ?",
+            //             cancelText: "Annuler",
+            //             okText: "Ouvrir les paramètres"
+            //         }).then(function (confirm) {
+            //             // enables map click
+            //             map.setClickable(true);
+
+            //             // open location settings
+            //             if (confirm) {
+            //                 cordova.plugins.diagnostic.switchToLocationSettings();
+            //             } else {
+            //                 // throw an error
+            //                 throw {
+            //                     code: cordova.plugins.locationAccuracy.ERROR_USER_DISAGREED
+            //                 };
+            //             }
+            //         });
+            //     }
+            // });
+        }
+
+        // adds stations markers on map
+        for(let station of stations) {
+            this._mapInstance.addMarker({
+                position: {
+                    lat: station.latitude,
+                    lng: station.longitude
+                },
+                // icon: iconDefault,
+                station: station,
+                disableAutoPan: true,
+                // markerClick: markerClick
+            }, callback);
+        }
     }
 
     public setCenterMap(position: any) {
