@@ -6,6 +6,7 @@ import { App } from './app.component';
 // components
 import { Map } from '../components/map/map';
 import { StationCard } from '../components/station-card/station-card';
+import { VlilleService } from '../components/vlille/vlille';
 
 // pages
 import { Home } from '../pages/home/home';
@@ -27,6 +28,12 @@ import { Home } from '../pages/home/home';
         App,
         Home
     ],
-    providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
+    providers: [
+        {
+            provide: ErrorHandler,
+            useClass: IonicErrorHandler
+        },
+        VlilleService
+    ]
 })
 export class AppModule {}

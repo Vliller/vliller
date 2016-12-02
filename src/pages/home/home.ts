@@ -12,7 +12,10 @@ import { VlilleService, VlilleStationResume } from '../../components/vlille/vlil
 export class Home {
     stations: Observable<VlilleStationResume[]>;
 
-    constructor(private vlilleService: VlilleService) {
+    constructor(
+        public navCtrl: NavController,
+        private vlilleService: VlilleService
+    ) {
         this.stations = vlilleService.getAll();
     }
 }

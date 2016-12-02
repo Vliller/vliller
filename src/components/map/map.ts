@@ -45,6 +45,7 @@ export class Map {
 
         this.stations.subscribe(stations => {
             // TODO: load stations
+            console.log(stations);
         });
 
         this.setCenterMap(DEFAULT_POSITION);
