@@ -9,7 +9,7 @@ import { VlilleStation } from '../../components/vlilles/vlille-station';
 })
 
 export class Home {
-    vlilles: VlilleStation[];
+    stations: VlilleStation[];
 
     constructor(public navCtrl: NavController) {
 

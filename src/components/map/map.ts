@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Platform } from 'ionic-angular';
+
+import { VlilleStation } from '../vlilles/vlille-station';
 
 declare var plugin: any;
 
@@ -16,6 +18,8 @@ const DEFAULT_POSITION = {
 
 export class Map {
     private _mapInstance: any;
+
+    @Input() stations: VlilleStation[];
 
     constructor(platform: Platform) {
         platform.ready().then(() => {
