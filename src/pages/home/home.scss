@@ -1,9 +1,22 @@
+$card-height: 154px;
+
 .home-content {
-    display: flex;
-    flex-direction: column;
+    position: relative;
     height: 100%;
 
     map {
-        flex: 1 0 70%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: $card-height;
+    }
+
+    station-card {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: $card-height;
     }
 }
