@@ -1,4 +1,4 @@
-$card-height: 154px;
+$station-card-height: 154px;
 
 .home-content {
     position: relative;
@@ -9,7 +9,7 @@ $card-height: 154px;
         top: 0;
         left: 0;
         right: 0;
-        bottom: $card-height;
+        bottom: $station-card-height;
     }
 
     station-card {
@@ -17,6 +17,6 @@ $card-height: 154px;
         left: 0;
         right: 0;
         bottom: 0;
-        height: $card-height;
+        height: $station-card-height;
     }
 }
