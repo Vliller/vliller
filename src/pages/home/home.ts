@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 
-import { VlilleService, VlilleStationResume } from '../../components/vlille/vlille';
+import { VlilleService, VlilleStationResume, VlilleStationDetails } from '../../components/vlille/vlille';
 
 @Component({
     selector: 'page-home',
@@ -10,12 +10,16 @@ import { VlilleService, VlilleStationResume } from '../../components/vlille/vlil
 })
 
 export class Home {
-    stations: Observable<VlilleStationResume[]>;
+    public stations: Observable<VlilleStationResume[]>;
+    public activeStation: Observable<VlilleStationDetails>;
 
     constructor(
         public navCtrl: NavController,
         private vlilleService: VlilleService
     ) {
         this.stations = vlilleService.getAll();
+
+        // TMP
+        this.activeStation = vlilleService.get(0);
     }
 }
