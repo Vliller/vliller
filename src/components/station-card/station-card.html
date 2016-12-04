@@ -1,7 +1,62 @@
 <div class="station-card">
-    <div>TODO: Title</div>
-    <div>TODO: Content</div>
+    <!-- Card loader -->
+    <div class="content-loader padding" ngHide="stationDetails || isOffline">
+        <ion-spinner icon="android" class="spinner-assertive"></ion-spinner>
+        <p class="text-grey">Chargement en cours...</p>
+    </div>
 
+    <!-- Card station details -->
+    <div *ngIf="stationDetails">
+
+        <!-- station name, uptime and CB -->
+        <div class="station-card--header">
+            <div class="station-name">{{ stationDetails.name }}</div>
+            <div class="positive station-distance">{{ formatedDistance() }}</div>
+
+            <p class="text-small text-grey">Il y a {{ stationDetails.lastupd }}</p>
+
+            <!-- CB -->
+            <div class="station-cb">
+                <img ngShow="stationDetails.payment === 'AVEC_TPE'" class="img-responsive" src="assets/img/vliller-cb.png">
+                <img ngHide="stationDetails.payment === 'AVEC_TPE'" class="img-responsive" src="assets/img/vliller-no-cb.png">
+            </div>
+        </div>
+
+        <!-- station bike/attachs -->
+        <div class="station-card--content" *ngIf="stationDetails.status === '0'">
+
+            <!-- bikes -->
+            <div class="station-bikes">
+                <div class="station-number">
+                    <div class="station-number-text {{ computeColorClass(stationDetails.bikes) }}">{{ stationDetails.bikes }}</div>
+
+                    <div><img class="img-responsive" [src]="computeBikesIcon(stationDetails.bikes)"></div>
+                </div>
+
+                <p *ngIf="stationDetails.bikes > 1" class="text-small text-grey">vélos disponibles</p>
+                <p *ngIf="stationDetails.bikes <= 1" class="text-small text-grey">vélo disponible</p>
+            </div>
+
+            <!-- docks -->
+            <div class="station-docks">
+                <div class="station-number">
+                    <div class="station-number-text {{ computeColorClass(stationDetails.docks) }}">{{ stationDetails.docks }}</div>
+
+                    <div><img class="img-responsive" [src]="computeDocksIcon(stationDetails.docks)"></div>
+                </div>
+
+                <p *ngIf="stationDetails.docks > 1" class="text-small text-grey">places libres</p>
+                <p *ngIf="stationDetails.docks <= 1" class="text-small text-grey">place libre</p>
+            </div>
+        </div>
+
+        <!-- station HS -->
+        <div class="station-card--content">
+            <p class="station-dead">Cette station semble indispoblie,<br> mais tu peux tenter ta chance un peu plus loin&nbsp;!</p>
+        </div>
+    </div>
+
+    <!-- FAB fav icon -->
     <ion-fab top right edge>
         <button ion-fab color="mustard">
             <ion-icon name="star"></ion-icon>
