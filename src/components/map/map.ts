@@ -12,6 +12,37 @@ const DEFAULT_POSITION = {
     longitude: 3.066667
 };
 
+export const MapIcon = {
+    NORMAL: {
+        url: 'www/assets/img/vliller-marker-white.png',
+        size: {
+            width: 38,
+            height: 45
+        }
+    },
+    SMALL: {
+        url: 'www/assets/img/vliller-marker-red-small.png',
+        size: {
+            width: 12,
+            height: 12
+        }
+    },
+    ACTIVE: {
+        url: 'www/assets/img/vliller-marker-red.png',
+        size: {
+            width: 60,
+            height: 69
+        }
+    },
+    UNAVAIBLE: {
+        url: 'www/assets/img/vliller-marker-grey.png',
+        size: {
+            width: 60,
+            height: 69
+        }
+    }
+};
+
 @Component({
     selector: 'map',
     template: '<div id="map-canvas" class="map-canvas"></div>'
@@ -20,10 +51,17 @@ const DEFAULT_POSITION = {
 export class Map {
     private _mapInstance: any;
     private markers: any;
+    private markerIcon: any;
+    private activeMarker: any;
+    public activeStation: any;
 
     @Input() stations: Observable<VlilleStationResume[]>;
 
     constructor(platform: Platform) {
+        this.markers = [];
+        this.markerIcon = MapIcon.NORMAL;
+
+        // prepare and init the map
         platform.ready().then(() => {
             this.prepareMapInstance().then(this.initMap.bind(this));
         });
@@ -113,15 +151,19 @@ export class Map {
                     lat: station.latitude,
                     lng: station.longitude
                 },
-                // icon: iconDefault,
+                icon: this.markerIcon,
                 station: station,
                 disableAutoPan: true,
-                // markerClick: markerClick
-            }, callback);
+                markerClick: this.markerClick
+            }, callback.bind(this));
         }
     }
 
-    public setCenterMap(position: any) {
+    /**
+     *
+     * @param {any} position
+     */
+    private setCenterMap(position: any) {
         this._mapInstance.animateCamera({
             target: {
                 lat: position.latitude,
@@ -130,5 +172,56 @@ export class Map {
             zoom: 16,
             duration: 1000
         });
+    }
+
+    /**
+     * Set clicked marker as active
+     * @param {google.maps.Marker} marker
+     */
+    private markerClick(marker: any) {
+        console.log('click');
+        this.setActiveMarker(marker, true);
+    }
+
+    /**
+     *
+     * @param {google.maps.Marker} marker
+     * @param {boolean} centerMap
+     */
+    private setActiveMarker(marker: any, centerMap: boolean) {
+        let station = marker.get('station');
+
+        // set default icon on current office marker
+        if (this.activeMarker && this.activeMarker.id !== marker.id) {
+            this.activeMarker.setIcon(this.markerIcon);
+            this.activeStation.$loaded = false;
+        }
+
+        // update new active office
+        this.activeMarker = marker;
+        this.activeStation = station;
+
+        // center map
+        if (centerMap !== false) {
+            this.setCenterMap(this.activeStation);
+        }
+
+        /**
+         * Handle Offline case
+         */
+        // if (this.isOffline) {
+        //     // update marker
+        //     activeMarker.setIcon(icons.iconActive);
+
+        //     // to avoid touch bug after card resizing
+        //     // $timeout(function () {
+        //     //     map.refreshLayout();
+        //     // }, 100);
+        // } else {
+        //     loadsActiveStationDetails(station.id);
+        // }
+
+        // update marker
+        this.activeMarker.setIcon(MapIcon.ACTIVE);
     }
 }
