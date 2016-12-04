@@ -82,9 +82,7 @@ export class Map {
     private initMap(mapInstance: any) {
         this._mapInstance = mapInstance;
 
-        this.stations.subscribe(stations => {
-            this.initStations(stations);
-        });
+        this.stations.subscribe((stations: VlilleStationResume[]) => this.initStations(stations));
 
         this.setCenterMap(DEFAULT_POSITION);
     }
