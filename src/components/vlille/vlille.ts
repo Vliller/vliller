@@ -36,7 +36,7 @@ export class VlilleService {
 
     constructor(private http: Http) {}
 
-    public getStation(id: number): Observable<VlilleStationDetails> {
+    public getStation(id: string): Observable<VlilleStationDetails> {
         return this.http
             .get(API_BASE + API_ENDPOINT + '/' + id)
             .map((response: Response) => <VlilleStationDetails>response.json())
