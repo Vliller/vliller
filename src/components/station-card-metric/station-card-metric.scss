@@ -1,0 +1,45 @@
+station-card-metric {
+    flex-grow: 1;
+    flex-basis: 0;
+
+    text-align: center;
+    padding: 8px 15px;
+
+    .metric-value {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-end;
+        margin-bottom: 5px;
+
+        div {
+            flex-grow: 1;
+            flex-basis: 0;
+        }
+
+        .metric-value-text {
+            display: inline-block;
+            font-weight: 300;
+            font-size: 45px;
+            line-height: 1;
+            margin-bottom: -4px;
+            margin-left: -25px;
+            margin-right: -30px;
+
+            // hack for to put text in front of bike icon
+            opacity: 0.99;
+        }
+
+        .metric-value-icon {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+    }
+
+    .metric-text {
+        font-size: 11px;
+        line-height: 1;
+        color: $black-54;
+    }
+}
