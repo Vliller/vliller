@@ -9,15 +9,25 @@
 
     <!-- station name, uptime and CB -->
     <div class="station-card--header">
-        <div class="station-name">{{ stationDetails.name }}</div>
-        <div class="station-distance">{{ formatedDistance() }}</div>
+        <div class="station-left-icons">
+            <div class="station-fav">
+                <!-- <ion-icon mode="md" name="star" color="mustard" isActive="isStationFavorite"></ion-icon> -->
+                <img class="img-responsive" src="assets/img/vliller-star.svg">
+            </div>
+        </div>
 
-        <p class="text-small text-grey">Il y a {{ stationDetails.lastupd }}</p>
-
-        <!-- CB -->
-        <div class="station-cb">
-            <img *ngIf="stationDetails.payment === 'AVEC_TPE'" class="img-responsive" src="assets/img/vliller-cb.png">
-            <img *ngIf="stationDetails.payment !== 'AVEC_TPE'" class="img-responsive" src="assets/img/vliller-no-cb.png">
+        <div class="station-infos">
+            <div>
+                <div class="station-name">{{ stationDetails.name }}</div>
+                <div class="station-distance">{{ formatedDistance() }}</div>
+            </div>
+            <div>
+                <div class="station-lastup">Il y a {{ stationDetails.lastupd }}</div>
+                <div class="station-cb">
+                    <img *ngIf="stationDetails.payment === 'AVEC_TPE'" class="img-responsive" src="assets/img/vliller-cb.png">
+                    <img *ngIf="stationDetails.payment !== 'AVEC_TPE'" class="img-responsive" src="assets/img/vliller-no-cb.png">
+                </div>
+            </div>
         </div>
     </div>
 

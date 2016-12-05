@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { VlilleStationDetails } from '../vlille/vlille';
+import { VlilleStation } from '../vlille/vlille';
 
 @Component({
     selector: 'station-card',
@@ -9,14 +9,18 @@ import { VlilleStationDetails } from '../vlille/vlille';
 })
 
 export class StationCard implements OnInit {
-    public stationDetails: VlilleStationDetails;
+    public stationDetails: VlilleStation;
+    public isStationFavorite: boolean;
 
-    @Input() station: Observable<VlilleStationDetails>;
+    @Input() station: Observable<VlilleStation>;
 
-    constructor() {}
+    constructor() {
+        // TODO
+        this.isStationFavorite = false
+    }
 
     ngOnInit() {
-        this.station.subscribe((station: VlilleStationDetails) => this.stationDetails = station);
+        this.station.subscribe((station: VlilleStation) => this.stationDetails = station);
     }
 
     /**
@@ -25,6 +29,9 @@ export class StationCard implements OnInit {
      * @return {string}
      */
     public formatedDistance() {
+        // TODO
+        return '400m';
+
         // var distanceInMeter = activeMarker.get('distance'),
         //     distanceString = 'à ';
 

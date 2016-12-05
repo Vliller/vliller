@@ -16,19 +16,58 @@ station-card {
 
 .station-card--header {
     background-color: $white;
-    padding: 16px 8px;
+    padding: 8px 16px;
     position: relative;
     height: 58px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .station-left-icons {
+        position: relative;
+        min-width: 52px;
+        flex: 0;
+        margin-left: -16px;
+    }
+
+    .station-cb,
+    .station-fav {
+        img {
+            max-height: 100%;
+            margin: auto;
+        }
+    }
+
+    .station-cb {
+        display: inline-block;
+        height: 16px;
+        margin: -8px 8px;
+        vertical-align: middle;
+    }
+
+    .station-fav {
+        height: 100%;
+
+        img {
+            position: relative;
+            transform: translateY(-50%);
+            top: 50%;
+        }
+    }
+
+    .station-infos {
+        flex: 1;
+    }
 
     .station-name,
     .station-distance {
         display: inline-block;
         vertical-align: bottom;
-        line-height: 1.5;
+        line-height: 1.3;
     }
 
     .station-name {
-        max-width: 45%;
+        max-width: 80%;
         color: $black-87;
         font-size: 18px;
         white-space: nowrap;
@@ -41,15 +80,12 @@ station-card {
         font-size: 16px;
     }
 
-    .station-cb {
-        position: absolute;
-        top: 16px;
-        bottom: 16px;
-        right: 16px;
-
-        img {
-            max-height: 100%;
-        }
+    .station-lastup {
+        display: inline-block;
+        color: $black-54;
+        margin: 0;
+        font-size: 11px;
+        line-height: 1;
     }
 }
 
