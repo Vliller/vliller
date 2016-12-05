@@ -6,6 +6,7 @@ import { App } from './app.component';
 // components
 import { Map } from '../components/map/map';
 import { StationCard } from '../components/station-card/station-card';
+import { StationCardMetric } from '../components/station-card-metric/station-card-metric';
 import { FavoritesButton } from '../components/favorites-button/favorites-button';
 
 // services
@@ -21,6 +22,7 @@ import { Home } from '../pages/home/home';
         Home,
         Map,
         StationCard,
+        StationCardMetric,
         FavoritesButton
     ],
     imports: [

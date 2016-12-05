@@ -1,60 +1,37 @@
-<div class="station-card">
-    <!-- Card loader -->
-    <div class="content-loader padding" *ngIf="stationDetails === undefined">
-        <ion-spinner color="lipstick"></ion-spinner>
-        <p class="text-grey">Chargement en cours...</p>
+<!-- Card loader -->
+<div class="content-loader padding" *ngIf="stationDetails === undefined">
+    <ion-spinner color="lipstick"></ion-spinner>
+    <p class="text-grey">Chargement en cours...</p>
+</div>
+
+<!-- Card station details -->
+<div *ngIf="stationDetails">
+
+    <!-- station name, uptime and CB -->
+    <div class="station-card--header">
+        <div class="station-name">{{ stationDetails.name }}</div>
+        <div class="station-distance">{{ formatedDistance() }}</div>
+
+        <p class="text-small text-grey">Il y a {{ stationDetails.lastupd }}</p>
+
+        <!-- CB -->
+        <div class="station-cb">
+            <img *ngIf="stationDetails.payment === 'AVEC_TPE'" class="img-responsive" src="assets/img/vliller-cb.png">
+            <img *ngIf="stationDetails.payment !== 'AVEC_TPE'" class="img-responsive" src="assets/img/vliller-no-cb.png">
+        </div>
     </div>
 
-    <!-- Card station details -->
-    <div *ngIf="stationDetails">
+    <!-- station bike/attachs -->
+    <div class="station-card--content" *ngIf="stationDetails.status === '0'">
+        <!-- bikes -->
+        <station-card-metric type="bike" [value]="stationDetails.bikes" class="border-right"></station-card-metric>
 
-        <!-- station name, uptime and CB -->
-        <div class="station-card--header">
-            <div class="station-name">{{ stationDetails.name }}</div>
-            <div class="station-distance">{{ formatedDistance() }}</div>
+        <!-- docks -->
+        <station-card-metric type="dock" [value]="stationDetails.docks"></station-card-metric>
+    </div>
 
-            <p class="text-small text-grey">Il y a {{ stationDetails.lastupd }}</p>
-
-            <!-- CB -->
-            <div class="station-cb">
-                <img *ngIf="stationDetails.payment === 'AVEC_TPE'" class="img-responsive" src="assets/img/vliller-cb.png">
-                <img *ngIf="stationDetails.payment !== 'AVEC_TPE'" class="img-responsive" src="assets/img/vliller-no-cb.png">
-            </div>
-        </div>
-
-        <!-- station bike/attachs -->
-        <div class="station-card--content" *ngIf="stationDetails.status === '0'">
-
-            <!-- bikes -->
-            <div class="station-bikes">
-                <div class="station-number">
-                    <div class="station-number-text" [ngClass]="computeColorClass(stationDetails.bikes)">{{ stationDetails.bikes }}</div>
-
-                    <div><img class="img-responsive" [src]="computeBikesIcon(stationDetails.bikes)"></div>
-                </div>
-
-                <p *ngIf="stationDetails.bikes > 1" class="text-small text-grey">vélos disponibles</p>
-                <p *ngIf="stationDetails.bikes <= 1" class="text-small text-grey">vélo disponible</p>
-            </div>
-
-            <!-- docks -->
-            <div class="station-docks">
-                <div class="station-number">
-                    <div class="station-number-text" [ngClass]="computeColorClass(stationDetails.docks)">{{ stationDetails.docks }}</div>
-
-                    <div><img class="img-responsive" [src]="computeDocksIcon(stationDetails.docks)"></div>
-                </div>
-
-                <!-- <p *ngIf="stationDetails.docks > 1" class="text-small text-grey">places libres</p>
-                <p *ngIf="stationDetails.docks <= 1" class="text-small text-grey">place libre</p> -->
-
-                <p class="text-small text-grey" [innerHTML]="stationDetails.docks > 1 ? 'places libres' : 'place libre'"></p>
-            </div>
-        </div>
-
-        <!-- station HS -->
-        <div class="station-card--content" *ngIf="stationDetails.status !== '0'">
-            <p class="station-dead">Cette station semble indispoblie,<br> mais tu peux tenter ta chance un peu plus loin&nbsp;!</p>
-        </div>
+    <!-- station HS -->
+    <div class="station-card--content" *ngIf="stationDetails.status !== '0'">
+        <p class="station-dead">Cette station semble indispoblie,<br> mais tu peux tenter ta chance un peu plus loin&nbsp;!</p>
     </div>
 </div>

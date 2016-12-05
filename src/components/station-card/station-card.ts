@@ -20,66 +20,11 @@ export class StationCard implements OnInit {
     }
 
     /**
-     * Compute css class according to the given number.
-     * 0        : red,
-     * ]0, 5]   : orange,
-     * ]5, inf[ : green
-     *
-     * @param  {number} number
-     * @return {string}
-     */
-    public computeColorClass(number: number) {
-        if (number === 0) {
-            return 'text-red';
-        }
-
-        if (number <= 5) {
-            return 'text-yellow';
-        }
-
-        return 'text-green';
-    };
-
-    /**
-     *
-     * @param  {number} number
-     * @return {string}
-     */
-    public computeBikesIcon(number: number) {
-        if (number === 0) {
-            return 'assets/img/vliller_bike-red.png';
-        }
-
-        if (number <= 5) {
-            return 'assets/img/vliller_bike-orange.png';
-        }
-
-        return 'assets/img/vliller_bike-green.png';
-    };
-
-    /**
-     *
-     * @param  {number} number
-     * @return {string}
-     */
-    public computeDocksIcon(number: number) {
-        if (number === 0) {
-            return 'assets/img/vliller_place-red.png';
-        }
-
-        if (number <= 5) {
-            return 'assets/img/vliller_place-orange.png';
-        }
-
-        return 'assets/img/vliller_place-green.png';
-    };
-
-    /**
      * Return a string format in meters or kilometers.
      *
      * @return {string}
      */
-    public formatedDistance () {
+    public formatedDistance() {
         // var distanceInMeter = activeMarker.get('distance'),
         //     distanceString = 'à ';
 
