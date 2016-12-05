@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { VlilleStationDetails } from '../vlille/vlille';
@@ -8,12 +8,14 @@ import { VlilleStationDetails } from '../vlille/vlille';
     templateUrl: './station-card.html'
 })
 
-export class StationCard {
+export class StationCard implements OnInit {
     public stationDetails: VlilleStationDetails;
 
     @Input() station: Observable<VlilleStationDetails>;
 
-    constructor() {
+    constructor() {}
+
+    ngOnInit() {
         this.station.subscribe((station: VlilleStationDetails) => this.stationDetails = station);
     }
 

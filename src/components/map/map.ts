@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 
@@ -48,43 +48,49 @@ export const MapIcon = {
     template: '<div id="map-canvas" class="map-canvas"></div>'
 })
 
-export class Map {
-    private _mapInstance: any;
+export class Map implements OnInit {
+    private mapInstance: any;
+    private mapInstanceObserver: Observable<any>;
+
     private markers: any;
     private markerIcon: any;
     private activeMarker: any;
+
     public activeStation: any;
 
     @Input() stations: Observable<VlilleStationResume[]>;
 
-    constructor(platform: Platform) {
+    constructor(private platform: Platform) {
         this.markers = [];
         this.markerIcon = MapIcon.NORMAL;
 
-        // prepare and init the map
-        platform.ready().then(() => {
-            this.prepareMapInstance().then(this.initMap.bind(this));
+        this.mapInstanceObserver = this.prepareMapInstance();
+    }
+
+    ngOnInit() {
+        this.mapInstanceObserver.subscribe(mapInstance => {
+            this.mapInstance = mapInstance;
+
+            this.stations.subscribe((stations: VlilleStationResume[]) => this.initStations(stations));
+
+            this.setCenterMap(DEFAULT_POSITION);
         });
     }
 
     /**
      *
-     * @return {Promise<any>} Promise returning the map instance on resolve
+     * @return {Observable<any>}
      */
-    private prepareMapInstance(): Promise<any> {
+    private prepareMapInstance(): Observable<any> {
         let mapElement = document.getElementById('map-canvas');
 
-        return new Promise<any>(
-            resolve => plugin.google.maps.Map.getMap(mapElement).one(plugin.google.maps.event.MAP_READY, resolve)
+        return new Observable<any>(
+            observer => {
+                this.platform.ready().then(
+                    plugin.google.maps.Map.getMap(mapElement).one(plugin.google.maps.event.MAP_READY, observer.next.bind(observer))
+                );
+            }
         );
-    }
-
-    private initMap(mapInstance: any) {
-        this._mapInstance = mapInstance;
-
-        this.stations.subscribe((stations: VlilleStationResume[]) => this.initStations(stations));
-
-        this.setCenterMap(DEFAULT_POSITION);
     }
 
     private initStations(stations: VlilleStationResume[]) {
@@ -144,7 +150,7 @@ export class Map {
 
         // adds stations markers on map
         for(let station of stations) {
-            this._mapInstance.addMarker({
+            this.mapInstance.addMarker({
                 position: {
                     lat: station.latitude,
                     lng: station.longitude
@@ -162,7 +168,7 @@ export class Map {
      * @param {any} position
      */
     private setCenterMap(position: any) {
-        this._mapInstance.animateCamera({
+        this.mapInstance.animateCamera({
             target: {
                 lat: position.latitude,
                 lng: position.longitude

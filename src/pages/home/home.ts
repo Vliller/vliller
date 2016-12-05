@@ -17,9 +17,9 @@ export class Home {
         public navCtrl: NavController,
         private vlilleService: VlilleService
     ) {
-        this.stations = vlilleService.getAll();
+        this.stations = vlilleService.getAllStations();
 
         // TMP
-        this.activeStation = vlilleService.get(0);
+        this.activeStation = vlilleService.getStation(0);
     }
 }
