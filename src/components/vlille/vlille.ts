@@ -36,14 +36,14 @@ export class VlilleService {
 
     constructor(private http: Http) {}
 
-    get(id: number): Observable<VlilleStationDetails> {
+    public getStation(id: number): Observable<VlilleStationDetails> {
         return this.http
             .get(API_BASE + API_ENDPOINT + '/' + id)
             .map((response: Response) => <VlilleStationDetails>response.json())
             .catch(this.handleError);
     }
 
-    getAll(): Observable<VlilleStationResume[]> {
+    public getAllStations(): Observable<VlilleStationResume[]> {
         return this.http
             .get(API_BASE + API_ENDPOINT)
             .map((response: Response) => <VlilleStationResume[]>response.json())
