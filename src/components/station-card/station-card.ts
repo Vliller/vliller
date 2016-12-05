@@ -25,22 +25,27 @@ export class StationCard implements OnInit {
      * ]0, 5]   : orange,
      * ]5, inf[ : green
      *
-     * @param  Number number
-     * @return String
+     * @param  {number} number
+     * @return {string}
      */
-    public computeColorClass (number: number) {
+    public computeColorClass(number: number) {
         if (number === 0) {
-            return 'assertive';
+            return 'text-red';
         }
 
         if (number <= 5) {
-            return 'energized';
+            return 'text-yellow';
         }
 
-        return 'calm';
+        return 'text-green';
     };
 
-    public computeBikesIcon (number: number) {
+    /**
+     *
+     * @param  {number} number
+     * @return {string}
+     */
+    public computeBikesIcon(number: number) {
         if (number === 0) {
             return 'assets/img/vliller_bike-red.png';
         }
@@ -52,7 +57,12 @@ export class StationCard implements OnInit {
         return 'assets/img/vliller_bike-green.png';
     };
 
-    public computeDocksIcon (number: number) {
+    /**
+     *
+     * @param  {number} number
+     * @return {string}
+     */
+    public computeDocksIcon(number: number) {
         if (number === 0) {
             return 'assets/img/vliller_place-red.png';
         }
@@ -67,7 +77,7 @@ export class StationCard implements OnInit {
     /**
      * Return a string format in meters or kilometers.
      *
-     * @return String
+     * @return {string}
      */
     public formatedDistance () {
         // var distanceInMeter = activeMarker.get('distance'),

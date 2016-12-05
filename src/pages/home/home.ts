@@ -20,6 +20,10 @@ export class Home {
         this.stations = vlilleService.getAllStations();
 
         // TMP
-        this.activeStation = vlilleService.getStation(0);
+        this.activeStation = new Observable(observer => {
+            this.stations.subscribe(stations => {
+                vlilleService.getStation(stations[0].id).subscribe(station => observer.next(station));
+            });
+        });
     }
 }

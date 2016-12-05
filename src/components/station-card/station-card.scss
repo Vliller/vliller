@@ -3,6 +3,7 @@ station-card {
 }
 
 .station-card {
+    font-size: 16px;
     background-color: #fff;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
 
@@ -18,8 +19,9 @@ station-card {
 
 .station-card--header {
     background-color: $white;
-    padding-bottom: 8px;
-    padding-top: 10px;
+    padding: 16px 8px;
+    position: relative;
+    height: 58px;
 
     .station-name,
     .station-distance {
@@ -38,6 +40,7 @@ station-card {
     }
 
     .station-distance {
+        color: $azure;
         font-size: 16px;
     }
 
@@ -45,7 +48,7 @@ station-card {
         position: absolute;
         top: 16px;
         bottom: 16px;
-        right: 80px;
+        right: 16px;
 
         img {
             max-height: 100%;
@@ -54,11 +57,12 @@ station-card {
 }
 
 .station-card--content {
+    position: relative;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-
+    min-height: 100%;
     padding: 0;
 
     .station-bikes,
