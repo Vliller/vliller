@@ -5,20 +5,34 @@ import { Observable } from 'rxjs/Observable';
 /**
  *
  */
-export class VlilleStationResume {
-    constructor(
-        public id: string,
-        public name: string,
-        public latitude: number,
-        public longitude: number
-    ) {}
+export interface VlilleStationResume {
+    id: string,
+    name: string,
+    latitude: number,
+    longitude: number
 }
 
 /**
  *
  */
-export class VlilleStationDetails {
+export interface VlilleStationDetails {
+    address: string,
+    bikes: number,
+    docks: number,
+    payment: string,
+    status: string,
+    lastupd: string
+}
+
+/**
+ *
+ */
+export class VlilleStation {
     constructor(
+        public id: string,
+        public name: string,
+        public latitude: number,
+        public longitude: number,
         public address: string,
         public bikes: number,
         public docks: number,
@@ -26,6 +40,27 @@ export class VlilleStationDetails {
         public status: string,
         public lastupd: string
     ) {}
+
+    /**
+     *
+     * @param  {VlilleStationResume}  stationResume
+     * @param  {VlilleStationDetails} stationDetails
+     * @return {VlilleStation}
+     */
+    static createFromResumeAndDetails(stationResume: VlilleStationResume, stationDetails: VlilleStationDetails): VlilleStation {
+        return new VlilleStation(
+            stationResume.id,
+            stationResume.name,
+            stationResume.latitude,
+            stationResume.longitude,
+            stationDetails.address,
+            stationDetails.bikes,
+            stationDetails.docks,
+            stationDetails.payment,
+            stationDetails.status,
+            stationDetails.lastupd
+        );
+    }
 }
 
 const API_BASE = 'http://dev.alexandrebonhomme.fr/vlille/web';
