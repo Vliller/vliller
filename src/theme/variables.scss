@@ -7,6 +7,7 @@ $lipstick: #e52b38;
 $cranberry: #a40233;
 $azure: #1e97f7;
 $mustard: #d9a601;
+$greenblue: #33d699;
 $white: #f5f5f5;
 $black-54: rgba(0, 0, 0, 0.54);
 $black-87: rgba(0, 0, 0, 0.87);
@@ -37,10 +38,12 @@ $colors: (
     danger:     #f53d3d,
     light:      #fff,
     dark:       $black-87,
+    grey:       $black-54,
     lipstick:   $lipstick,
     cranberry:  $cranberry,
     azure:      $azure,
-    mustard:    $mustard
+    mustard:    $mustard,
+    greenblue:  $greenblue
 );
 
 
