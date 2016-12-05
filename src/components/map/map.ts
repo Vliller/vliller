@@ -44,7 +44,11 @@ export const MapIcon = {
 
 @Component({
     selector: 'map',
-    template: '<div id="map-canvas" class="map-canvas"></div>'
+    template: `
+        <div id="map-canvas" class="map-canvas">
+            <favorites-button></favorites-button>
+        </div>
+    `
 })
 
 export class Map implements OnInit {

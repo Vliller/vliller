@@ -6,6 +6,9 @@ import { App } from './app.component';
 // components
 import { Map } from '../components/map/map';
 import { StationCard } from '../components/station-card/station-card';
+import { FavoritesButton } from '../components/favorites-button/favorites-button';
+
+// services
 import { VlilleService } from '../components/vlille/vlille';
 
 // pages
@@ -17,7 +20,8 @@ import { Home } from '../pages/home/home';
         App,
         Home,
         Map,
-        StationCard
+        StationCard,
+        FavoritesButton
     ],
     imports: [
         HttpModule,
