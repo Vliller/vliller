@@ -68,17 +68,20 @@ export class Map implements OnInit {
     }
 
     ngOnInit() {
+        // wait for map instance to be initialized
         this.mapInstanceObserver.subscribe(mapInstance => {
             this.mapInstance = mapInstance;
 
+            // get stations list
             this.stations.subscribe((stations: VlilleStationResume[]) => this.initStations(stations));
 
+            // center map by default
             this.setCenterMap(DEFAULT_POSITION);
         });
     }
 
     /**
-     *
+     * Initialize map instance and bind it to #map-canvas element
      * @return {Observable<any>}
      */
     private prepareMapInstance(): Observable<any> {
@@ -87,12 +90,17 @@ export class Map implements OnInit {
         return new Observable<any>(
             observer => {
                 this.platform.ready().then(
+                    // init map instance
                     plugin.google.maps.Map.getMap(mapElement).one(plugin.google.maps.event.MAP_READY, observer.next.bind(observer))
                 );
             }
         );
     }
 
+    /**
+     * Put stations marker on map
+     * @param {VlilleStationResume[]} stations
+     */
     private initStations(stations: VlilleStationResume[]) {
         // avoids function declaration inside loop
         function callback(marker) {
