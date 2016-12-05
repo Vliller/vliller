@@ -6,7 +6,6 @@ import { VlilleStationResume } from '../vlille/vlille';
 
 declare var plugin: any;
 
-// TODO: put this in constructor arguments
 const DEFAULT_POSITION = {
     latitude: 50.633333,
     longitude: 3.066667
@@ -85,14 +84,14 @@ export class Map implements OnInit {
      * @return {Observable<any>}
      */
     private prepareMapInstance(): Observable<any> {
-        let mapElement = document.getElementById('map-canvas');
-
         return new Observable<any>(
             observer => {
-                this.platform.ready().then(
+                this.platform.ready().then(() => {
                     // init map instance
-                    plugin.google.maps.Map.getMap(mapElement).one(plugin.google.maps.event.MAP_READY, observer.next.bind(observer))
-                );
+                    plugin.google.maps.Map
+                        .getMap(document.getElementById('map-canvas'))
+                        .one(plugin.google.maps.event.MAP_READY, observer.next.bind(observer));
+                });
             }
         );
     }
