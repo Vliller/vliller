@@ -60,7 +60,7 @@ export class Map implements OnInit {
     private activeMarker: any;
 
     @Input() stations: Observable<VlilleStationResume[]>;
-    @Output() activeStationChange = new EventEmitter();
+    @Output() activeStationChange = new EventEmitter<VlilleStationResume>();
 
     constructor(private platform: Platform) {
         this.markers = [];
