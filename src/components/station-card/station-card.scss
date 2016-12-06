@@ -23,35 +23,26 @@ station-card {
     flex-direction: row;
     justify-content: space-between;
 
-    .station-left-icons {
-        position: relative;
-        min-width: 52px;
-        flex: 0;
-        margin-left: -16px;
-    }
+    .station-cb {
+        display: inline-block;
+        height: 16px;
+        margin: -8px 8px;
+        vertical-align: middle;
 
-    .station-cb,
-    .station-fav {
         img {
             max-height: 100%;
             margin: auto;
         }
     }
 
-    .station-cb {
-        display: inline-block;
-        height: 16px;
-        margin: -8px 8px;
-        vertical-align: middle;
-    }
-
     .station-fav {
-        height: 100%;
+        position: relative;
+        margin: -8px 0 -8px -16px;
 
-        img {
-            position: relative;
-            transform: translateY(-50%);
-            top: 50%;
+        .button[icon-only] {
+            height: 100%;
+            margin-top: 0;
+            margin-bottom: 0;
         }
     }
 

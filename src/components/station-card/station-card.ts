@@ -48,4 +48,10 @@ export class StationCard implements OnInit {
 
         // return distanceString;
     };
+
+    public toggleFavorite() {
+        // TODO
+        this.isStationFavorite = !this.isStationFavorite;
+        console.log(this.isStationFavorite)
+    }
 }

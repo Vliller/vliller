@@ -9,11 +9,10 @@
 
     <!-- station name, uptime and CB -->
     <div class="station-card--header">
-        <div class="station-left-icons">
-            <div class="station-fav">
-                <!-- <ion-icon mode="md" name="star" color="mustard" isActive="isStationFavorite"></ion-icon> -->
-                <img class="img-responsive" src="assets/img/vliller-star.svg">
-            </div>
+        <div class="station-fav">
+            <button ion-button icon-only clear (click)="toggleFavorite()">
+                <ion-icon mode="md" [color]="isStationFavorite ? 'mustard' : 'grey'" [name]="isStationFavorite ? 'star' : 'star-outline'"></ion-icon>
+            </button>
         </div>
 
         <div class="station-infos">
