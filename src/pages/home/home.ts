@@ -28,4 +28,8 @@ export class Home {
             });
         });
     }
+
+    public setActiveStation(event) {
+        console.log(event)
+    }
 }

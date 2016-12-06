@@ -14,7 +14,7 @@
 
 <ion-content class="no-scroll">
     <div class="home-content">
-        <map [stations]="stations"  data-tap-disabled="true"></map>
+        <map [stations]="stations" (activeStationChange)="setActiveStation($event)" data-tap-disabled="true"></map>
         <station-card [station]="activeStation"></station-card>
     </div>
 </ion-content>

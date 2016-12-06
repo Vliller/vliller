@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 
@@ -59,9 +59,8 @@ export class Map implements OnInit {
     private markerIcon: any;
     private activeMarker: any;
 
-    public activeStation: any;
-
     @Input() stations: Observable<VlilleStationResume[]>;
+    @Output() activeStationChange = new EventEmitter();
 
     constructor(private platform: Platform) {
         this.markers = [];
@@ -114,7 +113,7 @@ export class Map implements OnInit {
              * Set active marker on click
              */
             marker.on(plugin.google.maps.event.MARKER_CLICK, () => {
-                this.setActiveMarker(marker, true);
+                this.setActiveMarker(marker);
             });
 
             /**
@@ -200,22 +199,21 @@ export class Map implements OnInit {
      * @param {google.maps.Marker} marker
      * @param {boolean} centerMap
      */
-    private setActiveMarker(marker: any, centerMap: boolean) {
-        let station = marker.get('station');
+    private setActiveMarker(marker: any, centerMap: boolean = true) {
+        let activeStation = marker.get('station');
 
         // set default icon on current office marker
         if (this.activeMarker && this.activeMarker.id !== marker.id) {
             this.activeMarker.setIcon(this.markerIcon);
-            this.activeStation.$loaded = false;
         }
 
         // update new active office
         this.activeMarker = marker;
-        this.activeStation = station;
+        this.activeStationChange.emit(activeStation);
 
         // center map
-        if (centerMap !== false) {
-            this.setCenterMap(this.activeStation);
+        if (centerMap) {
+            this.setCenterMap(activeStation);
         }
 
         /**
