@@ -111,6 +111,13 @@ export class Map implements OnInit {
             this.markers.push(marker);
 
             /**
+             * Set active marker on click
+             */
+            marker.on(plugin.google.maps.event.MARKER_CLICK, () => {
+                this.setActiveMarker(marker, true);
+            });
+
+            /**
              * addMarker is async, so we need to wait until all the marker are adds to the map.
              * @see https://github.com/mapsplugin/cordova-plugin-googlemaps/wiki/Marker#create-multiple-markers
              */
@@ -168,8 +175,7 @@ export class Map implements OnInit {
                 },
                 icon: this.markerIcon,
                 station: station,
-                disableAutoPan: true,
-                markerClick: this.markerClick
+                disableAutoPan: true
             }, callback.bind(this));
         }
     }
@@ -187,15 +193,6 @@ export class Map implements OnInit {
             zoom: 16,
             duration: 1000
         });
-    }
-
-    /**
-     * Set clicked marker as active
-     * @param {google.maps.Marker} marker
-     */
-    private markerClick(marker: any) {
-        console.log('click');
-        this.setActiveMarker(marker, true);
     }
 
     /**
