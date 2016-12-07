@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ApplicationRef } from '@angular/core';
+import { Component, Input, Output, OnInit, ApplicationRef, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { VlilleStation } from '../vlille/vlille';
@@ -10,13 +10,14 @@ import { VlilleStation } from '../vlille/vlille';
 
 export class StationCard implements OnInit {
     public station: VlilleStation = undefined;
-    public isStationFavorite: boolean;
+    public isFavoriteStation: boolean;
 
     @Input('station') inputStation: Observable<VlilleStation>;
+    @Output() isFavoriteStationChange = new EventEmitter<boolean>();
 
     constructor(private applicationRef: ApplicationRef) {
         // TODO
-        this.isStationFavorite = false;
+        this.isFavoriteStation = false;
     }
 
     ngOnInit() {
@@ -58,8 +59,9 @@ export class StationCard implements OnInit {
     };
 
     public toggleFavorite() {
-        // TODO
-        this.isStationFavorite = !this.isStationFavorite;
-        console.log(this.isStationFavorite)
+        this.isFavoriteStation = !this.isFavoriteStation;
+
+        // send event to inform other components
+        this.isFavoriteStationChange.emit(this.isFavoriteStation)
     }
 }
