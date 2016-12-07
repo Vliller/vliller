@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
-import { VlilleService, VlilleStationResume, VlilleStation } from '../../components/vlille/vlille';
+import { VlilleService, VlilleStationResume, VlilleStation } from '../../services/vlille/vlille';
 
 @Component({
     selector: 'page-home',

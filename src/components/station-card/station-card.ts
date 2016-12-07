@@ -1,7 +1,7 @@
 import { Component, Input, Output, OnInit, ApplicationRef, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { VlilleStation } from '../vlille/vlille';
+import { VlilleStation } from '../../services/vlille/vlille';
 
 @Component({
     selector: 'station-card',

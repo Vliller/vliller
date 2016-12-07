@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 
-import { VlilleStationResume } from '../vlille/vlille';
+import { VlilleStationResume } from '../../services/vlille/vlille';
 
 declare var plugin: any;
 

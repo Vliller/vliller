@@ -10,7 +10,7 @@ import { StationCardMetric } from '../components/station-card-metric/station-car
 import { FavoritesButton } from '../components/favorites-button/favorites-button';
 
 // services
-import { VlilleService } from '../components/vlille/vlille';
+import { VlilleService } from '../services/vlille/vlille';
 
 // pages
 import { Home } from '../pages/home/home';
