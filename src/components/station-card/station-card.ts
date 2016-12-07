@@ -1,7 +1,8 @@
-import { Component, Input, Output, OnInit, ApplicationRef, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, ApplicationRef } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { VlilleStation } from '../../services/vlille/vlille';
+import { FavoritesService } from '../../services/favorites/favorites';
 
 @Component({
     selector: 'station-card',
@@ -10,21 +11,21 @@ import { VlilleStation } from '../../services/vlille/vlille';
 
 export class StationCard implements OnInit {
     public station: VlilleStation = undefined;
-    public isFavoriteStation: boolean;
+    public isFavoriteStation: boolean = false;
 
     @Input('station') inputStation: Observable<VlilleStation>;
-    @Output() isFavoriteStationChange = new EventEmitter<boolean>();
 
-    constructor(private applicationRef: ApplicationRef) {
-        // TODO
-        this.isFavoriteStation = false;
-    }
+    constructor(
+        private applicationRef: ApplicationRef,
+        private favoritesService: FavoritesService<VlilleStation>
+    ) {}
 
     ngOnInit() {
         this.inputStation
-        .sampleTime(300)
+        // .sampleTime(300)
         .subscribe(station => {
             this.station = station;
+            this.isFavoriteStation = this.favoritesService.contains(station);
 
             // DIRTY (FORCE TEMPLATE TO RERENDER)
             // @see http://stackoverflow.com/a/36064593/5727772
@@ -58,10 +59,16 @@ export class StationCard implements OnInit {
         // return distanceString;
     };
 
+    /**
+     * Updates favorites service and star icon
+     */
     public toggleFavorite() {
         this.isFavoriteStation = !this.isFavoriteStation;
 
-        // send event to inform other components
-        this.isFavoriteStationChange.emit(this.isFavoriteStation)
+        if (this.isFavoriteStation) {
+            this.isFavoriteStation = this.favoritesService.add(this.station);
+        } else {
+            this.isFavoriteStation = !this.favoritesService.remove(this.station);
+        }
     }
 }

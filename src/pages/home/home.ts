@@ -5,7 +5,6 @@ import { Subject } from 'rxjs/Subject';
 import { VlilleService, VlilleStationResume, VlilleStation } from '../../services/vlille/vlille';
 import { FavoritesService } from '../../services/favorites/favorites';
 
-
 @Component({
     selector: 'page-home',
     templateUrl: 'home.html'
@@ -13,9 +12,9 @@ import { FavoritesService } from '../../services/favorites/favorites';
 
 export class Home {
     public stations: Observable<VlilleStationResume[]>;
-    public activeStation: Observable<VlilleStation>;;
-
     private activeStationSubject = new Subject<VlilleStation>();
+    public activeStation: Observable<VlilleStation>;;
+    public favoriteStations: Observable<VlilleStation[]>;
 
     constructor(
         private vlilleService: VlilleService,
@@ -24,6 +23,11 @@ export class Home {
         this.activeStation = this.activeStationSubject.asObservable();
 
         this.stations = vlilleService.getAllStations();
+
+        this.favoriteStations = favoritesService.asObservable();
+
+        // TODO: init favorites from localstorage with set() method
+        // this.favoritesService.set(...);
     }
 
     /**
@@ -39,14 +43,5 @@ export class Home {
             // update station value through observer
             stationDetails => this.activeStationSubject.next(VlilleStation.createFromResumeAndDetails(stationResume, stationDetails))
         );
-    }
-
-    /**
-     *
-     * @param {boolean} isFavorite
-     */
-    public setActiveStationFavorite(isFavorite: boolean) {
-        // TODO: update favorites list
-        console.log(isFavorite)
     }
 }

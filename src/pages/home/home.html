@@ -14,7 +14,7 @@
 <ion-content class="no-scroll">
     <div class="home-content">
         <map [stations]="stations" (activeStationChange)="setActiveStation($event)" data-tap-disabled="true"></map>
-        <station-card [station]="activeStation" (isFavoriteStationChange)="setActiveStationFavorite($event)"></station-card>
-        <favorites-button></favorites-button>
+        <station-card [station]="activeStation"></station-card>
+        <favorites-button [favoriteStations]="favoriteStations"></favorites-button>
     </div>
 </ion-content>
