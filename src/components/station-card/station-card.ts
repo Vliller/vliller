@@ -24,6 +24,7 @@ export class StationCard implements OnInit {
             this.station = station;
 
             // DIRTY (FORCE TEMPLATE TO RERENDER)
+            // @see http://stackoverflow.com/a/36064593/5727772
             this.applicationRef.tick();
         });
     }
