@@ -21,6 +21,9 @@ $station-card-height: 154px;
     }
 
     favorites-button {
-        margin-bottom: $station-card-height;
+        position: absolute;
+        right: 0;
+        // put it just above the station-card component
+        bottom: $station-card-height;
     }
 }
