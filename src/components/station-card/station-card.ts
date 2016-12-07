@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ApplicationRef } from '@angular/core';
+import { Component, Input, OnInit, ApplicationRef, style, animate, transition, trigger } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { VlilleStation } from '../../services/vlille/vlille';
@@ -6,7 +6,23 @@ import { FavoritesService } from '../../services/favorites/favorites';
 
 @Component({
     selector: 'station-card',
-    templateUrl: './station-card.html'
+    templateUrl: './station-card.html',
+
+    // @see http://stackoverflow.com/a/39356145/5727772
+    animations: [
+        trigger('delayFadeIn', [
+            transition(':enter', [
+                style({ opacity: 0 }),
+                animate('500ms 200ms', style({ opacity: 1 }))
+            ]),
+
+        ]),
+        trigger('delayOut', [
+            transition(':leave', [
+                animate('500ms 0', style({ opacity: 0 }))
+            ]),
+        ])
+    ]
 })
 
 export class StationCard implements OnInit {
@@ -21,9 +37,7 @@ export class StationCard implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.inputStation
-        // .sampleTime(300)
-        .subscribe(station => {
+        this.inputStation.subscribe(station => {
             this.station = station;
             this.isFavoriteStation = this.favoritesService.contains(station);
 

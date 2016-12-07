@@ -1,11 +1,11 @@
 <!-- Card loader -->
-<div class="content-loader padding" *ngIf="!station">
+<div class="content-loader padding" *ngIf="!station" [@delayOut]>
     <ion-spinner color="lipstick" name="crescent"></ion-spinner>
     <p class="text-grey" padding-top>Chargement en cours...</p>
 </div>
 
 <!-- Card station details -->
-<div *ngIf="station">
+<div *ngIf="station" [@delayFadeIn]>
 
     <!-- station name, uptime and CB -->
     <div class="station-card--header">
