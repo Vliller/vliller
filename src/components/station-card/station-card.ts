@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ApplicationRef } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { VlilleStation } from '../vlille/vlille';
@@ -14,15 +14,17 @@ export class StationCard implements OnInit {
 
     @Input('station') inputStation: Observable<VlilleStation>;
 
-    constructor() {
+    constructor(private applicationRef: ApplicationRef) {
         // TODO
         this.isStationFavorite = false;
     }
 
     ngOnInit() {
         this.inputStation.subscribe(station => {
-            this.station = station
-            console.log(this.station)
+            this.station = station;
+
+            // DIRTY (FORCE TEMPLATE TO RERENDER)
+            this.applicationRef.tick();
         });
     }
 

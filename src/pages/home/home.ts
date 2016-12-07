@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
@@ -12,14 +11,11 @@ import { VlilleService, VlilleStationResume, VlilleStation } from '../../compone
 
 export class Home {
     public stations: Observable<VlilleStationResume[]>;
-    public activeStation: Observable<VlilleStation>;
+    public activeStation: Observable<VlilleStation>;;
 
     private activeStationSubject = new Subject<VlilleStation>();
 
-    constructor(
-        public navCtrl: NavController,
-        private vlilleService: VlilleService
-    ) {
+    constructor(private vlilleService: VlilleService) {
         this.activeStation = this.activeStationSubject.asObservable();
 
         this.stations = vlilleService.getAllStations();
