@@ -20,7 +20,9 @@ export class StationCard implements OnInit {
     }
 
     ngOnInit() {
-        this.inputStation.subscribe(station => {
+        this.inputStation
+        .sampleTime(300)
+        .subscribe(station => {
             this.station = station;
 
             // DIRTY (FORCE TEMPLATE TO RERENDER)
