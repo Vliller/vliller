@@ -3,6 +3,8 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 import { VlilleService, VlilleStationResume, VlilleStation } from '../../services/vlille/vlille';
+import { FavoritesService } from '../../services/favorites/favorites';
+
 
 @Component({
     selector: 'page-home',
@@ -15,7 +17,10 @@ export class Home {
 
     private activeStationSubject = new Subject<VlilleStation>();
 
-    constructor(private vlilleService: VlilleService) {
+    constructor(
+        private vlilleService: VlilleService,
+        private favoritesService: FavoritesService<VlilleStation>
+    ) {
         this.activeStation = this.activeStationSubject.asObservable();
 
         this.stations = vlilleService.getAllStations();
