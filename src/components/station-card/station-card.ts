@@ -9,18 +9,21 @@ import { VlilleStation } from '../vlille/vlille';
 })
 
 export class StationCard implements OnInit {
-    public stationDetails: VlilleStation;
+    public station: VlilleStation = undefined;
     public isStationFavorite: boolean;
 
-    @Input() station: Observable<VlilleStation>;
+    @Input('station') inputStation: Observable<VlilleStation>;
 
     constructor() {
         // TODO
-        this.isStationFavorite = false
+        this.isStationFavorite = false;
     }
 
     ngOnInit() {
-        this.station.subscribe((station: VlilleStation) => this.stationDetails = station);
+        this.inputStation.subscribe(station => {
+            this.station = station
+            console.log(this.station)
+        });
     }
 
     /**

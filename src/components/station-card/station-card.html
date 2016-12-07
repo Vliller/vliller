@@ -1,11 +1,11 @@
 <!-- Card loader -->
-<div class="content-loader padding" *ngIf="stationDetails === undefined">
-    <ion-spinner color="lipstick"></ion-spinner>
-    <p class="text-grey">Chargement en cours...</p>
+<div class="content-loader padding" *ngIf="!station">
+    <ion-spinner color="lipstick" name="crescent"></ion-spinner>
+    <p class="text-grey" padding-top>Chargement en cours...</p>
 </div>
 
 <!-- Card station details -->
-<div *ngIf="stationDetails">
+<div *ngIf="station">
 
     <!-- station name, uptime and CB -->
     <div class="station-card--header">
@@ -17,30 +17,30 @@
 
         <div class="station-infos">
             <div>
-                <div class="station-name">{{ stationDetails.name }}</div>
+                <div class="station-name">{{ station.name }}</div>
                 <div class="station-distance">{{ formatedDistance() }}</div>
             </div>
             <div>
-                <div class="station-lastup">Il y a {{ stationDetails.lastupd }}</div>
+                <div class="station-lastup">Il y a {{ station.lastupd }}</div>
                 <div class="station-cb">
-                    <img *ngIf="stationDetails.payment === 'AVEC_TPE'" class="img-responsive" src="assets/img/vliller-cb.png">
-                    <img *ngIf="stationDetails.payment !== 'AVEC_TPE'" class="img-responsive" src="assets/img/vliller-no-cb.png">
+                    <img *ngIf="station.payment === 'AVEC_TPE'" class="img-responsive" src="assets/img/vliller-cb.png">
+                    <img *ngIf="station.payment !== 'AVEC_TPE'" class="img-responsive" src="assets/img/vliller-no-cb.png">
                 </div>
             </div>
         </div>
     </div>
 
     <!-- station bike/attachs -->
-    <div class="station-card--content" *ngIf="stationDetails.status === '0'">
+    <div class="station-card--content" *ngIf="station.status === '0'">
         <!-- bikes -->
-        <station-card-metric type="bike" [value]="stationDetails.bikes" class="border-right"></station-card-metric>
+        <station-card-metric type="bike" [value]="station.bikes" class="border-right"></station-card-metric>
 
         <!-- docks -->
-        <station-card-metric type="dock" [value]="stationDetails.docks"></station-card-metric>
+        <station-card-metric type="dock" [value]="station.docks"></station-card-metric>
     </div>
 
     <!-- station HS -->
-    <div class="station-card--content" *ngIf="stationDetails.status !== '0'">
+    <div class="station-card--content" *ngIf="station.status !== '0'">
         <p class="station-dead">Cette station semble indispoblie,<br> mais tu peux tenter ta chance un peu plus loin&nbsp;!</p>
     </div>
 </div>
