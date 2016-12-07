@@ -35,4 +35,13 @@ export class Home {
             stationDetails => this.activeStationSubject.next(VlilleStation.createFromResumeAndDetails(stationResume, stationDetails))
         );
     }
+
+    /**
+     *
+     * @param {boolean} isFavorite
+     */
+    public setActiveStationFavorite(isFavorite: boolean) {
+        // TODO: update favorites list
+        console.log(isFavorite)
+    }
 }

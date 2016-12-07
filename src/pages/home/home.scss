@@ -19,4 +19,8 @@ $station-card-height: 154px;
         bottom: 0;
         height: $station-card-height;
     }
+
+    favorites-button {
+        margin-bottom: $station-card-height;
+    }
 }

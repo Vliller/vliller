@@ -3,7 +3,6 @@
         <ion-title>
             <img class="img-responsive bar-header-logo" src="assets/img/vliller-header-logo.svg">
         </ion-title>
-
         <ion-buttons end>
             <button ion-button menuToggle>
                 <ion-icon color="white" name="more"></ion-icon>
@@ -15,6 +14,7 @@
 <ion-content class="no-scroll">
     <div class="home-content">
         <map [stations]="stations" (activeStationChange)="setActiveStation($event)" data-tap-disabled="true"></map>
-        <station-card [station]="activeStation"></station-card>
+        <station-card [station]="activeStation" (isFavoriteStationChange)="setActiveStationFavorite($event)"></station-card>
+        <favorites-button></favorites-button>
     </div>
 </ion-content>
