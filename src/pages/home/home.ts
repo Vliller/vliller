@@ -21,7 +21,15 @@ export class Home {
         this.stations = vlilleService.getAllStations();
     }
 
+    /**
+     *
+     * @param {VlilleStationResume} stationResume
+     */
     public setActiveStation(stationResume: VlilleStationResume) {
+        // clear previous value to start loader
+        this.activeStationSubject.next();
+
+        // get station details
         this.vlilleService.getStation(stationResume.id).subscribe(
             // update station value through observer
             stationDetails => this.activeStationSubject.next(VlilleStation.createFromResumeAndDetails(stationResume, stationDetails))
