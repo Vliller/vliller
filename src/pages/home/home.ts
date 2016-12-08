@@ -25,9 +25,6 @@ export class Home {
         this.stations = vlilleService.getAllStations();
 
         this.favoriteStations = favoritesService.asObservable();
-
-        // TODO: init favorites from localstorage with set() method
-        // this.favoritesService.set(...);
     }
 
     /**

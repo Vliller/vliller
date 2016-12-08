@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { NativeStorage } from 'ionic-native';
 
 const FAVORITES_MAX_SIZE = 4;
+const STORAGE_ID = 'favorites';
 
 interface IdConstraint {
     id: string
@@ -13,21 +15,36 @@ export class FavoritesService<T extends IdConstraint> {
     private favorites: T[] = [];
     private favoritesSubject: Subject<T[]> = new Subject();
 
-    constructor() {}
+    constructor() {
+        // loads data from storage and notify observers
+        this.load().then(() => this.notify());
+    }
 
     /**
-     *
-     * @param {T[]} favorites
+     * Loads favorites elements from storage
+     * @return {Promise<T[]>}
      */
-    public set(favorites: T[]) {
-        this.favorites = favorites;
+    private load(): Promise<T[]> {
+        return NativeStorage.getItem(STORAGE_ID).then(favorites => this.favorites = favorites);
+    }
 
-        // notify observers
+    /**
+     * Save favorites elements to storage
+     * @return {Promise<T[]>}
+     */
+    private save(): Promise<T[]> {
+        return NativeStorage.setItem(STORAGE_ID, this.favorites);
+    }
+
+    /**
+     * Notify observers about the favorites changes
+     */
+    private notify() {
         this.favoritesSubject.next(this.favorites);
     }
 
     /**
-     *
+     * Adds elements, notify observers and save data to the storage
      * @param  {T} element
      * @return {boolean}
      */
@@ -45,13 +62,16 @@ export class FavoritesService<T extends IdConstraint> {
         let returnValue = !!this.favorites.push(element);
 
         // notify observers
-        this.favoritesSubject.next(this.favorites);
+        this.notify();
+
+        // save to storage
+        this.save();
 
         return returnValue;
     }
 
     /**
-     *
+     * Removes elements, notify observers and save data to the storage
      * @param  {T} element
      * @return {boolean}
      */
@@ -66,7 +86,10 @@ export class FavoritesService<T extends IdConstraint> {
                 let returnValue = !!this.favorites.splice(i);
 
                 // notify observers
-                this.favoritesSubject.next(this.favorites);
+                this.notify();
+
+                // save to storage
+                this.save();
 
                 return returnValue;
             }
