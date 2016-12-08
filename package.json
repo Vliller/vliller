@@ -32,27 +32,6 @@
     "@ionic/app-scripts": "0.0.45",
     "typescript": "2.0.6"
   },
-  "cordovaPlugins": [
-    "cordova-plugin-whitelist",
-    "cordova-plugin-console",
-    "cordova-plugin-statusbar",
-    "cordova-plugin-device",
-    "cordova-plugin-splashscreen",
-    "ionic-plugin-keyboard",
-    "cordova-plugin-app-version",
-    "cordova-plugin-geolocation",
-    "cordova-plugin-google-analytics",
-    "cordova-plugin-network-information",
-    "cordova-plugin-request-location-accuracy",
-    {
-      "variables": {
-        "API_KEY_FOR_ANDROID": "AIzaSyCwaMhgCXRnhlbBulzNGi5BU0JBLej0FbI",
-        "API_KEY_FOR_IOS": "AIzaSyB7l0BYrnYjYqAY8tiX81XT6j-1iIz-YUY"
-      },
-      "locator": "https://github.com/mapsplugin/cordova-plugin-googlemaps#multiple_maps",
-      "id": "cordova-plugin-googlemaps"
-    }
-  ],
   "cordovaPlatforms": [
     "ios",
     "android"
