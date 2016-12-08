@@ -33,7 +33,7 @@ export class StationCard implements OnInit {
 
     constructor(
         private applicationRef: ApplicationRef,
-        private favoritesService: FavoritesService<VlilleStation>
+        private favoritesService: FavoritesService
     ) {}
 
     ngOnInit() {

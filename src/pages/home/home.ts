@@ -18,7 +18,7 @@ export class Home {
 
     constructor(
         private vlilleService: VlilleService,
-        private favoritesService: FavoritesService<VlilleStation>
+        private favoritesService: FavoritesService
     ) {
         this.activeStation = this.activeStationSubject.asObservable();
 

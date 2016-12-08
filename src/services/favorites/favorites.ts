@@ -1,39 +1,47 @@
 import { Injectable } from '@angular/core';
+import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { NativeStorage } from 'ionic-native';
 
-const FAVORITES_MAX_SIZE = 4;
-const STORAGE_ID = 'favorites';
+import { VlilleStation } from '../vlille/vlille'
+
+const FAVORIVlilleStationES_MAX_SIZE = 4;
+const SVlilleStationORAGE_ID = 'favorites';
 
 interface IdConstraint {
     id: string
 }
 
 @Injectable()
-export class FavoritesService<T extends IdConstraint> {
-    private favorites: T[] = [];
-    private favoritesSubject: Subject<T[]> = new Subject();
+export class FavoritesService {
+    private favorites: VlilleStation[] = [];
+    private favoritesSubject: Subject<VlilleStation[]> = new Subject();
 
-    constructor() {
-        // loads data from storage and notify observers
-        this.load().then(() => this.notify());
+    constructor(private platform: Platform) {
+        this.platform.ready().then(
+            // loads data from storage
+            () => this.load().then(
+                // notify observers
+                () => this.notify()
+            )
+        );
     }
 
     /**
      * Loads favorites elements from storage
-     * @return {Promise<T[]>}
+     * @return {Promise<VlilleStation[]>}
      */
-    private load(): Promise<T[]> {
-        return NativeStorage.getItem(STORAGE_ID).then(favorites => this.favorites = favorites);
+    private load(): Promise<VlilleStation[]> {
+        return NativeStorage.getItem(SVlilleStationORAGE_ID).then(favorites => this.favorites = favorites);
     }
 
     /**
-     * Save favorites elements to storage
-     * @return {Promise<T[]>}
+     * Saves favorites elements to storage
+     * @return {Promise<VlilleStation[]>}
      */
-    private save(): Promise<T[]> {
-        return NativeStorage.setItem(STORAGE_ID, this.favorites);
+    private save(): Promise<VlilleStation[]> {
+        return NativeStorage.setItem(SVlilleStationORAGE_ID, this.favorites);
     }
 
     /**
@@ -45,11 +53,11 @@ export class FavoritesService<T extends IdConstraint> {
 
     /**
      * Adds elements, notify observers and save data to the storage
-     * @param  {T} element
+     * @param  {VlilleStation} element
      * @return {boolean}
      */
-    public add(element: T): boolean {
-        if (!element || this.favorites.length === FAVORITES_MAX_SIZE) {
+    public add(element: VlilleStation): boolean {
+        if (!element || this.favorites.length === FAVORIVlilleStationES_MAX_SIZE) {
             return false;
         }
 
@@ -72,10 +80,10 @@ export class FavoritesService<T extends IdConstraint> {
 
     /**
      * Removes elements, notify observers and save data to the storage
-     * @param  {T} element
+     * @param  {VlilleStation} element
      * @return {boolean}
      */
-    public remove(element: T): boolean {
+    public remove(element: VlilleStation): boolean {
         if (!element || this.favorites.length === 0) {
             return false;
         }
@@ -100,10 +108,10 @@ export class FavoritesService<T extends IdConstraint> {
 
     /**
      *
-     * @param  {T} element
+     * @param  {VlilleStation} element
      * @return {boolean}
      */
-    public contains(element: T): boolean {
+    public contains(element: VlilleStation): boolean {
         if (!element) {
             return false;
         }
@@ -119,9 +127,9 @@ export class FavoritesService<T extends IdConstraint> {
 
     /**
      *
-     * @return {Observable<T>}
+     * @return {Observable<VlilleStation>}
      */
-    public asObservable(): Observable<T[]> {
+    public asObservable(): Observable<VlilleStation[]> {
         return this.favoritesSubject.asObservable();
     }
 }
