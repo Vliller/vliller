@@ -4,6 +4,7 @@ import { Subject } from 'rxjs/Subject';
 
 import { VlilleService, VlilleStationResume, VlilleStation } from '../../services/vlille/vlille';
 import { FavoritesService } from '../../services/favorites/favorites';
+import { LocationService, Position } from '../../services/location/location';
 
 @Component({
     selector: 'page-home',
@@ -12,19 +13,25 @@ import { FavoritesService } from '../../services/favorites/favorites';
 
 export class Home {
     public stations: Observable<VlilleStationResume[]>;
-    private activeStationSubject = new Subject<VlilleStation>();
     public activeStation: Observable<VlilleStation>;;
     public favoriteStations: Observable<VlilleStation[]>;
+    public currentPosition: Observable<Position>;
+
+    private activeStationSubject = new Subject<VlilleStation>();
 
     constructor(
         private vlilleService: VlilleService,
-        private favoritesService: FavoritesService
+        private favoritesService: FavoritesService,
+        private locationService: LocationService
     ) {
-        this.activeStation = this.activeStationSubject.asObservable();
-
         this.stations = vlilleService.getAllStations();
 
+        this.activeStation = this.activeStationSubject.asObservable();
         this.favoriteStations = favoritesService.asObservable();
+        this.currentPosition = locationService.asObservable();
+
+        // gets initial position
+        locationService.updateCurrentPosition();
     }
 
     /**
