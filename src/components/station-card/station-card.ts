@@ -6,23 +6,7 @@ import { FavoritesService } from '../../services/favorites/favorites';
 
 @Component({
     selector: 'station-card',
-    templateUrl: './station-card.html',
-
-    // @see http://stackoverflow.com/a/39356145/5727772
-    animations: [
-        trigger('delayFadeIn', [
-            transition(':enter', [
-                style({ opacity: 0 }),
-                animate('500ms 200ms', style({ opacity: 1 }))
-            ]),
-
-        ]),
-        trigger('delayOut', [
-            transition(':leave', [
-                animate('500ms 0', style({ opacity: 0 }))
-            ]),
-        ])
-    ]
+    templateUrl: './station-card.html'
 })
 
 export class StationCard implements OnInit {
