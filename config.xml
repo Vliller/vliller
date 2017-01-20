@@ -97,4 +97,6 @@
     </plugin>
     <plugin name="cordova-custom-config" spec="3.1.2" />
     <plugin name="cordova-plugin-geolocation" spec="2.4.0" />
+    <plugin name="cordova.plugins.diagnostic" spec="3.3.3" />
+    <plugin name="cordova-plugin-request-location-accuracy" spec="2.2.0" />
 </widget>
