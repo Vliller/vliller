@@ -5,11 +5,8 @@
   "description": "vliller : 1 clic, 1 velo, 1 place !",
   "private": true,
   "scripts": {
-    "ionic:build": "ionic-app-scripts build --dev",
+    "ionic:build": "ionic-app-scripts build",
     "ionic:serve": "ionic-app-scripts serve"
-  },
-  "config": {
-    "ionic_source_map": "source-map"
   },
   "dependencies": {
     "@angular/common": "2.2.1",
