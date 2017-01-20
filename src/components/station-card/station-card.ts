@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ApplicationRef, style, animate, transition, trigger } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { VlilleStation } from '../../services/vlille/vlille';
@@ -16,7 +16,6 @@ export class StationCard implements OnInit {
     @Input('station') inputStation: Observable<VlilleStation>;
 
     constructor(
-        private applicationRef: ApplicationRef,
         private favoritesService: FavoritesService
     ) {}
 
@@ -24,10 +23,6 @@ export class StationCard implements OnInit {
         this.inputStation.subscribe(station => {
             this.station = station;
             this.isFavoriteStation = this.favoritesService.contains(station);
-
-            // DIRTY (FORCE TEMPLATE TO RERENDER)
-            // @see http://stackoverflow.com/a/36064593/5727772
-            this.applicationRef.tick();
         });
     }
 

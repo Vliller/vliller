@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
@@ -20,6 +20,7 @@ export class Home {
     private activeStationSubject = new Subject<VlilleStation>();
 
     constructor(
+        private zone: NgZone,
         private vlilleService: VlilleService,
         private favoritesService: FavoritesService,
         private locationService: LocationService
@@ -42,10 +43,14 @@ export class Home {
         // clear previous value to start loader
         this.activeStationSubject.next();
 
-        // get station details
-        this.vlilleService.getStation(stationResume.id).subscribe(
-            // update station value through observer
-            stationDetails => this.activeStationSubject.next(VlilleStation.createFromResumeAndDetails(stationResume, stationDetails))
-        );
+        // put the service request inside the NgZone to perform automatic view update
+        // @see http://stackoverflow.com/a/37028716/5727772
+        this.zone.run(() => {
+            // get station details
+            this.vlilleService.getStation(stationResume.id).subscribe(
+                // update station value through observer
+                stationDetails => this.activeStationSubject.next(VlilleStation.createFromResumeAndDetails(stationResume, stationDetails))
+            );
+        });
     }
 }
