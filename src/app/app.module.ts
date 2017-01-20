@@ -12,6 +12,8 @@ import { FavoritesButton } from '../components/favorites-button/favorites-button
 // services
 import { VlilleService } from '../services/vlille/vlille';
 import { FavoritesService } from '../services/favorites/favorites';
+import { LocationService } from '../services/location/location';
+
 
 // pages
 import { Home } from '../pages/home/home';
@@ -41,7 +43,8 @@ import { Home } from '../pages/home/home';
             useClass: IonicErrorHandler
         },
         VlilleService,
-        FavoritesService
+        FavoritesService,
+        LocationService
     ]
 })
 export class AppModule {}

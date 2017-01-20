@@ -3,6 +3,7 @@ import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 
 import { VlilleStationResume } from '../../services/vlille/vlille';
+import { Position } from '../../services/location/location';
 
 declare var plugin: any;
 
@@ -56,6 +57,7 @@ export class Map implements OnInit {
     private activeMarker: any;
 
     @Input() stations: Observable<VlilleStationResume[]>;
+    @Input() userPosition: Observable<Position>;
     @Output() activeStationChange = new EventEmitter<VlilleStationResume>();
 
     constructor(private platform: Platform) {
@@ -70,11 +72,18 @@ export class Map implements OnInit {
         this.mapInstanceObserver.subscribe(mapInstance => {
             this.mapInstance = mapInstance;
 
+            // center map by default
+            this.setCenterMap(DEFAULT_POSITION);
+
             // get stations list
             this.stations.subscribe((stations: VlilleStationResume[]) => this.initStations(stations));
 
-            // center map by default
-            this.setCenterMap(DEFAULT_POSITION);
+            // listen for user position
+            this.userPosition.subscribe(position => {
+                // TODO
+                console.log(position.coords)
+                this.setCenterMap(position.coords);
+            })
         });
     }
 

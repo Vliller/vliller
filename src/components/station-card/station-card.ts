@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ApplicationRef, style, animate, transition, trigger } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { VlilleStation } from '../../services/vlille/vlille';
@@ -6,23 +6,7 @@ import { FavoritesService } from '../../services/favorites/favorites';
 
 @Component({
     selector: 'station-card',
-    templateUrl: './station-card.html',
-
-    // @see http://stackoverflow.com/a/39356145/5727772
-    animations: [
-        trigger('delayFadeIn', [
-            transition(':enter', [
-                style({ opacity: 0 }),
-                animate('500ms 200ms', style({ opacity: 1 }))
-            ]),
-
-        ]),
-        trigger('delayOut', [
-            transition(':leave', [
-                animate('500ms 0', style({ opacity: 0 }))
-            ]),
-        ])
-    ]
+    templateUrl: './station-card.html'
 })
 
 export class StationCard implements OnInit {
@@ -32,7 +16,6 @@ export class StationCard implements OnInit {
     @Input('station') inputStation: Observable<VlilleStation>;
 
     constructor(
-        private applicationRef: ApplicationRef,
         private favoritesService: FavoritesService
     ) {}
 
@@ -40,10 +23,6 @@ export class StationCard implements OnInit {
         this.inputStation.subscribe(station => {
             this.station = station;
             this.isFavoriteStation = this.favoritesService.contains(station);
-
-            // DIRTY (FORCE TEMPLATE TO RERENDER)
-            // @see http://stackoverflow.com/a/36064593/5727772
-            this.applicationRef.tick();
         });
     }
 
