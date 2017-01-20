@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { FabContainer } from 'ionic-angular';
 
 import { VlilleStation } from '../../services/vlille/vlille';
 
@@ -9,7 +10,15 @@ import { VlilleStation } from '../../services/vlille/vlille';
 })
 
 export class FavoritesButton {
+    @ViewChild('fab') fabContainer: FabContainer;
     @Input() favoriteStations: Observable<VlilleStation[]>;
 
     constructor() {}
+
+    ngOnInit() {
+        // close the FAB on content update to avoid eventual render bug.
+        this.favoriteStations.subscribe(stations => {
+            this.fabContainer.close();
+        });
+    }
 }
