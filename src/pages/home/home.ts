@@ -13,7 +13,7 @@ import { LocationService, Position } from '../../services/location/location';
 
 export class Home {
     public stations: Observable<VlilleStationResume[]>;
-    public activeStation: Observable<VlilleStation>;;
+    public activeStation: Observable<VlilleStation>;
     public favoriteStations: Observable<VlilleStation[]>;
     public currentPosition: Observable<Position>;
 
