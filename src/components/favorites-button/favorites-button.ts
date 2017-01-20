@@ -9,7 +9,7 @@ import { VlilleStation } from '../../services/vlille/vlille';
     templateUrl: './favorites-button.html'
 })
 
-export class FavoritesButton {
+export class FavoritesButton implements OnInit {
     @ViewChild('fab') fabContainer: FabContainer;
     @Input() favoriteStations: Observable<VlilleStation[]>;
 
