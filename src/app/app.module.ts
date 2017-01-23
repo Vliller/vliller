@@ -13,7 +13,7 @@ import { FavoritesButton } from '../components/favorites-button/favorites-button
 import { VlilleService } from '../services/vlille/vlille';
 import { FavoritesService } from '../services/favorites/favorites';
 import { LocationService } from '../services/location/location';
-
+import { ToastService } from '../services/toast/toast';
 
 // pages
 import { Home } from '../pages/home/home';
@@ -44,7 +44,8 @@ import { Home } from '../pages/home/home';
         },
         VlilleService,
         FavoritesService,
-        LocationService
+        LocationService,
+        ToastService
     ]
 })
 export class AppModule {}
