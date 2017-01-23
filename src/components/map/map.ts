@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Http } from '@angular/http';
 import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 
@@ -51,6 +52,9 @@ export const MapIcon = {
     }
 };
 
+// const MAPBOX_API_BASE = 'https://api.mapbox.com/directions/v5/mapbox/walking/';
+// const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiYmxja3NocmsiLCJhIjoiY2l5YWc5anUyMDA0cDMzcWtxcnN0ZWxxcCJ9.xKDTqbkNCQTRvizwIDGeCQ';
+
 @Component({
     selector: 'map',
     template: `<div id="map-canvas" class="map-canvas"></div>`
@@ -69,7 +73,10 @@ export class Map implements OnInit {
     @Input() userPosition: Observable<Position>;
     @Output() activeStationChange = new EventEmitter<VlilleStationResume>();
 
-    constructor(private platform: Platform) {
+    constructor(
+        private platform: Platform,
+        private http: Http
+    ) {
         this.markers = [];
         this.markerIcon = MapIcon.NORMAL;
 
@@ -236,4 +243,18 @@ export class Map implements OnInit {
             lng: position.longitude
         });
     }
+
+    // private computePreciseDistance(start: any, end: any): Observable<number> {
+    //     return this.http
+    //     .get(MAPBOX_API_BASE + start.longitude + ',' + start.latitude + ';' + end.longitude + ',' + end.latitude + '?overview=false&access_token=' + MAPBOX_ACCESS_TOKEN)
+    //     .map(response => {
+    //         let direction = response.json();
+
+    //         if (direction.routes && direction.routes[0]) {
+    //             return direction.routes[0].distance;
+    //         } else {
+    //             return -1;
+    //         }
+    //     });
+    // }
 }
