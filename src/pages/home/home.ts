@@ -7,6 +7,7 @@ import { AlertController } from 'ionic-angular';
 import { VlilleService, VlilleStationResume, VlilleStation } from '../../services/vlille/vlille';
 import { FavoritesService } from '../../services/favorites/favorites';
 import { LocationService, Position } from '../../services/location/location';
+import { ToastService } from '../../services/toast/toast';
 
 @Component({
     selector: 'page-home',
@@ -26,8 +27,11 @@ export class Home {
         private vlilleService: VlilleService,
         private favoritesService: FavoritesService,
         private locationService: LocationService,
-        private alertController: AlertController
+        private alertController: AlertController,
+        private toastService: ToastService
     ) {
+        console.debug("home constructor")
+
         this.stations = vlilleService.getAllStations();
 
         this.activeStation = this.activeStationSubject.asObservable();
@@ -35,21 +39,16 @@ export class Home {
         this.currentPosition = locationService.asObservable();
 
         // gets initial position
-        locationService.requestLocation().then(() => locationService.updateCurrentPosition().then(error => {
-            if (error === 'locationDisabled') {
-                // TODO: toast
-                // aetmToastService.showError('Vous devez activer votre GPS pour utiliser cette fonctionnalité.', 'long');
-
-                return error;
-            }
-        }), error => {
+        this.locationService.requestLocation()
+        .then(() => this.updatePosition())
+        .catch(error => {
             // Android only
             if (error && error.code !== LocationAccuracy.ERROR_USER_DISAGREED) {
 
                 // open popup asking for settings
                 return this.alertController.create({
                     title: 'Vliller a besoin de votre position',
-                    message: "Impossible d'activer le GPS automatiquement. Voullez-vous ouvrir les préférences et l'activer la localisation \"haute précision\" manuellement ?",
+                    message: "Impossible d'activer le GPS automatiquement. Voulez-vous ouvrir les préférences et activer la localisation \"haute précision\" manuellement ?",
                     buttons: [{
                         text: 'Annuler',
                         handler: () => {
@@ -86,6 +85,22 @@ export class Home {
                 // update station value through observer
                 stationDetails => this.activeStationSubject.next(VlilleStation.createFromResumeAndDetails(stationResume, stationDetails))
             );
+        });
+    }
+
+    /**
+     * Update user position or show a toast if an error appeared.
+     */
+    private updatePosition() {
+        this.locationService.updateCurrentPosition()
+        .catch(error => {
+            if (error === 'locationDisabled') {
+                this.toastService.showError('Vous devez activer votre GPS pour utiliser cette fonctionnalité.', 4000);
+
+                return error;
+            }
+
+            // TODO: handle error
         });
     }
 }
