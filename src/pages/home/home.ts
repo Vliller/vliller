@@ -30,8 +30,6 @@ export class Home {
         private alertController: AlertController,
         private toastService: ToastService
     ) {
-        console.debug("home constructor")
-
         this.stations = vlilleService.getAllStations();
 
         this.activeStation = this.activeStationSubject.asObservable();

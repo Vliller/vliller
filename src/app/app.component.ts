@@ -28,8 +28,6 @@ export class App {
             // Here you can do any higher level native things you might need.
             StatusBar.styleDefault();
             Splashscreen.hide();
-
-            console.debug("app ready")
         });
     }
 
