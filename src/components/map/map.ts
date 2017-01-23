@@ -40,6 +40,14 @@ export const MapIcon = {
             width: 60,
             height: 69
         }
+    },
+    USER: {
+        url: 'www/assets/img/vliller-marker-user.png',
+        size: {
+            width: 22,
+            height: 34
+        },
+        anchor: [11, 23]
     }
 };
 
@@ -55,6 +63,7 @@ export class Map implements OnInit {
     private markers: any;
     private markerIcon: any;
     private activeMarker: any;
+    private userMarker: any;
 
     @Input() stations: Observable<VlilleStationResume[]>;
     @Input() userPosition: Observable<Position>;
@@ -72,16 +81,15 @@ export class Map implements OnInit {
         this.mapInstanceObserver.subscribe(mapInstance => {
             this.mapInstance = mapInstance;
 
-            // center map by default
             this.setCenterMap(DEFAULT_POSITION);
+            this.initUserMarker(DEFAULT_POSITION);
 
-            // get stations list
+            // init stations marker
             this.stations.subscribe((stations: VlilleStationResume[]) => this.initStations(stations));
 
             // listen for user position
             this.userPosition.subscribe(position => {
-                // TODO
-                console.log(position.coords)
+                this.setUserPosition(position.coords);
                 this.setCenterMap(position.coords);
             })
         });
@@ -238,5 +246,42 @@ export class Map implements OnInit {
 
         // update marker
         this.activeMarker.setIcon(MapIcon.ACTIVE);
+    }
+
+    /**
+     *
+     * @param {any} position
+     */
+    private initUserMarker(position: any) {
+        this.mapInstance.addMarker({
+            position: {
+                lat: position.latitude,
+                lng: position.longitude
+            },
+            icon: MapIcon.USER,
+            disableAutoPan: true
+        }, marker => {
+            // avoid duplication bug
+            if (this.userMarker) {
+                this.userMarker.remove();
+            }
+
+            // updates marker ref
+            this.userMarker = marker;
+
+            // updates heading
+            // ionic.requestAnimationFrame(updateUserHeading);
+        });
+    }
+
+    /**
+     *
+     * @param {any} position
+     */
+    private setUserPosition(position: any) {
+        this.userMarker.setPosition({
+            lat: position.latitude,
+            lng: position.longitude
+        });
     }
 }
