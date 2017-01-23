@@ -78,6 +78,10 @@ body {
 
 // Fix missing label support on ion-fab
 ion-fab {
+    .fab {
+      contain: initial;
+    }
+
     button {
         box-shadow: 0 4px 10px #6b6b6b;
     }
