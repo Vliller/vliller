@@ -6,8 +6,9 @@ import { AlertController } from 'ionic-angular';
 
 import { VlilleService, VlilleStationResume, VlilleStation } from '../../services/vlille/vlille';
 import { FavoritesService } from '../../services/favorites/favorites';
-import { LocationService, Position } from '../../services/location/location';
+import { LocationService } from '../../services/location/location';
 import { ToastService } from '../../services/toast/toast';
+import { MapPosition } from '../../components/map/map';
 
 @Component({
     selector: 'page-home',
@@ -18,7 +19,7 @@ export class Home {
     public stations: Observable<VlilleStationResume[]>;
     public activeStation: Observable<VlilleStation>;
     public favoriteStations: Observable<VlilleStation[]>;
-    public currentPosition: Observable<Position>;
+    public currentPosition: Observable<MapPosition>;
 
     private activeStationSubject = new Subject<VlilleStation>();
 

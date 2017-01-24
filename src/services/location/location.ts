@@ -4,15 +4,19 @@ import { Subject } from 'rxjs/Subject';
 import { Platform } from 'ionic-angular';
 import { Geolocation, Geoposition, Diagnostic, LocationAccuracy } from 'ionic-native';
 
-export interface Position extends Geoposition {}
+import { MapPosition } from '../../components/map/map';
 
 @Injectable()
 export class LocationService {
-    private currentPositionSubject: Subject<Geoposition> = new Subject();
+    private currentPositionSubject: Subject<MapPosition> = new Subject();
 
     constructor(private platform: Platform) {}
 
-    public updateCurrentPosition(): Promise<any> {
+    /**
+     * Updates the current Observable position and resolved a promise with the new position.
+     * @return {Promise<MapPosition>}
+     */
+    public updateCurrentPosition(): Promise<MapPosition> {
         return this.platform.ready().then(() => Diagnostic.isLocationEnabled()
             .then(isLocationEnabled => {
 
@@ -24,10 +28,21 @@ export class LocationService {
                 // Get current location
                 return Geolocation.getCurrentPosition()
             })
-            .then((position: Geoposition) => this.currentPositionSubject.next(position))
+            .then((geoposition: Geoposition) => {
+                let position = MapPosition.fromCoordinates(geoposition.coords);
+
+                // Update stream
+                this.currentPositionSubject.next(position);
+
+                return position;
+            })
         );
     }
 
+    /**
+     * Checks if the location is enabled (promise resolved) or disabled (promise rejected)
+     * @return {Promise<any>}
+     */
     public requestLocation(): Promise<any> {
         return this.platform.ready().then(() => LocationAccuracy.canRequest().then(canRequest => {
             if (!canRequest) {
@@ -38,7 +53,11 @@ export class LocationService {
         }));
     }
 
-    public asObservable(): Observable<Geoposition> {
+    /**
+     * Returns an observable on the user position
+     * @return {Observable<MapPosition>}
+     */
+    public asObservable(): Observable<MapPosition> {
         return this.currentPositionSubject.asObservable();
     }
 }

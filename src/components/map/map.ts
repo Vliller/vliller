@@ -1,17 +1,10 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { Http } from '@angular/http';
 import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 
 import { VlilleStationResume } from '../../services/vlille/vlille';
-import { Position } from '../../services/location/location';
 
 declare var plugin: any;
-
-const DEFAULT_POSITION = {
-    latitude: 50.633333,
-    longitude: 3.066667
-};
 
 export const MapIcon = {
     NORMAL: {
@@ -52,8 +45,38 @@ export const MapIcon = {
     }
 };
 
-// const MAPBOX_API_BASE = 'https://api.mapbox.com/directions/v5/mapbox/walking/';
-// const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiYmxja3NocmsiLCJhIjoiY2l5YWc5anUyMDA0cDMzcWtxcnN0ZWxxcCJ9.xKDTqbkNCQTRvizwIDGeCQ';
+/**
+ * Helper to manage Google LatLng class easily.
+ */
+export class MapPosition {
+    constructor(
+        public latitude: number,
+        public longitude: number
+    ) {}
+
+    static fromLatLng(latlng: any): MapPosition {
+        return new MapPosition(
+            latlng.lat,
+            latlng.lng
+        );
+    }
+
+    static fromCoordinates(coordinates: any): MapPosition {
+        return new MapPosition(
+            coordinates.latitude,
+            coordinates.longitude
+        );
+    }
+
+    public toLatLng(): any {
+        return {
+            lat: this.latitude,
+            lng: this.longitude
+        };
+    }
+}
+
+const DEFAULT_POSITION = new MapPosition(50.633333, 3.066667);
 
 @Component({
     selector: 'map',
@@ -70,12 +93,11 @@ export class Map implements OnInit {
     private userMarker: any;
 
     @Input() stations: Observable<VlilleStationResume[]>;
-    @Input() userPosition: Observable<Position>;
+    @Input() userPosition: Observable<MapPosition>;
     @Output() activeStationChange = new EventEmitter<VlilleStationResume>();
 
     constructor(
-        private platform: Platform,
-        private http: Http
+        private platform: Platform
     ) {
         this.markers = [];
         this.markerIcon = MapIcon.NORMAL;
@@ -96,8 +118,8 @@ export class Map implements OnInit {
 
             // listen for user position
             this.userPosition.subscribe(position => {
-                this.setUserPosition(position.coords);
-                this.setCenterMap(position.coords);
+                this.setUserPosition(position);
+                this.setCenterMap(position);
             })
         });
     }
@@ -153,14 +175,11 @@ export class Map implements OnInit {
 
     /**
      *
-     * @param {any} position
+     * @param {MapPosition} position
      */
-    private setCenterMap(position: any) {
+    private setCenterMap(position: MapPosition) {
         this.mapInstance.animateCamera({
-            target: {
-                lat: position.latitude,
-                lng: position.longitude
-            },
+            target: position.toLatLng(),
             zoom: 16,
             duration: 1000
         });
@@ -185,7 +204,7 @@ export class Map implements OnInit {
 
         // center map
         if (centerMap) {
-            this.setCenterMap(activeStation);
+            this.setCenterMap(new MapPosition(activeStation.latitude, activeStation.longitude));
         }
 
         /**
@@ -209,14 +228,11 @@ export class Map implements OnInit {
 
     /**
      *
-     * @param {any} position
+     * @param {MapPosition} position
      */
-    private initUserMarker(position: any) {
+    private initUserMarker(position: MapPosition) {
         this.mapInstance.addMarker({
-            position: {
-                lat: position.latitude,
-                lng: position.longitude
-            },
+            position: position.toLatLng(),
             icon: MapIcon.USER,
             disableAutoPan: true
         }, marker => {
@@ -235,26 +251,9 @@ export class Map implements OnInit {
 
     /**
      *
-     * @param {any} position
+     * @param {MapPosition} position
      */
-    private setUserPosition(position: any) {
-        this.userMarker.setPosition({
-            lat: position.latitude,
-            lng: position.longitude
-        });
+    private setUserPosition(position: MapPosition) {
+        this.userMarker.setPosition(position.toLatLng());
     }
-
-    // private computePreciseDistance(start: any, end: any): Observable<number> {
-    //     return this.http
-    //     .get(MAPBOX_API_BASE + start.longitude + ',' + start.latitude + ';' + end.longitude + ',' + end.latitude + '?overview=false&access_token=' + MAPBOX_ACCESS_TOKEN)
-    //     .map(response => {
-    //         let direction = response.json();
-
-    //         if (direction.routes && direction.routes[0]) {
-    //             return direction.routes[0].distance;
-    //         } else {
-    //             return -1;
-    //         }
-    //     });
-    // }
 }
