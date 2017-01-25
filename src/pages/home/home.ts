@@ -9,6 +9,7 @@ import { FavoritesService } from '../../services/favorites/favorites';
 import { LocationService } from '../../services/location/location';
 import { ToastService } from '../../services/toast/toast';
 import { MapPosition } from '../../components/map/map';
+import { LocationIconState } from '../../components/location-icon/location-icon';
 
 @Component({
     selector: 'page-home',
@@ -20,6 +21,7 @@ export class Home {
     public activeStation: Observable<VlilleStation>;
     public favoriteStations: Observable<VlilleStation[]>;
     public currentPosition: Observable<MapPosition>;
+    public locationState: LocationIconState;
 
     private activeStationSubject = new Subject<VlilleStation>();
 
@@ -91,10 +93,15 @@ export class Home {
      * Update user position or show a toast if an error appeared.
      */
     public updatePosition() {
+        this.locationState = LocationIconState.Loading;
+
         this.locationService.updateCurrentPosition()
+        .then(() => this.locationState = LocationIconState.Default)
         .catch(error => {
             if (error === 'locationDisabled') {
                 this.toastService.showError('Vous devez activer votre GPS pour utiliser cette fonctionnalité.', 4000);
+
+                this.locationState = LocationIconState.Disabled;
 
                 return error;
             }

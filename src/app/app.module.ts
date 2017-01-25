@@ -8,6 +8,7 @@ import { Map } from '../components/map/map';
 import { StationCard } from '../components/station-card/station-card';
 import { StationCardMetric } from '../components/station-card-metric/station-card-metric';
 import { FavoritesButton } from '../components/favorites-button/favorites-button';
+import { LocationIcon } from '../components/location-icon/location-icon';
 
 // services
 import { VlilleService } from '../services/vlille/vlille';
@@ -27,7 +28,8 @@ import { Home } from '../pages/home/home';
         Map,
         StationCard,
         StationCardMetric,
-        FavoritesButton
+        FavoritesButton,
+        LocationIcon
     ],
     imports: [
         HttpModule,
