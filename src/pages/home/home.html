@@ -4,10 +4,15 @@
             <img class="img-responsive bar-header-logo" src="assets/img/vliller-header-logo.svg">
         </ion-title>
         <ion-buttons end>
-            <button ion-button menuToggle>
-                <ion-icon color="white" name="more"></ion-icon>
+            <button ion-button icon-only (click)="updatePosition()">
+                <!-- GPS icon -->
+                <!-- <svg height="26" viewBox="0 0 24 24" width="26" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg> -->
+                <ion-icon color="white" name="md-locate"></ion-icon>
             </button>
         </ion-buttons>
+        <button ion-button menuToggle end>
+            <ion-icon color="white" name="more"></ion-icon>
+        </button>
     </ion-navbar>
 </ion-header>
 

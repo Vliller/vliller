@@ -90,7 +90,7 @@ export class Home {
     /**
      * Update user position or show a toast if an error appeared.
      */
-    private updatePosition() {
+    public updatePosition() {
         this.locationService.updateCurrentPosition()
         .catch(error => {
             if (error === 'locationDisabled') {
