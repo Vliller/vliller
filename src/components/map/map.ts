@@ -76,7 +76,8 @@ export class MapPosition {
     }
 }
 
-const DEFAULT_POSITION = new MapPosition(50.633333, 3.066667);
+// Lille
+// const DEFAULT_POSITION = new MapPosition(50.633333, 3.066667);
 
 @Component({
     selector: 'map',
@@ -110,14 +111,20 @@ export class Map implements OnInit {
         this.mapInstanceObserver.subscribe(mapInstance => {
             this.mapInstance = mapInstance;
 
-            this.setCenterMap(DEFAULT_POSITION);
-            this.initUserMarker(DEFAULT_POSITION);
-
             // init stations marker
             this.stations.subscribe((stations: VlilleStationResume[]) => this.initStations(stations));
 
+            // init user position
+            let initUserPositionSubscription = this.userPosition.first().subscribe(position => {
+                this.initUserMarker(position);
+                this.setCenterMap(position);
+
+                // no need to keep this subscription
+                initUserPositionSubscription.unsubscribe();
+            });
+
             // listen for user position
-            this.userPosition.subscribe(position => {
+            this.userPosition.skip(1).subscribe(position => {
                 this.setUserPosition(position);
                 this.setCenterMap(position);
             })
@@ -160,7 +167,7 @@ export class Map implements OnInit {
         }
 
         // adds stations markers on map
-        for(let station of stations) {
+        for (let station of stations) {
             this.mapInstance.addMarker({
                 position: {
                     lat: station.latitude,
