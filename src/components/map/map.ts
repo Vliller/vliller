@@ -3,6 +3,7 @@ import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 
 import { VlilleStationResume } from '../../services/vlille/vlille';
+import { MapService } from '../../services/map/map';
 
 declare var plugin: any;
 
@@ -98,11 +99,13 @@ export class Map implements OnInit {
     @Output() activeStationChange = new EventEmitter<VlilleStationResume>();
 
     constructor(
-        private platform: Platform
+        private platform: Platform,
+        private mapService: MapService
     ) {
         this.markers = [];
         this.markerIcon = MapIcon.NORMAL;
 
+        // init the map
         this.mapInstanceObserver = this.prepareMapInstance();
     }
 
@@ -114,20 +117,21 @@ export class Map implements OnInit {
             // init stations marker
             this.stations.subscribe((stations: VlilleStationResume[]) => this.initStations(stations));
 
-            // init user position
-            let initUserPositionSubscription = this.userPosition.first().subscribe(position => {
-                this.initUserMarker(position);
-                this.setCenterMap(position);
-
-                // no need to keep this subscription
-                initUserPositionSubscription.unsubscribe();
-            });
-
             // listen for user position
-            this.userPosition.skip(1).subscribe(position => {
-                this.setUserPosition(position);
+            this.userPosition.subscribe(position => {
+                // create or move the user marker
+                if (this.userMarker) {
+                    this.setUserPosition(position);
+                } else {
+                    this.initUserMarker(position);
+                }
+
+                // computes and actives the closest station
+                this.mapService.computeClosestMarker(position, this.markers).subscribe(marker => this.setActiveMarker(marker, false));
+
+                // center the map on the user position
                 this.setCenterMap(position);
-            })
+            });
         });
     }
 
