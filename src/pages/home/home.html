@@ -18,6 +18,6 @@
     <div class="home-content">
         <map [stations]="stations" [userPosition]="currentPosition" (activeStationChange)="setActiveStation($event)" data-tap-disabled="true"></map>
         <station-card [station]="activeStation"></station-card>
-        <favorites-button [favoriteStations]="favoriteStations"></favorites-button>
+        <favorites-button [favoriteStations]="favoriteStations" (favoriteStationClick)="setActiveStation($event)"></favorites-button>
     </div>
 </ion-content>

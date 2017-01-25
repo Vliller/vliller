@@ -3,7 +3,7 @@
         <ion-icon name="star"></ion-icon>
     </button>
     <ion-fab-list side="top">
-        <button ion-fab *ngFor="let station of (favoriteStations | async)">
+        <button ion-fab *ngFor="let station of (favoriteStations | async)" (click)="favoriteClick(station)">
             <ion-icon name="bicycle"></ion-icon>
             <div class="label">{{ station.name }}</div>
         </button>
