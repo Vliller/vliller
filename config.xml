@@ -101,4 +101,5 @@
     <plugin name="cordova.plugins.diagnostic" spec="3.3.3" />
     <plugin name="cordova-plugin-request-location-accuracy" spec="2.2.0" />
     <plugin name="cordova-plugin-x-toast" spec="2.5.2" />
+    <plugin name="cordova-plugin-device-orientation" spec="1.0.5" />
 </widget>

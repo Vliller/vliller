@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
+import { DeviceOrientation } from 'ionic-native';
 
 import { VlilleStationResume } from '../../services/vlille/vlille';
 import { MapService } from '../../services/map/map';
@@ -93,6 +94,7 @@ export class Map implements OnInit {
     private markerIcon: any;
     private activeMarker: any;
     private userMarker: any;
+    private userHeading: number = 0;
 
     @Input() stations: Observable<VlilleStationResume[]>;
     @Input() userPosition: Observable<MapPosition>;
@@ -107,6 +109,12 @@ export class Map implements OnInit {
 
         // init the map
         this.mapInstanceObserver = this.prepareMapInstance();
+
+        // init heading watcher
+        DeviceOrientation.watchHeading({
+            frequency: 100 // 100ms
+        }).subscribe(
+          compassHeading => this.userHeading = compassHeading.magneticHeading);
     }
 
     ngOnInit() {
@@ -256,7 +264,7 @@ export class Map implements OnInit {
             this.userMarker = marker;
 
             // updates heading
-            // ionic.requestAnimationFrame(updateUserHeading);
+            window.requestAnimationFrame(() => this.updateUserHeading());
         });
     }
 
@@ -266,5 +274,15 @@ export class Map implements OnInit {
      */
     private setUserPosition(position: MapPosition) {
         this.userMarker.setPosition(position.toLatLng());
+    }
+
+    /**
+     * /!\ This function should be exclusively called by requestAnimationFrame() to avoid performance issues.
+     */
+    private updateUserHeading() {
+        this.userMarker.setRotation(this.userHeading);
+
+        // recursive call to requestAnimationFrame()
+        window.requestAnimationFrame(() => this.updateUserHeading());
     }
 }
