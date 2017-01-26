@@ -1,10 +1,10 @@
 <ion-fab bottom right #fab>
     <button ion-fab color="mustard">
-        <ion-icon name="star"></ion-icon>
+        <ion-icon name="md-star"></ion-icon>
     </button>
     <ion-fab-list side="top">
-        <button ion-fab *ngFor="let station of (favoriteStations | async)" (click)="favoriteClick(station)">
-            <ion-icon name="bicycle"></ion-icon>
+        <button ion-fab mode="md" *ngFor="let station of (favoriteStations | async)" (click)="favoriteClick(station)">
+            <ion-icon name="md-bicycle"></ion-icon>
             <div class="label">{{ station.name }}</div>
         </button>
     </ion-fab-list>
