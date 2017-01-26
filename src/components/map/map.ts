@@ -114,8 +114,7 @@ export class Map implements OnInit {
         this.platform.ready().then(() => {
             DeviceOrientation.watchHeading({
                 frequency: 100 // 100ms
-            }).subscribe(
-              compassHeading => this.userHeading = compassHeading.magneticHeading);
+            }).subscribe(compassHeading => this.userHeading = compassHeading.magneticHeading);
         });
     }
 
@@ -194,8 +193,9 @@ export class Map implements OnInit {
                     return;
                 }
 
-                let end = Date.now();
-                console.debug("markers creation done: ", ((end - start) / 1000).toFixed(1))
+                let duration = ((Date.now() - start) / 1000).toFixed(2);
+                console.debug("markers creation done: ", duration)
+                alert("Duration: " + duration + "s (for " + this.markers.length + " markers)");
 
                 // indicates that markers creation is done
                 observer.next(this.markers);
