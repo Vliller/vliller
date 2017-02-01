@@ -19,12 +19,14 @@ import { MapService } from '../services/map/map';
 
 // pages
 import { Home } from '../pages/home/home';
+import { Sidemenu } from '../pages/sidemenu/sidemenu';
 
 
 @NgModule({
     declarations: [
         App,
         Home,
+        Sidemenu,
         Map,
         StationCard,
         StationCardMetric,

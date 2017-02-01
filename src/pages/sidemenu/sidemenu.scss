@@ -1,0 +1,73 @@
+/**
+ * Sidemenu view
+ */
+.sidemenu-content {
+    color: $light;
+    padding: 40px;
+    background-image: linear-gradient(to top, #a71e45, $lipstick 100%, $lipstick);
+    box-shadow: 0 16px 16px 0 rgba(0, 0, 0, 0.24), 0 0 16px 0 rgba(0, 0, 0, 0.18);
+
+    .sidemenu-close {
+        text-align: right;
+        margin: -20px -20px 0 0;
+    }
+
+    .sidemenu-header {
+        text-align: center;
+        padding: 0 20px 30px 20px;
+
+        .img-responsive {
+            margin: auto;
+        }
+    }
+
+    .sidemenu-main,
+    .sidemenu-about {
+        padding: 10px 0;
+
+        h4 {
+            margin-top: 5px;
+            margin-bottom: 0;
+            color: $light;
+            font-weight: bold;
+        }
+    }
+
+    .sidemenu-footer {
+        font-size: 12px;
+        line-height: 1.7;
+        color: rgba(255, 255, 255, 0.7);
+        padding: 20px 0;
+
+        a {
+            font-weight: bold;
+            color: rgba(255, 255, 255, 0.7);
+        }
+    }
+
+    .button.button-clear {
+        text-align: left;
+        padding: 0;
+        color: $light;
+        text-transform: initial;
+
+        svg, span {
+            vertical-align: middle;
+        }
+    }
+
+    .button-feedback, .button-feedback:hover {
+        color: $cranberry;
+        background-color: #ffeeee;
+        border-radius: 2px;
+        line-height: 1.4;
+        font-size: 12px;
+        font-weight: bold;
+        letter-spacing: 0.4px;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
+    }
+}
+
+// .platform-ios .sidemenu-content {
+//     padding-top: 40px + $ios-statusbar-height;
+// }

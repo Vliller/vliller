@@ -10,7 +10,7 @@
   <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#4e8ef7">
-  
+
   <!-- cordova.js required for cordova apps -->
   <script src="cordova.js"></script>
 
@@ -36,6 +36,30 @@
 
   <!-- The bundle js is generated during the build process -->
   <script src="build/main.js"></script>
+
+  <!-- Doorbell integration -->
+  <script type="text/javascript">
+      window.doorbellOptions = {
+          hideButton: true,
+          appKey: 'H68QrpukSt2H37sHD97P7tT0vh1VRdJi1hvjLPGPYu0vCjXnkZQoSvk0Llt5xIub',
+          strings: {
+              'title': 'Remarques & suggestions',
+              'intro-text': '', // Empty by default
+              'feedback-textarea-placeholder': 'Ton message, tes suggestions, tes remarques...',
+              'feedback-label': '',
+              'email-input-placeholder': 'Ton adresse email',
+              'email-label': '',
+              'submit-button-text': 'Envoyer',
+              'submitting-button-text': 'Envoi en cours...',
+              'message-success' : 'Message reçu cinq sur cinq ! :-)',
+              'message-error-missing-email': 'Ton adresse email est obligatoire !',
+              'message-error-invalid-email': 'Ton adresse email n\'est pas valide :-/',
+              'message-error-missing-message': 'Écris-nous donc un petit message ! :-)',
+              'message-error-message-too-short': 'Il semblerait que ton message soit un peu trop court :-/'
+          }
+      };
+      !function(a,b,c){function e(){if(!d){d=!0,window.doorbellOptions.windowLoaded=!0;var a=b.createElement(c);a.id="doorbellScript",a.type="text/javascript",a.async=!0,a.src="https://embed.doorbell.io/button/4561?t="+(new Date).getTime(),(b.getElementsByTagName("head")[0]||b.getElementsByTagName("body")[0]).appendChild(a)}}var d=!1;a.attachEvent?a.attachEvent("onload",e):a.addEventListener?a.addEventListener("load",e,!1):e(),"complete"==b.readyState&&e()}(window,document,"script");
+  </script>
 
 </body>
 </html>
