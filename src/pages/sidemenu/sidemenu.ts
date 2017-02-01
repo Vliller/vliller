@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { InAppBrowser, AppVersion, SocialSharing } from 'ionic-native';
+import { InAppBrowser, AppVersion, SocialSharing, Device } from 'ionic-native';
 import { Platform } from 'ionic-angular';
-import { Device } from 'ionic-native';
+import * as Raven from 'raven-js';
 
 const APP_ID = {
     android: 'com.alexetmanon.vliller',
@@ -16,7 +16,7 @@ const VLILLER_SITE_URL = 'http://vliller.alexetmanon.com';
 
 export class Sidemenu {
 
-    public appVersion;
+    public appVersion: string;
 
     constructor(public platform: Platform) {
         AppVersion.getVersionNumber().then(version => this.appVersion = version);
@@ -53,6 +53,11 @@ export class Sidemenu {
 
         // open the box
         (<any>window).doorbell.show();
+
+        // Sentry feedback dialog
+        // Raven.showReportDialog({
+        //     release: this.appVersion
+        // });
     };
 
     /**

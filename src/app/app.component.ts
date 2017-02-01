@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
-import { StatusBar, Splashscreen } from 'ionic-native';
+import { StatusBar, Splashscreen, AppVersion } from 'ionic-native';
+import * as Raven from 'raven-js';
 
 // Add the RxJS Observable operators.
 import './rxjs-operators';
@@ -18,6 +19,8 @@ export class App {
 
     pages: Array<{title: string, component: any}>;
 
+    appVersion: string;
+
     constructor(public platform: Platform) {
         this.initializeApp();
     }
@@ -28,6 +31,13 @@ export class App {
             // Here you can do any higher level native things you might need.
             StatusBar.styleDefault();
             Splashscreen.hide();
+
+            AppVersion.getVersionNumber().then(version => {
+                this.appVersion = version;
+
+                // set version in error tracker
+                Raven.setRelease(version);
+            });
         });
     }
 
