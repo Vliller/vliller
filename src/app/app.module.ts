@@ -24,9 +24,7 @@ import { Sidemenu } from '../pages/sidemenu/sidemenu';
 // Sentry
 import * as Raven from 'raven-js';
 
-Raven
-  .config('https://0cdc4000f06146d58781cef186b88b4d@sentry.io/134393')
-  .install();
+Raven.config('https://0cdc4000f06146d58781cef186b88b4d@sentry.io/134393').install();
 
 export class RavenErrorHandler implements ErrorHandler {
     handleError(err: any) : void {
