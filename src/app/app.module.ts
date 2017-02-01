@@ -21,6 +21,18 @@ import { MapService } from '../services/map/map';
 import { Home } from '../pages/home/home';
 import { Sidemenu } from '../pages/sidemenu/sidemenu';
 
+// Sentry
+import * as Raven from 'raven-js';
+
+Raven
+  .config('https://0cdc4000f06146d58781cef186b88b4d@sentry.io/134393')
+  .install();
+
+export class RavenErrorHandler implements ErrorHandler {
+    handleError(err: any) : void {
+        Raven.captureException(err.originalError);
+    }
+}
 
 @NgModule({
     declarations: [
@@ -47,7 +59,8 @@ import { Sidemenu } from '../pages/sidemenu/sidemenu';
     providers: [
         {
             provide: ErrorHandler,
-            useClass: IonicErrorHandler
+            // useClass: IonicErrorHandler
+            useClass: RavenErrorHandler
         },
         VlilleService,
         FavoritesService,
