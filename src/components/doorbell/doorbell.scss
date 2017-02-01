@@ -1,0 +1,43 @@
+#doorbell {
+    #doorbell-form {
+        box-shadow: 0 16px 16px 0 rgba(0, 0, 0, 0.24), 0 0 16px 0 rgba(0, 0, 0, 0.18) !important;
+        border-radius: 2px !important;
+
+        .btn.btn-primary {
+            @extend .button;
+            @extend .button-md-secondary;
+        }
+
+        legend {
+            border: none !important;
+        }
+
+        .form-control {
+            border-bottom: 1px solid #ddd !important;
+        }
+
+        textarea {
+            height: 100px !important;
+        }
+
+        .buttons {
+            margin-top: 15px !important;
+        }
+    }
+
+    #doorbell-powered-by {
+        color: $black-54 !important;
+    }
+
+    #doorbell-error {
+        color: $lipstick !important;
+    }
+
+    #doorbell-success {
+        color: $greenblue !important;
+    }
+
+    #doorbell-close {
+        display: none !important;
+    }
+}

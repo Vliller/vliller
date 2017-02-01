@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
 import { InAppBrowser, AppVersion, SocialSharing } from 'ionic-native';
 import { Platform } from 'ionic-angular';
+import { Device } from 'ionic-native';
 
-const ANDROID_APP_ID = 'com.alexetmanon.vliller';
-const IOS_APP_ID = '1161025016';
+const APP_ID = {
+    android: 'com.alexetmanon.vliller',
+    ios: '1161025016'
+}
 const VLILLER_SITE_URL = 'http://vliller.alexetmanon.com';
 
 @Component({
@@ -24,9 +27,9 @@ export class Sidemenu {
      */
     public rateApp() {
         if (this.platform.is('android')) {
-            new InAppBrowser('market://details?id=' + ANDROID_APP_ID, '_system');
+            new InAppBrowser('market://details?id=' + APP_ID.android, '_system');
         } else if (this.platform.is('ios')) {
-            new InAppBrowser('itms-apps://itunes.apple.com/fr/app/vliller/id' + IOS_APP_ID + '?mt=8', '_system');
+            new InAppBrowser('itms-apps://itunes.apple.com/fr/app/vliller/id' + APP_ID.ios + '?mt=8', '_system');
         } else {
             console.error('Rate app - Unknow platform?!');
         }
@@ -41,16 +44,15 @@ export class Sidemenu {
     };
 
     /**
-     * TODO
      * Show Instabug form
      */
     public openBugReport() {
-        // // defines some usefull properties
-        // window.doorbell.setProperty('version', $rootScope.appVersion);
-        // window.doorbell.setProperty('platform', ionic.Platform.device());
+        // defines some usefull properties
+        (<any>window).doorbell.setProperty('version', this.appVersion);
+        (<any>window).doorbell.setProperty('platform', Device);
 
-        // // open the box
-        // window.doorbell.show();
+        // open the box
+        (<any>window).doorbell.show();
     };
 
     /**
