@@ -4,5 +4,7 @@ export class AppSettings {
         ios: '1161025016'
     };
 
+    public static googleAnalyticsId = 'UA-85251159-1';
+
     public static vlillerSiteUrl = 'http://vliller.alexetmanon.com';
 }
