@@ -3,6 +3,9 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import * as Raven from 'raven-js';
 
+const API_BASE = 'http://dev.alexandrebonhomme.fr/vlille/web';
+const API_ENDPOINT = '/stations';
+
 /**
  *
  */
@@ -63,9 +66,6 @@ export class VlilleStation {
         );
     }
 }
-
-const API_BASE = 'http://dev.alexandrebonhomme.fr/vlille/web';
-const API_ENDPOINT = '/stations';
 
 @Injectable()
 export class VlilleService {

@@ -3,11 +3,7 @@ import { InAppBrowser, AppVersion, SocialSharing, Device } from 'ionic-native';
 import { Platform } from 'ionic-angular';
 import * as Raven from 'raven-js';
 
-const APP_ID = {
-    android: 'com.alexetmanon.vliller',
-    ios: '1161025016'
-}
-const VLILLER_SITE_URL = 'http://vliller.alexetmanon.com';
+import { AppSettings } from '../app/app.settings';
 
 @Component({
     selector: 'sidemenu',
@@ -27,9 +23,9 @@ export class Sidemenu {
      */
     public rateApp() {
         if (this.platform.is('android')) {
-            new InAppBrowser('market://details?id=' + APP_ID.android, '_system');
+            new InAppBrowser('market://details?id=' + AppSettings.appId.android, '_system');
         } else if (this.platform.is('ios')) {
-            new InAppBrowser('itms-apps://itunes.apple.com/fr/app/vliller/id' + APP_ID.ios + '?mt=8', '_system');
+            new InAppBrowser('itms-apps://itunes.apple.com/fr/app/vliller/id' + AppSettings.appId.ios + '?mt=8', '_system');
         } else {
             console.error('Rate app - Unknow platform?!');
         }
@@ -65,7 +61,7 @@ export class Sidemenu {
      */
     public openSocialSharing() {
         SocialSharing.shareWithOptions({
-            url: VLILLER_SITE_URL
+            url: AppSettings.vlillerSiteUrl
         });
     };
 }
