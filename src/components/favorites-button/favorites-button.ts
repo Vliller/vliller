@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, Output, OnInit, ViewChild, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { FabContainer } from 'ionic-angular';
 
@@ -12,6 +12,7 @@ import { VlilleStation } from '../../services/vlille/vlille';
 export class FavoritesButton implements OnInit {
     @ViewChild('fab') fabContainer: FabContainer;
     @Input() favoriteStations: Observable<VlilleStation[]>;
+    @Output() favoriteStationClick = new EventEmitter<VlilleStation>();
 
     constructor() {}
 
@@ -20,5 +21,10 @@ export class FavoritesButton implements OnInit {
         this.favoriteStations.subscribe(stations => {
             this.fabContainer.close();
         });
+    }
+
+    public favoriteClick(station: VlilleStation) {
+        this.favoriteStationClick.emit(station);
+        this.fabContainer.close();
     }
 }

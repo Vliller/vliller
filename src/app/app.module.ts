@@ -33,7 +33,9 @@ import { Home } from '../pages/home/home';
     ],
     imports: [
         HttpModule,
-        IonicModule.forRoot(App)
+        IonicModule.forRoot(App, {
+            mode: "md"
+        }, {})
     ],
     bootstrap: [IonicApp],
     entryComponents: [

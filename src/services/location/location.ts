@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Platform } from 'ionic-angular';
 import { Geolocation, Geoposition, Diagnostic, LocationAccuracy } from 'ionic-native';
 
@@ -8,7 +8,8 @@ import { MapPosition } from '../../components/map/map';
 
 @Injectable()
 export class LocationService {
-    private currentPositionSubject: Subject<MapPosition> = new Subject();
+    // replay the last value to each new subscriber
+    private currentPositionSubject = new ReplaySubject<MapPosition>(1);
 
     constructor(private platform: Platform) {}
 
