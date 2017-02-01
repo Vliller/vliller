@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { LocationAccuracy, Diagnostic } from 'ionic-native';
 import { AlertController } from 'ionic-angular';
+import * as Raven from 'raven-js';
 
 import { VlilleService, VlilleStationResume, VlilleStation } from '../../services/vlille/vlille';
 import { FavoritesService } from '../../services/favorites/favorites';
@@ -106,7 +107,8 @@ export class Home {
                 return error;
             }
 
-            // TODO: handle error
+            // else, sends error to Sentry
+            Raven.captureException(error);
         });
     }
 }
