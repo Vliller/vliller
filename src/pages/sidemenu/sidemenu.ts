@@ -3,7 +3,7 @@ import { InAppBrowser, AppVersion, SocialSharing, Device } from 'ionic-native';
 import { Platform } from 'ionic-angular';
 import * as Raven from 'raven-js';
 
-import { AppSettings } from '../app/app.settings';
+import { AppSettings } from '../../app/app.settings';
 
 @Component({
     selector: 'sidemenu',
