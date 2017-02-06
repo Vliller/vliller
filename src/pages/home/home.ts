@@ -43,32 +43,38 @@ export class Home {
         // gets initial position
         this.locationService.requestLocation()
         .then(() => this.updatePosition())
-        .catch(error => {
-            // Android only
-            if (error && error.code !== LocationAccuracy.ERROR_USER_DISAGREED) {
+        .catch(error => this.handleLocationError(error));
+    }
 
-                // open popup asking for settings
-                return this.alertController.create({
-                    title: 'Vliller a besoin de votre position',
-                    message: "Impossible d'activer le GPS automatiquement. Voulez-vous ouvrir les préférences et activer la localisation \"haute précision\" manuellement ?",
-                    buttons: [{
-                        text: 'Annuler',
-                        handler: () => {
-                            // throw an error
-                            throw {
-                              code: LocationAccuracy.ERROR_USER_DISAGREED
-                            };
-                        }
-                    },
-                    {
-                        text: 'Ouvrir les paramètres',
-                        handler: () => {
-                            Diagnostic.switchToLocationSettings();
-                        }
-                    }]
-                }).present();
-            }
-        });
+    /**
+     * Manage location error
+     * @param {any} error
+     */
+    private handleLocationError(error: any) {
+        // Android only
+        if (error && error.code !== LocationAccuracy.ERROR_USER_DISAGREED) {
+
+            // open popup asking for settings
+            return this.alertController.create({
+                title: 'Vliller a besoin de votre position',
+                message: "Impossible d'activer le GPS automatiquement. Voulez-vous ouvrir les préférences et activer la localisation \"haute précision\" manuellement ?",
+                buttons: [{
+                    text: 'Annuler',
+                    handler: () => {
+                        throw {
+                          code: LocationAccuracy.ERROR_USER_DISAGREED
+                        };
+                    }
+                },
+                {
+                    text: 'Ouvrir les paramètres',
+                    handler: () => Diagnostic.switchToLocationSettings()
+                }]
+            }).present();
+        }
+
+        // else, sends error to Sentry
+        Raven.captureException(error);
     }
 
     /**
