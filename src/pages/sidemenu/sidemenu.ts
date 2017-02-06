@@ -15,7 +15,9 @@ export class Sidemenu {
     public appVersion: string;
 
     constructor(public platform: Platform) {
-        AppVersion.getVersionNumber().then(version => this.appVersion = version);
+        this.platform.ready().then(() => {
+            AppVersion.getVersionNumber().then(version => this.appVersion = version);
+        });
     }
 
     /**
