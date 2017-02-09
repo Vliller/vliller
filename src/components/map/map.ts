@@ -10,35 +10,35 @@ declare var plugin: any;
 
 export const MapIcon = {
     NORMAL: {
-        url: 'assets/img/vliller-marker-white.png',
+        url: 'www/assets/img/vliller-marker-white.png',
         size: {
             width: 38,
             height: 45
         }
     },
     SMALL: {
-        url: 'assets/img/vliller-marker-red-small.png',
+        url: 'www/assets/img/vliller-marker-red-small.png',
         size: {
             width: 12,
             height: 12
         }
     },
     ACTIVE: {
-        url: 'assets/img/vliller-marker-red.png',
+        url: 'www/assets/img/vliller-marker-red.png',
         size: {
             width: 60,
             height: 69
         }
     },
     UNAVAIBLE: {
-        url: 'assets/img/vliller-marker-grey.png',
+        url: 'www/assets/img/vliller-marker-grey.png',
         size: {
             width: 60,
             height: 69
         }
     },
     USER: {
-        url: 'assets/img/vliller-marker-user.png',
+        url: 'www/assets/img/vliller-marker-user.png',
         size: {
             width: 22,
             height: 34
@@ -83,7 +83,12 @@ export class MapPosition {
 
 @Component({
     selector: 'map',
-    template: `<div id="map-canvas" class="map-canvas"></div>`
+    template:
+    `
+        <div id="map-canvas" class="map-canvas">
+            <ng-content></ng-content>
+        </div>
+    `
 })
 
 export class Map implements OnInit {
@@ -181,9 +186,7 @@ export class Map implements OnInit {
                 /**
                  * Set active marker on click
                  */
-                marker.on(plugin.google.maps.event.MARKER_CLICK, () => {
-                    this.setActiveMarker(marker);
-                });
+                marker.on(plugin.google.maps.event.MARKER_CLICK, () => this.setActiveMarker(marker));
 
                 /**
                  * addMarker is async, so we need to wait until all the marker are adds to the map.
@@ -194,7 +197,7 @@ export class Map implements OnInit {
                 }
 
                 let duration = ((Date.now() - start) / 1000).toFixed(2);
-                console.debug("markers creation done: ", duration)
+                console.debug("markers creation done: " + duration)
                 alert("Duration: " + duration + "s (for " + this.markers.length + " markers)");
 
                 // indicates that markers creation is done
@@ -221,10 +224,9 @@ export class Map implements OnInit {
      * @param {MapPosition} position
      */
     private setCenterMap(position: MapPosition) {
-        this.mapInstance.animateCamera({
+        this.mapInstance.moveCamera({
             target: position.toLatLng(),
-            zoom: 16,
-            duration: 1000
+            zoom: 16
         });
     }
 
