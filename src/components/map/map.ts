@@ -79,7 +79,7 @@ export class MapPosition {
 }
 
 // Lille
-// const DEFAULT_POSITION = new MapPosition(50.633333, 3.066667);
+const DEFAULT_POSITION = new MapPosition(50.633333, 3.066667);
 
 @Component({
     selector: 'map',
@@ -118,7 +118,7 @@ export class Map implements OnInit {
         // init heading watcher
         this.platform.ready().then(() => {
             DeviceOrientation.watchHeading({
-                frequency: 100 // 100ms
+                frequency: 200 // ms
             }).subscribe(compassHeading => this.userHeading = compassHeading.magneticHeading);
         });
     }
@@ -127,6 +127,8 @@ export class Map implements OnInit {
         // wait for map instance to be initialized
         this.mapInstanceObserver.subscribe(mapInstance => {
             this.mapInstance = mapInstance;
+
+            // this.mapInstance.setDebuggable(true);
 
             // init stations marker
             this.stations.subscribe((stations: VlilleStationResume[]) => this.initMarkers(stations).subscribe(() => {
@@ -156,12 +158,19 @@ export class Map implements OnInit {
      * @return {Observable<any>}
      */
     private prepareMapInstance(): Observable<any> {
+        let mapOptions = {
+            camera: {
+                latLng: DEFAULT_POSITION.toLatLng(),
+                zoom: 12
+            }
+        };
+
         return new Observable<any>(
             observer => {
                 this.platform.ready().then(() => {
                     // init map instance
                     plugin.google.maps.Map
-                        .getMap(document.getElementById('map-canvas'))
+                        .getMap(document.getElementById('map-canvas'), mapOptions)
                         .one(plugin.google.maps.event.MAP_READY, observer.next.bind(observer));
                 });
             }
@@ -175,8 +184,8 @@ export class Map implements OnInit {
      */
     private initMarkers(stations: VlilleStationResume[]): Observable<any> {
         return new Observable(observer => {
-            console.debug("markers creation start")
-            let start = Date.now();
+            // console.debug("markers creation start")
+            // let start = Date.now();
 
             // avoids function declaration inside loop
             function callback(marker) {
@@ -196,9 +205,9 @@ export class Map implements OnInit {
                     return;
                 }
 
-                let duration = ((Date.now() - start) / 1000).toFixed(2);
-                console.debug("markers creation done: " + duration)
-                alert("Duration: " + duration + "s (for " + this.markers.length + " markers)");
+                // let duration = ((Date.now() - start) / 1000).toFixed(2);
+                // console.debug("markers creation done: " + duration)
+                // alert("Duration: " + duration + "s (for " + this.markers.length + " markers)");
 
                 // indicates that markers creation is done
                 observer.next(this.markers);
@@ -310,5 +319,13 @@ export class Map implements OnInit {
 
         // recursive call to requestAnimationFrame()
         window.requestAnimationFrame(() => this.updateUserHeading());
+    }
+
+    public setClickable(value: boolean) {
+        if (!this.mapInstance) {
+            return;
+        }
+
+        this.mapInstance.setClickable(value);
     }
 }

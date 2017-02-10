@@ -1,5 +1,5 @@
-<ion-fab bottom right #fab>
-    <button ion-fab color="mustard">
+<ion-fab #fab [ngClass]="{'favorites-list-active': isOpened}">
+    <button ion-fab color="mustard" (click)="toggleIsOpened()">
         <ion-icon name="star"></ion-icon>
     </button>
     <ion-fab-list side="top">

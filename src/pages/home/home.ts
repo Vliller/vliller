@@ -1,4 +1,4 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, NgZone, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { LocationAccuracy, Diagnostic } from 'ionic-native';
@@ -9,7 +9,7 @@ import { VlilleService, VlilleStationResume, VlilleStation } from '../../service
 import { FavoritesService } from '../../services/favorites/favorites';
 import { LocationService } from '../../services/location/location';
 import { ToastService } from '../../services/toast/toast';
-import { MapPosition } from '../../components/map/map';
+import { MapPosition, Map } from '../../components/map/map';
 import { LocationIconState } from '../../components/location-icon/location-icon';
 
 @Component({
@@ -22,9 +22,11 @@ export class Home {
     public activeStation: Observable<VlilleStation>;
     public favoriteStations: Observable<VlilleStation[]>;
     public currentPosition: Observable<MapPosition>;
-    public locationState: LocationIconState;
+    public locationState: LocationIconState = LocationIconState.Default;
 
     private activeStationSubject = new Subject<VlilleStation>();
+
+    @ViewChild('map') map: Map;
 
     constructor(
         private zone: NgZone,
@@ -116,5 +118,13 @@ export class Home {
             // else, sends error to Sentry
             Raven.captureException(error);
         });
+    }
+
+    public setMapClickable(isClickable: boolean) {
+        if (!this.map) {
+            return;
+        }
+
+        this.map.setClickable(isClickable);
     }
 }

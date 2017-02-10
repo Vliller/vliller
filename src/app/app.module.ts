@@ -1,6 +1,6 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { HttpModule } from '@angular/http';
-import { IonicApp, IonicModule } from 'ionic-angular';
+import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { App } from './app.component';
 
 // components
@@ -57,8 +57,8 @@ export class RavenErrorHandler implements ErrorHandler {
     providers: [
         {
             provide: ErrorHandler,
-            // useClass: IonicErrorHandler
-            useClass: RavenErrorHandler
+            useClass: IonicErrorHandler
+            // useClass: RavenErrorHandler
         },
         VlilleService,
         FavoritesService,
