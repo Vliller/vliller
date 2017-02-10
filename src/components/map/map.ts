@@ -10,35 +10,35 @@ declare var plugin: any;
 
 export const MapIcon = {
     NORMAL: {
-        url: 'assets/img/vliller-marker-white.png',
+        url: 'www/assets/img/vliller-marker-white.png',
         size: {
             width: 38,
             height: 45
         }
     },
     SMALL: {
-        url: 'assets/img/vliller-marker-red-small.png',
+        url: 'www/assets/img/vliller-marker-red-small.png',
         size: {
             width: 12,
             height: 12
         }
     },
     ACTIVE: {
-        url: 'assets/img/vliller-marker-red.png',
+        url: 'www/assets/img/vliller-marker-red.png',
         size: {
             width: 60,
             height: 69
         }
     },
     UNAVAIBLE: {
-        url: 'assets/img/vliller-marker-grey.png',
+        url: 'www/assets/img/vliller-marker-grey.png',
         size: {
             width: 60,
             height: 69
         }
     },
     USER: {
-        url: 'assets/img/vliller-marker-user.png',
+        url: 'www/assets/img/vliller-marker-user.png',
         size: {
             width: 22,
             height: 34
@@ -79,11 +79,16 @@ export class MapPosition {
 }
 
 // Lille
-// const DEFAULT_POSITION = new MapPosition(50.633333, 3.066667);
+const DEFAULT_POSITION = new MapPosition(50.633333, 3.066667);
 
 @Component({
     selector: 'map',
-    template: `<div id="map-canvas" class="map-canvas"></div>`
+    template:
+    `
+        <div id="map-canvas" class="map-canvas">
+            <ng-content></ng-content>
+        </div>
+    `
 })
 
 export class Map implements OnInit {
@@ -113,7 +118,7 @@ export class Map implements OnInit {
         // init heading watcher
         this.platform.ready().then(() => {
             DeviceOrientation.watchHeading({
-                frequency: 100 // 100ms
+                frequency: 200 // ms
             }).subscribe(compassHeading => this.userHeading = compassHeading.magneticHeading);
         });
     }
@@ -122,6 +127,8 @@ export class Map implements OnInit {
         // wait for map instance to be initialized
         this.mapInstanceObserver.subscribe(mapInstance => {
             this.mapInstance = mapInstance;
+
+            // this.mapInstance.setDebuggable(true);
 
             // init stations marker
             this.stations.subscribe((stations: VlilleStationResume[]) => this.initMarkers(stations).subscribe(() => {
@@ -151,12 +158,19 @@ export class Map implements OnInit {
      * @return {Observable<any>}
      */
     private prepareMapInstance(): Observable<any> {
+        let mapOptions = {
+            camera: {
+                latLng: DEFAULT_POSITION.toLatLng(),
+                zoom: 12
+            }
+        };
+
         return new Observable<any>(
             observer => {
                 this.platform.ready().then(() => {
                     // init map instance
                     plugin.google.maps.Map
-                        .getMap(document.getElementById('map-canvas'))
+                        .getMap(document.getElementById('map-canvas'), mapOptions)
                         .one(plugin.google.maps.event.MAP_READY, observer.next.bind(observer));
                 });
             }
@@ -170,8 +184,8 @@ export class Map implements OnInit {
      */
     private initMarkers(stations: VlilleStationResume[]): Observable<any> {
         return new Observable(observer => {
-            console.debug("markers creation start")
-            let start = Date.now();
+            // console.debug("markers creation start")
+            // let start = Date.now();
 
             // avoids function declaration inside loop
             function callback(marker) {
@@ -181,9 +195,7 @@ export class Map implements OnInit {
                 /**
                  * Set active marker on click
                  */
-                marker.on(plugin.google.maps.event.MARKER_CLICK, () => {
-                    this.setActiveMarker(marker);
-                });
+                marker.on(plugin.google.maps.event.MARKER_CLICK, () => this.setActiveMarker(marker));
 
                 /**
                  * addMarker is async, so we need to wait until all the marker are adds to the map.
@@ -193,9 +205,9 @@ export class Map implements OnInit {
                     return;
                 }
 
-                let duration = ((Date.now() - start) / 1000).toFixed(2);
-                console.debug("markers creation done: ", duration)
-                alert("Duration: " + duration + "s (for " + this.markers.length + " markers)");
+                // let duration = ((Date.now() - start) / 1000).toFixed(2);
+                // console.debug("markers creation done: " + duration)
+                // alert("Duration: " + duration + "s (for " + this.markers.length + " markers)");
 
                 // indicates that markers creation is done
                 observer.next(this.markers);
@@ -221,10 +233,9 @@ export class Map implements OnInit {
      * @param {MapPosition} position
      */
     private setCenterMap(position: MapPosition) {
-        this.mapInstance.animateCamera({
+        this.mapInstance.moveCamera({
             target: position.toLatLng(),
-            zoom: 16,
-            duration: 1000
+            zoom: 16
         });
     }
 
@@ -308,5 +319,13 @@ export class Map implements OnInit {
 
         // recursive call to requestAnimationFrame()
         window.requestAnimationFrame(() => this.updateUserHeading());
+    }
+
+    public setClickable(value: boolean) {
+        if (!this.mapInstance) {
+            return;
+        }
+
+        this.mapInstance.setClickable(value);
     }
 }

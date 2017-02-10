@@ -1,3 +1,26 @@
 favorites-button {
+    ion-fab {
+        display: block;
+        position: relative !important;
+        z-index: auto;
 
+        &:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+            // this is where miracle appears!
+            transform: scale(1);
+        }
+
+        &.favorites-list-active:before {
+            transform: scale(50);
+        }
+    }
 }
