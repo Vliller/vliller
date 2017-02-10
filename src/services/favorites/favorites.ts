@@ -6,8 +6,8 @@ import { NativeStorage } from 'ionic-native';
 
 import { VlilleStation } from '../vlille/vlille'
 
-const FAVORIVlilleStationES_MAX_SIZE = 4;
-const SVlilleStationORAGE_ID = 'favorites';
+const FAVORITES_MAX_SIZE = 4;
+const STORAGE_ID = 'favorites';
 
 interface IdConstraint {
     id: string
@@ -33,7 +33,7 @@ export class FavoritesService {
      * @return {Promise<VlilleStation[]>}
      */
     private load(): Promise<VlilleStation[]> {
-        return NativeStorage.getItem(SVlilleStationORAGE_ID).then(favorites => this.favorites = favorites);
+        return NativeStorage.getItem(STORAGE_ID).then(favorites => this.favorites = favorites);
     }
 
     /**
@@ -41,7 +41,7 @@ export class FavoritesService {
      * @return {Promise<VlilleStation[]>}
      */
     private save(): Promise<VlilleStation[]> {
-        return NativeStorage.setItem(SVlilleStationORAGE_ID, this.favorites);
+        return NativeStorage.setItem(STORAGE_ID, this.favorites);
     }
 
     /**
@@ -57,7 +57,7 @@ export class FavoritesService {
      * @return {boolean}
      */
     public add(element: VlilleStation): boolean {
-        if (!element || this.favorites.length === FAVORIVlilleStationES_MAX_SIZE) {
+        if (!element || this.favorites.length === FAVORITES_MAX_SIZE) {
             return false;
         }
 
@@ -91,7 +91,7 @@ export class FavoritesService {
         // removes the element if it's in the fav array
         for (let i = 0, len = this.favorites.length; i < len; i += 1) {
             if (this.favorites[i].id === element.id) {
-                let returnValue = !!this.favorites.splice(i);
+                let returnValue = !!this.favorites.splice(i, 1);
 
                 // notify observers
                 this.notify();
