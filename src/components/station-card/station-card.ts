@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { AlertController } from 'ionic-angular';
 
 import { VlilleStation } from '../../services/vlille/vlille';
 import { FavoritesService } from '../../services/favorites/favorites';
@@ -11,24 +10,12 @@ import { FavoritesService } from '../../services/favorites/favorites';
 })
 
 export class StationCard implements OnInit {
-    private maxFavAlert;
-
     public station: VlilleStation = undefined;
     public isFavoriteStation: boolean = false;
 
     @Input('station') inputStation: Observable<VlilleStation>;
 
-    constructor(
-        private favoritesService: FavoritesService,
-        private alertController: AlertController
-    ) {
-        // Alert to display when the user try to add more that MAX_FAV
-        this.maxFavAlert = this.alertController.create({
-            title: 'Vous avez atteint le nombre maximum de favoris',
-            subTitle: 'Vous devez supprimer un favori existant pour pouvoir en créer un nouveau.',
-            buttons: ['OK']
-        });
-    }
+    constructor(private favoritesService: FavoritesService) {}
 
     ngOnInit() {
         this.inputStation.subscribe(station => {
@@ -71,11 +58,6 @@ export class StationCard implements OnInit {
 
         if (this.isFavoriteStation) {
             this.isFavoriteStation = this.favoritesService.add(this.station);
-
-            // max fav stations reached
-            if (!this.isFavoriteStation) {
-                this.maxFavAlert.present();
-            }
         } else {
             this.isFavoriteStation = !this.favoritesService.remove(this.station);
         }

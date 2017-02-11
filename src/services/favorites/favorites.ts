@@ -3,6 +3,7 @@ import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { NativeStorage } from 'ionic-native';
+import { AlertController } from 'ionic-angular';
 
 import { VlilleStation } from '../vlille/vlille'
 
@@ -17,15 +18,23 @@ interface IdConstraint {
 export class FavoritesService {
     private favorites: VlilleStation[] = [];
     private favoritesSubject: Subject<VlilleStation[]> = new Subject();
+    private maxFavAlert;
 
-    constructor(private platform: Platform) {
-        this.platform.ready().then(
-            // loads data from storage
-            () => this.load().then(
-                // notify observers
-                () => this.notify()
-            )
-        );
+    constructor(
+        platform: Platform,
+        alertController: AlertController
+    ) {
+        // loads data from storage & notify observers
+        platform.ready()
+        .then(() => this.load())
+        .then(() => this.notify());
+
+        // Alert to display when the user try to add more that MAX_FAV
+        this.maxFavAlert = alertController.create({
+            title: 'Vous avez atteint le nombre maximum de favoris',
+            subTitle: 'Vous devez supprimer un favori existant pour pouvoir en créer un nouveau.',
+            buttons: ['OK']
+        });
     }
 
     /**
@@ -57,13 +66,19 @@ export class FavoritesService {
      * @return {boolean}
      */
     public add(element: VlilleStation): boolean {
-        if (!element || this.favorites.length === FAVORITES_MAX_SIZE) {
+        if (!element) {
             return false;
         }
 
-        // checks if the element already is in the array
         if (this.contains(element)) {
             return true;
+        }
+
+        // show popup if the favorites list is full
+        if (this.favorites.length === FAVORITES_MAX_SIZE) {
+            this.maxFavAlert.present();
+
+            return false;
         }
 
         // add element the the array
@@ -116,6 +131,7 @@ export class FavoritesService {
             return false;
         }
 
+        // compares element id
         for (let favoriteElement of this.favorites) {
             if (favoriteElement.id === element.id) {
                 return true;
