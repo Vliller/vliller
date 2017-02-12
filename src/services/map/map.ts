@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
-import { MapPosition } from '../../components/map/map';
+import { MapPosition } from '../../components/map/map-position';
 import { VlilleStationResume } from '../../services/vlille/vlille';
 
 const MAPBOX_API_BASE = 'https://api.mapbox.com/directions/v5/mapbox/walking/';
