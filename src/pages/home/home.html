@@ -21,7 +21,7 @@
             [stations]="stations"
             [userPosition]="currentPosition"
             [activeStation]="activeStation"
-            (activeStationResumeChange)="setActiveStation($event)"
+            (activeStationChange)="setActiveStation($event)"
         >
             <favorites-button
                 [favoriteStations]="favoriteStations"
