@@ -190,24 +190,8 @@ export class Map implements OnInit {
             this.activeMarker.setIcon(this.markerIcon);
         }
 
+        // set new marker
         this.activeMarker = marker;
-
-        /**
-         * Handle Offline case
-         */
-        // if (this.isOffline) {
-        //     // update marker
-        //     activeMarker.setIcon(icons.iconActive);
-
-        //     // to avoid touch bug after card resizing
-        //     // $timeout(function () {
-        //     //     map.refreshLayout();
-        //     // }, 100);
-        // } else {
-        //     loadsActiveStationDetails(station.id);
-        // }
-
-        // update marker
         this.activeMarker.setIcon(MapIcon.ACTIVE);
     }
 
