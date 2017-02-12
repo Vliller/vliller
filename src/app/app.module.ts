@@ -14,7 +14,6 @@ import { LocationIcon } from '../components/location-icon/location-icon';
 import { VlilleService } from '../services/vlille/vlille';
 import { FavoritesService } from '../services/favorites/favorites';
 import { LocationService } from '../services/location/location';
-import { ToastService } from '../services/toast/toast';
 import { MapService } from '../services/map/map';
 import { MarkersService } from '../services/map/markers';
 
@@ -64,7 +63,6 @@ export class RavenErrorHandler implements ErrorHandler {
         VlilleService,
         FavoritesService,
         LocationService,
-        ToastService,
         MapService,
         MarkersService
     ]

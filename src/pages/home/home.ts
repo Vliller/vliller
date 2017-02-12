@@ -2,13 +2,12 @@ import { Component, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { LocationAccuracy, Diagnostic } from 'ionic-native';
-import { AlertController } from 'ionic-angular';
+import { AlertController, ToastController } from 'ionic-angular';
 import * as Raven from 'raven-js';
 
 import { VlilleService, VlilleStationResume, VlilleStation } from '../../services/vlille/vlille';
 import { FavoritesService } from '../../services/favorites/favorites';
 import { LocationService } from '../../services/location/location';
-import { ToastService } from '../../services/toast/toast';
 import { Map } from '../../components/map/map';
 import { MapPosition } from '../../components/map/map-position';
 import { MapService } from '../../services/map/map';
@@ -36,7 +35,7 @@ export class Home {
         private favoritesService: FavoritesService,
         private locationService: LocationService,
         private alertController: AlertController,
-        private toastService: ToastService
+        private toastController: ToastController
     ) {
         this.stations = vlilleService.getAllStations();
 
@@ -115,7 +114,11 @@ export class Home {
         .then(() => this.locationState = LocationIconState.Default)
         .catch(error => {
             if (error === 'locationDisabled') {
-                this.toastService.showError('Vous devez activer votre GPS pour utiliser cette fonctionnalité.', 4000);
+                this.toastController.create({
+                    message: 'Vous devez activer votre GPS pour utiliser cette fonctionnalité.',
+                    showCloseButton: true,
+                    closeButtonText: 'OK'
+                }).present();
 
                 this.locationState = LocationIconState.Disabled;
 
