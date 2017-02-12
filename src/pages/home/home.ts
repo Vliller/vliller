@@ -55,7 +55,7 @@ export class Home {
             let closestStation = this.mapService.computeClosestStation(position, stations);
 
             // updates active station
-            this.setActiveStation(closestStation);
+            this.setActiveStation(closestStation, false);
         }));
     }
 
@@ -92,10 +92,17 @@ export class Home {
 
     /**
      * Put new value in activeStation stream
+     * Also, center the map by default.
+     *
      * @param {VlilleStationResume} stationResume
+     * @param {boolean} centerMap
      */
-    public setActiveStation(stationResume: VlilleStationResume) {
+    public setActiveStation(stationResume: VlilleStationResume, centerMap: boolean = true) {
         this.activeStationSubject.next(stationResume);
+
+        if (centerMap) {
+            this.map.setCenter(MapPosition.fromCoordinates(stationResume), true);
+        }
     }
 
     /**

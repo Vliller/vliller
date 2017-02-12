@@ -82,7 +82,7 @@ export class Map implements OnInit {
                 // listen for user position
                 this.userPosition.subscribe(position => {
                     this.setUserPosition(position);
-                    this.setCenterMap(position);
+                    this.setCenter(position);
                 });
             });
         });
@@ -140,7 +140,6 @@ export class Map implements OnInit {
                      */
                     marker.on(plugin.google.maps.event.MARKER_CLICK, () => {
                         this.setActiveMarker(marker);
-                        this.setCenterMap(MapPosition.fromLatLng(marker.get('position')));
 
                         // updates active station
                         this.activeStationChange.emit(station);
@@ -159,33 +158,6 @@ export class Map implements OnInit {
                 });
             }
         });
-    }
-
-    /**
-     *
-     * @param {MapPosition} position
-     */
-    private setCenterMap(position: MapPosition, animate: boolean = false) {
-        this.mapInstance.moveCamera({
-            target: position.toLatLng(),
-            zoom: 16,
-            animate: animate
-        });
-    }
-
-    /**
-     *
-     * @param {google.maps.Marker} marker
-     */
-    private setActiveMarker(marker: any) {
-        // set default icon on current office marker
-        if (this.activeMarker && this.activeMarker.id !== marker.id) {
-            this.activeMarker.setIcon(this.markerIcon);
-        }
-
-        // set new marker
-        this.activeMarker = marker;
-        this.activeMarker.setIcon(MapIcon.ACTIVE);
     }
 
     /**
@@ -215,6 +187,21 @@ export class Map implements OnInit {
 
     /**
      *
+     * @param {google.maps.Marker} marker
+     */
+    private setActiveMarker(marker: any) {
+        // set default icon on current office marker
+        if (this.activeMarker && this.activeMarker.id !== marker.id) {
+            this.activeMarker.setIcon(this.markerIcon);
+        }
+
+        // set new marker
+        this.activeMarker = marker;
+        this.activeMarker.setIcon(MapIcon.ACTIVE);
+    }
+
+    /**
+     *
      * @param {MapPosition} position
      */
     private setUserPosition(position: MapPosition) {
@@ -231,11 +218,42 @@ export class Map implements OnInit {
         window.requestAnimationFrame(() => this.updateUserHeading());
     }
 
+    /**
+     * Public methods
+     */
+
+    /**
+     *
+     * @param {boolean} value
+     */
     public setClickable(value: boolean) {
         if (!this.mapInstance) {
             return;
         }
 
         this.mapInstance.setClickable(value);
+    }
+
+    /**
+     *
+     * @param {MapPosition} position
+     */
+    public setCenter(position: MapPosition, animate: boolean = false) {
+        if (!this.mapInstance) {
+            return;
+        }
+
+        let options = {
+            target: position.toLatLng(),
+            zoom: 16
+        };
+
+        if (animate) {
+            (<any>options).duration = 200;
+
+            this.mapInstance.animateCamera(options);
+        } else {
+            this.mapInstance.moveCamera(options);
+        }
     }
 }
