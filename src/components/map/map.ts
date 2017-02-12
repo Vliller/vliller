@@ -31,7 +31,6 @@ export class Map implements OnInit {
     private activeMarker: any;
 
     private userMarker: any;
-    private userMarkerPromise: Promise<any>;
     private userHeading: number = 0;
 
     @Input() stations: Observable<VlilleStationResume[]>;
@@ -122,8 +121,6 @@ export class Map implements OnInit {
      */
     private initMarkers(stations: VlilleStationResume[]): Promise<any> {
         return new Promise((resolve, reject) => {
-            // console.debug("markers creation start")
-            // let start = Date.now();
 
             // adds stations markers on map
             for (let station of stations) {
@@ -135,7 +132,7 @@ export class Map implements OnInit {
                     icon: this.markerIcon,
                     disableAutoPan: true
                 }, marker => {
-                    // store list of markers
+                    // stores created marker
                     this.markers.set(station.id, marker);
 
                     /**
@@ -150,16 +147,12 @@ export class Map implements OnInit {
                     });
 
                     /**
-                     * addMarker is async, so we need to wait until all the marker are adds to the map.
+                     * addMarker() is async, so we need to wait until all the markers are created.
                      * @see https://github.com/mapsplugin/cordova-plugin-googlemaps/wiki/Marker#create-multiple-markers
                      */
                     if (this.markers.size() !== stations.length) {
                         return;
                     }
-
-                    // let duration = ((Date.now() - start) / 1000).toFixed(2);
-                    // console.debug("markers creation done: " + duration)
-                    // alert("Duration: " + duration + "s (for " + this.markers.length + " markers)");
 
                     // indicates that markers creation is done
                     resolve();
@@ -245,12 +238,4 @@ export class Map implements OnInit {
 
         this.mapInstance.setClickable(value);
     }
-
-    // public markerToStation(marker: any): VlilleStationResume {
-
-    // }
-
-    // public stationToMarker(station: VlilleStationResume | VlilleStation): any {
-
-    // }
 }
