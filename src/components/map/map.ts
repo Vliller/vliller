@@ -57,13 +57,6 @@ export class Map implements OnInit {
     ngOnInit() {
         // wait for map instance to be initialized
         this.mapInstancePromise.then(() => {
-            // init user marker
-            this.userMarkerPromise = this.initUserMarker(DEFAULT_POSITION);
-            this.userMarkerPromise.then(() => {
-                // start heading update
-                window.requestAnimationFrame(() => this.updateUserHeading());
-            });
-
             // init stations marker
             this.stations.subscribe((stations: VlilleStationResume[]) => {
                 this.initMarkers(stations)
@@ -79,16 +72,18 @@ export class Map implements OnInit {
 
                         this.setActiveMarker(marker);
                     });
+                });
+            });
 
-                    // wait for user marker to be created
-                    return this.userMarkerPromise;
-                })
-                .then(() => {
-                    // listen for user position
-                    this.userPosition.subscribe(position => {
-                        this.setUserPosition(position);
-                        this.setCenterMap(position);
-                    });
+            // init user marker
+            this.initUserMarker(DEFAULT_POSITION).then(() => {
+                // start heading update
+                window.requestAnimationFrame(() => this.updateUserHeading());
+
+                // listen for user position
+                this.userPosition.subscribe(position => {
+                    this.setUserPosition(position);
+                    this.setCenterMap(position);
                 });
             });
         });
