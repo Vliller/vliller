@@ -42,7 +42,8 @@ export class VlilleStation {
         public docks: number,
         public payment: string,
         public status: string,
-        public lastupd: string
+        public lastupd: string,
+        public marker?: any
     ) {}
 
     /**
@@ -62,7 +63,8 @@ export class VlilleStation {
             stationDetails.docks,
             stationDetails.payment,
             stationDetails.status,
-            stationDetails.lastupd
+            stationDetails.lastupd,
+            (<any>stationResume).marker
         );
     }
 }
