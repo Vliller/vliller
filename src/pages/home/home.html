@@ -20,7 +20,8 @@
             #map
             [stations]="stations"
             [userPosition]="currentPosition"
-            [(activeStation)]="activeStation"
+            [activeStation]="activeStation"
+            (activeStationChange)="setActiveStation($event)"
         >
             <favorites-button
                 [favoriteStations]="favoriteStations"

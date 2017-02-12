@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
-import { MapPosition } from '../../components/map/map';
-import { VlilleStationResume } from '../../services/vlille/vlille';
+import { MapPosition } from '../../components/map/map-position';
+import { VlilleStationResume } from '../vlille/vlille';
 
 const MAPBOX_API_BASE = 'https://api.mapbox.com/directions/v5/mapbox/walking/';
 const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiYmxja3NocmsiLCJhIjoiY2l5YWc5anUyMDA0cDMzcWtxcnN0ZWxxcCJ9.xKDTqbkNCQTRvizwIDGeCQ';
@@ -38,6 +38,8 @@ export class MapService {
     }
 
     /**
+     * @deprecated TODO: removes
+     *
      * Computes the closest marker from the given position using the Haversine formula.
      * @param  {MapPosition}               position
      * @param  {Array<google.maps.Marker>} markers

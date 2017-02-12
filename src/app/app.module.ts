@@ -16,6 +16,7 @@ import { FavoritesService } from '../services/favorites/favorites';
 import { LocationService } from '../services/location/location';
 import { ToastService } from '../services/toast/toast';
 import { MapService } from '../services/map/map';
+import { MarkersService } from '../services/map/markers';
 
 // pages
 import { Home } from '../pages/home/home';
@@ -64,7 +65,8 @@ export class RavenErrorHandler implements ErrorHandler {
         FavoritesService,
         LocationService,
         ToastService,
-        MapService
+        MapService,
+        MarkersService
     ]
 })
 export class AppModule {}

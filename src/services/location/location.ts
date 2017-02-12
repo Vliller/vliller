@@ -4,7 +4,7 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Platform } from 'ionic-angular';
 import { Geolocation, Geoposition, Diagnostic, LocationAccuracy } from 'ionic-native';
 
-import { MapPosition } from '../../components/map/map';
+import { MapPosition } from '../../components/map/map-position';
 
 @Injectable()
 export class LocationService {

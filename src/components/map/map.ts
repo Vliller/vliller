@@ -3,79 +3,12 @@ import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { DeviceOrientation } from 'ionic-native';
 
-import { VlilleStationResume } from '../../services/vlille/vlille';
+import { MapPosition } from './map-position';
+import { MapIcon } from './map-icon';
+import { VlilleStationResume, VlilleStation } from '../../services/vlille/vlille';
+import { MarkersService } from '../../services/map/markers';
 
 declare var plugin: any;
-
-export const MapIcon = {
-    NORMAL: {
-        url: 'www/assets/img/vliller-marker-white.png',
-        size: {
-            width: 38,
-            height: 45
-        }
-    },
-    SMALL: {
-        url: 'www/assets/img/vliller-marker-red-small.png',
-        size: {
-            width: 12,
-            height: 12
-        }
-    },
-    ACTIVE: {
-        url: 'www/assets/img/vliller-marker-red.png',
-        size: {
-            width: 60,
-            height: 69
-        }
-    },
-    UNAVAIBLE: {
-        url: 'www/assets/img/vliller-marker-grey.png',
-        size: {
-            width: 60,
-            height: 69
-        }
-    },
-    USER: {
-        url: 'www/assets/img/vliller-marker-user.png',
-        size: {
-            width: 22,
-            height: 34
-        },
-        anchor: [11, 23]
-    }
-};
-
-/**
- * Helper to manage Google LatLng class easily.
- */
-export class MapPosition {
-    constructor(
-        public latitude: number,
-        public longitude: number
-    ) {}
-
-    static fromLatLng(latlng: any): MapPosition {
-        return new MapPosition(
-            latlng.lat,
-            latlng.lng
-        );
-    }
-
-    static fromCoordinates(coordinates: any): MapPosition {
-        return new MapPosition(
-            coordinates.latitude,
-            coordinates.longitude
-        );
-    }
-
-    public toLatLng(): any {
-        return {
-            lat: this.latitude,
-            lng: this.longitude
-        };
-    }
-}
 
 // Lille
 const DEFAULT_POSITION = new MapPosition(50.633333, 3.066667);
@@ -93,20 +26,21 @@ const DEFAULT_POSITION = new MapPosition(50.633333, 3.066667);
 export class Map implements OnInit {
     private mapInstance: any;
     private mapInstancePromise: Promise<any>;
-    private markers: any = [];
+
     private markerIcon: any = MapIcon.NORMAL;
     private activeMarker: any;
+
     private userMarker: any;
-    private userMarkerPromise: Promise<any>;
     private userHeading: number = 0;
 
     @Input() stations: Observable<VlilleStationResume[]>;
     @Input() userPosition: Observable<MapPosition>;
-    @Input() activeStation: Observable<VlilleStationResume>;
+    @Input() activeStation: Observable<VlilleStation>;
     @Output() activeStationChange = new EventEmitter<VlilleStationResume>();
 
     constructor(
-        private platform: Platform
+        private platform: Platform,
+        private markers: MarkersService
     ) {
         // init the map
         this.mapInstancePromise = this.initMap();
@@ -122,29 +56,33 @@ export class Map implements OnInit {
     ngOnInit() {
         // wait for map instance to be initialized
         this.mapInstancePromise.then(() => {
-            // init user marker
-            this.userMarkerPromise = this.initUserMarker(DEFAULT_POSITION);
-            this.userMarkerPromise.then(() => {
-                // start heading update
-                window.requestAnimationFrame(() => this.updateUserHeading());
-            });
-
             // init stations marker
             this.stations.subscribe((stations: VlilleStationResume[]) => {
                 this.initMarkers(stations)
                 .then(() => {
                     // Updates active marker
-                    this.activeStation.subscribe(activeStation => this.setActiveMarker((<any>activeStation).marker, false))
+                    this.activeStation.subscribe(activeStation => {
+                        let marker = this.markers.get(activeStation.id);
 
-                    // wait for user marker to be created
-                    return this.userMarkerPromise;
-                })
-                .then(() => {
-                    // listen for user position
-                    this.userPosition.subscribe(position => {
-                        this.setUserPosition(position);
-                        this.setCenterMap(position);
+                        // avoid double call to setActiveMarker during marker click
+                        if (this.activeMarker && marker.id === this.activeMarker.id) {
+                            return;
+                        }
+
+                        this.setActiveMarker(marker);
                     });
+                });
+            });
+
+            // init user marker
+            this.initUserMarker(DEFAULT_POSITION).then(() => {
+                // start heading update
+                window.requestAnimationFrame(() => this.updateUserHeading());
+
+                // listen for user position
+                this.userPosition.subscribe(position => {
+                    this.setUserPosition(position);
+                    this.setCenter(position);
                 });
             });
         });
@@ -179,12 +117,10 @@ export class Map implements OnInit {
     /**
      * Create stations markers on the map
      * @param  {VlilleStationResume[]} stations
-     * @return {Promise<google.maps.Marker[]>}
+     * @return {Promise<>}
      */
-    private initMarkers(stations: VlilleStationResume[]): Promise<any[]> {
+    private initMarkers(stations: VlilleStationResume[]): Promise<any> {
         return new Promise((resolve, reject) => {
-            // console.debug("markers creation start")
-            // let start = Date.now();
 
             // adds stations markers on map
             for (let station of stations) {
@@ -196,11 +132,8 @@ export class Map implements OnInit {
                     icon: this.markerIcon,
                     disableAutoPan: true
                 }, marker => {
-                    // store list of markers
-                    this.markers.push(marker);
-
-                    // store marker in station object
-                    (<any>station).marker = marker;
+                    // stores created marker
+                    this.markers.set(station.id, marker);
 
                     /**
                      * Set active marker on click
@@ -213,71 +146,18 @@ export class Map implements OnInit {
                     });
 
                     /**
-                     * addMarker is async, so we need to wait until all the marker are adds to the map.
+                     * addMarker() is async, so we need to wait until all the markers are created.
                      * @see https://github.com/mapsplugin/cordova-plugin-googlemaps/wiki/Marker#create-multiple-markers
                      */
-                    if (this.markers.length !== stations.length) {
+                    if (this.markers.size() !== stations.length) {
                         return;
                     }
 
-                    // let duration = ((Date.now() - start) / 1000).toFixed(2);
-                    // console.debug("markers creation done: " + duration)
-                    // alert("Duration: " + duration + "s (for " + this.markers.length + " markers)");
-
                     // indicates that markers creation is done
-                    resolve(this.markers);
+                    resolve();
                 });
             }
         });
-    }
-
-    /**
-     *
-     * @param {MapPosition} position
-     */
-    private setCenterMap(position: MapPosition, animate: boolean = false) {
-        this.mapInstance.moveCamera({
-            target: position.toLatLng(),
-            zoom: 16,
-            animate: animate
-        });
-    }
-
-    /**
-     *
-     * @param {google.maps.Marker} marker
-     * @param {boolean} centerMap
-     */
-    private setActiveMarker(marker: any, centerMap: boolean = true) {
-        // set default icon on current office marker
-        if (this.activeMarker && this.activeMarker.id !== marker.id) {
-            this.activeMarker.setIcon(this.markerIcon);
-        }
-
-        this.activeMarker = marker;
-
-        // center map
-        if (centerMap) {
-            this.setCenterMap(MapPosition.fromLatLng(marker.get('position')));
-        }
-
-        /**
-         * Handle Offline case
-         */
-        // if (this.isOffline) {
-        //     // update marker
-        //     activeMarker.setIcon(icons.iconActive);
-
-        //     // to avoid touch bug after card resizing
-        //     // $timeout(function () {
-        //     //     map.refreshLayout();
-        //     // }, 100);
-        // } else {
-        //     loadsActiveStationDetails(station.id);
-        // }
-
-        // update marker
-        this.activeMarker.setIcon(MapIcon.ACTIVE);
     }
 
     /**
@@ -307,6 +187,21 @@ export class Map implements OnInit {
 
     /**
      *
+     * @param {google.maps.Marker} marker
+     */
+    private setActiveMarker(marker: any) {
+        // set default icon on current office marker
+        if (this.activeMarker && this.activeMarker.id !== marker.id) {
+            this.activeMarker.setIcon(this.markerIcon);
+        }
+
+        // set new marker
+        this.activeMarker = marker;
+        this.activeMarker.setIcon(MapIcon.ACTIVE);
+    }
+
+    /**
+     *
      * @param {MapPosition} position
      */
     private setUserPosition(position: MapPosition) {
@@ -323,11 +218,42 @@ export class Map implements OnInit {
         window.requestAnimationFrame(() => this.updateUserHeading());
     }
 
+    /**
+     * Public methods
+     */
+
+    /**
+     *
+     * @param {boolean} value
+     */
     public setClickable(value: boolean) {
         if (!this.mapInstance) {
             return;
         }
 
         this.mapInstance.setClickable(value);
+    }
+
+    /**
+     *
+     * @param {MapPosition} position
+     */
+    public setCenter(position: MapPosition, animate: boolean = false) {
+        if (!this.mapInstance) {
+            return;
+        }
+
+        let options = {
+            target: position.toLatLng(),
+            zoom: 16
+        };
+
+        if (animate) {
+            (<any>options).duration = 200;
+
+            this.mapInstance.animateCamera(options);
+        } else {
+            this.mapInstance.moveCamera(options);
+        }
     }
 }

@@ -1,6 +1,6 @@
-import { Component, NgZone, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { LocationAccuracy, Diagnostic } from 'ionic-native';
 import { AlertController } from 'ionic-angular';
 import * as Raven from 'raven-js';
@@ -9,7 +9,8 @@ import { VlilleService, VlilleStationResume, VlilleStation } from '../../service
 import { FavoritesService } from '../../services/favorites/favorites';
 import { LocationService } from '../../services/location/location';
 import { ToastService } from '../../services/toast/toast';
-import { MapPosition, Map } from '../../components/map/map';
+import { Map } from '../../components/map/map';
+import { MapPosition } from '../../components/map/map-position';
 import { MapService } from '../../services/map/map';
 import { LocationIconState } from '../../components/location-icon/location-icon';
 
@@ -20,17 +21,16 @@ import { LocationIconState } from '../../components/location-icon/location-icon'
 
 export class Home {
     public stations: Observable<VlilleStationResume[]>;
-    public activeStation: Observable<VlilleStation>;
     public favoriteStations: Observable<VlilleStation[]>;
     public currentPosition: Observable<MapPosition>;
     public locationState: LocationIconState = LocationIconState.Default;
 
-    private activeStationSubject = new Subject<VlilleStation>();
+    public activeStation: Observable<VlilleStationResume>;
+    private activeStationSubject = new ReplaySubject<VlilleStationResume>(1);
 
     @ViewChild('map') map: Map;
 
     constructor(
-        private zone: NgZone,
         private vlilleService: VlilleService,
         private mapService: MapService,
         private favoritesService: FavoritesService,
@@ -54,8 +54,8 @@ export class Home {
             // computes and actives the closest station
             let closestStation = this.mapService.computeClosestStation(position, stations);
 
-            // update active station
-            this.setActiveStation(closestStation);
+            // updates active station
+            this.setActiveStation(closestStation, false);
         }));
     }
 
@@ -91,22 +91,18 @@ export class Home {
     }
 
     /**
+     * Put new value in activeStation stream
+     * Also, center the map by default.
      *
      * @param {VlilleStationResume} stationResume
+     * @param {boolean} centerMap
      */
-    public setActiveStation(stationResume: VlilleStationResume) {
-        // clear previous value to start loader
-        this.activeStationSubject.next();
+    public setActiveStation(stationResume: VlilleStationResume, centerMap: boolean = true) {
+        this.activeStationSubject.next(stationResume);
 
-        // put the service request inside the NgZone to perform automatic view update
-        // @see http://stackoverflow.com/a/37028716/5727772
-        this.zone.run(() => {
-            // get station details
-            this.vlilleService.getStation(stationResume.id).subscribe(
-                // update station value through observer
-                stationDetails => this.activeStationSubject.next(VlilleStation.createFromResumeAndDetails(stationResume, stationDetails))
-            );
-        });
+        if (centerMap) {
+            this.map.setCenter(MapPosition.fromCoordinates(stationResume), true);
+        }
     }
 
     /**
@@ -127,7 +123,11 @@ export class Home {
             }
 
             // else, sends error to Sentry
+            console.error(error);
             Raven.captureException(error);
+
+            // reset icon to default value
+            this.locationState = LocationIconState.Default
         });
     }
 
