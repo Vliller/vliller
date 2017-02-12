@@ -4,78 +4,10 @@ import { Observable } from 'rxjs/Observable';
 import { DeviceOrientation } from 'ionic-native';
 
 import { VlilleStationResume, VlilleStation } from '../../services/vlille/vlille';
+import { MapPosition } from './map-position';
+import { MapIcon } from './map-icon';
 
 declare var plugin: any;
-
-export const MapIcon = {
-    NORMAL: {
-        url: 'www/assets/img/vliller-marker-white.png',
-        size: {
-            width: 38,
-            height: 45
-        }
-    },
-    SMALL: {
-        url: 'www/assets/img/vliller-marker-red-small.png',
-        size: {
-            width: 12,
-            height: 12
-        }
-    },
-    ACTIVE: {
-        url: 'www/assets/img/vliller-marker-red.png',
-        size: {
-            width: 60,
-            height: 69
-        }
-    },
-    UNAVAIBLE: {
-        url: 'www/assets/img/vliller-marker-grey.png',
-        size: {
-            width: 60,
-            height: 69
-        }
-    },
-    USER: {
-        url: 'www/assets/img/vliller-marker-user.png',
-        size: {
-            width: 22,
-            height: 34
-        },
-        anchor: [11, 23]
-    }
-};
-
-/**
- * Helper to manage Google LatLng class easily.
- */
-export class MapPosition {
-    constructor(
-        public latitude: number,
-        public longitude: number
-    ) {}
-
-    static fromLatLng(latlng: any): MapPosition {
-        return new MapPosition(
-            latlng.lat,
-            latlng.lng
-        );
-    }
-
-    static fromCoordinates(coordinates: any): MapPosition {
-        return new MapPosition(
-            coordinates.latitude,
-            coordinates.longitude
-        );
-    }
-
-    public toLatLng(): any {
-        return {
-            lat: this.latitude,
-            lng: this.longitude
-        };
-    }
-}
 
 // Lille
 const DEFAULT_POSITION = new MapPosition(50.633333, 3.066667);
@@ -105,7 +37,7 @@ export class Map implements OnInit {
     @Input() stations: Observable<VlilleStationResume[]>;
     @Input() userPosition: Observable<MapPosition>;
     @Input() activeStation: Observable<VlilleStation>;
-    @Output() activeStationResumeChange = new EventEmitter<VlilleStationResume>();
+    @Output() activeStationChange = new EventEmitter<VlilleStationResume>();
 
     constructor(
         private platform: Platform
@@ -136,7 +68,11 @@ export class Map implements OnInit {
                 this.initMarkers(stations)
                 .then(() => {
                     // Updates active marker
-                    this.activeStation.subscribe(activeStation => this.setActiveMarker(activeStation.marker, false))
+                    this.activeStation.subscribe(activeStation => {
+                        let marker;
+
+                        this.setActiveMarker(marker, false)
+                    });
 
                     // wait for user marker to be created
                     return this.userMarkerPromise;
@@ -201,9 +137,6 @@ export class Map implements OnInit {
                     // store list of markers
                     this.markers.push(marker);
 
-                    // store marker in station object
-                    (<any>station).marker = marker;
-
                     /**
                      * Set active marker on click
                      */
@@ -211,7 +144,7 @@ export class Map implements OnInit {
                         this.setActiveMarker(marker);
 
                         // updates active station
-                        this.activeStationResumeChange.emit(station);
+                        this.activeStationChange.emit(station);
                     });
 
                     /**
@@ -332,4 +265,12 @@ export class Map implements OnInit {
 
         this.mapInstance.setClickable(value);
     }
+
+    // public markerToStation(marker: any): VlilleStationResume {
+
+    // }
+
+    // public stationToMarker(station: VlilleStationResume | VlilleStation): any {
+
+    // }
 }
