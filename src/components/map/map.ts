@@ -77,7 +77,7 @@ export class Map implements OnInit {
                             return;
                         }
 
-                        this.setActiveMarker(marker, false);
+                        this.setActiveMarker(marker);
                     });
 
                     // wait for user marker to be created
@@ -148,6 +148,7 @@ export class Map implements OnInit {
                      */
                     marker.on(plugin.google.maps.event.MARKER_CLICK, () => {
                         this.setActiveMarker(marker);
+                        this.setCenterMap(MapPosition.fromLatLng(marker.get('position')));
 
                         // updates active station
                         this.activeStationChange.emit(station);
@@ -187,20 +188,14 @@ export class Map implements OnInit {
     /**
      *
      * @param {google.maps.Marker} marker
-     * @param {boolean} centerMap
      */
-    private setActiveMarker(marker: any, centerMap: boolean = true) {
+    private setActiveMarker(marker: any) {
         // set default icon on current office marker
         if (this.activeMarker && this.activeMarker.id !== marker.id) {
             this.activeMarker.setIcon(this.markerIcon);
         }
 
         this.activeMarker = marker;
-
-        // center map
-        if (centerMap) {
-            this.setCenterMap(MapPosition.fromLatLng(marker.get('position')));
-        }
 
         /**
          * Handle Offline case
