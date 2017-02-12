@@ -3,9 +3,10 @@ import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { DeviceOrientation } from 'ionic-native';
 
-import { VlilleStationResume, VlilleStation } from '../../services/vlille/vlille';
 import { MapPosition } from './map-position';
 import { MapIcon } from './map-icon';
+import { VlilleStationResume, VlilleStation } from '../../services/vlille/vlille';
+import { MarkersService } from '../../services/map/markers';
 
 declare var plugin: any;
 
@@ -26,7 +27,6 @@ export class Map implements OnInit {
     private mapInstance: any;
     private mapInstancePromise: Promise<any>;
 
-    private markers: any = [];
     private markerIcon: any = MapIcon.NORMAL;
     private activeMarker: any;
 
@@ -40,7 +40,8 @@ export class Map implements OnInit {
     @Output() activeStationChange = new EventEmitter<VlilleStationResume>();
 
     constructor(
-        private platform: Platform
+        private platform: Platform,
+        private markers: MarkersService
     ) {
         // init the map
         this.mapInstancePromise = this.initMap();
@@ -69,9 +70,14 @@ export class Map implements OnInit {
                 .then(() => {
                     // Updates active marker
                     this.activeStation.subscribe(activeStation => {
-                        let marker;
+                        let marker = this.markers.get(activeStation.id);
 
-                        this.setActiveMarker(marker, false)
+                        // avoid double call to setActiveMarker during marker click
+                        if (this.activeMarker && marker.id === this.activeMarker.id) {
+                            return;
+                        }
+
+                        this.setActiveMarker(marker, false);
                     });
 
                     // wait for user marker to be created
@@ -117,9 +123,9 @@ export class Map implements OnInit {
     /**
      * Create stations markers on the map
      * @param  {VlilleStationResume[]} stations
-     * @return {Promise<google.maps.Marker[]>}
+     * @return {Promise<>}
      */
-    private initMarkers(stations: VlilleStationResume[]): Promise<any[]> {
+    private initMarkers(stations: VlilleStationResume[]): Promise<any> {
         return new Promise((resolve, reject) => {
             // console.debug("markers creation start")
             // let start = Date.now();
@@ -135,7 +141,7 @@ export class Map implements OnInit {
                     disableAutoPan: true
                 }, marker => {
                     // store list of markers
-                    this.markers.push(marker);
+                    this.markers.set(station.id, marker);
 
                     /**
                      * Set active marker on click
@@ -151,7 +157,7 @@ export class Map implements OnInit {
                      * addMarker is async, so we need to wait until all the marker are adds to the map.
                      * @see https://github.com/mapsplugin/cordova-plugin-googlemaps/wiki/Marker#create-multiple-markers
                      */
-                    if (this.markers.length !== stations.length) {
+                    if (this.markers.size() !== stations.length) {
                         return;
                     }
 
@@ -160,7 +166,7 @@ export class Map implements OnInit {
                     // alert("Duration: " + duration + "s (for " + this.markers.length + " markers)");
 
                     // indicates that markers creation is done
-                    resolve(this.markers);
+                    resolve();
                 });
             }
         });
