@@ -24,4 +24,8 @@ export class MarkersService {
     public getAll(): any {
         return this.markers.values();
     }
+
+    public size(): number {
+        return this.markers.size;
+    }
 }
