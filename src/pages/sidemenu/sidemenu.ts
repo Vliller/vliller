@@ -42,16 +42,9 @@ export class Sidemenu {
     };
 
     /**
-     * Show Instabug form
+     * Show bug report form
      */
     public openBugReport() {
-        // defines some usefull properties
-        (<any>window).doorbell.setProperty('version', this.appVersion);
-        (<any>window).doorbell.setProperty('platform', Device);
-
-        // open the box
-        (<any>window).doorbell.show();
-
         // Sentry feedback dialog
         // Raven.showReportDialog({
         //     release: this.appVersion
