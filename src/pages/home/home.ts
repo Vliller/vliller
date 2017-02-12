@@ -9,7 +9,8 @@ import { VlilleService, VlilleStationResume, VlilleStation } from '../../service
 import { FavoritesService } from '../../services/favorites/favorites';
 import { LocationService } from '../../services/location/location';
 import { ToastService } from '../../services/toast/toast';
-import { MapPosition, Map } from '../../components/map/map';
+import { Map } from '../../components/map/map';
+import { MapPosition } from '../../components/map/map-position';
 import { MapService } from '../../services/map/map';
 import { LocationIconState } from '../../components/location-icon/location-icon';
 
