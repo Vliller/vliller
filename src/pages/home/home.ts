@@ -10,6 +10,7 @@ import { FavoritesService } from '../../services/favorites/favorites';
 import { LocationService } from '../../services/location/location';
 import { ToastService } from '../../services/toast/toast';
 import { MapPosition, Map } from '../../components/map/map';
+import { MapService } from '../../services/map/map';
 import { LocationIconState } from '../../components/location-icon/location-icon';
 
 @Component({
@@ -31,6 +32,7 @@ export class Home {
     constructor(
         private zone: NgZone,
         private vlilleService: VlilleService,
+        private mapService: MapService,
         private favoritesService: FavoritesService,
         private locationService: LocationService,
         private alertController: AlertController,
@@ -46,6 +48,15 @@ export class Home {
         this.locationService.requestLocation()
         .then(() => this.updatePosition())
         .catch(error => this.handleLocationError(error));
+
+        // Updates activeStation according to user position
+        this.stations.subscribe(stations => this.currentPosition.subscribe(position => {
+            // computes and actives the closest station
+            let closestStation = this.mapService.computeClosestStation(position, stations);
+
+            // update active station
+            this.setActiveStation(closestStation);
+        }));
     }
 
     /**

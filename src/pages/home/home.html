@@ -16,7 +16,12 @@
 
 <ion-content class="no-scroll">
     <div class="home-content">
-        <map #map [stations]="stations" [userPosition]="currentPosition" (activeStationChange)="setActiveStation($event)">
+        <map
+            #map
+            [stations]="stations"
+            [userPosition]="currentPosition"
+            [(activeStation)]="activeStation"
+        >
             <favorites-button
                 [favoriteStations]="favoriteStations"
                 (favoriteStationClick)="setActiveStation($event)"

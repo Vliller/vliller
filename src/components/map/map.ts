@@ -4,7 +4,6 @@ import { Observable } from 'rxjs/Observable';
 import { DeviceOrientation } from 'ionic-native';
 
 import { VlilleStationResume } from '../../services/vlille/vlille';
-import { MapService } from '../../services/map/map';
 
 declare var plugin: any;
 
@@ -93,27 +92,24 @@ const DEFAULT_POSITION = new MapPosition(50.633333, 3.066667);
 
 export class Map implements OnInit {
     private mapInstance: any;
-    private mapInstanceObserver: Observable<any>;
-
-    private markers: any;
-    private markerIcon: any;
+    private mapInstancePromise: Promise<any>;
+    private markers: any = [];
+    private markerIcon: any = MapIcon.NORMAL;
     private activeMarker: any;
     private userMarker: any;
+    private userMarkerPromise: Promise<any>;
     private userHeading: number = 0;
 
     @Input() stations: Observable<VlilleStationResume[]>;
     @Input() userPosition: Observable<MapPosition>;
+    @Input() activeStation: Observable<VlilleStationResume>;
     @Output() activeStationChange = new EventEmitter<VlilleStationResume>();
 
     constructor(
-        private platform: Platform,
-        private mapService: MapService
+        private platform: Platform
     ) {
-        this.markers = [];
-        this.markerIcon = MapIcon.NORMAL;
-
         // init the map
-        this.mapInstanceObserver = this.prepareMapInstance();
+        this.mapInstancePromise = this.initMap();
 
         // init heading watcher
         this.platform.ready().then(() => {
@@ -125,39 +121,40 @@ export class Map implements OnInit {
 
     ngOnInit() {
         // wait for map instance to be initialized
-        this.mapInstanceObserver.subscribe(mapInstance => {
-            this.mapInstance = mapInstance;
-
-            // this.mapInstance.setDebuggable(true);
+        this.mapInstancePromise.then(() => {
+            // init user marker
+            this.userMarkerPromise = this.initUserMarker(DEFAULT_POSITION);
+            this.userMarkerPromise.then(() => {
+                // start heading update
+                window.requestAnimationFrame(() => this.updateUserHeading());
+            });
 
             // init stations marker
-            this.stations.subscribe((stations: VlilleStationResume[]) => this.initMarkers(stations).subscribe(() => {
-                // /!\ we have to wait until all markers are created to compute the closest station
+            this.stations.subscribe((stations: VlilleStationResume[]) => {
+                this.initMarkers(stations)
+                .then(() => {
+                    // Updates active marker
+                    this.activeStation.subscribe(activeStation => this.setActiveMarker((<any>activeStation).marker, false))
 
-                // listen for user position
-                this.userPosition.subscribe(position => {
-                    // create or move the user marker
-                    if (this.userMarker) {
+                    // wait for user marker to be created
+                    return this.userMarkerPromise;
+                })
+                .then(() => {
+                    // listen for user position
+                    this.userPosition.subscribe(position => {
                         this.setUserPosition(position);
-                    } else {
-                        this.initUserMarker(position);
-                    }
-
-                    // computes and actives the closest station
-                    this.mapService.computeClosestMarker(position, this.markers).subscribe(marker => this.setActiveMarker(marker, false));
-
-                    // center the map on the user position
-                    this.setCenterMap(position);
+                        this.setCenterMap(position);
+                    });
                 });
-            }));
+            });
         });
     }
 
     /**
      * Initialize map instance and bind it to #map-canvas element
-     * @return {Observable<any>}
+     * @return {Promise<any>}
      */
-    private prepareMapInstance(): Observable<any> {
+    private initMap(): Promise<any> {
         let mapOptions = {
             camera: {
                 latLng: DEFAULT_POSITION.toLatLng(),
@@ -165,53 +162,29 @@ export class Map implements OnInit {
             }
         };
 
-        return new Observable<any>(
-            observer => {
-                this.platform.ready().then(() => {
-                    // init map instance
-                    plugin.google.maps.Map
-                        .getMap(document.getElementById('map-canvas'), mapOptions)
-                        .one(plugin.google.maps.event.MAP_READY, observer.next.bind(observer));
-                });
-            }
-        );
+        return new Promise<any>((resolve, reject) => {
+            this.platform.ready().then(() => {
+                // init map instance
+                plugin.google.maps.Map
+                    .getMap(document.getElementById('map-canvas'), mapOptions)
+                    .one(plugin.google.maps.event.MAP_READY, (mapInstance) => {
+                        this.mapInstance = mapInstance;
+
+                        resolve(mapInstance);
+                    });
+            });
+        });
     }
 
     /**
      * Create stations markers on the map
      * @param  {VlilleStationResume[]} stations
-     * @return {Observable<google.maps.Marker[]>}
+     * @return {Promise<google.maps.Marker[]>}
      */
-    private initMarkers(stations: VlilleStationResume[]): Observable<any> {
-        return new Observable(observer => {
+    private initMarkers(stations: VlilleStationResume[]): Promise<any[]> {
+        return new Promise((resolve, reject) => {
             // console.debug("markers creation start")
             // let start = Date.now();
-
-            // avoids function declaration inside loop
-            function callback(marker) {
-                // store list of markers
-                this.markers.push(marker);
-
-                /**
-                 * Set active marker on click
-                 */
-                marker.on(plugin.google.maps.event.MARKER_CLICK, () => this.setActiveMarker(marker));
-
-                /**
-                 * addMarker is async, so we need to wait until all the marker are adds to the map.
-                 * @see https://github.com/mapsplugin/cordova-plugin-googlemaps/wiki/Marker#create-multiple-markers
-                 */
-                if (this.markers.length !== stations.length) {
-                    return;
-                }
-
-                // let duration = ((Date.now() - start) / 1000).toFixed(2);
-                // console.debug("markers creation done: " + duration)
-                // alert("Duration: " + duration + "s (for " + this.markers.length + " markers)");
-
-                // indicates that markers creation is done
-                observer.next(this.markers);
-            }
 
             // adds stations markers on map
             for (let station of stations) {
@@ -221,9 +194,39 @@ export class Map implements OnInit {
                         lng: station.longitude
                     },
                     icon: this.markerIcon,
-                    station: station,
                     disableAutoPan: true
-                }, callback.bind(this));
+                }, marker => {
+                    // store list of markers
+                    this.markers.push(marker);
+
+                    // store marker in station object
+                    (<any>station).marker = marker;
+
+                    /**
+                     * Set active marker on click
+                     */
+                    marker.on(plugin.google.maps.event.MARKER_CLICK, () => {
+                        this.setActiveMarker(marker);
+
+                        // updates active station
+                        this.activeStationChange.emit(station);
+                    });
+
+                    /**
+                     * addMarker is async, so we need to wait until all the marker are adds to the map.
+                     * @see https://github.com/mapsplugin/cordova-plugin-googlemaps/wiki/Marker#create-multiple-markers
+                     */
+                    if (this.markers.length !== stations.length) {
+                        return;
+                    }
+
+                    // let duration = ((Date.now() - start) / 1000).toFixed(2);
+                    // console.debug("markers creation done: " + duration)
+                    // alert("Duration: " + duration + "s (for " + this.markers.length + " markers)");
+
+                    // indicates that markers creation is done
+                    resolve(this.markers);
+                });
             }
         });
     }
@@ -232,10 +235,11 @@ export class Map implements OnInit {
      *
      * @param {MapPosition} position
      */
-    private setCenterMap(position: MapPosition) {
+    private setCenterMap(position: MapPosition, animate: boolean = false) {
         this.mapInstance.moveCamera({
             target: position.toLatLng(),
-            zoom: 16
+            zoom: 16,
+            animate: animate
         });
     }
 
@@ -245,20 +249,16 @@ export class Map implements OnInit {
      * @param {boolean} centerMap
      */
     private setActiveMarker(marker: any, centerMap: boolean = true) {
-        let activeStation = marker.get('station');
-
         // set default icon on current office marker
         if (this.activeMarker && this.activeMarker.id !== marker.id) {
             this.activeMarker.setIcon(this.markerIcon);
         }
 
-        // update new active office
         this.activeMarker = marker;
-        this.activeStationChange.emit(activeStation);
 
         // center map
         if (centerMap) {
-            this.setCenterMap(new MapPosition(activeStation.latitude, activeStation.longitude));
+            this.setCenterMap(MapPosition.fromLatLng(marker.get('position')));
         }
 
         /**
@@ -282,24 +282,26 @@ export class Map implements OnInit {
 
     /**
      *
-     * @param {MapPosition} position
+     * @param  {MapPosition} position
+     * @return {Promise<google.maps.Marker>}
      */
-    private initUserMarker(position: MapPosition) {
-        this.mapInstance.addMarker({
-            position: position.toLatLng(),
-            icon: MapIcon.USER,
-            disableAutoPan: true
-        }, marker => {
-            // avoid duplication bug
-            if (this.userMarker) {
-                this.userMarker.remove();
-            }
+    private initUserMarker(position: MapPosition): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            this.mapInstance.addMarker({
+                position: position.toLatLng(),
+                icon: MapIcon.USER,
+                disableAutoPan: true
+            }, marker => {
+                // avoid duplication bug
+                if (this.userMarker) {
+                    this.userMarker.remove();
+                }
 
-            // updates marker ref
-            this.userMarker = marker;
+                // updates marker ref
+                this.userMarker = marker;
 
-            // updates heading
-            window.requestAnimationFrame(() => this.updateUserHeading());
+                resolve(marker);
+            });
         });
     }
 
