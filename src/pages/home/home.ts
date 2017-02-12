@@ -52,10 +52,10 @@ export class Home {
         // Updates activeStation according to user position
         this.stations.subscribe(stations => this.currentPosition.subscribe(position => {
             // computes and actives the closest station
-            let closestStation = this.mapService.computeClosestStation(position, stations);
+            // let closestStation = this.mapService.computeClosestStation(position, stations);
 
             // update active station
-            this.setActiveStation(closestStation);
+            // this.setActiveStation(closestStation);
         }));
     }
 

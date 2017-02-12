@@ -3,7 +3,7 @@ import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { DeviceOrientation } from 'ionic-native';
 
-import { VlilleStationResume } from '../../services/vlille/vlille';
+import { VlilleStationResume, VlilleStation } from '../../services/vlille/vlille';
 
 declare var plugin: any;
 
@@ -93,17 +93,19 @@ const DEFAULT_POSITION = new MapPosition(50.633333, 3.066667);
 export class Map implements OnInit {
     private mapInstance: any;
     private mapInstancePromise: Promise<any>;
+
     private markers: any = [];
     private markerIcon: any = MapIcon.NORMAL;
     private activeMarker: any;
+
     private userMarker: any;
     private userMarkerPromise: Promise<any>;
     private userHeading: number = 0;
 
     @Input() stations: Observable<VlilleStationResume[]>;
     @Input() userPosition: Observable<MapPosition>;
-    @Input() activeStation: Observable<VlilleStationResume>;
-    @Output() activeStationChange = new EventEmitter<VlilleStationResume>();
+    @Input() activeStation: Observable<VlilleStation>;
+    @Output() activeStationResumeChange = new EventEmitter<VlilleStationResume>();
 
     constructor(
         private platform: Platform
@@ -134,7 +136,7 @@ export class Map implements OnInit {
                 this.initMarkers(stations)
                 .then(() => {
                     // Updates active marker
-                    this.activeStation.subscribe(activeStation => this.setActiveMarker((<any>activeStation).marker, false))
+                    this.activeStation.subscribe(activeStation => this.setActiveMarker(activeStation.marker, false))
 
                     // wait for user marker to be created
                     return this.userMarkerPromise;
@@ -209,7 +211,7 @@ export class Map implements OnInit {
                         this.setActiveMarker(marker);
 
                         // updates active station
-                        this.activeStationChange.emit(station);
+                        this.activeStationResumeChange.emit(station);
                     });
 
                     /**
