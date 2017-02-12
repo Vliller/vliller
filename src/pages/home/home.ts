@@ -1,8 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { LocationAccuracy, Diagnostic } from 'ionic-native';
-import { AlertController, ToastController } from 'ionic-angular';
+import { LocationAccuracy, Diagnostic, Splashscreen } from 'ionic-native';
+import { AlertController, ToastController, Platform } from 'ionic-angular';
 import * as Raven from 'raven-js';
 
 import { VlilleService, VlilleStationResume, VlilleStation } from '../../services/vlille/vlille';
@@ -30,6 +30,7 @@ export class Home {
     @ViewChild('map') map: Map;
 
     constructor(
+        private platform: Platform,
         private vlilleService: VlilleService,
         private mapService: MapService,
         private favoritesService: FavoritesService,
@@ -56,6 +57,9 @@ export class Home {
             // updates active station
             this.setActiveStation(closestStation, false);
         }));
+
+        // Hide splashscreen
+        this.platform.ready().then(() => Splashscreen.hide());
     }
 
     /**

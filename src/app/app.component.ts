@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
-import { StatusBar, Splashscreen, AppVersion, GoogleAnalytics } from 'ionic-native';
+import { StatusBar, AppVersion, GoogleAnalytics } from 'ionic-native';
 import * as Raven from 'raven-js';
 
 // Add the RxJS Observable operators.
@@ -31,7 +31,6 @@ export class App {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
             StatusBar.styleDefault();
-            Splashscreen.hide();
 
             let versionPromise = AppVersion.getVersionNumber().then(version => {
                 this.appVersion = version;
