@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { VlilleStationResume } from '../vlille/vlille';
 
 @Injectable()
 export class MarkersService {
