@@ -18,6 +18,10 @@ const DEFAULT_POSITION = new MapPosition(50.633333, 3.066667);
     template:
     `
         <div id="map-canvas" class="map-canvas">
+            <div [hidden]="isMapReady" class="map-stations-loading">
+                <ion-spinner color="light"></ion-spinner>
+                <span>Chargement des stations en cours...</span>
+            </div>
             <ng-content></ng-content>
         </div>
     `
@@ -32,6 +36,8 @@ export class Map implements OnInit {
 
     private userMarker: any;
     private userHeading: number = 0;
+
+    public isMapReady: boolean = false;
 
     @Input() stations: Observable<VlilleStationResume[]>;
     @Input() userPosition: Observable<MapPosition>;
@@ -60,6 +66,9 @@ export class Map implements OnInit {
             this.stations.subscribe((stations: VlilleStationResume[]) => {
                 this.initMarkers(stations)
                 .then(() => {
+                    // hide loading mlessage
+                    this.isMapReady = true;
+
                     // Updates active marker
                     this.activeStation.subscribe(activeStation => {
                         let marker = this.markers.get(activeStation.id);
