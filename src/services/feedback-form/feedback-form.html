@@ -1,11 +1,35 @@
 <ion-header>
     <ion-navbar color="lipstick">
-        <ion-title></ion-title>
+        <ion-title>Votre avis nous intéresse !</ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content>
-    {{ appVersion }}
+    <form (ngSubmit)="submit()" novalidate>
+        <ion-item>
+            <ion-label floating>Prénom</ion-label>
+            <ion-input type="text" [(ngModel)]="userFeedback.firstname" name="firstname"></ion-input>
+        </ion-item>
 
-    <button ion-button block (click)="close()">Close</button>
+        <ion-item>
+            <ion-label floating>Email</ion-label>
+            <ion-input type="email" [(ngModel)]="userFeedback.email" name="email"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label floating>Message</ion-label>
+            <ion-textarea [(ngModel)]="userFeedback.message" name="message"></ion-textarea>
+        </ion-item>
+
+        <ion-grid>
+            <ion-row>
+                <ion-col width-50>
+                    <button type="submit" ion-button block>Envoyer</button>
+                </ion-col>
+                <ion-col width-50>
+                    <button type="button" ion-button block outline color="dark" (click)="close()">Annuler</button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </form>
 </ion-content>
