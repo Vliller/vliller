@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { InAppBrowser, AppVersion, SocialSharing, Device } from 'ionic-native';
+import { InAppBrowser, AppVersion, SocialSharing } from 'ionic-native';
 import { Platform } from 'ionic-angular';
-// import * as Raven from 'raven-js';
 
 import { AppSettings } from '../../app/app.settings';
+import { FeedbackFormService } from '../../services/feedback-form/feedback-form';
 
 @Component({
     selector: 'sidemenu',
@@ -14,7 +14,10 @@ export class Sidemenu {
 
     public appVersion: string;
 
-    constructor(public platform: Platform) {
+    constructor(
+        private platform: Platform,
+        private feedbackFormService: FeedbackFormService
+    ) {
         this.platform.ready().then(() => {
             AppVersion.getVersionNumber().then(version => this.appVersion = version);
         });
@@ -45,10 +48,7 @@ export class Sidemenu {
      * Show bug report form
      */
     public openBugReport() {
-        // Sentry feedback dialog
-        // Raven.showReportDialog({
-        //     release: this.appVersion
-        // });
+        this.feedbackFormService.showModal();
     };
 
     /**
