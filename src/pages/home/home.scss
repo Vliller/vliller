@@ -1,6 +1,10 @@
 $station-card-height: 154px;
 $favorites-button-margin: $fab-content-margin;
 
+.home-button-menu-toggle {
+    min-width: 32px !important;
+}
+
 .home-content {
     position: relative;
     height: 100%;
