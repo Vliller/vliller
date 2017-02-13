@@ -90,7 +90,7 @@ export class Home {
         }
 
         // else, sends error to Sentry
-        Raven.captureException(error);
+        Raven.captureException(new Error(error));
     }
 
     /**
@@ -131,7 +131,7 @@ export class Home {
 
             // else, sends error to Sentry
             console.error(error);
-            Raven.captureException(error);
+            Raven.captureException(new Error(error));
 
             // reset icon to default value
             this.locationState = LocationIconState.Default
