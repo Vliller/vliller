@@ -130,7 +130,6 @@ export class Home {
             }
 
             // else, sends error to Sentry
-            console.error(error);
             Raven.captureException(new Error(error));
 
             // reset icon to default value
@@ -138,6 +137,10 @@ export class Home {
         });
     }
 
+    /**
+     *
+     * @param {boolean} isClickable
+     */
     public setMapClickable(isClickable: boolean) {
         if (!this.map) {
             return;
