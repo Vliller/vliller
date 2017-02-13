@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { InAppBrowser, AppVersion, SocialSharing, Device } from 'ionic-native';
+import { InAppBrowser, AppVersion, SocialSharing } from 'ionic-native';
 import { Platform } from 'ionic-angular';
 // import * as Raven from 'raven-js';
 
