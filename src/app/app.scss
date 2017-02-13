@@ -15,8 +15,6 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
-@import '../components/doorbell/doorbell';
-
 body {
     font-family: Roboto;
     font-weight: 400;
@@ -72,10 +70,6 @@ body {
 
 .text-green {
     color: $greenblue !important;
-}
-
-.border-right {
-    border-right: solid 1px rgba(0, 0, 0, 0.12);
 }
 
 // bug fix blackscreen of map on iOS
