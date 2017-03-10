@@ -11,6 +11,7 @@ engine/
 www/*
 !www/assets/
 .DS_Store
+res/
 
 # bower files
 lib/
