@@ -15,7 +15,7 @@
     function buildVlilleStationObject(data) {
         var station = {
             id: data.fields.libelle,
-            name: data.fields.nom.replace(/^([0-9]+ )/, ''),
+            name: data.fields.nom.replace(/^([0-9]+ )/, '').replace(/( \(CB\))$/, ''),
             latitude: data.fields.geo[0],
             longitude: data.fields.geo[1],
             address: data.fields.adresse,
