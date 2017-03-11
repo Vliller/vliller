@@ -61,12 +61,12 @@
                             <div class="station-name">{{ HomeCtrl.activeStation.name }}</div>
                             <div class="positive station-distance">{{ HomeCtrl.formatDistance() }}</div>
 
-                            <p class="text-small text-grey">Il y a {{ HomeCtrl.activeStation.lastupd }}</p>
+                            <p class="text-small text-grey">à {{ HomeCtrl.activeStation.lastupd | date: 'HH:mm' }}</p>
 
                             <!-- CB -->
                             <div class="station-cb">
-                                <img ng-show="HomeCtrl.activeStation.payment === 'AVEC_TPE'" class="img-responsive" src="assets/img/vliller-cb.png">
-                                <img ng-hide="HomeCtrl.activeStation.payment === 'AVEC_TPE'" class="img-responsive" src="assets/img/vliller-no-cb.png">
+                                <img ng-show="HomeCtrl.activeStation.payment === 'AVEC TPE'" class="img-responsive" src="assets/img/vliller-cb.png">
+                                <img ng-hide="HomeCtrl.activeStation.payment === 'AVEC TPE'" class="img-responsive" src="assets/img/vliller-no-cb.png">
                             </div>
                         </div>
 
