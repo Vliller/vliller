@@ -432,9 +432,8 @@
          * Loads station details
          */
         function loadsActiveStationDetails(stationId) {
-            return Vlilles.get({id: stationId}, function (stationDetails) {
-                // get some missing informations from the previous request
-                angular.extend(vm.activeStation, stationDetails);
+            return Vlilles.get({id: stationId}, function (station) {
+                vm.activeStation = station;
 
                 // update marker
                 if (vm.activeStation.status === '0') {
