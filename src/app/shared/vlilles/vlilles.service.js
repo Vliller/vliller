@@ -23,9 +23,12 @@
             docks: data.fields.nbPlacesDispo,
             payment: data.fields.type,
             status: undefined,
-            lastupd: data.record_timestamp
+            lastupd: undefined
         };
 
+        /*
+            Status
+         */
         if (data.fields.etat === 'EN SERVICE') {
             station.status = '0';
         } else {
@@ -35,6 +38,13 @@
         if (station.bikes === 0 && station.docks === 0) {
             station.status = '418';
         }
+
+        /*
+            Last up
+         */
+        var diffInSeconds = Math.round(moment().diff(moment.utc(data.record_timestamp))/ 1000);
+
+        station.lastupd = diffInSeconds + ' seconde' + (diffInSeconds > 1 ? 's' : '');
 
         return station;
     }
