@@ -157,7 +157,15 @@
             });
 
             // Initialize the map view
-            var mapElement = plugin.google.maps.Map.getMap(document.getElementById('map-canvas'));
+            var mapElement = plugin.google.maps.Map.getMap(document.getElementById('map-canvas'), {
+                camera: {
+                    latLng: {
+                        lat: DEFAULT_POSITION.latitude,
+                        lng: DEFAULT_POSITION.longitude
+                    },
+                    zoom: 16
+                }
+            });
 
             // Wait until the map is ready status.
             mapElement.addEventListener(plugin.google.maps.event.MAP_READY, onMapReady);
