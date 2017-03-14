@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.alexetmanon.vliller2" version="2.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Vliller2</name>
+<widget id="com.alexetmanon.vliller" version="2.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Vliller</name>
     <description>1 clic, 1 vélo, 1 place !</description>
     <author email="wall-e@alexetmanon.com" href="http://alexetmanon.com/">alex et manon</author>
     <content src="index.html" />
@@ -99,7 +99,7 @@
     <plugin name="cordova-plugin-x-socialsharing" spec="5.1.6" />
     <plugin name="cordova-plugin-device" spec="1.1.4" />
     <plugin name="cordova-plugin-google-analytics" spec="1.7.4" />
-    <plugin name="cordova-plugin-googlemaps" spec="1.4.0">
+    <plugin name="cordova-plugin-googlemaps" spec="https://github.com/phonegap-googlemaps-plugin/cordova-plugin-googlemaps">
         <variable name="API_KEY_FOR_ANDROID" value="AIzaSyCwaMhgCXRnhlbBulzNGi5BU0JBLej0FbI" />
         <variable name="API_KEY_FOR_IOS" value="AIzaSyB7l0BYrnYjYqAY8tiX81XT6j-1iIz-YUY" />
         <variable name="NSLOCATIONWHENINUSEUSAGEDESCRIPTION" value="Show your location on the map" />
