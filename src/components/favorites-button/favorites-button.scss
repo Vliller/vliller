@@ -29,8 +29,9 @@ favorites-button {
         .fab {
             contain: initial;
 
-            &.fab-md-light {
+            .fab-close-icon {
                 color: $mustard;
+                background-color: $light;
             }
         }
 
