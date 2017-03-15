@@ -20,7 +20,7 @@ const DEFAULT_POSITION = new MapPosition(50.633333, 3.066667);
         <div id="map-canvas" class="map-canvas">
             <div [hidden]="isMapReady" class="map-stations-loading">
                 <ion-spinner color="light"></ion-spinner>
-                <span>Chargement des stations en cours...</span>
+                <span>Ça pédale pour charger les stations !</span>
             </div>
             <ng-content></ng-content>
         </div>
