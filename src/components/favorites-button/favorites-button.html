@@ -1,6 +1,6 @@
 <ion-fab #fab [ngClass]="{'favorites-list-active': isOpened}">
     <button ion-fab color="mustard" (click)="toggleIsOpened()">
-        <ion-icon name="star" color="light"></ion-icon>
+        <img class="img-responsive" src="assets/img/vliller-button-fav-white.svg">
     </button>
     <ion-fab-list side="top">
         <button ion-fab color="mustard" *ngFor="let station of (favoriteStations | async)" (click)="favoriteClick(station)">
