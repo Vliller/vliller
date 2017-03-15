@@ -20,6 +20,7 @@ import { MarkersService } from '../services/map/markers';
 // pages
 import { Home } from '../pages/home/home';
 import { Sidemenu } from '../pages/sidemenu/sidemenu';
+import { About } from '../pages/about/about';
 
 // Sentry
 import * as Raven from 'raven-js';
@@ -36,6 +37,7 @@ export class RavenErrorHandler implements ErrorHandler {
     declarations: [
         App,
         Home,
+        About,
         Sidemenu,
         Map,
         StationCard,
@@ -52,7 +54,8 @@ export class RavenErrorHandler implements ErrorHandler {
     bootstrap: [IonicApp],
     entryComponents: [
         App,
-        Home
+        Home,
+        About
     ],
     providers: [
         {
