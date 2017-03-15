@@ -14,7 +14,7 @@
 
     .sidemenu-header {
         text-align: center;
-        padding: 0 20px 30px 20px;
+        padding: 10px 20px;
 
         .img-responsive {
             margin: auto;
@@ -32,12 +32,14 @@
             font-weight: bold;
         }
     }
+    .sidemenu-about {
+        padding-bottom: 0;
+    }
 
     .sidemenu-footer {
         font-size: 12px;
         line-height: 1.7;
         color: rgba(255, 255, 255, 0.7);
-        padding: 20px 0;
 
         a {
             font-weight: bold;
@@ -51,22 +53,22 @@
         color: $light;
         text-transform: initial;
         font-size: 1.5rem;
+        font-weight: 400;
+        height: 3.4rem;
 
         svg, span {
             vertical-align: middle;
         }
     }
 
-    .button-feedback, .button-feedback:hover {
-        color: $cranberry;
-        background-color: #ffeeee;
-        border-radius: 2px;
-        line-height: 1.4;
-        font-size: 12px;
-        font-weight: bold;
-        letter-spacing: 0.4px;
-        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
-    }
+    // .button-feedback, .button-feedback:hover {
+    //     border-radius: 2px;
+    //     line-height: 1.4;
+    //     font-size: 14px;
+    //     font-weight: 500;
+    //     letter-spacing: 0.5px;
+    //     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
+    // }
 
     .border-bottom {
         border-bottom: solid 1px rgba(255, 255, 255, 0.7);
