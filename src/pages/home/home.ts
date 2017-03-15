@@ -5,7 +5,7 @@ import { LocationAccuracy, Diagnostic, Splashscreen } from 'ionic-native';
 import { AlertController, ToastController, Platform } from 'ionic-angular';
 import * as Raven from 'raven-js';
 
-import { VlilleService, VlilleStationResume, VlilleStation } from '../../services/vlille/vlille';
+import { VlilleService, VlilleStation } from '../../services/vlille/vlille';
 import { FavoritesService } from '../../services/favorites/favorites';
 import { LocationService } from '../../services/location/location';
 import { Map } from '../../components/map/map';
@@ -19,13 +19,13 @@ import { LocationIconState } from '../../components/location-icon/location-icon'
 })
 
 export class Home {
-    public stations: Observable<VlilleStationResume[]>;
+    public stations: Observable<VlilleStation[]>;
     public favoriteStations: Observable<VlilleStation[]>;
     public currentPosition: Observable<MapPosition>;
     public locationState: LocationIconState = LocationIconState.Default;
 
-    public activeStation: Observable<VlilleStationResume>;
-    private activeStationSubject = new ReplaySubject<VlilleStationResume>(1);
+    public activeStation: Observable<VlilleStation>;
+    private activeStationSubject = new ReplaySubject<VlilleStation>(1);
 
     @ViewChild('map') map: Map;
 
@@ -97,14 +97,14 @@ export class Home {
      * Put new value in activeStation stream
      * Also, center the map by default.
      *
-     * @param {VlilleStationResume} stationResume
+     * @param {VlilleStation} stationResume
      * @param {boolean} centerMap
      */
-    public setActiveStation(stationResume: VlilleStationResume, centerMap: boolean = true) {
-        this.activeStationSubject.next(stationResume);
+    public setActiveStation(station: VlilleStation, centerMap: boolean = true) {
+        this.activeStationSubject.next(station);
 
         if (centerMap) {
-            this.map.setCenter(MapPosition.fromCoordinates(stationResume), true);
+            this.map.setCenter(MapPosition.fromCoordinates(station), true);
         }
     }
 
