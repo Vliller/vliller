@@ -7,18 +7,13 @@
 <ion-content>
     <form (ngSubmit)="submit()" novalidate>
         <ion-item>
-            <ion-label floating>Prénom</ion-label>
-            <ion-input type="text" [(ngModel)]="userFeedback.firstname" name="firstname"></ion-input>
+            <ion-label floating>Message</ion-label>
+            <ion-textarea [(ngModel)]="userFeedback.message" name="message"></ion-textarea>
         </ion-item>
 
         <ion-item>
             <ion-label floating>Email</ion-label>
             <ion-input type="email" [(ngModel)]="userFeedback.email" name="email"></ion-input>
-        </ion-item>
-
-        <ion-item>
-            <ion-label floating>Message</ion-label>
-            <ion-textarea [(ngModel)]="userFeedback.message" name="message"></ion-textarea>
         </ion-item>
 
         <ion-grid>
