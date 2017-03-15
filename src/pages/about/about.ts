@@ -35,7 +35,7 @@ export class About {
         this.viewCtrl.dismiss();
     }
 
-    public openGithubProfil(contributor) {
-        new InAppBrowser(contributor.html_url, '_system');
+    public openLink(link) {
+        new InAppBrowser(link, '_system');
     }
 }

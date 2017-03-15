@@ -1,12 +1,38 @@
 .about-content {
-    .about-header {
-        background-image: linear-gradient(to top, #a71e45, $lipstick 100%, $lipstick);
-        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.24), 0 0 4px 0 rgba(0, 0, 0, 0.12);
-        text-align: center;
-        padding: 20px 30px;
+    color: $light;
+    background-image: linear-gradient(to top, #a71e45, $lipstick 100%, $lipstick);
 
+    h2 {
+        opacity: 0.8;
+        font-size: 14px;
+    }
+
+    header {
         .img-responsive {
             margin: auto;
         }
+    }
+
+    .about-legals {
+        .button.button-clear {
+            padding: 0;
+            text-transform: none;
+        }
+    }
+}
+
+.about-footer {
+    color: $aetm-blue;
+    background: $light;
+    padding: 30px;
+    text-align: center;
+
+    .img-responsive {
+        margin: auto;
+        width: 50%;
+    }
+
+    .about-aetm-social {
+        font-size: 3rem;
     }
 }
