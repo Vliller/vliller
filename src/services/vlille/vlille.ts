@@ -1,3 +1,7 @@
+/**
+ * TODO: Improves error handling (eg. no result case)
+ */
+
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
@@ -35,17 +39,22 @@ export class VlilleService {
     public getStation(id: string): Observable<VlilleStation> {
         return this.http
             .get(API_BASE + API_ENDPOINT + '&q=libelle:' + id)
-            .map(response => this.rawDataToVlilleStation(response.json()))
+            .map(response => response.json().records.map(this.rawDataToVlilleStation)[0])
             .catch(this.handleError);
     }
 
     public getAllStations(): Observable<VlilleStation[]> {
         return this.http
             .get(API_BASE + API_ENDPOINT)
-            .map(response => response.json().map(this.rawDataToVlilleStation))
+            .map(response => response.json().records.map(this.rawDataToVlilleStation))
             .catch(this.handleError);
     }
 
+    /**
+     *
+     * @param  {any} data
+     * @return {VlilleStation}
+     */
     private rawDataToVlilleStation(data): VlilleStation {
         let station = new VlilleStation(
             data.fields.libelle,
