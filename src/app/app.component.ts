@@ -28,10 +28,14 @@ export class App {
 
     initializeApp() {
         this.platform.ready().then(() => {
-            // Okay, so the platform is ready and our plugins are available.
-            // Here you can do any higher level native things you might need.
-            StatusBar.styleDefault();
+            // Manage status bar color
+            if (this.platform.is('ios')) {
+                StatusBar.styleLightContent();
+            } else if (this.platform.is('android')) {
+                StatusBar.backgroundColorByHexString('#b7212c');
+            }
 
+            // Get app version
             let versionPromise = AppVersion.getVersionNumber().then(version => {
                 this.appVersion = version;
 
