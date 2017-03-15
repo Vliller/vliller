@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, NgZone } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { VlilleStation, VlilleStationResume, VlilleService } from '../../services/vlille/vlille';
+import { VlilleStation, VlilleService } from '../../services/vlille/vlille';
 import { FavoritesService } from '../../services/favorites/favorites';
 
 @Component({
@@ -12,8 +12,9 @@ import { FavoritesService } from '../../services/favorites/favorites';
 export class StationCard implements OnInit {
     public station: VlilleStation = undefined;
     public isFavoriteStation: boolean = false;
+    public isLoaded: boolean = false;
 
-    @Input('station') inputStation: Observable<VlilleStationResume>;
+    @Input('station') inputStation: Observable<VlilleStation>;
 
     constructor(
         private favoritesService: FavoritesService,
@@ -22,20 +23,20 @@ export class StationCard implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.inputStation.subscribe(stationResume => {
+        this.inputStation.subscribe(station => {
             // active loader animation
-            this.station = undefined;
+            this.isLoaded = false;
 
             // put the service request inside the NgZone to perform automatic view update
             // @see http://stackoverflow.com/a/37028716/5727772
             this.zone.run(() => {
                 // get station details
-                this.vlilleService.getStation(stationResume.id).subscribe(stationDetails => {
-                        let station = VlilleStation.createFromResumeAndDetails(stationResume, stationDetails);
-
+                this.vlilleService.getStation(station.id).subscribe(freshStation => {
                         // updates privates attributes
-                        this.station = station;
-                        this.isFavoriteStation = this.favoritesService.contains(station);
+                        this.station = freshStation;
+                        this.isFavoriteStation = this.favoritesService.contains(freshStation);
+
+                        this.isLoaded = true;
                     }
                 );
             });

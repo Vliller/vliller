@@ -3,7 +3,7 @@ import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import { MapPosition } from '../../components/map/map-position';
-import { VlilleStationResume } from '../vlille/vlille';
+import { VlilleStation } from '../vlille/vlille';
 
 const MAPBOX_API_BASE = 'https://api.mapbox.com/directions/v5/mapbox/walking/';
 const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiYmxja3NocmsiLCJhIjoiY2l5YWc5anUyMDA0cDMzcWtxcnN0ZWxxcCJ9.xKDTqbkNCQTRvizwIDGeCQ';
@@ -68,9 +68,9 @@ export class MapService {
      * Computes the closest station from the given position using the Haversine formula.
      * @param  {MapPosition}           position
      * @param  {any[]}                 stations
-     * @return {VlilleStationResume}
+     * @return {VlilleStation}
      */
-    public computeClosestStation(position: MapPosition, stations: any[]): VlilleStationResume {
+    public computeClosestStation(position: MapPosition, stations: any[]): VlilleStation {
         // computes the distance between the position and each marker
         return stations.reduce((closest, current) => {
             current.distance = this.getDistance(position, MapPosition.fromCoordinates(current));

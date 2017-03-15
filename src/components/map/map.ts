@@ -5,7 +5,7 @@ import { DeviceOrientation } from 'ionic-native';
 
 import { MapPosition } from './map-position';
 import { MapIcon } from './map-icon';
-import { VlilleStationResume, VlilleStation } from '../../services/vlille/vlille';
+import { VlilleStation } from '../../services/vlille/vlille';
 import { MarkersService } from '../../services/map/markers';
 
 declare var plugin: any;
@@ -39,10 +39,10 @@ export class Map implements OnInit {
 
     public isMapReady: boolean = false;
 
-    @Input() stations: Observable<VlilleStationResume[]>;
+    @Input() stations: Observable<VlilleStation[]>;
     @Input() userPosition: Observable<MapPosition>;
     @Input() activeStation: Observable<VlilleStation>;
-    @Output() activeStationChange = new EventEmitter<VlilleStationResume>();
+    @Output() activeStationChange = new EventEmitter<VlilleStation>();
 
     constructor(
         private platform: Platform,
@@ -63,7 +63,7 @@ export class Map implements OnInit {
         // wait for map instance to be initialized
         this.mapInstancePromise.then(() => {
             // init stations marker
-            this.stations.subscribe((stations: VlilleStationResume[]) => {
+            this.stations.subscribe((stations: VlilleStation[]) => {
                 this.initMarkers(stations)
                 .then(() => {
                     // hide loading mlessage
@@ -125,10 +125,10 @@ export class Map implements OnInit {
 
     /**
      * Create stations markers on the map
-     * @param  {VlilleStationResume[]} stations
+     * @param  {VlilleStation[]} stations
      * @return {Promise<>}
      */
-    private initMarkers(stations: VlilleStationResume[]): Promise<any> {
+    private initMarkers(stations: VlilleStation[]): Promise<any> {
         return new Promise((resolve, reject) => {
 
             // adds stations markers on map
