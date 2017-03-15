@@ -94,7 +94,6 @@
     <plugin name="cordova-plugin-geolocation" spec="2.4.0" />
     <plugin name="cordova.plugins.diagnostic" spec="3.3.3" />
     <plugin name="cordova-plugin-request-location-accuracy" spec="2.2.0" />
-    <plugin name="cordova-plugin-device-orientation" spec="1.0.5" />
     <plugin name="cordova-plugin-app-version" spec="0.1.9" />
     <plugin name="cordova-plugin-inappbrowser" spec="1.6.1" />
     <plugin name="cordova-plugin-x-socialsharing" spec="5.1.6" />
@@ -106,4 +105,5 @@
         <variable name="NSLOCATIONWHENINUSEUSAGEDESCRIPTION" value="Show your location on the map" />
         <variable name="NSLOCATIONALWAYSUSAGEDESCRIPTION" value="Trace your location on the map" />
     </plugin>
+    <plugin name="cordova-plugin-device-orientation" spec="1.0.6" />
 </widget>
