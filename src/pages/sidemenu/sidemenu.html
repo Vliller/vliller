@@ -28,7 +28,11 @@
     </div>
 
     <div class="sidemenu-about border-bottom">
-        <h4>À propos</h4>
+        <button ion-button clear color="light" icon-left (click)="openAboutPage()">
+            <ion-icon name="information-circle"></ion-icon>
+            À propos
+        </button>
+
         <button ion-button clear color="light" icon-left (click)="openLink('https://github.com/alexetmanon/vliller')">
             <ion-icon name="logo-github"></ion-icon>
             Données &amp; sources
