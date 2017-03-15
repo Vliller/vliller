@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { InAppBrowser, AppVersion, SocialSharing } from 'ionic-native';
-import { Platform } from 'ionic-angular';
+import { Platform, ModalController } from 'ionic-angular';
+import { About } from '../about/about';
 // import * as Raven from 'raven-js';
 
 import { AppSettings } from '../../app/app.settings';
@@ -14,7 +15,10 @@ export class Sidemenu {
 
     public appVersion: string;
 
-    constructor(public platform: Platform) {
+    constructor(
+        private platform: Platform,
+        private modalCtrl: ModalController
+    ) {
         this.platform.ready().then(() => {
             AppVersion.getVersionNumber().then(version => this.appVersion = version);
         });
@@ -59,4 +63,10 @@ export class Sidemenu {
             url: AppSettings.vlillerSiteUrl
         });
     };
+
+    public openAboutPage() {
+        this.modalCtrl.create(About, {
+            appVersion: this.appVersion
+        }).present();
+    }
 }
