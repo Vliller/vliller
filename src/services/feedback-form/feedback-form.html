@@ -1,0 +1,46 @@
+<ion-header no-border>
+    <ion-navbar transparent>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="close()">
+                <ion-icon color="primary" name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content class="feedback-page" fullscreen>
+    <div class="feedback-content" padding>
+        <div class="feedback-content-logo">
+            <img class="img-responsive" src="assets/img/vliller-feedbackform-icon.png">
+        </div>
+
+        <form (ngSubmit)="submit()" padding novalidate>
+            <header text-center>
+                <h2>Remarques &amp; suggestions</h2>
+
+                <p>Tu as repéré un bug&nbsp;? Il te manque une fonctionnalité essentielle&nbsp;? Écris-nous&nbsp;:-)</p>
+            </header>
+
+            <ion-item>
+                <ion-label floating>J'aimerais que...</ion-label>
+                <ion-textarea [(ngModel)]="userFeedback.message" name="message"></ion-textarea>
+            </ion-item>
+
+            <ion-item>
+                <ion-label floating>Mon e-mail</ion-label>
+                <ion-input type="email" [(ngModel)]="userFeedback.email" name="email"></ion-input>
+            </ion-item>
+
+            <ion-grid margin-top no-padding>
+                <ion-row justify-content-between>
+                    <ion-col width-50>
+                        <button type="button" ion-button block outline color="secondary" (click)="close()">Annuler</button>
+                    </ion-col>
+                    <ion-col width-50>
+                        <button type="submit" ion-button block color="secondary">Envoyer</button>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </form>
+    </div>
+</ion-content>

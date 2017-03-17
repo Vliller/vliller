@@ -16,6 +16,7 @@ import { FavoritesService } from '../services/favorites/favorites';
 import { LocationService } from '../services/location/location';
 import { MapService } from '../services/map/map';
 import { MarkersService } from '../services/map/markers';
+import { FeedbackFormService, FeedbackFrom } from '../services/feedback-form/feedback-form';
 
 // pages
 import { Home } from '../pages/home/home';
@@ -43,7 +44,8 @@ export class RavenErrorHandler implements ErrorHandler {
         StationCard,
         StationCardMetric,
         FavoritesButton,
-        LocationIcon
+        LocationIcon,
+        FeedbackFrom
     ],
     imports: [
         HttpModule,
@@ -55,7 +57,8 @@ export class RavenErrorHandler implements ErrorHandler {
     entryComponents: [
         App,
         Home,
-        About
+        About,
+        FeedbackFrom
     ],
     providers: [
         {
@@ -67,7 +70,8 @@ export class RavenErrorHandler implements ErrorHandler {
         FavoritesService,
         LocationService,
         MapService,
-        MarkersService
+        MarkersService,
+        FeedbackFormService
     ]
 })
 export class AppModule {}

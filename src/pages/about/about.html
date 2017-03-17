@@ -1,18 +1,16 @@
-<ion-header>
-    <ion-navbar color="lipstick">
-        <ion-buttons left>
+<ion-header no-border>
+    <ion-navbar transparent>
+        <ion-buttons end>
             <button ion-button icon-only (click)="close()">
-                <ion-icon name="arrow-back"></ion-icon>
+                <ion-icon color="light" name="close"></ion-icon>
             </button>
         </ion-buttons>
-
-        <ion-title>À propos</ion-title>
     </ion-navbar>
 </ion-header>
 
-<ion-content>
-    <div class="about-content" padding>
-        <header padding text-center>
+<ion-content class="about-page" fullscreen>
+    <div class="about-content" padding-left padding-right padding-bottom>
+        <header padding-bottom padding-left padding-right text-center>
             <img class="img-responsive" src="assets/img/vliller-logo.svg">
         </header>
 
@@ -52,6 +50,7 @@
         <div class="about-aetm-social">
             <ion-icon name="logo-twitter" (click)="openLink('https://twitter.com/a_et_m')"></ion-icon>
             <ion-icon name="logo-facebook" (click)="openLink('https://www.facebook.com/manonetalex')"></ion-icon>
+            <ion-icon name="logo-github" (click)="openLink('https://github.com/alexetmanon')"></ion-icon>
         </div>
     </footer>
 </ion-content>

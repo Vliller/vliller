@@ -5,6 +5,7 @@ import { About } from '../about/about';
 // import * as Raven from 'raven-js';
 
 import { AppSettings } from '../../app/app.settings';
+import { FeedbackFormService } from '../../services/feedback-form/feedback-form';
 
 @Component({
     selector: 'sidemenu',
@@ -17,7 +18,8 @@ export class Sidemenu {
 
     constructor(
         private platform: Platform,
-        private modalCtrl: ModalController
+        private modalCtrl: ModalController,
+        private feedbackFormService: FeedbackFormService
     ) {
         this.platform.ready().then(() => {
             AppVersion.getVersionNumber().then(version => this.appVersion = version);
@@ -49,10 +51,7 @@ export class Sidemenu {
      * Show bug report form
      */
     public openBugReport() {
-        // Sentry feedback dialog
-        // Raven.showReportDialog({
-        //     release: this.appVersion
-        // });
+        this.feedbackFormService.showModal();
     };
 
     /**
