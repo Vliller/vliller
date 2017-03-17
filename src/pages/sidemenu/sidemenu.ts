@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { InAppBrowser, AppVersion, SocialSharing } from 'ionic-native';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { AppVersion } from '@ionic-native/app-version';
+import { SocialSharing } from '@ionic-native/social-sharing';
 import { Platform, ModalController } from 'ionic-angular';
 import { About } from '../about/about';
 import { Contribs } from '../contribs/contribs';
@@ -22,7 +24,7 @@ export class Sidemenu {
         private feedbackFormService: FeedbackFormService
     ) {
         this.platform.ready().then(() => {
-            AppVersion.getVersionNumber().then(version => this.appVersion = version);
+            new AppVersion().getVersionNumber().then(version => this.appVersion = version);
         });
     }
 
@@ -31,9 +33,9 @@ export class Sidemenu {
      */
     public rateApp() {
         if (this.platform.is('android')) {
-            new InAppBrowser('market://details?id=' + AppSettings.appId.android, '_system');
+            new InAppBrowser().create('market://details?id=' + AppSettings.appId.android, '_system');
         } else if (this.platform.is('ios')) {
-            new InAppBrowser('itms-apps://itunes.apple.com/fr/app/vliller/id' + AppSettings.appId.ios + '?mt=8', '_system');
+            new InAppBrowser().create('itms-apps://itunes.apple.com/fr/app/vliller/id' + AppSettings.appId.ios + '?mt=8', '_system');
         } else {
             console.error('Rate app - Unknow platform?!');
         }
@@ -44,7 +46,7 @@ export class Sidemenu {
      * @param {String} link
      */
     public openLink(link) {
-        new InAppBrowser(link, '_system');
+        new InAppBrowser().create(link, '_system');
     };
 
     /**
@@ -58,7 +60,7 @@ export class Sidemenu {
      * Show system social sharing to share the Vliller landing page.
      */
     public openSocialSharing() {
-        SocialSharing.shareWithOptions({
+        new SocialSharing().shareWithOptions({
             url: AppSettings.vlillerSiteUrl
         });
     };

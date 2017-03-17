@@ -3,7 +3,8 @@ import { ModalController, ViewController, Platform } from 'ionic-angular';
 import { Headers, RequestOptions, Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import * as Raven from 'raven-js';
-import { Device, AppVersion } from 'ionic-native';
+import { Device } from '@ionic-native/device';
+import { AppVersion } from '@ionic-native/app-version';
 
 @Injectable()
 export class FeedbackFormService {
@@ -35,31 +36,33 @@ export class FeedbackFrom {
 
     public submit() {
         this.platform.ready()
-            .then(() => AppVersion.getVersionNumber())
+            .then(() => new AppVersion().getVersionNumber())
             .then(version => {
-            this.sendRequest({
-                email: this.userFeedback.email,
-                message: this.userFeedback.message,
-                properties: {
-                    version: version,
-                    device: {
-                        cordova: Device.cordova,
-                        model: Device.model,
-                        platform: Device.platform,
-                        version: Device.version,
-                        manufacturer: Device.manufacturer
-                    }
-                }
-            })
-            .catch(error => {
-                Raven.captureException(new Error(error));
+                let device = new Device();
 
-                return Observable.throw(error);
-            })
-            .subscribe(() => {
-                this.close();
+                this.sendRequest({
+                    email: this.userFeedback.email,
+                    message: this.userFeedback.message,
+                    properties: {
+                        version: version,
+                        device: {
+                            cordova: device.cordova,
+                            model: device.model,
+                            platform: device.platform,
+                            version: device.version,
+                            manufacturer: device.manufacturer
+                        }
+                    }
+                })
+                .catch(error => {
+                    Raven.captureException(new Error(error));
+
+                    return Observable.throw(error);
+                })
+                .subscribe(() => {
+                    this.close();
+                });
             });
-        });
     }
 
     public close() {

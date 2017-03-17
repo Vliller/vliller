@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Platform } from 'ionic-angular';
-import { Geolocation, Geoposition, Diagnostic, LocationAccuracy } from 'ionic-native';
+import { Geolocation, Geoposition } from '@ionic-native/geolocation';
+import { Diagnostic } from '@ionic-native/diagnostic';
+import { LocationAccuracy } from '@ionic-native/location-accuracy';
 
 import { MapPosition } from '../../components/map/map-position';
 
@@ -18,7 +20,7 @@ export class LocationService {
      * @return {Promise<MapPosition>}
      */
     public updateCurrentPosition(): Promise<MapPosition> {
-        return this.platform.ready().then(() => Diagnostic.isLocationEnabled()
+        return this.platform.ready().then(() => new Diagnostic().isLocationEnabled()
             .then(isLocationEnabled => {
 
                 // GPS disabled
@@ -27,7 +29,7 @@ export class LocationService {
                 }
 
                 // Get current location
-                return Geolocation.getCurrentPosition()
+                return new Geolocation().getCurrentPosition()
             })
             .then((geoposition: Geoposition) => {
                 let position = MapPosition.fromCoordinates(geoposition.coords);
@@ -45,12 +47,14 @@ export class LocationService {
      * @return {Promise<any>}
      */
     public requestLocation(): Promise<any> {
-        return this.platform.ready().then(() => LocationAccuracy.canRequest().then(canRequest => {
+        let locationAccuracy = new LocationAccuracy();
+
+        return this.platform.ready().then(() => locationAccuracy.canRequest().then(canRequest => {
             if (!canRequest) {
                 return Promise.resolve();
             }
 
-            return LocationAccuracy.request(LocationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY);
+            return locationAccuracy.request(locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY);
         }));
     }
 

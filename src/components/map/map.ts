@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
-import { DeviceOrientation } from 'ionic-native';
+import { DeviceOrientation } from '@ionic-native/device-orientation';
 
 import { MapPosition } from './map-position';
 import { MapIcon } from './map-icon';
@@ -53,7 +53,7 @@ export class Map implements OnInit {
 
         // init heading watcher
         this.platform.ready().then(() => {
-            DeviceOrientation.watchHeading({
+            new DeviceOrientation().watchHeading({
                 frequency: 200 // ms
             }).subscribe(compassHeading => this.userHeading = compassHeading.magneticHeading);
         });

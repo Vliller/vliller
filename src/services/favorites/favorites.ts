@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { NativeStorage } from 'ionic-native';
+import { NativeStorage } from '@ionic-native/native-storage';
 import { AlertController } from 'ionic-angular';
 
 import { VlilleStation } from '../vlille/vlille'
@@ -42,7 +42,7 @@ export class FavoritesService {
      * @return {Promise<VlilleStation[]>}
      */
     private load(): Promise<VlilleStation[]> {
-        return NativeStorage.getItem(STORAGE_ID).then(favorites => this.favorites = favorites);
+        return new NativeStorage().getItem(STORAGE_ID).then(favorites => this.favorites = favorites);
     }
 
     /**
@@ -50,7 +50,7 @@ export class FavoritesService {
      * @return {Promise<VlilleStation[]>}
      */
     private save(): Promise<VlilleStation[]> {
-        return NativeStorage.setItem(STORAGE_ID, this.favorites);
+        return new NativeStorage().setItem(STORAGE_ID, this.favorites);
     }
 
     /**
