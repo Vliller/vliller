@@ -77,3 +77,9 @@ body {
 ion-app._gmaps_cdv_ .nav-decor {
   background-color: transparent !important;
 }
+
+// bug fix
+// @see https://github.com/driftyco/ionic/issues/7204
+ion-item {
+    padding-left: 0;
+}

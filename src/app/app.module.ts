@@ -9,6 +9,7 @@ import { StationCard } from '../components/station-card/station-card';
 import { StationCardMetric } from '../components/station-card-metric/station-card-metric';
 import { FavoritesButton } from '../components/favorites-button/favorites-button';
 import { LocationIcon } from '../components/location-icon/location-icon';
+import { AetmFooter } from '../components/aetm-footer/aetm-footer';
 
 // services
 import { VlilleService } from '../services/vlille/vlille';
@@ -22,6 +23,7 @@ import { FeedbackFormService, FeedbackFrom } from '../services/feedback-form/fee
 import { Home } from '../pages/home/home';
 import { Sidemenu } from '../pages/sidemenu/sidemenu';
 import { About } from '../pages/about/about';
+import { Contribs } from '../pages/contribs/contribs';
 
 // Sentry
 import * as Raven from 'raven-js';
@@ -39,13 +41,15 @@ export class RavenErrorHandler implements ErrorHandler {
         App,
         Home,
         About,
+        Contribs,
         Sidemenu,
         Map,
         StationCard,
         StationCardMetric,
         FavoritesButton,
         LocationIcon,
-        FeedbackFrom
+        FeedbackFrom,
+        AetmFooter
     ],
     imports: [
         HttpModule,
@@ -58,6 +62,7 @@ export class RavenErrorHandler implements ErrorHandler {
         App,
         Home,
         About,
+        Contribs,
         FeedbackFrom
     ],
     providers: [

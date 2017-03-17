@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { InAppBrowser, AppVersion, SocialSharing } from 'ionic-native';
 import { Platform, ModalController } from 'ionic-angular';
 import { About } from '../about/about';
-// import * as Raven from 'raven-js';
+import { Contribs } from '../contribs/contribs';
 
 import { AppSettings } from '../../app/app.settings';
 import { FeedbackFormService } from '../../services/feedback-form/feedback-form';
@@ -65,6 +65,12 @@ export class Sidemenu {
 
     public openAboutPage() {
         this.modalCtrl.create(About, {
+            appVersion: this.appVersion
+        }).present();
+    }
+
+    public openContribsPage() {
+        this.modalCtrl.create(Contribs, {
             appVersion: this.appVersion
         }).present();
     }

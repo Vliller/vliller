@@ -1,0 +1,27 @@
+.contribs-content {
+    // background-image: linear-gradient(to top, #a71e45, $lipstick 29%, rgba(229, 43, 56, 0.0));
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    h3 {
+        font-size: 1.8rem;
+    }
+
+    h4 {
+        font-size: 1.4rem;
+        margin-top: 0;
+    }
+
+    header p {
+        margin-bottom: 0;
+        font-size: 1.6rem;
+    }
+
+    .contribs-contributors {
+        .item-md {
+            padding-left: 0;
+        }
+    }
+}
