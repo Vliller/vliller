@@ -1,0 +1,37 @@
+.feedback-content {
+    margin-top: - 4rem;
+
+    .feedback-content-logo {
+        .img-responsive {
+            margin: auto;
+            width: 12rem;
+        }
+    }
+
+    textarea {
+        height: 10rem;
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    header p {
+        margin-bottom: 0;
+        font-size: 1.6rem;
+    }
+
+    ion-item {
+        padding-left: 0;
+    }
+
+    ion-row {
+        ion-col:first-child {
+            padding-left: 0;
+        }
+
+        ion-col:last-child {
+            padding-right: 0;
+        }
+    }
+}
