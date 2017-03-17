@@ -23,13 +23,13 @@
         font-size: 1.6rem;
     }
 
-    ion-row {
-        ion-col:first-child {
+    .grid .row {
+        .col:first-child {
             padding-right: 8px;
         }
 
-        ion-col:last-child {
-            padding-right: 8px;
+        .col:last-child {
+            padding-left: 8px;
         }
     }
 }
