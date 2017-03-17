@@ -1,0 +1,15 @@
+aetm-footer {
+    color: $aetm-blue;
+    background: $light;
+    padding: 30px;
+    text-align: center;
+
+    .img-responsive {
+        margin: auto;
+        width: 50%;
+    }
+
+    .aetm-social {
+        font-size: 3rem;
+    }
+}
