@@ -14,3 +14,72 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+body {
+    font-family: Roboto;
+    font-weight: 400;
+}
+
+.no-scroll {
+    .scroll-content {
+        overflow-y: hidden;
+    }
+}
+
+.content-loader,
+.content-offline {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    ion-spinner,
+    svg {
+        width: 50px;
+        height: 50px;
+    }
+
+    p {
+        margin: 0;
+    }
+}
+
+.img-responsive {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.text-small {
+    font-size: 11px !important;
+    line-height: 1 !important;
+}
+
+.text-grey {
+    color: $black-54 !important;
+}
+
+.text-red {
+    color: $lipstick !important;
+}
+
+.text-orange {
+    color: $mustard !important;
+}
+
+.text-green {
+    color: $greenblue !important;
+}
+
+// bug fix blackscreen of map on iOS
+// @see https://github.com/driftyco/ionic/issues/7205#issuecomment-230977122
+ion-app._gmaps_cdv_ .nav-decor {
+  background-color: transparent !important;
+}
+
+// bug fix
+// @see https://github.com/driftyco/ionic/issues/7204
+.item-md {
+    padding-left: 0;
+}

@@ -1,0 +1,44 @@
+<ion-header no-border>
+    <ion-navbar transparent>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="close()">
+                <ion-icon color="light" name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content class="about-page" fullscreen>
+    <div class="about-content" padding-left padding-right padding-bottom>
+        <header padding-bottom padding-left padding-right text-center>
+            <img class="img-responsive" src="assets/img/vliller-logo.svg">
+        </header>
+
+        <p text-center ion-text color="light">
+            Version {{ appVersion }}
+        </p>
+
+        <div class="about-informations" padding>
+            <h2>En bref</h2>
+
+            <p>L'application Vliller vous permet en 1 clic de trouver un vélo libre, ou une place pour garer votre vélo empreinté sur le réseau V'Lille VLS (Vélo Libre Service).</p>
+
+            <p>Vliller a été conçue dans un objectif de recherche et sans but lucratif. Elle utilise des données ouvertes fournies par la Métropole Européenne de Lille. <strong>Elle est gratuite, et aucune donnée tierce n'est ou ne sera revendue.</strong></p>
+
+            <p text-center padding-top>
+                <a ion-text color="light" href="http://vliller.alexetmanon.com" (click)="openLink('http://vliller.alexetmanon.com')">vliller.alexetmanon.com</a>
+            </p>
+        </div>
+
+        <div class="about-legals" padding>
+            <h2>Informations légales</h2>
+
+            <div><button ion-button clear color="light" (click)="openLink('http://vliller.alexetmanon.com/privacy-policy.html')">Politique de confidentialité</button></div>
+
+            <div><button ion-button clear color="light" (click)="openLink('https://opendata.lillemetropole.fr/explore/dataset/vlille-realtime/')">OpenData MEL</button></div>
+
+            <div><button ion-button clear color="light" (click)="openLink('https://github.com/alexetmanon/vliller')">Vliller sur Github</button></div>
+        </div>
+    </div>
+    <aetm-footer></aetm-footer>
+</ion-content>

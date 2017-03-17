@@ -1,0 +1,33 @@
+.contribs-content {
+    h2 {
+        font-size: 2rem;
+    }
+
+    h3 {
+        font-size: 1.8rem;
+    }
+
+    h4 {
+        font-size: 1.4rem;
+        margin-top: 0;
+    }
+
+    header p {
+        margin-bottom: 0;
+        font-size: 1.6rem;
+    }
+
+    .contribs-contributors {
+        .item-md {
+            padding-left: 0;
+            background: transparent;
+        }
+    }
+}
+
+.contribs-bottom-gradient {
+    z-index: -1;
+    height: 170px;
+    margin-top: -170px;
+    background-image: linear-gradient(to top, rgba(167, 30, 69, 0.12), rgba(229, 43, 56, 0.08) 20%, rgba(229, 43, 56, 0));
+}

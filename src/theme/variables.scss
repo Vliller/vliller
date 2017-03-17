@@ -2,6 +2,19 @@
 // http://ionicframework.com/docs/v2/theming/
 @import "ionic.globals";
 
+// Zeplin variables
+$lipstick: #e52b38;
+$cranberry: #a40233;
+$azure: #1e97f7;
+$mustard: #d9a601;
+$greenblue: #33d699;
+$topaz: #19d1bf;
+$aetm-blue: #259cc2;
+$white: #f5f5f5;
+$black-54: rgba(0, 0, 0, 0.54);
+$black-87: rgba(0, 0, 0, 0.87);
+$light: #fff;
+
 
 // Shared Variables
 // --------------------------------------------------
@@ -10,8 +23,8 @@
 // To view all the possible Ionic variables, see:
 // http://ionicframework.com/docs/v2/theming/overriding-ionic-variables/
 
-$text-color:        #000;
-$background-color:  #fff;
+$text-color:        $black-87;
+$background-color:  $light;
 
 
 // Named Color Variables
@@ -23,11 +36,19 @@ $background-color:  #fff;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #387ef5,
-  secondary:  #32db64,
-  danger:     #f53d3d,
-  light:      #f4f4f4,
-  dark:       #222
+    primary:    $lipstick,
+    secondary:  $topaz,
+    danger:     #f53d3d,
+    light:      $light,
+    dark:       $black-87,
+    grey:       $black-54,
+    lipstick:   $lipstick,
+    cranberry:  $cranberry,
+    azure:      $azure,
+    mustard:    $mustard,
+    greenblue:  $greenblue,
+    topaz:      $topaz,
+    aetm-blue:  $aetm-blue
 );
 
 
@@ -41,7 +62,7 @@ $colors: (
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
-
+$button-md-height: 4.6rem;
 
 
 
@@ -68,4 +89,4 @@ $colors: (
 // http://ionicframework.com/docs/v2/ionicons/
 
 $ionicons-font-path: "../assets/fonts";
-@import "ionicons";
+@import "ionic.ionicons";

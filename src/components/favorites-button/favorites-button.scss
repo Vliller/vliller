@@ -1,0 +1,63 @@
+favorites-button {
+    ion-fab {
+        display: block;
+        position: relative !important;
+        z-index: auto;
+
+        // overlay
+        &:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            background: rgba(180, 180, 180, 0.5);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+            // this is where miracle appears!
+            transform: scale(1);
+        }
+
+        // overlay opened
+        &.favorites-list-active:before {
+            transform: scale(50);
+        }
+
+        // Add label support on ion-fab
+        .fab {
+            contain: initial;
+
+            .fab-close-icon {
+                color: $mustard;
+                background-color: $light;
+            }
+        }
+
+        button {
+            box-shadow: 0 4px 10px #6b6b6b;
+        }
+
+        ion-fab-list button[ion-fab] {
+            text-align: center;
+            overflow: visible;
+
+            div.label {
+                position: absolute;
+                right: 48px;
+                color: $black-87;
+                background: $light;
+                height: 24px;
+                line-height: 16px;
+                padding: 5px 8px;
+                border-radius: 3px;
+                box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.14), 0 4px 5px rgba(0, 0, 0, 0.1);
+            }
+        }
+
+        .button-inner {
+            overflow: visible;
+        }
+    }
+}
