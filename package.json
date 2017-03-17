@@ -8,10 +8,6 @@
     "ionic:build": "ionic-app-scripts build",
     "ionic:serve": "ionic-app-scripts serve"
   },
-  "config": {
-    "ionic_bundler": "webpack",
-    "ionic_source_map_type": "#inline-source-map"
-  },
   "dependencies": {
     "@angular/common": "2.4.8",
     "@angular/compiler": "2.4.8",
@@ -45,7 +41,7 @@
     "zone.js": "0.7.2"
   },
   "devDependencies": {
-    "@ionic/app-scripts": "1.0.0",
+    "@ionic/app-scripts": "1.1.4",
     "typescript": "2.0.9"
   },
   "cordovaPlatforms": [
