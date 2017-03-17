@@ -1,6 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
-import { StatusBar, AppVersion, GoogleAnalytics } from 'ionic-native';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
+import { StatusBar } from '@ionic-native/status-bar';
+import { AppVersion } from '@ionic-native/app-version';
+
 import * as Raven from 'raven-js';
 
 // Add the RxJS Observable operators.
@@ -30,13 +33,13 @@ export class App {
         this.platform.ready().then(() => {
             // Manage status bar color
             if (this.platform.is('ios')) {
-                StatusBar.styleLightContent();
+                new StatusBar().styleLightContent();
             } else if (this.platform.is('android')) {
-                StatusBar.backgroundColorByHexString('#b7212c');
+                new StatusBar().backgroundColorByHexString('#b7212c');
             }
 
             // Get app version
-            let versionPromise = AppVersion.getVersionNumber().then(version => {
+            let versionPromise = new AppVersion().getVersionNumber().then(version => {
                 this.appVersion = version;
 
                 // set version in error tracker
@@ -46,12 +49,12 @@ export class App {
             });
 
             // Starts GA tracking
-            let GAPromise = GoogleAnalytics.startTrackerWithId(AppSettings.googleAnalyticsId);
+            let GAPromise = new GoogleAnalytics().startTrackerWithId(AppSettings.googleAnalyticsId);
 
             // Configure GA (wait for app version)
             Promise
                 .all([versionPromise, GAPromise])
-                .then(data => GoogleAnalytics.setAppVersion(data[0]))
+                .then(data => new GoogleAnalytics().setAppVersion(data[0]))
                 .catch(error => Raven.captureException(error));
         });
     }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { InAppBrowser } from 'ionic-native';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 @Component({
     selector: 'aetm-footer',
@@ -9,6 +9,6 @@ import { InAppBrowser } from 'ionic-native';
 export class AetmFooter {
 
     public openLink(link) {
-        new InAppBrowser(link, '_system');
+        new InAppBrowser().create(link, '_system');
     }
 }

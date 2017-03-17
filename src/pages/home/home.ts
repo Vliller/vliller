@@ -1,7 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { LocationAccuracy, Diagnostic, Splashscreen } from 'ionic-native';
+import { Diagnostic } from '@ionic-native/diagnostic';
+import { LocationAccuracy } from '@ionic-native/location-accuracy';
+import { SplashScreen } from '@ionic-native/splash-screen';
+
 import { AlertController, ToastController, Platform } from 'ionic-angular';
 import * as Raven from 'raven-js';
 
@@ -59,7 +62,7 @@ export class Home {
         }));
 
         // Hide splashscreen
-        this.platform.ready().then(() => Splashscreen.hide());
+        this.platform.ready().then(() => new SplashScreen().hide());
     }
 
     /**
@@ -68,7 +71,7 @@ export class Home {
      */
     private handleLocationError(error: any) {
         // Android only
-        if (error && error.code !== LocationAccuracy.ERROR_USER_DISAGREED) {
+        if (error && error.code !== new LocationAccuracy().ERROR_USER_DISAGREED) {
 
             // open popup asking for settings
             return this.alertController.create({
@@ -78,13 +81,13 @@ export class Home {
                     text: 'Annuler',
                     handler: () => {
                         throw {
-                          code: LocationAccuracy.ERROR_USER_DISAGREED
+                          code: new LocationAccuracy().ERROR_USER_DISAGREED
                         };
                     }
                 },
                 {
                     text: 'Ouvrir les paramètres',
-                    handler: () => Diagnostic.switchToLocationSettings()
+                    handler: () => new Diagnostic().switchToLocationSettings()
                 }]
             }).present();
         }

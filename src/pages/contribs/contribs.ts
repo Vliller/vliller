@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { ViewController } from 'ionic-angular';
-import { InAppBrowser } from 'ionic-native';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 @Component({
     selector: 'page-contribs',
@@ -33,6 +33,6 @@ export class Contribs {
     }
 
     public openLink(link) {
-        new InAppBrowser(link, '_system');
+        new InAppBrowser().create(link, '_system');
     }
 }
