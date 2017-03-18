@@ -1,4 +1,9 @@
 .contribs-content {
+    background-image: linear-gradient(to top, #fef7f7, #ffffff);
+    background-position: left bottom;
+    background-size: 100% 170px;
+    background-repeat: no-repeat;
+
     h2 {
         font-size: 2rem;
     }
@@ -23,11 +28,4 @@
             background: transparent;
         }
     }
-}
-
-.contribs-bottom-gradient {
-    z-index: -1;
-    height: 170px;
-    margin-top: -170px;
-    background-image: linear-gradient(to top, rgba(167, 30, 69, 0.12), rgba(229, 43, 56, 0.08) 20%, rgba(229, 43, 56, 0));
 }
