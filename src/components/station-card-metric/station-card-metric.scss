@@ -1,9 +1,7 @@
 station-card-metric {
-    flex-grow: 1;
-    flex-basis: 0;
-
+    display: block;
     text-align: center;
-    padding: 8px 15px;
+    padding: 8px 16px;
 
     .metric-value {
         display: flex;
@@ -41,5 +39,6 @@ station-card-metric {
         font-size: 11px;
         line-height: 1;
         color: $black-54;
+        margin-bottom: 0;
     }
 }
