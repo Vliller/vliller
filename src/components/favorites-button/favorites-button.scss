@@ -33,7 +33,11 @@ favorites-button {
                 color: $mustard;
                 background-color: $light;
             }
-        }
+
+            // TEMPORARY FIX
+            .button-inner .img-responsive {
+                margin-right: -5px;
+            }        }
 
         button {
             box-shadow: 0 4px 10px #6b6b6b;

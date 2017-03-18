@@ -16,10 +16,10 @@ export class LocationService {
     constructor(private platform: Platform) {}
 
     /**
-     * Updates the current Observable position and resolved a promise with the new position.
+     * Resolves a promise with the new position.
      * @return {Promise<MapPosition>}
      */
-    public updateCurrentPosition(): Promise<MapPosition> {
+    public getCurrentPosition(): Promise<MapPosition> {
         return this.platform.ready().then(() => new Diagnostic().isLocationEnabled()
             .then(isLocationEnabled => {
 
@@ -32,14 +32,23 @@ export class LocationService {
                 return new Geolocation().getCurrentPosition()
             })
             .then((geoposition: Geoposition) => {
-                let position = MapPosition.fromCoordinates(geoposition.coords);
+                return MapPosition.fromCoordinates(geoposition.coords);
+            })
+        );
+    }
 
+    /**
+     * Updates the current Observable position and resolved a promise with the new position.
+     * @return {Promise<MapPosition>}
+     */
+    public updateCurrentPosition(): Promise<MapPosition> {
+        return this.getCurrentPosition()
+            .then(position => {
                 // Update stream
                 this.currentPositionSubject.next(position);
 
                 return position;
-            })
-        );
+            });
     }
 
     /**
