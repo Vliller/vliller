@@ -32,6 +32,9 @@ export class StationCard implements OnInit {
                         // updates privates attributes
                         this.station = freshStation;
 
+                        // copy previously computed distance
+                        (<any>this.station).distance = (<any>station).distance;
+
                         this.isLoaded = true;
                     }
                 );
@@ -45,23 +48,20 @@ export class StationCard implements OnInit {
      * @return {string}
      */
     public formatedDistance() {
-        // TODO
-        return '400m';
+        let distanceInMeter = (<any>this.station).distance,
+            distanceString = 'à ';
 
-        // var distanceInMeter = activeMarker.get('distance'),
-        //     distanceString = 'à ';
+        // meters
+        if (distanceInMeter < 1000) {
+            distanceString += Math.round(distanceInMeter) + 'm';
+        }
 
-        // // meters
-        // if (distanceInMeter < 1000) {
-        //     distanceString += Math.round(distanceInMeter) + 'm';
-        // }
+        // kilometers
+        // @see http://www.jacklmoore.com/notes/rounding-in-javascript/
+        else {
+            distanceString += (Math.round(distanceInMeter / 100) / 10) + 'km';
+        }
 
-        // // kilometers
-        // // @see http://www.jacklmoore.com/notes/rounding-in-javascript/
-        // else {
-        //     distanceString += Number(Math.round((distanceInMeter / 1000) + 'e1') + 'e-1') + 'km';
-        // }
-
-        // return distanceString;
+        return distanceString;
     };
 }

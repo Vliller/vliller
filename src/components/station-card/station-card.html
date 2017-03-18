@@ -5,45 +5,50 @@
 </div>
 
 <!-- Card station details -->
-<div *ngIf="station">
-
-    <!-- station informations -->
-    <div class="station-card--header">
+<ion-grid *ngIf="station" no-padding>
+    <!-- Header -->
+    <ion-row class="station-card--header" align-items-center>
         <!-- CB -->
-        <div class="station-cb">
-            <img *ngIf="station.payment === 'AVEC TPE'" class="img-responsive" src="assets/img/vliller-cb.svg">
-            <img *ngIf="station.payment !== 'AVEC TPE'" class="img-responsive" src="assets/img/vliller-no-cb.svg">
-        </div>
-
-        <!-- name & distance -->
-        <div class="station-infos">
-            <div>
-                <div class="station-name">{{ station.name }}</div>
-                <div class="station-distance">{{ formatedDistance() }}</div>
+        <ion-col col-auto >
+            <div padding-left>
+                <img *ngIf="station.payment === 'AVEC TPE'" class="img-responsive" src="assets/img/vliller-cb.svg">
+                <img *ngIf="station.payment !== 'AVEC TPE'" class="img-responsive" src="assets/img/vliller-no-cb.svg">
             </div>
-        </div>
+        </ion-col>
 
-        <!-- add to favorites button -->
-        <favorites-add-icon [station]="station"></favorites-add-icon>
-    </div>
+        <!-- Station name & distance -->
+        <ion-col col-auto>
+            <div class="station-name">{{ station.name }}</div><div class="station-distance">{{ formatedDistance() }}</div>
+        </ion-col>
 
-    <!-- station bike/attachs -->
-    <div class="station-card--content" *ngIf="station.status === '0'">
-        <!-- bikes -->
-        <station-card-metric type="bike" [value]="station.bikes" class="border-right"></station-card-metric>
+        <!-- Add-to-favorites button -->
+        <ion-col>
+            <div text-right padding-right>
+                <favorites-add-icon [station]="station"></favorites-add-icon>
+            </div>
+        </ion-col>
+    </ion-row>
 
-        <!-- docks -->
-        <station-card-metric type="dock" [value]="station.docks"></station-card-metric>
-    </div>
+    <!-- Content -->
+    <ion-row class="station-card--content" *ngIf="station.status === '0'" align-items-center>
+        <ion-col>
+            <!-- bikes -->
+            <station-card-metric type="bike" [value]="station.bikes" class="border-right"></station-card-metric>
+        </ion-col>
+        <ion-col>
+            <!-- docks -->
+            <station-card-metric type="dock" [value]="station.docks"></station-card-metric>
+        </ion-col>
+    </ion-row>
+    <ion-row class="station-card--dead" *ngIf="station.status !== '0'" align-items-center justify-content-center>
+        <div padding>Cette station semble indisponible.<br>Tente ta chance, ou va plus loin&nbsp;!</div>
+    </ion-row>
 
-    <!-- station HS -->
-    <div class="station-card--content" *ngIf="station.status !== '0'">
-        <p class="station-dead">Cette station semble indispoblie,<br> mais tu peux tenter ta chance un peu plus loin&nbsp;!</p>
-    </div>
-
-    <!-- station uptime -->
-    <div class="station-card--footer">
-        <div *ngIf="!isLoaded" class="station-lastup">Actualisation en cours...</div>
-        <div *ngIf="isLoaded" class="station-lastup">Il y a {{ station.lastupd }}</div>
-    </div>
-</div>
+    <!-- Footer -->
+    <ion-row class="station-card--footer" align-items-center>
+        <ion-col>
+            <div *ngIf="!isLoaded">Actualisation en cours...</div>
+            <div *ngIf="isLoaded">Dernière mise à jour il y a {{ station.lastupd }}</div>
+        </ion-col>
+    </ion-row>
+</ion-grid>
