@@ -6,7 +6,7 @@ import { ToastService, Toast } from './toast';
     template: `
         <div class="toast-component" [hidden]="!showToast">
             <ion-spinner [hidden]="!showSpinner" color="light" ></ion-spinner>
-            <span>{{ message }}</span>
+            <span [innerHTML]="message"></span>
         </div>
     `
 })
