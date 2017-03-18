@@ -104,18 +104,11 @@ export class Home {
      * @param {boolean} centerMap
      */
     public setActiveStation(station: VlilleStation, centerMap: boolean = true) {
-        let stationPosition = MapPosition.fromCoordinates(station);
+        this.activeStationSubject.next(station);
 
-        this.currentPosition.take(1).subscribe(position => {
-            // compute distance to the station
-            (<any>station).distance = this.mapService.getDistance(position, stationPosition);
-
-            this.activeStationSubject.next(station);
-
-            if (centerMap) {
-                this.map.setCenter(stationPosition, true);
-            }
-        });
+        if (centerMap) {
+            this.map.setCenter(MapPosition.fromCoordinates(station), true);
+        }
     }
 
     /**

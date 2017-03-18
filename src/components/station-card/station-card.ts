@@ -2,6 +2,9 @@ import { Component, Input, OnInit, NgZone } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { VlilleStation, VlilleService } from '../../services/vlille/vlille';
+import { MapPosition } from '../../components/map/map-position';
+import { MapService } from '../../services/map/map';
+import { LocationService } from '../../services/location/location';
 
 @Component({
     selector: 'station-card',
@@ -16,7 +19,9 @@ export class StationCard implements OnInit {
 
     constructor(
         private zone: NgZone,
-        private vlilleService: VlilleService
+        private vlilleService: VlilleService,
+        private mapService: MapService,
+        private locationService: LocationService
     ) {}
 
     ngOnInit() {
@@ -32,13 +37,29 @@ export class StationCard implements OnInit {
                         // updates privates attributes
                         this.station = freshStation;
 
-                        // copy previously computed distance
-                        (<any>this.station).distance = (<any>station).distance;
+                        // compute distance from the station
+                        this.computeDistance(freshStation).then(distance => {
+                            (<any>this.station).distance = distance;
 
-                        this.isLoaded = true;
+                            this.isLoaded = true;
+                        });
                     }
                 );
             });
+        });
+    }
+
+    /**
+     * Comppute distance from the station and return a promise of the distance.
+     * @param  {VlilleStation}   station
+     * @return {Promise<number>}
+     */
+    private computeDistance(station: VlilleStation): Promise<number> {
+        let stationPosition = MapPosition.fromCoordinates(station);
+
+        return this.locationService.getCurrentPosition().then(position => {
+            // compute distance to the station
+            return this.mapService.getDistance(position, stationPosition);
         });
     }
 
