@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { VlilleStation } from '../../services/vlille/vlille';
 import { FavoritesService } from '../../services/favorites/favorites';
 
@@ -7,14 +7,14 @@ import { FavoritesService } from '../../services/favorites/favorites';
     templateUrl: './favorites-add-icon.html'
 })
 
-export class FavoritesAddIcon implements OnInit {
+export class FavoritesAddIcon implements OnChanges {
     public isFavoriteStation: boolean = false;
 
     @Input() station: VlilleStation;
 
     constructor(private favoritesService: FavoritesService) {}
 
-    ngOnInit() {
+    ngOnChanges() {
         this.isFavoriteStation = this.favoritesService.contains(this.station);
     }
 
