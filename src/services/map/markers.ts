@@ -27,4 +27,8 @@ export class MarkersService {
     public size(): number {
         return this.markers.size;
     }
+
+    public forEach(callback) {
+        return this.markers.forEach(callback);
+    }
 }
