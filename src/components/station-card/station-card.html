@@ -7,29 +7,24 @@
 <!-- Card station details -->
 <div *ngIf="station">
 
-    <!-- station name, uptime and CB -->
+    <!-- station informations -->
     <div class="station-card--header">
-        <div class="station-fav">
-            <button ion-button icon-only clear (click)="toggleFavorite()">
-                <ion-icon [color]="isFavoriteStation ? 'mustard' : 'grey'" [name]="isFavoriteStation ? 'star' : 'star-outline'"></ion-icon>
-            </button>
+        <!-- CB -->
+        <div class="station-cb">
+            <img *ngIf="station.payment === 'AVEC TPE'" class="img-responsive" src="assets/img/vliller-cb.svg">
+            <img *ngIf="station.payment !== 'AVEC TPE'" class="img-responsive" src="assets/img/vliller-no-cb.svg">
         </div>
 
+        <!-- name & distance -->
         <div class="station-infos">
             <div>
                 <div class="station-name">{{ station.name }}</div>
                 <div class="station-distance">{{ formatedDistance() }}</div>
             </div>
-            <div>
-                <div *ngIf="!isLoaded" class="station-lastup">Actualisation en cours...</div>
-                <div *ngIf="isLoaded" class="station-lastup">Il y a {{ station.lastupd }}</div>
-
-                <div class="station-cb">
-                    <img *ngIf="station.payment === 'AVEC TPE'" class="img-responsive" src="assets/img/vliller-cb.svg">
-                    <img *ngIf="station.payment !== 'AVEC TPE'" class="img-responsive" src="assets/img/vliller-no-cb.svg">
-                </div>
-            </div>
         </div>
+
+        <!-- add to favorites button -->
+        <favorites-add-icon [station]="station"></favorites-add-icon>
     </div>
 
     <!-- station bike/attachs -->
@@ -44,5 +39,11 @@
     <!-- station HS -->
     <div class="station-card--content" *ngIf="station.status !== '0'">
         <p class="station-dead">Cette station semble indispoblie,<br> mais tu peux tenter ta chance un peu plus loin&nbsp;!</p>
+    </div>
+
+    <!-- station uptime -->
+    <div class="station-card--footer">
+        <div *ngIf="!isLoaded" class="station-lastup">Actualisation en cours...</div>
+        <div *ngIf="isLoaded" class="station-lastup">Il y a {{ station.lastupd }}</div>
     </div>
 </div>

@@ -2,7 +2,6 @@ import { Component, Input, OnInit, NgZone } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { VlilleStation, VlilleService } from '../../services/vlille/vlille';
-import { FavoritesService } from '../../services/favorites/favorites';
 
 @Component({
     selector: 'station-card',
@@ -11,13 +10,11 @@ import { FavoritesService } from '../../services/favorites/favorites';
 
 export class StationCard implements OnInit {
     public station: VlilleStation = undefined;
-    public isFavoriteStation: boolean = false;
     public isLoaded: boolean = false;
 
     @Input('station') inputStation: Observable<VlilleStation>;
 
     constructor(
-        private favoritesService: FavoritesService,
         private zone: NgZone,
         private vlilleService: VlilleService
     ) {}
@@ -34,7 +31,6 @@ export class StationCard implements OnInit {
                 this.vlilleService.getStation(station.id).subscribe(freshStation => {
                         // updates privates attributes
                         this.station = freshStation;
-                        this.isFavoriteStation = this.favoritesService.contains(freshStation);
 
                         this.isLoaded = true;
                     }
@@ -68,17 +64,4 @@ export class StationCard implements OnInit {
 
         // return distanceString;
     };
-
-    /**
-     * Updates favorites service and star icon
-     */
-    public toggleFavorite() {
-        this.isFavoriteStation = !this.isFavoriteStation;
-
-        if (this.isFavoriteStation) {
-            this.isFavoriteStation = this.favoritesService.add(this.station);
-        } else {
-            this.isFavoriteStation = !this.favoritesService.remove(this.station);
-        }
-    }
 }
