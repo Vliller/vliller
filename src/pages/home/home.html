@@ -1,0 +1,35 @@
+<ion-header>
+    <ion-navbar color="lipstick">
+        <ion-title>
+            <img class="img-responsive bar-header-logo" src="assets/img/vliller-header-logo.svg">
+        </ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="updatePosition()">
+                <location-icon [state]="locationState"></location-icon>
+            </button>
+        </ion-buttons>
+        <button class="home-button-menu-toggle" ion-button menuToggle end>
+            <ion-icon color="white" name="more"></ion-icon>
+        </button>
+    </ion-navbar>
+</ion-header>
+
+<ion-content class="no-scroll">
+    <div class="home-content">
+        <map
+            #map
+            [stations]="stations"
+            [userPosition]="currentPosition"
+            [activeStation]="activeStation"
+            (activeStationChange)="setActiveStation($event)"
+        >
+            <favorites-button
+                [favoriteStations]="favoriteStations"
+                (favoriteStationClick)="setActiveStation($event)"
+                (favoritesOpen)="setMapClickable(false)"
+                (favoritesClose)="setMapClickable(true)"
+            ></favorites-button>
+        </map>
+        <station-card [station]="activeStation"></station-card>
+    </div>
+</ion-content>
