@@ -7,6 +7,7 @@ import { MapPosition } from './map-position';
 import { MapIcon } from './map-icon';
 import { VlilleStation } from '../../services/vlille/vlille';
 import { MarkersService } from '../../services/map/markers';
+import { ToastService } from '../../services/toast/toast';
 
 declare var plugin: any;
 
@@ -21,10 +22,6 @@ const ZOOM_THRESHOLD = 14;
     template:
     `
         <div id="map-canvas" class="map-canvas">
-            <div [hidden]="isMapReady" class="map-stations-loading">
-                <ion-spinner color="light"></ion-spinner>
-                <span>Ça pédale pour charger les stations !</span>
-            </div>
             <ng-content></ng-content>
         </div>
     `
@@ -41,8 +38,6 @@ export class Map implements OnInit {
     private userMarker: any;
     private userHeading: number = 0;
 
-    public isMapReady: boolean = false;
-
     @Input() stations: Observable<VlilleStation[]>;
     @Input() userPosition: Observable<MapPosition>;
     @Input() activeStation: Observable<VlilleStation>;
@@ -50,8 +45,14 @@ export class Map implements OnInit {
 
     constructor(
         private platform: Platform,
-        private markers: MarkersService
+        private markers: MarkersService,
+        private toastService: ToastService
     ) {
+        // show loader
+        this.toastService.show('Ça pédale pour charger les stations !', {
+            showSpinner: true
+        });
+
         // init the map
         this.mapInstancePromise = this.initMap();
 
@@ -71,7 +72,7 @@ export class Map implements OnInit {
                 this.initMarkers(stations)
                 .then(() => {
                     // hide loading mlessage
-                    this.isMapReady = true;
+                    this.toastService.hide();
 
                     // Updates active marker
                     this.activeStation.subscribe(activeStation => {
