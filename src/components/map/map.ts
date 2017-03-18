@@ -13,6 +13,9 @@ declare var plugin: any;
 // Lille
 const DEFAULT_POSITION = new MapPosition(50.633333, 3.066667);
 
+const ZOOM_DEFAULT = 12;
+const ZOOM_THRESHOLD = 14;
+
 @Component({
     selector: 'map',
     template:
@@ -30,6 +33,7 @@ const DEFAULT_POSITION = new MapPosition(50.633333, 3.066667);
 export class Map implements OnInit {
     private mapInstance: any;
     private mapInstancePromise: Promise<any>;
+    private mapZoom: number = ZOOM_DEFAULT;
 
     private markerIcon: any = MapIcon.NORMAL;
     private activeMarker: any;
@@ -105,20 +109,31 @@ export class Map implements OnInit {
         let mapOptions = {
             camera: {
                 latLng: DEFAULT_POSITION.toLatLng(),
-                zoom: 12
+                zoom: this.mapZoom
             }
         };
 
         return new Promise<any>((resolve, reject) => {
             this.platform.ready().then(() => {
                 // init map instance
-                plugin.google.maps.Map
-                    .getMap(document.getElementById('map-canvas'), mapOptions)
-                    .one(plugin.google.maps.event.MAP_READY, (mapInstance) => {
-                        this.mapInstance = mapInstance;
+                let map = plugin.google.maps.Map
+                    .getMap(document.getElementById('map-canvas'), mapOptions);
 
-                        resolve(mapInstance);
-                    });
+                map.one(plugin.google.maps.event.MAP_READY, mapInstance => {
+                    this.mapInstance = mapInstance;
+
+                    resolve(mapInstance);
+                });
+
+                // listen for camera changes
+                map.on(plugin.google.maps.event.CAMERA_CHANGE, event => {
+                    // zoom unchanged, nothing to do
+                    if (event.zoom === this.mapZoom) {
+                        return;
+                    }
+
+                    this.updateDefaultMarker(event.zoom)
+                });
             });
         });
     }
@@ -191,6 +206,47 @@ export class Map implements OnInit {
 
                 resolve(marker);
             });
+        });
+    }
+
+    /**
+     * Updates `this.markerIcon` value according to the given `zoom` value.
+     *
+     * @param {number} zoom
+     */
+    private updateDefaultMarker(zoom: number) {
+        if (zoom <= ZOOM_THRESHOLD && this.mapZoom > ZOOM_THRESHOLD) {
+            // we are "unzooming"
+            // change the marker icon for the small one
+            this.markerIcon = MapIcon.SMALL;
+        } else if (zoom > ZOOM_THRESHOLD && this.mapZoom <= ZOOM_THRESHOLD) {
+            // we are "zooming"
+            // change the marker icon for the normal one
+            this.markerIcon = MapIcon.NORMAL;
+        } else {
+            // seems to be the same zoom level
+            // nothing to do
+            return;
+        }
+
+        // refresh on the marker icons
+        this.refreshMarkerIcons();
+
+        // stores zoom value
+        this.mapZoom = zoom;
+    }
+
+    /**
+     * Refresh marker icons using the `this.markerIcon` value.
+     */
+    private refreshMarkerIcons() {
+        this.markers.forEach(marker => {
+            // do not refresh active marker
+            if (this.activeMarker && this.activeMarker.id === marker.id) {
+                return;
+            }
+
+            marker.setIcon(this.markerIcon);
         });
     }
 
