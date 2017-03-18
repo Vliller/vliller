@@ -4,33 +4,4 @@ map {
     .map-canvas {
         height: 100%;
     }
-
-    .map-stations-loading {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        font-size: 1.5rem;
-        // line-height: 1.4rem;
-        padding: 1.5rem 1.4rem;
-        color: $light;
-        background: $topaz;
-        box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.14), 0 4px 5px rgba(0, 0, 0, 0.1);
-
-        & * {
-            vertical-align: middle;
-        }
-
-        ion-spinner {
-            // width: 1.4rem;
-            // height: 1.4rem;
-            margin-right: 1.2rem;
-        }
-
-        &[hidden] {
-            display: block !important;
-            opacity: 0;
-            transition: opacity 500ms;
-        }
-    }
 }
