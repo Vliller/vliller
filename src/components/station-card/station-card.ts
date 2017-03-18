@@ -72,13 +72,17 @@ export class StationCard implements OnInit {
         let distanceInMeter = (<any>this.station).distance,
             distanceString = 'à ';
 
+        // to avoid blinking
+        if (!distanceInMeter) {
+            return '';
+        }
+
         // meters
         if (distanceInMeter < 1000) {
             distanceString += Math.round(distanceInMeter) + 'm';
         }
 
         // kilometers
-        // @see http://www.jacklmoore.com/notes/rounding-in-javascript/
         else {
             distanceString += (Math.round(distanceInMeter / 100) / 10) + 'km';
         }

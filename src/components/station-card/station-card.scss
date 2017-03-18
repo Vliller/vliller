@@ -39,6 +39,7 @@ station-card {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        max-width: 75%;
     }
 
     .station-distance {
