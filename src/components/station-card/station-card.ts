@@ -2,7 +2,9 @@ import { Component, Input, OnInit, NgZone } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { VlilleStation, VlilleService } from '../../services/vlille/vlille';
-import { FavoritesService } from '../../services/favorites/favorites';
+import { MapPosition } from '../../components/map/map-position';
+import { MapService } from '../../services/map/map';
+import { LocationService } from '../../services/location/location';
 
 @Component({
     selector: 'station-card',
@@ -11,15 +13,15 @@ import { FavoritesService } from '../../services/favorites/favorites';
 
 export class StationCard implements OnInit {
     public station: VlilleStation = undefined;
-    public isFavoriteStation: boolean = false;
     public isLoaded: boolean = false;
 
     @Input('station') inputStation: Observable<VlilleStation>;
 
     constructor(
-        private favoritesService: FavoritesService,
         private zone: NgZone,
-        private vlilleService: VlilleService
+        private vlilleService: VlilleService,
+        private mapService: MapService,
+        private locationService: LocationService
     ) {}
 
     ngOnInit() {
@@ -34,12 +36,30 @@ export class StationCard implements OnInit {
                 this.vlilleService.getStation(station.id).subscribe(freshStation => {
                         // updates privates attributes
                         this.station = freshStation;
-                        this.isFavoriteStation = this.favoritesService.contains(freshStation);
 
-                        this.isLoaded = true;
+                        // compute distance from the station
+                        this.computeDistance(freshStation).then(distance => {
+                            (<any>this.station).distance = distance;
+
+                            this.isLoaded = true;
+                        });
                     }
                 );
             });
+        });
+    }
+
+    /**
+     * Comppute distance from the station and return a promise of the distance.
+     * @param  {VlilleStation}   station
+     * @return {Promise<number>}
+     */
+    private computeDistance(station: VlilleStation): Promise<number> {
+        let stationPosition = MapPosition.fromCoordinates(station);
+
+        return this.locationService.getCurrentPosition().then(position => {
+            // compute distance to the station
+            return this.mapService.getDistance(position, stationPosition);
         });
     }
 
@@ -49,36 +69,24 @@ export class StationCard implements OnInit {
      * @return {string}
      */
     public formatedDistance() {
-        // TODO
-        return '400m';
+        let distanceInMeter = (<any>this.station).distance,
+            distanceString = 'à ';
 
-        // var distanceInMeter = activeMarker.get('distance'),
-        //     distanceString = 'à ';
-
-        // // meters
-        // if (distanceInMeter < 1000) {
-        //     distanceString += Math.round(distanceInMeter) + 'm';
-        // }
-
-        // // kilometers
-        // // @see http://www.jacklmoore.com/notes/rounding-in-javascript/
-        // else {
-        //     distanceString += Number(Math.round((distanceInMeter / 1000) + 'e1') + 'e-1') + 'km';
-        // }
-
-        // return distanceString;
-    };
-
-    /**
-     * Updates favorites service and star icon
-     */
-    public toggleFavorite() {
-        this.isFavoriteStation = !this.isFavoriteStation;
-
-        if (this.isFavoriteStation) {
-            this.isFavoriteStation = this.favoritesService.add(this.station);
-        } else {
-            this.isFavoriteStation = !this.favoritesService.remove(this.station);
+        // to avoid blinking
+        if (!distanceInMeter) {
+            return '';
         }
-    }
+
+        // meters
+        if (distanceInMeter < 1000) {
+            distanceString += Math.round(distanceInMeter) + 'm';
+        }
+
+        // kilometers
+        else {
+            distanceString += (Math.round(distanceInMeter / 100) / 10) + 'km';
+        }
+
+        return distanceString;
+    };
 }

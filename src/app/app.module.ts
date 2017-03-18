@@ -8,6 +8,7 @@ import { Map } from '../components/map/map';
 import { StationCard } from '../components/station-card/station-card';
 import { StationCardMetric } from '../components/station-card-metric/station-card-metric';
 import { FavoritesButton } from '../components/favorites-button/favorites-button';
+import { FavoritesAddIcon } from '../components/favorites-add-icon/favorites-add-icon';
 import { LocationIcon } from '../components/location-icon/location-icon';
 import { AetmFooter } from '../components/aetm-footer/aetm-footer';
 
@@ -47,6 +48,7 @@ export class RavenErrorHandler implements ErrorHandler {
         StationCard,
         StationCardMetric,
         FavoritesButton,
+        FavoritesAddIcon,
         LocationIcon,
         FeedbackFrom,
         AetmFooter
