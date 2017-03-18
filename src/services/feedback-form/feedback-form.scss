@@ -1,0 +1,35 @@
+.feedback-page .scroll-content {
+    padding-top: 0 !important;
+}
+
+.feedback-content {
+    .feedback-content-logo {
+        .img-responsive {
+            margin: auto;
+            width: 12rem;
+        }
+    }
+
+    textarea {
+        height: 10rem;
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    header p {
+        margin-bottom: 0;
+        font-size: 1.6rem;
+    }
+
+    .grid .row {
+        .col:first-child {
+            padding-right: 8px;
+        }
+
+        .col:last-child {
+            padding-left: 8px;
+        }
+    }
+}

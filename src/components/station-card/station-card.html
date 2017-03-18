@@ -1,0 +1,54 @@
+<!-- Card loader -->
+<div class="content-loader padding" *ngIf="!station">
+    <ion-spinner color="lipstick"></ion-spinner>
+    <p class="text-grey" padding-top>Chargement en cours...</p>
+</div>
+
+<!-- Card station details -->
+<ion-grid *ngIf="station" no-padding>
+    <!-- Header -->
+    <ion-row class="station-card--header" align-items-center>
+        <!-- CB -->
+        <ion-col col-auto>
+            <div padding-left>
+                <img *ngIf="station.payment === 'AVEC TPE'" class="img-responsive" src="assets/img/vliller-cb.svg">
+                <img *ngIf="station.payment !== 'AVEC TPE'" class="img-responsive" src="assets/img/vliller-no-cb.svg">
+            </div>
+        </ion-col>
+
+        <!-- Station name & distance -->
+        <ion-col>
+            <div class="station-name">{{ station.name }}</div><div class="station-distance">{{ formatedDistance() }}</div>
+        </ion-col>
+
+        <!-- Add-to-favorites button -->
+        <ion-col col-auto>
+            <div text-right padding-right>
+                <favorites-add-icon [station]="station"></favorites-add-icon>
+            </div>
+        </ion-col>
+    </ion-row>
+
+    <!-- Content -->
+    <ion-row class="station-card--content" *ngIf="station.status === '0'" align-items-center>
+        <ion-col>
+            <!-- bikes -->
+            <station-card-metric type="bike" [value]="station.bikes" class="border-right"></station-card-metric>
+        </ion-col>
+        <ion-col>
+            <!-- docks -->
+            <station-card-metric type="dock" [value]="station.docks"></station-card-metric>
+        </ion-col>
+    </ion-row>
+    <ion-row class="station-card--dead" *ngIf="station.status !== '0'" align-items-center justify-content-center>
+        <div padding>Cette station semble indisponible.<br>Tente ta chance, ou va plus loin&nbsp;!</div>
+    </ion-row>
+
+    <!-- Footer -->
+    <ion-row class="station-card--footer" align-items-center>
+        <ion-col>
+            <div *ngIf="!isLoaded">Actualisation en cours...</div>
+            <div *ngIf="isLoaded">Dernière mise à jour il y a {{ station.lastupd }}</div>
+        </ion-col>
+    </ion-row>
+</ion-grid>

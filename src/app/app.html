@@ -1,0 +1,8 @@
+<ion-menu side="right" type="push" [content]="content">
+    <ion-content>
+        <sidemenu></sidemenu>
+    </ion-content>
+</ion-menu>
+
+<!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

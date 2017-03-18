@@ -40,11 +40,10 @@ if __name__ == '__main__':
 
     # write file
     with open('config.xml', 'wb') as f:
-        f.write(bytes('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n', 'utf-8'))
+        f.write(bytes('<?xml version="1.0" encoding="UTF-8"?>\n', 'utf-8'))
         f.write(ET.tostring(root, encoding = 'UTF-8'))
 
     #
-    # edits bower.json and package.json
+    # edits package.json
     #
-    updatesJSON('bower.json', version)
     updatesJSON('package.json', version)

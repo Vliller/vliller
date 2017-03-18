@@ -1,0 +1,31 @@
+.contribs-content {
+    background-image: linear-gradient(to top, #fef7f7, #ffffff);
+    background-position: left bottom;
+    background-size: 100% 170px;
+    background-repeat: no-repeat;
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    h3 {
+        font-size: 1.8rem;
+    }
+
+    h4 {
+        font-size: 1.4rem;
+        margin-top: 0;
+    }
+
+    header p {
+        margin-bottom: 0;
+        font-size: 1.6rem;
+    }
+
+    .contribs-contributors {
+        .item-md {
+            padding-left: 0;
+            background: transparent;
+        }
+    }
+}

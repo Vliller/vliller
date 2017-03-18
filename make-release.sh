@@ -16,7 +16,7 @@ git checkout -b $BRANCH_NAME develop
 
 # log modifications
 ./bump-version.py $RELEASE_VERSION
-git commit -am "Release version $RELEASE_VERSION"
+git commit -am "🚀 Release version $RELEASE_VERSION"
 
 # merge into master
 git checkout master
