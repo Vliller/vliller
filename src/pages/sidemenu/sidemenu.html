@@ -1,46 +1,44 @@
-<div class="sidemenu-content">
-    <div class="sidemenu-close" menuClose>
-        <!-- close icon -->
-        <svg fill="#FFF" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
-    </div>
-
-    <header class="sidemenu-header">
-        <img class="img-responsive" src="assets/img/vliller-header-sidemenu-logo.svg">
-    </header>
-
-    <div class="sidemenu-main border-bottom">
-        <button ion-button block margin-top margin-bottom color="secondary" (click)="openBugReport()" class="button-feedback">Améliorer Vliller</button>
-
-        <button ion-button clear color="light" icon-left (click)="openSocialSharing()">
-            <ion-icon name="share"></ion-icon>
-            Passer le mot
-        </button>
-
-        <button ion-button clear color="light" icon-left (click)="rateApp()">
-            <ion-icon name="star"></ion-icon>
-            Noter Vliller
-        </button>
-
-        <a ion-button clear color="light" icon-left href="mailto:bonjour@alexetmanon.com?subject=[Vliller]%20" >
-            <ion-icon name="mail"></ion-icon>
-            Contacter l'équipe Vliller
-        </a>
-    </div>
-
-    <div class="sidemenu-about">
-        <button ion-button clear color="light" icon-left (click)="openContribsPage()">
-            <ion-icon name="code"></ion-icon>
-            Sources &amp; contributeurs
-        </button>
-
-        <button ion-button clear color="light" icon-left (click)="openAboutPage()">
-            <ion-icon name="information-circle"></ion-icon>
-            À propos
-        </button>
-    </div>
-
-    <footer class="sidemenu-footer">
-        <p>Conçu et développé par <a (click)="openLink('http://alexetmanon.com')">alex&nbsp;et&nbsp;manon</a> et tous nos supers contributeurs !</p>
-        <p>Version {{ appVersion }}</p>
-    </footer>
+<div class="sidemenu-close" menuClose>
+    <!-- close icon -->
+    <svg fill="#FFF" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
 </div>
+
+<header class="sidemenu-header">
+    <img class="img-responsive" src="assets/img/vliller-header-sidemenu-logo.svg">
+</header>
+
+<div class="sidemenu-main border-bottom">
+    <button ion-button block margin-top margin-bottom color="secondary" (click)="openBugReport()" class="button-feedback">Améliorer Vliller</button>
+
+    <button ion-button clear color="light" icon-left (click)="openSocialSharing()">
+        <ion-icon name="share"></ion-icon>
+        Passer le mot
+    </button>
+
+    <button ion-button clear color="light" icon-left (click)="rateApp()">
+        <ion-icon name="star"></ion-icon>
+        Noter Vliller
+    </button>
+
+    <a ion-button clear color="light" icon-left href="mailto:bonjour@alexetmanon.com?subject=[Vliller]%20" >
+        <ion-icon name="mail"></ion-icon>
+        Contacter l'équipe Vliller
+    </a>
+</div>
+
+<div class="sidemenu-about">
+    <button ion-button clear color="light" icon-left (click)="openContribsPage()">
+        <ion-icon name="code"></ion-icon>
+        Sources &amp; contributeurs
+    </button>
+
+    <button ion-button clear color="light" icon-left (click)="openAboutPage()">
+        <ion-icon name="information-circle"></ion-icon>
+        À propos
+    </button>
+</div>
+
+<footer class="sidemenu-footer">
+    <p>Conçu et développé par <a (click)="openLink('http://alexetmanon.com')">alex&nbsp;et&nbsp;manon</a> et tous nos supers contributeurs !</p>
+    <p>Version {{ appVersion }}</p>
+</footer>
