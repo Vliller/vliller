@@ -1,3 +1,7 @@
+# 2.0.5 
+
+- Correction de bugs
+
 # 2.0.4
 
 - Correction d'un bug de localisation au lancement de l'application

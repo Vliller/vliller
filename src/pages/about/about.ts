@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ViewController, NavParams } from 'ionic-angular';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 @Component({
     selector: 'page-about',
@@ -19,5 +20,9 @@ export class About {
 
     public close() {
         this.viewCtrl.dismiss();
+    }
+
+    public openLink(link) {
+        new InAppBrowser().create(link, '_system');
     }
 }
