@@ -4,7 +4,7 @@ import { ToastService, Toast } from './toast';
 @Component({
     selector: 'toast-component',
     template: `
-        <div class="toast-component" [hidden]="!showToast">
+        <div class="toast-component" [ngClass]="{ 'error': isError }" [hidden]="!showToast">
             <ion-spinner [hidden]="!showSpinner" color="light" ></ion-spinner>
             <span [innerHTML]="message"></span>
         </div>
@@ -15,6 +15,7 @@ export class ToastComponent {
     public showToast: boolean = false;
     public showSpinner: boolean = false;
     public message: string;
+    public isError: boolean = false;
 
     private durationId: number;
 
@@ -37,6 +38,7 @@ export class ToastComponent {
 
         this.message = toast.message;
         this.showSpinner = toast.options && toast.options.showSpinner || false;
+        this.isError = toast.options && toast.options.isError || false;
 
         // show toast
         this.showToast = true;

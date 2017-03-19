@@ -21,6 +21,13 @@ export class ToastService {
         this.toastStateSource.next(new Toast(message, options));
     }
 
+    public showError(message: string, options?: any) {
+        options = options || {};
+        options.isError = true;
+
+        return this.show(message, options);
+    }
+
     public hide() {
         this.toastStateSource.next(null);
     }

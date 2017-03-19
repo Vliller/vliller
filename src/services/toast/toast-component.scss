@@ -26,4 +26,8 @@ toast-component {
         opacity: 0;
         transition: opacity 500ms;
     }
+
+    &.error {
+        background: $mustard;
+    }
 }
