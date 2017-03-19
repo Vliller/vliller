@@ -1,3 +1,7 @@
+# 2.0.4
+
+- Correction d'un bug de localisation au lancement de l'application
+
 # 2.0.3
 
 - Amélioration de l'expérience d'utilisation des favoris (ajout de messages informatifs)
