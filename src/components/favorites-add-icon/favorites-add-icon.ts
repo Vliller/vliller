@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { VlilleStation } from '../../services/vlille/vlille';
 import { FavoritesService } from '../../services/favorites/favorites';
+import { ToastService } from '../../services/toast/toast';
 
 @Component({
     selector: 'favorites-add-icon',
@@ -12,7 +13,10 @@ export class FavoritesAddIcon implements OnChanges {
 
     @Input() station: VlilleStation;
 
-    constructor(private favoritesService: FavoritesService) {}
+    constructor(
+        private favoritesService: FavoritesService,
+        private toastService: ToastService
+    ) {}
 
     ngOnChanges() {
         this.isFavoriteStation = this.favoritesService.contains(this.station);
@@ -26,7 +30,29 @@ export class FavoritesAddIcon implements OnChanges {
 
         if (this.isFavoriteStation) {
             this.isFavoriteStation = this.favoritesService.add(this.station);
+
+            if (this.isFavoriteStation) {
+                this.showAddToast();
+            } else {
+                // TODO : see if it's more smart to move the service's alert here
+            }
+
         } else {
             this.isFavoriteStation = !this.favoritesService.remove(this.station);
+
+            this.showRemoveToast();
         }
-    }}
+    }
+
+    private showAddToast() {
+        this.toastService.show('Station <b>' + this.station.name + '</b> ajoutée !', {
+            duration: 3000
+        });
+    }
+
+    private showRemoveToast() {
+        this.toastService.show('Station <b>' + this.station.name + '</b> retirée.',  {
+            duration: 3000
+        });
+    }
+}
