@@ -1,3 +1,7 @@
+# 2.0.3
+
+- Amélioration de l'expérience d'utilisation des favoris (ajout de messages informatifs)
+
 # 2.0.2
 
 - Implémentation d'une modal de feedback
