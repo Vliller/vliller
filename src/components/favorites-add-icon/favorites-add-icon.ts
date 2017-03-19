@@ -34,7 +34,7 @@ export class FavoritesAddIcon implements OnChanges {
             if (this.isFavoriteStation) {
                 this.showAddToast();
             } else {
-                // TODO : see if it's more smart to move the service's alert here
+                this.showErrorToast();
             }
 
         } else {
@@ -52,6 +52,12 @@ export class FavoritesAddIcon implements OnChanges {
 
     private showRemoveToast() {
         this.toastService.show('Station <b>' + this.station.name + '</b> retirée.',  {
+            duration: 3000
+        });
+    }
+
+    private showErrorToast() {
+        this.toastService.showError('Vous avez atteint le nombre maximum de favoris&nbsp;!',  {
             duration: 3000
         });
     }
