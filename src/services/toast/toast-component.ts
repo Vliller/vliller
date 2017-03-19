@@ -16,6 +16,8 @@ export class ToastComponent {
     public showSpinner: boolean = false;
     public message: string;
 
+    private durationId: number;
+
     constructor(private toastService: ToastService) {
         this.toastService.asObservable().subscribe(toast => {
             if (toast) {
@@ -26,15 +28,37 @@ export class ToastComponent {
         });
     }
 
+    /**
+     *
+     * @param {Toast} toast
+     */
     private show(toast: Toast) {
-        this.message = toast.message;
-        this.showSpinner = toast.options.showSpinner || false;
+        this.hide();
 
+        this.message = toast.message;
+        this.showSpinner = toast.options && toast.options.showSpinner || false;
+
+        // show toast
         this.showToast = true;
+
+        if (toast.options && toast.options.duration) {
+            // hide toast a the end of the given duration
+            this.durationId = setTimeout(() => {
+                this.hide();
+                this.durationId = null;
+            }, toast.options.duration);
+        }
     }
 
+    /**
+     *
+     */
     private hide() {
         this.showToast = false;
         this.showSpinner = false;
+
+        // clear potential toast with duration
+        clearTimeout(this.durationId);
+        this.durationId = null;
     }
 }
