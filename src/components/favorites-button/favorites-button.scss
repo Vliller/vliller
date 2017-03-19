@@ -48,6 +48,9 @@ favorites-button {
             text-align: center;
             overflow: visible;
 
+            // bugfix iOS
+            padding: 1px 6px;
+
             div.label {
                 position: absolute;
                 right: 48px;
