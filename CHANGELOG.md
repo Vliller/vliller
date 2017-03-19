@@ -1,3 +1,33 @@
+# 2.0.2
+
+- Implémentation d'une modal de feedback
+- Ajout de la page Sources et contributeurs
+- Ajout d'une page À propos
+- Nouvelle présentation des informations des stations
+
+# 2.0.1
+
+- Réécriture totale de l'application pour améliorer les performances
+- Ajout de la fonctionnalité "Favoris"
+
+# 1.9.0
+
+- Utilisation des données ouvertes de la MEL : https://opendata.lillemetropole.fr/explore/dataset/vlille-realtime/
+- Chargement de la carte sur Lille par défaut
+
+# 1.8.4
+
+- Retrait du thème Halloween
+- Corrections mineurs
+
+# 1.8.3
+
+- Version Halloween
+
+# 1.8.2
+
+- Correction d'un bug mineur
+
 # 1.8.1
 
 - Amélioration du menu latéral (swipe, bouton pour refermer, espacement iOS)

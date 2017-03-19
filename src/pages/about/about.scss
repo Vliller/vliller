@@ -1,0 +1,24 @@
+.about-page {
+    color: $light;
+    background-image: linear-gradient(to top, #a71e45, $lipstick 100%, $lipstick);
+}
+
+.about-content {
+    h2 {
+        opacity: 0.8;
+        font-size: 14px;
+    }
+
+    header {
+        .img-responsive {
+            margin: auto;
+        }
+    }
+
+    .about-legals {
+        .button.button-clear {
+            padding: 0;
+            text-transform: none;
+        }
+    }
+}
