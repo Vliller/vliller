@@ -23,7 +23,7 @@
             <div padding>
                 <button type="button" ion-button block color="secondary" (click)="openLink('https://github.com/alexetmanon/vliller')" margin-bottom>Contribuer sur Github</button>
 
-                <button type="button" ion-button block outline color="secondary" (click)="openLink('https://github.com/alexetmanon/vliller/issues')">Porposer une amélioration</button>
+                <button type="button" ion-button block outline color="secondary" (click)="openLink('https://github.com/alexetmanon/vliller/issues')">Proposer une amélioration</button>
             </div>
         </div>
 
@@ -37,7 +37,7 @@
                 </div>
 
                 <ion-list *ngIf="contributorsLoaded">
-                    <button ion-item *ngFor="let contributor of contributors | async" (click)="openGithubProfil(contributor)">
+                    <button ion-item *ngFor="let contributor of contributors | async" (click)="openLink(contributor.html_url)">
                         <ion-avatar item-left>
                             <img [src]="contributor.avatar_url">
                         </ion-avatar>

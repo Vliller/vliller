@@ -1,11 +1,12 @@
-/**
- * Sidemenu view
- */
-.sidemenu-content {
+.sidemenu-container {
+    background-image: linear-gradient(to top, #a71e45, $lipstick 100%, $lipstick);
+}
+
+sidemenu {
+    display: block;
+    min-height: 100%;
     color: $light;
     padding: 40px;
-    background-image: linear-gradient(to top, #a71e45, $lipstick 100%, $lipstick);
-    box-shadow: 0 16px 16px 0 rgba(0, 0, 0, 0.24), 0 0 16px 0 rgba(0, 0, 0, 0.18);
 
     .sidemenu-close {
         text-align: right;
@@ -61,20 +62,7 @@
         }
     }
 
-    // .button-feedback, .button-feedback:hover {
-    //     border-radius: 2px;
-    //     line-height: 1.4;
-    //     font-size: 14px;
-    //     font-weight: 500;
-    //     letter-spacing: 0.5px;
-    //     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
-    // }
-
     .border-bottom {
         border-bottom: solid 1px rgba(255, 255, 255, 0.7);
     }
 }
-
-// .platform-ios .sidemenu-content {
-//     padding-top: 40px + $ios-statusbar-height;
-// }

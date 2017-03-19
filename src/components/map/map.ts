@@ -49,7 +49,7 @@ export class Map implements OnInit {
         private toastService: ToastService
     ) {
         // show loader
-        this.toastService.show('Ça pédale pour charger les stations !', {
+        this.toastService.show('Ça pédale pour charger les stations&nbsp;!', {
             showSpinner: true
         });
 

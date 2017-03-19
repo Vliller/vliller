@@ -66,3 +66,14 @@ favorites-button {
         }
     }
 }
+
+// bugfix iOS
+.platform-ios {
+    favorites-button ion-fab-list button[ion-fab] {
+        padding: 1px 6px;
+
+        div.label {
+            top: 8px;
+        }
+    }
+}
