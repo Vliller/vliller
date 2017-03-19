@@ -48,9 +48,6 @@ favorites-button {
             text-align: center;
             overflow: visible;
 
-            // bugfix iOS
-            padding: 1px 6px;
-
             div.label {
                 position: absolute;
                 right: 48px;
@@ -66,6 +63,17 @@ favorites-button {
 
         .button-inner {
             overflow: visible;
+        }
+    }
+}
+
+// bugfix iOS
+.platform-ios {
+    favorites-button ion-fab-list button[ion-fab] {
+        padding: 1px 6px;
+
+        div.label {
+            top: 8px;
         }
     }
 }
