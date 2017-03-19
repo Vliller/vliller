@@ -73,8 +73,8 @@ export class RavenErrorHandler implements ErrorHandler {
     providers: [
         {
             provide: ErrorHandler,
-            useClass: IonicErrorHandler
-            // useClass: RavenErrorHandler
+            // useClass: IonicErrorHandler
+            useClass: RavenErrorHandler
         },
         VlilleService,
         FavoritesService,
