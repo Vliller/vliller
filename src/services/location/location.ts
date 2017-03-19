@@ -56,15 +56,17 @@ export class LocationService {
      * @return {Promise<any>}
      */
     public requestLocation(): Promise<any> {
-        let locationAccuracy = new LocationAccuracy();
+        return this.platform.ready().then(() => {
+            let locationAccuracy = new LocationAccuracy();
 
-        return this.platform.ready().then(() => locationAccuracy.canRequest().then(canRequest => {
-            if (!canRequest) {
-                return Promise.resolve();
-            }
+            return locationAccuracy.canRequest().then(canRequest => {
+                if (!canRequest) {
+                    return Promise.resolve();
+                }
 
-            return locationAccuracy.request(locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY);
-        }));
+                return locationAccuracy.request(locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY);
+            });
+        });
     }
 
     /**

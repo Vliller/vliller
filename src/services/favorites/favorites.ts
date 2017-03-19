@@ -17,7 +17,6 @@ interface IdConstraint {
 export class FavoritesService {
     private favorites: VlilleStation[] = [];
     private favoritesSubject: Subject<VlilleStation[]> = new Subject();
-    private maxFavAlert;
 
     constructor(
         platform: Platform
