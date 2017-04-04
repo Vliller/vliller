@@ -9,6 +9,17 @@ fi
 RELEASE_VERSION=$1
 BRANCH_NAME="release-$RELEASE_VERSION"
 
+printf "\033[1;35mUpdates changelog \e[0m\n"
+
+# Adds release number at the beginning of the changelog file and open it
+sed -i '' '1s/^/\'$'\n/g' CHANGELOG.md
+sed -i '' "1s/^/# $RELEASE_VERSION/" CHANGELOG.md
+sed -i '' '2s/^/\'$'\n/g' CHANGELOG.md
+sed -i '' '2s/^/\'$'\n/g' CHANGELOG.md
+sed -i '' '2s/^/\'$'\n- /g' CHANGELOG.md
+
+nano CHANGELOG.md
+
 printf "\033[1;35mCreates release \e[0m\n"
 
 # branch creation
