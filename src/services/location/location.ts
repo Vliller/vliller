@@ -29,7 +29,9 @@ export class LocationService {
                 }
 
                 // Get current location
-                return new Geolocation().getCurrentPosition()
+                return new Geolocation().getCurrentPosition({
+                    enableHighAccuracy: true
+                });
             })
             .then((geoposition: Geoposition) => {
                 return MapPosition.fromCoordinates(geoposition.coords);
