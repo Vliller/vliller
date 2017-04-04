@@ -1,3 +1,7 @@
+# 2.0.7
+
+- Amélioration du système de localisation (utilisation du GPS)
+
 # 2.0.6
 
 - Correction des liens morts sur la page À propos
