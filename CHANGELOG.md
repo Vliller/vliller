@@ -1,3 +1,7 @@
+# 2.1.1
+
+- Correction du numéro de version
+
 # 2.1.0
 
 - Ajout d'un indicateur de précision des coordonées utilisateur
