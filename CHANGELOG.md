@@ -1,3 +1,7 @@
+# 2.1.0
+
+- Ajout d'un indicateur de précision des coordonées utilisateur
+
 # 2.0.8
 
 - Correction d'une faute d'orthographe sur la page contributeurs
