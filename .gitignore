@@ -35,3 +35,4 @@ UserInterfaceState.xcuserstate
 
 # release scripts
 build-release.sh
+bump-version.py
