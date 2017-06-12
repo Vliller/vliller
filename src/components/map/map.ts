@@ -216,7 +216,7 @@ export class Map implements OnInit {
                 radius: position.accuracy,
                 strokeWidth: 0,
                 strokeColor: 'rgba(0, 0, 0, 0)',
-                fillColor: 'rgba(25, 209, 191, 0.1)' // #19D1BF + opacity = 10%,
+                fillColor: 'rgba(25, 209, 191, 0.15)' // #19D1BF + opacity = 15%,
             }, markerAccuracy => {
                 // avoid duplication bug
                 if (this.userMarkerAccuracy) {
