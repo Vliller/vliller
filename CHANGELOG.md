@@ -1,3 +1,7 @@
+# 2.0.8
+
+- Correction d'une faute d'orthographe sur la page contributeurs
+
 # 2.0.7
 
 - Amélioration du système de localisation (utilisation du GPS)
