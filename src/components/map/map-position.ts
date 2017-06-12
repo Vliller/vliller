@@ -4,7 +4,8 @@
 export class MapPosition {
     constructor(
         public latitude: number,
-        public longitude: number
+        public longitude: number,
+        public accuracy: number = 0
     ) {}
 
     static fromLatLng(latlng: any): MapPosition {
@@ -17,7 +18,8 @@ export class MapPosition {
     static fromCoordinates(coordinates: any): MapPosition {
         return new MapPosition(
             coordinates.latitude,
-            coordinates.longitude
+            coordinates.longitude,
+            coordinates.accuracy
         );
     }
 
