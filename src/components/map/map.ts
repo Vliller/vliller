@@ -36,6 +36,7 @@ export class Map implements OnInit {
     private activeMarker: any;
 
     private userMarker: any;
+    private userMarkerAccuracy: any;
     private userHeading: number = 0;
 
     @Input() stations: Observable<VlilleStation[]>;
@@ -192,6 +193,7 @@ export class Map implements OnInit {
      */
     private initUserMarker(position: MapPosition): Promise<any> {
         return new Promise<any>((resolve, reject) => {
+            // user position
             this.mapInstance.addMarker({
                 position: position.toLatLng(),
                 icon: MapIcon.USER,
@@ -206,6 +208,23 @@ export class Map implements OnInit {
                 this.userMarker = marker;
 
                 resolve(marker);
+            });
+
+            // user position accuracy
+            this.mapInstance.addCircle({
+                center: position.toLatLng(),
+                radius: position.accuracy,
+                strokeWidth: 0,
+                strokeColor: 'rgba(0, 0, 0, 0)',
+                fillColor: 'rgba(25, 209, 191, 0.1)' // #19D1BF + opacity = 10%,
+            }, markerAccuracy => {
+                // avoid duplication bug
+                if (this.userMarkerAccuracy) {
+                    this.userMarkerAccuracy.remove();
+                }
+
+                // updates marker ref
+                this.userMarkerAccuracy = markerAccuracy;
             });
         });
     }
@@ -272,6 +291,10 @@ export class Map implements OnInit {
      */
     private setUserPosition(position: MapPosition) {
         this.userMarker.setPosition(position.toLatLng());
+
+        // displays accuracy
+        this.userMarkerAccuracy.setCenter(position.toLatLng());
+        this.userMarkerAccuracy.setRadius(position.accuracy);
     }
 
     /**
