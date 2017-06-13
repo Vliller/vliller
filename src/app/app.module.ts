@@ -1,6 +1,7 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { BrowserModule } from '@angular/platform-browser';
 import { App } from './app.component';
 
 // components
@@ -57,10 +58,11 @@ export class RavenErrorHandler implements ErrorHandler {
         ToastComponent
     ],
     imports: [
+        BrowserModule,
         HttpModule,
         IonicModule.forRoot(App, {
             mode: "md"
-        }, {})
+        })
     ],
     bootstrap: [IonicApp],
     entryComponents: [

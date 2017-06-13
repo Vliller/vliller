@@ -20,12 +20,20 @@ export class LocationService {
      * @return {Promise<MapPosition>}
      */
     public getCurrentPosition(): Promise<MapPosition> {
-        return this.platform.ready().then(() => new Diagnostic().isLocationEnabled()
-            .then(isLocationEnabled => {
-
+        return this.platform
+            .ready()
+            .then(() => new Diagnostic().isLocationEnabled())
+            .then((isLocationEnabled: boolean) => {
                 // GPS disabled
                 if (!isLocationEnabled) {
-                    return Promise.reject('locationDisabled');
+
+                    /**
+                     * Return a Promise<Geoposition> to match next then.
+                     *
+                     * @see https://github.com/Microsoft/TypeScript/issues/7588#issuecomment-198700729
+                     */
+                    return Promise.reject<Geoposition>(
+                        new Error('Geolocation system disabled.'));
                 }
 
                 // Get current location
@@ -35,8 +43,7 @@ export class LocationService {
             })
             .then((geoposition: Geoposition) => {
                 return MapPosition.fromCoordinates(geoposition.coords);
-            })
-        );
+            });
     }
 
     /**
