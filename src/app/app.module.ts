@@ -3,6 +3,7 @@ import { HttpModule } from '@angular/http';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { BrowserModule } from '@angular/platform-browser';
 import { App } from './app.component';
+import { AppSettings } from './app.settings';
 
 // components
 import { Map } from '../components/map/map';
@@ -32,7 +33,29 @@ import { Contribs } from '../pages/contribs/contribs';
 // Sentry
 import * as Raven from 'raven-js';
 
-Raven.config('https://0cdc4000f06146d58781cef186b88b4d@sentry.io/134393').install();
+Raven.config(
+    AppSettings.sentryDSN,
+    {
+        /**
+         * Clear the path filename to allow Sentry to use map.js file
+         *
+         * @see https://gonehybrid.com/how-to-log-errors-in-your-ionic-2-app-with-sentry/
+         */
+        dataCallback: data => {
+            if (data.culprit) {
+                data.culprit = data.culprit.substring(data.culprit.lastIndexOf('/'));
+            }
+
+            var stacktrace = data.stacktrace || data.exception && data.exception.values[0].stacktrace;
+
+            if (stacktrace) {
+                stacktrace.frames.forEach(frame => {
+                    frame.filename = frame.filename.substring(frame.filename.lastIndexOf('/'));
+                });
+            }
+        }
+    }
+).install();
 
 export class RavenErrorHandler implements ErrorHandler {
     handleError(err: any) : void {
