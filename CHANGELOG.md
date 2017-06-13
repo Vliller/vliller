@@ -1,3 +1,7 @@
+# 2.1.3
+
+- Amélioration du système de récolte des erreur (utilisation du fichier source map)
+
 # 2.1.2
 
 - Mise à jour d'Ionic 2 -> 3
