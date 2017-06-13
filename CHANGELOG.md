@@ -1,3 +1,7 @@
+# 2.1.2
+
+- Mise à jour d'Ionic 2 -> 3
+
 # 2.1.1
 
 - Correction du numéro de version
