@@ -25,6 +25,7 @@
     "@ionic-native/geolocation": "3.6.1",
     "@ionic-native/google-analytics": "3.6.1",
     "@ionic-native/in-app-browser": "3.6.1",
+    "@ionic-native/launch-navigator": "3.12.1",
     "@ionic-native/location-accuracy": "3.6.1",
     "@ionic-native/native-storage": "3.6.1",
     "@ionic-native/social-sharing": "3.6.1",
@@ -49,5 +50,5 @@
     "ios",
     "android"
   ],
-  "version": "2.1.2"
+  "version": "2.2.0"
 }

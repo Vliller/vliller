@@ -8,24 +8,25 @@
 <ion-grid *ngIf="station" no-padding>
     <!-- Header -->
     <ion-row class="station-card--header" align-items-center>
-        <!-- CB -->
+        <!-- Add-to-favorites button -->
         <ion-col col-auto>
-            <div padding-left>
-                <img *ngIf="station.payment === 'AVEC TPE'" class="img-responsive" src="assets/img/vliller-cb.svg">
-                <img *ngIf="station.payment !== 'AVEC TPE'" class="img-responsive" src="assets/img/vliller-no-cb.svg">
-            </div>
+            <favorites-add-icon [station]="station"></favorites-add-icon>
         </ion-col>
 
         <!-- Station name & distance -->
         <ion-col>
-            <div class="station-name">{{ station.name }}</div><div class="station-distance">{{ formatedDistance() }}</div>
+            <div class="station-name">{{ station.name }}</div>
+            <div class="station-distance">{{ formatedDistance() }}</div>
         </ion-col>
 
-        <!-- Add-to-favorites button -->
+        <!-- CB -->
         <ion-col col-auto>
-            <div text-right padding-right>
-                <favorites-add-icon [station]="station"></favorites-add-icon>
-            </div>
+            <cb-icon class="station-cb" [active]="station.payment === 'AVEC TPE'"></cb-icon>
+        </ion-col>
+
+        <!-- Maps button -->
+        <ion-col col-auto>
+            <direction-button [station]="station"></direction-button>
         </ion-col>
     </ion-row>
 
