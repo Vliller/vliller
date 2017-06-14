@@ -14,6 +14,7 @@ import { FavoritesAddIcon } from '../components/favorites-add-icon/favorites-add
 import { LocationIcon } from '../components/location-icon/location-icon';
 import { AetmFooter } from '../components/aetm-footer/aetm-footer';
 import { ToastComponent } from '../services/toast/toast-component';
+import { CbIcon } from '../components/cb-icon/cb-icon';
 
 // services
 import { VlilleService } from '../services/vlille/vlille';
@@ -78,7 +79,8 @@ export class RavenErrorHandler implements ErrorHandler {
         LocationIcon,
         FeedbackFrom,
         AetmFooter,
-        ToastComponent
+        ToastComponent,
+        CbIcon
     ],
     imports: [
         BrowserModule,
