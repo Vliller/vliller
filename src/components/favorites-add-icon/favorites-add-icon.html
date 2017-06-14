@@ -1,3 +1,4 @@
 <button ion-button icon-only clear (click)="toggleFavorite()">
-    <ion-icon [color]="isFavoriteStation ? 'mustard' : 'grey'" [name]="isFavoriteStation ? 'star' : 'star-outline'"></ion-icon>
+    <img *ngIf="isFavoriteStation" class="img-responsive" src="assets/img/vliller-icon-fav-added.svg">
+    <img *ngIf="!isFavoriteStation" class="img-responsive" src="assets/img/vliller-icon-fav-add.svg">
 </button>
