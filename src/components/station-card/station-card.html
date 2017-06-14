@@ -19,8 +19,15 @@
         </ion-col>
 
         <!-- CB -->
-        <ion-col col-auto>
+        <ion-col>
             <cb-icon [active]="station.payment === 'AVEC TPE'"></cb-icon>
+        </ion-col>
+
+        <!-- Maps button -->
+        <ion-col col-auto>
+            <div padding-left>
+                <direction-button [coordinates]="station"></direction-button>
+            </div>
         </ion-col>
     </ion-row>
 
