@@ -4,6 +4,7 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { BrowserModule } from '@angular/platform-browser';
 import { App } from './app.component';
 import { AppSettings } from './app.settings';
+import { LaunchNavigator } from '@ionic-native/launch-navigator';
 
 // components
 import { Map } from '../components/map/map';
@@ -111,7 +112,8 @@ export class RavenErrorHandler implements ErrorHandler {
         MapService,
         MarkersService,
         FeedbackFormService,
-        ToastService
+        ToastService,
+        LaunchNavigator
     ]
 })
 export class AppModule {}
