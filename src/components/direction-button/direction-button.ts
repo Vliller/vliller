@@ -3,7 +3,7 @@ import { LaunchNavigator } from '@ionic-native/launch-navigator';
 import { Platform } from 'ionic-angular';
 import * as Raven from 'raven-js';
 
-import { LocationService } from '../../services/location/location';
+import { VlilleStation } from '../../services/vlille/vlille';
 
 declare var launchnavigator: any;
 
@@ -14,14 +14,13 @@ declare var launchnavigator: any;
 
 export class DirectionButton {
 
-    @Input() coordinates: any;
+    @Input() station: VlilleStation;
 
     private navigationApp: any;
 
     constructor(
         private launchNavigator: LaunchNavigator,
-        private platform: Platform,
-        private locationService: LocationService
+        private platform: Platform
     ) {
         launchnavigator.isAppAvailable(launchnavigator.APP.GOOGLE_MAPS, isAvailable => {
             // priority to Google Maps app
@@ -41,27 +40,17 @@ export class DirectionButton {
     }
 
     /**
-     * Start navigation to `coordinates`
+     * Start navigation to the station
      */
     navigate() {
-        this.launchNavigation(null, [
-            this.coordinates.latitude,
-            this.coordinates.longitude
-        ]);
-    }
-
-    /**
-     * Launch navigation app using givent coordinates.
-     *
-     * @param {number[]} from
-     * @param {number[]} to
-     */
-    launchNavigation(from: number[], to: number[]) {
         this.launchNavigator.navigate(
-            to,
+            [
+                this.station.latitude,
+                this.station.longitude
+            ],
             {
-                start: from,
                 app: this.navigationApp,
+                destinationName: this.station.name,
                 transportMode: 'walking',
                 // launchMode: 'turn-by-turn',
                 appSelectionDialogHeader: 'Sélectionnez une application de navigation',
