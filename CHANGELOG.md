@@ -1,3 +1,7 @@
+# 2.2.0
+
+- Ajout d'un bouton itinéraire vers la station sélectionnée
+
 # 2.1.3
 
 - Amélioration du système de récolte des erreur (utilisation du fichier source map)
