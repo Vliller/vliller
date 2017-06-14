@@ -15,19 +15,18 @@
 
         <!-- Station name & distance -->
         <ion-col>
-            <div class="station-name">{{ station.name }}</div><div class="station-distance">{{ formatedDistance() }}</div>
+            <div class="station-name">{{ station.name }}</div>
+            <div class="station-distance">{{ formatedDistance() }}</div>
         </ion-col>
 
         <!-- CB -->
-        <ion-col>
-            <cb-icon [active]="station.payment === 'AVEC TPE'"></cb-icon>
+        <ion-col col-auto>
+            <cb-icon class="station-cb" [active]="station.payment === 'AVEC TPE'"></cb-icon>
         </ion-col>
 
         <!-- Maps button -->
         <ion-col col-auto>
-            <div padding-left>
-                <direction-button [coordinates]="station"></direction-button>
-            </div>
+            <direction-button [coordinates]="station"></direction-button>
         </ion-col>
     </ion-row>
 
