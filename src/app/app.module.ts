@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { App } from './app.component';
 import { AppSettings } from './app.settings';
 import { LaunchNavigator } from '@ionic-native/launch-navigator';
+import { CameraPreview } from '@ionic-native/camera-preview';
 
 // components
 import { Map } from '../components/map/map';
@@ -32,6 +33,7 @@ import { Home } from '../pages/home/home';
 import { Sidemenu } from '../pages/sidemenu/sidemenu';
 import { About } from '../pages/about/about';
 import { Contribs } from '../pages/contribs/contribs';
+import { CodeMemo } from '../pages/code-memo/code-memo';
 
 // Sentry
 import * as Raven from 'raven-js';
@@ -73,6 +75,7 @@ export class RavenErrorHandler implements ErrorHandler {
         About,
         Contribs,
         Sidemenu,
+        CodeMemo,
         Map,
         StationCard,
         StationCardMetric,
@@ -98,7 +101,8 @@ export class RavenErrorHandler implements ErrorHandler {
         Home,
         About,
         Contribs,
-        FeedbackFrom
+        FeedbackFrom,
+        CodeMemo
     ],
     providers: [
         {
@@ -113,7 +117,8 @@ export class RavenErrorHandler implements ErrorHandler {
         MarkersService,
         FeedbackFormService,
         ToastService,
-        LaunchNavigator
+        LaunchNavigator,
+        CameraPreview
     ]
 })
 export class AppModule {}

@@ -4,8 +4,7 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
-import { AlertController, ToastController, Platform } from 'ionic-angular';
+import { AlertController, ToastController, Platform, ModalController } from 'ionic-angular';
 import * as Raven from 'raven-js';
 
 import { VlilleService, VlilleStation } from '../../services/vlille/vlille';
@@ -15,6 +14,7 @@ import { Map } from '../../components/map/map';
 import { MapPosition } from '../../components/map/map-position';
 import { MapService } from '../../services/map/map';
 import { LocationIconState } from '../../components/location-icon/location-icon';
+import { CodeMemo } from '../code-memo/code-memo';
 
 @Component({
     selector: 'page-home',
@@ -39,7 +39,8 @@ export class Home {
         private favoritesService: FavoritesService,
         private locationService: LocationService,
         private alertController: AlertController,
-        private toastController: ToastController
+        private toastController: ToastController,
+        private modalController: ModalController
     ) {
         this.stations = vlilleService.getAllStations();
 
@@ -150,5 +151,12 @@ export class Home {
         }
 
         this.map.setClickable(isClickable);
+    }
+
+    /**
+     *
+     */
+    public openCodeMemoPage() {
+        this.modalController.create(CodeMemo).present();
     }
 }

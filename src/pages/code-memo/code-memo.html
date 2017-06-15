@@ -1,0 +1,45 @@
+<ion-header no-border>
+    <ion-navbar transparent>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="close()">
+                <ion-icon color="primary" name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content class="code-memo-page no-scroll" fullscreen>
+    <div class="code-memo-content" padding>
+        <div class="code-memo-content-logo">
+            <img class="img-responsive" src="assets/img/vliller-lock-icon.png">
+        </div>
+
+        <div padding>
+            <header text-center>
+                <h2>Mon code cadenas</h2>
+
+                <p>Enregistre le code de l'antivol de ton vélo pour ne pas l'oublier&nbsp;!</p>
+            </header>
+        </div>
+
+        <!-- lock code -->
+        <div margin-vertical class="lock-code">{{ code }}</div>
+
+        <div padding>
+            <div *ngIf="!isPreviewRunning">
+                <button ion-button block outline color="secondary" (click)="startPreview()">Entrer un nouveau code</button>
+            </div>
+
+            <ion-grid *ngIf="isPreviewRunning" no-padding>
+                <ion-row>
+                    <ion-col width-50>
+                        <button ion-button block outline color="secondary" (click)="stopPreview()">Annuler</button>
+                    </ion-col>
+                    <ion-col width-50>
+                        <button ion-button block color="secondary" (click)="runOCR()">Enregistrer</button>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
+    </div>
+</ion-content>

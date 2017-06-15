@@ -18,6 +18,7 @@
     "@angular/platform-browser": "4.1.0",
     "@angular/platform-browser-dynamic": "4.1.0",
     "@ionic-native/app-version": "3.12.1",
+    "@ionic-native/camera-preview": "^3.12.1",
     "@ionic-native/core": "3.12.1",
     "@ionic-native/device": "3.12.1",
     "@ionic-native/device-orientation": "3.12.1",
