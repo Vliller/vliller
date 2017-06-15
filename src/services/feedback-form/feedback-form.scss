@@ -2,6 +2,12 @@
     padding-top: 0 !important;
 }
 
+.platform-ios {
+   .feedback-page .scroll-content {
+       padding-top: $cordova-ios-statusbar-padding !important;
+   }
+}
+
 .feedback-content {
     .feedback-content-logo {
         .img-responsive {
