@@ -8,7 +8,7 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content class="code-memo-page no-scroll" fullscreen>
+<ion-content class="code-memo-page " fullscreen>
     <div class="code-memo-content" padding>
         <div class="code-memo-content-logo">
             <img class="img-responsive" src="assets/img/vliller-lock-icon.png">
@@ -41,5 +41,8 @@
                 </ion-row>
             </ion-grid>
         </div>
+
+        <!-- hidden image -->
+        <img id="ocrad-image" [src]="ocradImageSrc">
     </div>
 </ion-content>
