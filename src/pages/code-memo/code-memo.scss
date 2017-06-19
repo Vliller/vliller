@@ -27,22 +27,22 @@
     }
 
     .lock-code {
-        font-size: 10rem;
-        line-height: 1.0;
-        color: rgba(0, 0, 0, 0.38);
         background: #f9f9f8;
         padding: 4rem 1rem;
         text-align: center;
-        letter-spacing: 1rem;
     }
 
-    .grid .row {
-        .col:first-child {
-            padding-right: 8px;
-        }
-
-        .col:last-child {
-            padding-left: 8px;
-        }
+    .input-code {
+        display: inline-block;
+        text-align: center;
+        margin: none;
+        width: 10rem;
+        color: rgba(0, 0, 0, 0.38);
+        border: none;
+        border-radius: 0;
+        border-bottom: solid 5px rgba(0, 0, 0, 0.12);
+        background: none;
+        font-size: 8rem;
+        line-height: 1.0;
     }
 }

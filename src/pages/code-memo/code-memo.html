@@ -23,11 +23,15 @@
         </div>
 
         <!-- lock code -->
-        <div margin-vertical class="lock-code">{{ code }}</div>
+        <div margin-vertical class="lock-code">
+            <input type="tel" class="input-code">
+            <input type="tel" class="input-code">
+            <input type="tel" class="input-code">
+            <input type="tel" class="input-code">
+        </div>
 
         <div padding>
-            <div *ngIf="!isPreviewRunning">
-                <button ion-button block outline color="secondary" (click)="startPreview()">Entrer un nouveau code</button>
-            </div>
+            <button ion-button block outline color="secondary" (click)="resetCode()">Entrer un nouveau code</button>
+        </div>
     </div>
 </ion-content>

@@ -8,14 +8,17 @@ import * as Raven from 'raven-js';
 })
 
 export class CodeMemo {
-    code: string;
+    code: number;
 
     constructor(
         private viewCtrl: ViewController,
         private platform: Platform
     ) {
-        // STUMB
-        this.code = "____";
+
+    }
+
+    resetCode() {
+
     }
 
     close() {
