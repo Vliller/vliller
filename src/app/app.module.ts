@@ -5,7 +5,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { App } from './app.component';
 import { AppSettings } from './app.settings';
 import { LaunchNavigator } from '@ionic-native/launch-navigator';
-import { CameraPreview } from '@ionic-native/camera-preview';
 
 // components
 import { Map } from '../components/map/map';
@@ -117,8 +116,7 @@ export class RavenErrorHandler implements ErrorHandler {
         MarkersService,
         FeedbackFormService,
         ToastService,
-        LaunchNavigator,
-        CameraPreview
+        LaunchNavigator
     ]
 })
 export class AppModule {}

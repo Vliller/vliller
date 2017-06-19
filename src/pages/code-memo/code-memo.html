@@ -29,20 +29,5 @@
             <div *ngIf="!isPreviewRunning">
                 <button ion-button block outline color="secondary" (click)="startPreview()">Entrer un nouveau code</button>
             </div>
-
-            <ion-grid *ngIf="isPreviewRunning" no-padding>
-                <ion-row>
-                    <ion-col width-50>
-                        <button ion-button block outline color="secondary" (click)="stopPreview()">Annuler</button>
-                    </ion-col>
-                    <ion-col width-50>
-                        <button ion-button block color="secondary" (click)="runOCR()">Enregistrer</button>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-        </div>
-
-        <!-- hidden image -->
-        <img id="ocrad-image" [src]="ocradImageSrc">
     </div>
 </ion-content>
