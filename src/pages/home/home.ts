@@ -146,17 +146,20 @@ export class Home {
      * @param {boolean} isClickable
      */
     public setMapClickable(isClickable: boolean) {
-        if (!this.map) {
-            return;
-        }
-
-        this.map.setClickable(isClickable);
+        this.mapService.setMapClickable(isClickable);
     }
 
     /**
      *
      */
     public openCodeMemoPage() {
-        this.modalController.create(CodeMemo).present();
+        let modal = this.modalController.create(CodeMemo);
+
+        modal.onDidDismiss(() => {
+            this.mapService.setMapClickable(true);
+        });
+
+        this.mapService.setMapClickable(false);
+        modal.present();
     }
 }
