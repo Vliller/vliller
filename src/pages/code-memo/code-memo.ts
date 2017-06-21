@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ViewController, Platform } from 'ionic-angular';
+import { ViewController, Platform, ToastController } from 'ionic-angular';
 import { NativeStorage } from '@ionic-native/native-storage';
 import * as Raven from 'raven-js';
 
@@ -19,7 +19,8 @@ export class CodeMemo {
 
     constructor(
         private viewCtrl: ViewController,
-        private platform: Platform
+        private platform: Platform,
+        private toastController: ToastController
     ) {
         // loads data from storage
         platform.ready().then(() => this.loadCode());
@@ -43,10 +44,20 @@ export class CodeMemo {
     }
 
     validCode() {
-        // TODO handle errors
-        this.saveCode();
-        this.isCodeEdition = false;
-        // this.close();
+        this.saveCode()
+        .then(() => {
+            this.isCodeEdition = false;
+            this.close();
+        })
+        .catch(error => {
+            Raven.captureException(new Error(error));
+
+            this.toastController.create({
+                message: "Impossible d'enregistrer le code !",
+                showCloseButton: true,
+                closeButtonText: 'OK'
+            }).present();
+        });
     }
 
     insertNumber(number: string) {
