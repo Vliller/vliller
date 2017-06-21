@@ -1,3 +1,7 @@
+# 2.3.0
+
+- Fonctionnalité de mémorisation du code cadenas
+
 # 2.2.0
 
 - Ajout d'un bouton itinéraire vers la station sélectionnée
