@@ -1,0 +1,75 @@
+.code-memo-page .scroll-content {
+    padding-top: 0 !important;
+}
+
+.platform-ios {
+   .code-memo-page .scroll-content {
+       padding-top: $cordova-ios-statusbar-padding !important;
+   }
+}
+
+.code-memo-content {
+    .code-memo-content-logo {
+        .img-responsive {
+            margin: auto;
+            width: 12rem;
+        }
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    header p {
+        margin-bottom: 0;
+        margin-top: 1rem;
+        font-size: 1.4rem;
+    }
+
+    .lock-code {
+        color: $white;
+        background: $topaz;
+        padding: 4rem 2rem;
+        font-size: 10rem;
+        font-weight: 300;
+        line-height: 1.0;
+        letter-spacing: 1rem;
+        text-align: center;
+
+        &.lock-code-edit {
+            color: $topaz;
+            background-color: rgba(25, 209, 191, 0.1);
+            padding: 0.6rem 2rem;
+            font-size: 8rem;
+            font-weight: 300;
+        }
+    }
+
+    .keyboard-container {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .keyboard {
+        color: $white;
+        background: $lipstick;
+        font-size: 3.5rem;
+        line-height: 0.86;
+        text-align: center;
+
+        .button.button-large {
+            margin: 0;
+
+            .button-inner {
+                font-size: 3rem;
+                font-weight: 400;
+            }
+
+            &[icon-only] .button-inner {
+                font-size: 2rem;
+            }
+        }
+    }
+}

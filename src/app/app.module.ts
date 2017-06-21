@@ -32,33 +32,34 @@ import { Home } from '../pages/home/home';
 import { Sidemenu } from '../pages/sidemenu/sidemenu';
 import { About } from '../pages/about/about';
 import { Contribs } from '../pages/contribs/contribs';
+import { CodeMemo } from '../pages/code-memo/code-memo';
 
 // Sentry
 import * as Raven from 'raven-js';
 
-Raven.config(
-    AppSettings.sentryDSN,
-    {
-        /**
-         * Clear the path filename to allow Sentry to use map.js file
-         *
-         * @see https://gonehybrid.com/how-to-log-errors-in-your-ionic-2-app-with-sentry/
-         */
-        dataCallback: data => {
-            if (data.culprit) {
-                data.culprit = data.culprit.substring(data.culprit.lastIndexOf('/'));
-            }
+// Raven.config(
+//     AppSettings.sentryDSN,
+//     {
+//         /**
+//          * Clear the path filename to allow Sentry to use map.js file
+//          *
+//          * @see https://gonehybrid.com/how-to-log-errors-in-your-ionic-2-app-with-sentry/
+//          */
+//         dataCallback: data => {
+//             if (data.culprit) {
+//                 data.culprit = data.culprit.substring(data.culprit.lastIndexOf('/'));
+//             }
 
-            var stacktrace = data.stacktrace || data.exception && data.exception.values[0].stacktrace;
+//             var stacktrace = data.stacktrace || data.exception && data.exception.values[0].stacktrace;
 
-            if (stacktrace) {
-                stacktrace.frames.forEach(frame => {
-                    frame.filename = frame.filename.substring(frame.filename.lastIndexOf('/'));
-                });
-            }
-        }
-    }
-).install();
+//             if (stacktrace) {
+//                 stacktrace.frames.forEach(frame => {
+//                     frame.filename = frame.filename.substring(frame.filename.lastIndexOf('/'));
+//                 });
+//             }
+//         }
+//     }
+// ).install();
 
 export class RavenErrorHandler implements ErrorHandler {
     handleError(err: any) : void {
@@ -73,6 +74,7 @@ export class RavenErrorHandler implements ErrorHandler {
         About,
         Contribs,
         Sidemenu,
+        CodeMemo,
         Map,
         StationCard,
         StationCardMetric,
@@ -98,13 +100,14 @@ export class RavenErrorHandler implements ErrorHandler {
         Home,
         About,
         Contribs,
-        FeedbackFrom
+        FeedbackFrom,
+        CodeMemo
     ],
     providers: [
         {
             provide: ErrorHandler,
-            // useClass: IonicErrorHandler
-            useClass: RavenErrorHandler
+            useClass: IonicErrorHandler
+            // useClass: RavenErrorHandler
         },
         VlilleService,
         FavoritesService,
