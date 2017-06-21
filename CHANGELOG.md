@@ -1,3 +1,7 @@
+# 2.3.1
+
+- Correctif mineur
+
 # 2.3.0
 
 - Fonctionnalité de mémorisation du code cadenas
