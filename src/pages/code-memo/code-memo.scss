@@ -16,33 +16,60 @@
         }
     }
 
-
     h2 {
         font-size: 2rem;
     }
 
     header p {
         margin-bottom: 0;
-        font-size: 1.6rem;
+        margin-top: 1rem;
+        font-size: 1.4rem;
     }
 
     .lock-code {
-        background: #f9f9f8;
-        padding: 4rem 1rem;
+        color: $white;
+        background: $topaz;
+        padding: 4rem 2rem;
+        font-size: 10rem;
+        font-weight: 300;
+        line-height: 1.0;
+        letter-spacing: 1rem;
         text-align: center;
+
+        &.lock-code-edit {
+            color: $topaz;
+            background-color: rgba(25, 209, 191, 0.1);
+            padding: 0.6rem 2rem;
+            font-size: 8rem;
+            font-weight: 300;
+        }
     }
 
-    .input-code {
-        display: inline-block;
+    .keyboard-container {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .keyboard {
+        color: $white;
+        background: $lipstick;
+        font-size: 3.5rem;
+        line-height: 0.86;
         text-align: center;
-        margin: none;
-        width: 10rem;
-        color: rgba(0, 0, 0, 0.38);
-        border: none;
-        border-radius: 0;
-        border-bottom: solid 5px rgba(0, 0, 0, 0.12);
-        background: none;
-        font-size: 8rem;
-        line-height: 1.0;
+
+        .button.button-large {
+            margin: 0;
+
+            .button-inner {
+                font-size: 3rem;
+                font-weight: 400;
+            }
+
+            &[icon-only] .button-inner {
+                font-size: 2rem;
+            }
+        }
     }
 }

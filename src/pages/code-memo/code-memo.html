@@ -8,30 +8,58 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content class="code-memo-page " fullscreen>
-    <div class="code-memo-content" padding>
-        <div class="code-memo-content-logo">
-            <img class="img-responsive" src="assets/img/vliller-lock-icon.png">
-        </div>
-
+<ion-content class="code-memo-page" fullscreen>
+    <div class="code-memo-content">
         <div padding>
-            <header text-center>
+            <div class="code-memo-content-logo" >
+                <img class="img-responsive" src="assets/img/vliller-lock-icon.png">
+            </div>
+
+            <header margin-top padding-horizontal text-center>
                 <h2>Mon code cadenas</h2>
 
                 <p>Enregistre le code de l'antivol de ton vélo pour ne pas l'oublier&nbsp;!</p>
             </header>
         </div>
 
-        <!-- lock code -->
-        <div margin-vertical class="lock-code">
-            <input type="tel" class="input-code">
-            <input type="tel" class="input-code">
-            <input type="tel" class="input-code">
-            <input type="tel" class="input-code">
+        <!-- edit code -->
+        <div *ngIf="isCodeEdition" class="keyboard-container">
+            <div class="lock-code lock-code-edit">{{ code }}{{ placeholder }}</div>
+
+            <div class="keyboard">
+                <ion-grid no-padding>
+                    <ion-row align-items-center>
+                        <ion-col col-4 *ngFor="let i of ['1', '2', '3', '4', '5', '6', '7', '8', '9']">
+                            <button ion-button clear large color="light" (click)="insertNumber(i)">{{ i }}</button>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row align-items-center>
+                        <ion-col>
+                            <button ion-button icon-only clear large color="light" (click)="removeNumber()" [disabled]="code.length <= 0">
+                                <ion-icon name="backspace"></ion-icon>
+                            </button>
+                        </ion-col>
+                        <ion-col>
+                            <button ion-button clear large color="light" (click)="insertNumber('0')">O</button>
+                        </ion-col>
+                        <ion-col>
+                            <button ion-button icon-only large clear color="light" (click)="validCode()" [disabled]="code.length < 4">
+                                <ion-icon name="checkmark-circle"></ion-icon>
+                            </button>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
         </div>
 
-        <div padding>
-            <button ion-button block outline color="secondary" (click)="resetCode()">Entrer un nouveau code</button>
+        <!-- show code -->
+        <div *ngIf="!isCodeEdition">
+            <div margin-bottom class="lock-code">{{ code }}{{ placeholder }}</div>
+
+            <div padding margin-horizontal>
+                <button ion-button block outline color="secondary" (click)="resetCode()">Entrer un nouveau code</button>
+            </div>
         </div>
+
     </div>
 </ion-content>
