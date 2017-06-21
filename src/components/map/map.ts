@@ -5,6 +5,7 @@ import { DeviceOrientation } from '@ionic-native/device-orientation';
 
 import { MapPosition } from './map-position';
 import { MapIcon } from './map-icon';
+import { MapService } from '../../services/map/map';
 import { VlilleStation } from '../../services/vlille/vlille';
 import { MarkersService } from '../../services/map/markers';
 import { ToastService } from '../../services/toast/toast';
@@ -47,7 +48,8 @@ export class Map implements OnInit {
     constructor(
         private platform: Platform,
         private markers: MarkersService,
-        private toastService: ToastService
+        private toastService: ToastService,
+        private mapService: MapService
     ) {
         // show loader
         this.toastService.show('Ça pédale pour charger les stations&nbsp;!', {
@@ -68,6 +70,11 @@ export class Map implements OnInit {
     ngOnInit() {
         // wait for map instance to be initialized
         this.mapInstancePromise.then(() => {
+            // register isClickable service
+            this.mapService.isMapClickableAsObservable().subscribe(isClickable => {
+                this.setClickable(isClickable);
+            });
+
             // init stations marker
             this.stations.subscribe((stations: VlilleStation[]) => {
                 this.initMarkers(stations)

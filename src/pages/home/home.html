@@ -4,6 +4,9 @@
             <img class="img-responsive bar-header-logo" src="assets/img/vliller-header-logo.svg">
         </ion-title>
         <ion-buttons end>
+            <button ion-button icon-only (click)="openCodeMemoPage()">
+                <ion-icon name="lock"></ion-icon>
+            </button>
             <button ion-button (click)="updatePosition()">
                 <location-icon [state]="locationState"></location-icon>
             </button>
