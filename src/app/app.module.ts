@@ -63,7 +63,7 @@ Raven.config(
 
 export class RavenErrorHandler implements ErrorHandler {
     handleError(err: any) : void {
-        Raven.captureException(new Error(err.originalError));
+        Raven.captureException(err.originalError);
     }
 }
 
