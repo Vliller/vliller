@@ -10,9 +10,7 @@ import { AppVersion } from '@ionic-native/app-version';
 export class FeedbackFormService {
     constructor(
         private modalCtrl: ModalController
-    ) {
-
-    }
+    ) {}
 
     public showModal() {
         this.modalCtrl.create(FeedbackFrom).present();
@@ -28,11 +26,16 @@ const FEEDBACK_API_TOKEN = 'g9xKf3v4aM29diiMXJVh2Ko9J54fEaQ6uCqysESJSf8WWaKIcXwm
 export class FeedbackFrom {
     public userFeedback: any = {};
 
+    private unRegisterBackButtonAction: any;
+
     constructor(
         private viewCtrl: ViewController,
         private http: Http,
         private platform: Platform
-    ) {}
+    ) {
+        // Fix modal + sidemenu backbutton bug
+        this.unRegisterBackButtonAction = platform.registerBackButtonAction(() => this.close(), 1);
+    }
 
     public submit() {
         this.platform.ready()
@@ -66,6 +69,7 @@ export class FeedbackFrom {
     }
 
     public close() {
+        this.unRegisterBackButtonAction();
         this.viewCtrl.dismiss();
     }
 

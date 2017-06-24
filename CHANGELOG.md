@@ -1,3 +1,8 @@
+# 2.3.2
+
+- Amélioration de l'icône cadenas
+- Correction de bugs (Android)
+
 # 2.3.1
 
 - Correctif mineur
