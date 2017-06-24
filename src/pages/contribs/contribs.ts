@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { ViewController } from 'ionic-angular';
+import { ViewController, Platform } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 @Component({
@@ -14,12 +14,18 @@ export class Contribs {
     public contributorsLoaded: boolean = false;
     public appVersion: string;
 
+    private unRegisterBackButtonAction: any;
+
     constructor(
         private http: Http,
-        private viewCtrl: ViewController
+        private viewCtrl: ViewController,
+        private platform: Platform
     ) {
         this.contributors = this.getContributorsFromGithub();
         this.contributors.subscribe(() => this.contributorsLoaded = true);
+
+        // Fix modal + sidemenu backbutton bug
+        this.unRegisterBackButtonAction = platform.registerBackButtonAction(() => this.close(), 1);
     }
 
     private getContributorsFromGithub(): Observable<any> {
@@ -29,6 +35,7 @@ export class Contribs {
     }
 
     public close() {
+        this.unRegisterBackButtonAction();
         this.viewCtrl.dismiss();
     }
 
