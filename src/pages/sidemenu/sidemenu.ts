@@ -65,12 +65,18 @@ export class Sidemenu {
         });
     };
 
+    /**
+     * Show about Vliller page.
+     */
     public openAboutPage() {
         this.modalCtrl.create(About, {
             appVersion: this.appVersion
         }).present();
     }
 
+    /**
+     * Show contributors page.
+     */
     public openContribsPage() {
         this.modalCtrl.create(Contribs, {
             appVersion: this.appVersion
