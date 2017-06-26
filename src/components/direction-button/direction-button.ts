@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { LaunchNavigator } from '@ionic-native/launch-navigator';
 import { Platform } from 'ionic-angular';
 import * as Raven from 'raven-js';
@@ -9,7 +9,8 @@ declare var launchnavigator: any;
 
 @Component({
     selector: 'direction-button',
-    templateUrl: './direction-button.html'
+    templateUrl: './direction-button.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class DirectionButton {
