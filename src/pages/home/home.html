@@ -34,7 +34,10 @@
                 (favoritesClose)="setMapClickable(true)"
             ></favorites-button>
         </map>
-        <station-card [station]="activeStation"></station-card>
+        <station-card
+            [station]="activeStation | async"
+            [isLoaded]="!isActiveStationRefreshing"
+        ></station-card>
 
         <!-- support for toast service -->
         <toast-component></toast-component>
