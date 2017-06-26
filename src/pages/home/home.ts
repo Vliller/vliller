@@ -152,10 +152,10 @@ export class Home {
      * Update user position or show a toast if an error appeared.
      */
     public updatePosition() {
+        // loading icon
         this.locationState = LocationIconState.Loading;
 
         this.locationService.updateCurrentPosition()
-        .then(() => this.locationState = LocationIconState.Default)
         .catch(error => {
             if (error === 'locationDisabled') {
                 this.toastController.create({
@@ -171,10 +171,9 @@ export class Home {
 
             // else, sends error to Sentry
             Raven.captureException(new Error(error));
-
-            // reset icon to default value
-            this.locationState = LocationIconState.Default
-        });
+        })
+        // reset icon to default value
+        .then(() => this.locationState = LocationIconState.Default);
     }
 
     /**
