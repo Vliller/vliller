@@ -28,7 +28,7 @@
             (activeStationChange)="setActiveStation($event)"
         >
             <favorites-button
-                [favoriteStations]="favoriteStations"
+                [favoriteStations]="favoriteStations | async"
                 (favoriteStationClick)="setActiveStation($event)"
                 (favoritesOpen)="setMapClickable(false)"
                 (favoritesClose)="setMapClickable(true)"

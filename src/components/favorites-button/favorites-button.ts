@@ -1,5 +1,4 @@
-import { Component, Input, Output, OnInit, ViewChild, EventEmitter } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Component, Input, Output, ViewChild, EventEmitter } from '@angular/core';
 import { FabContainer } from 'ionic-angular';
 
 import { VlilleStation } from '../../services/vlille/vlille';
@@ -9,23 +8,15 @@ import { VlilleStation } from '../../services/vlille/vlille';
     templateUrl: './favorites-button.html'
 })
 
-export class FavoritesButton implements OnInit {
+export class FavoritesButton {
     @ViewChild('fab') fabContainer: FabContainer;
-    @Input() favoriteStations: Observable<VlilleStation[]>;
+
+    @Input() favoriteStations: VlilleStation[];
     @Output() favoriteStationClick = new EventEmitter<VlilleStation>();
 
     private isOpened: boolean = false;
     @Output() favoritesOpen = new EventEmitter<any>();
     @Output() favoritesClose = new EventEmitter<any>();
-
-    constructor() {}
-
-    ngOnInit() {
-        // close the FAB on content update to avoid eventual render bug.
-        this.favoriteStations.subscribe(stations => {
-            this.close();
-        });
-    }
 
     /**
      * Emit an open/close event according to the isOpened state.
