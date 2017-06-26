@@ -9,18 +9,15 @@ import { VlilleStation } from '../vlille/vlille'
 const FAVORITES_MAX_SIZE = 4;
 const STORAGE_ID = 'favorites';
 
-interface IdConstraint {
-    id: string
-}
-
+/**
+ * Service who manage Favorites as an immutable array accessible by an observable.
+ */
 @Injectable()
 export class FavoritesService {
     private favorites: VlilleStation[] = [];
     private favoritesSubject: Subject<VlilleStation[]> = new Subject();
 
-    constructor(
-        platform: Platform
-    ) {
+    constructor(private platform: Platform) {
         // loads data from storage & notify observers
         platform.ready()
         .then(() => this.load())
@@ -29,6 +26,7 @@ export class FavoritesService {
 
     /**
      * Loads favorites elements from storage
+     *
      * @return {Promise<VlilleStation[]>}
      */
     private load(): Promise<VlilleStation[]> {
@@ -37,6 +35,7 @@ export class FavoritesService {
 
     /**
      * Saves favorites elements to storage
+     *
      * @return {Promise<VlilleStation[]>}
      */
     private save(): Promise<VlilleStation[]> {
@@ -51,12 +50,13 @@ export class FavoritesService {
     }
 
     /**
-     * Adds elements, notify observers and save data to the storage
+     * Adds elements (create a new array), notify observers and save data to the storage
+     *
      * @param  {VlilleStation} element
-     * @return {boolean}
+     * @return {VlilleStation[]}
      */
     public add(element: VlilleStation): boolean {
-        if (!element) {
+        if (!element || this.favorites.length === FAVORITES_MAX_SIZE) {
             return false;
         }
 
@@ -64,13 +64,9 @@ export class FavoritesService {
             return true;
         }
 
-        // show popup if the favorites list is full
-        if (this.favorites.length === FAVORITES_MAX_SIZE) {
-            return false;
-        }
-
-        // add element the the array
-        let returnValue = !!this.favorites.push(element);
+        // create a new array with the new element at the end
+        // This allow OnPush changeDetection
+        this.favorites = this.favorites.concat(element);
 
         // notify observers
         this.notify();
@@ -78,11 +74,12 @@ export class FavoritesService {
         // save to storage
         this.save();
 
-        return returnValue;
+        return true;
     }
 
     /**
-     * Removes elements, notify observers and save data to the storage
+     * Removes elements (create a new array), notify observers and save data to the storage
+     *
      * @param  {VlilleStation} element
      * @return {boolean}
      */
@@ -91,19 +88,25 @@ export class FavoritesService {
             return false;
         }
 
-        // removes the element if it's in the fav array
-        for (let i = 0, len = this.favorites.length; i < len; i += 1) {
-            if (this.favorites[i].id === element.id) {
-                let returnValue = !!this.favorites.splice(i, 1);
+        // create a new array without the given element
+        let favoritesAsChanged = false;
+        this.favorites = this.favorites.filter(favorite => {
+            // filter element to remove
+            if (favorite.id === element.id) {
+                favoritesAsChanged = true;
 
-                // notify observers
-                this.notify();
-
-                // save to storage
-                this.save();
-
-                return returnValue;
+                return false;
             }
+
+            return true;
+        });
+
+        if (favoritesAsChanged) {
+            // notify observers
+            this.notify();
+
+            // save to storage
+            this.save();
         }
 
         return true;

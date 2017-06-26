@@ -1,11 +1,12 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 import { VlilleStation } from '../../services/vlille/vlille';
 import { FavoritesService } from '../../services/favorites/favorites';
 import { ToastService } from '../../services/toast/toast';
 
 @Component({
     selector: 'favorites-add-icon',
-    templateUrl: './favorites-add-icon.html'
+    templateUrl: './favorites-add-icon.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class FavoritesAddIcon implements OnChanges {

@@ -1,11 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: 'station-card-metric',
-    templateUrl: './station-card-metric.html'
+    templateUrl: './station-card-metric.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class StationCardMetric implements OnInit {
+export class StationCardMetric implements OnChanges {
     public iconUrl: string;
     public color: string;
     public text: string;
@@ -13,9 +14,7 @@ export class StationCardMetric implements OnInit {
     @Input() type: string;
     @Input() value: number;
 
-    constructor() {}
-
-    ngOnInit() {
+    ngOnChanges() {
         if (this.type !== 'bike' && this.type !== 'dock') {
             throw new Error('Illegal type value ! Should be "bike" or "dock"');
         }
@@ -26,7 +25,7 @@ export class StationCardMetric implements OnInit {
     }
 
     /**
-     * Compute color according to the given number.
+     * Computes color according to given value.
      * 0        : red,
      * ]0, 5]   : orange,
      * ]5, inf[ : green
@@ -47,20 +46,20 @@ export class StationCardMetric implements OnInit {
     };
 
     /**
-     * [computeIconUrl description]
-     * @param  {string} type  [description]
-     * @param  {string} color [description]
-     * @return {string}       [description]
+     *
+     * @param  {string} type
+     * @param  {string} color
+     * @return {string}
      */
     private computeIconUrl(type: string, color: string): string {
         return 'assets/img/vliller_' + type + '-' + color + '.png';
     }
 
     /**
-     * [computeText description]
-     * @param  {string} type   [description]
-     * @param  {number} value [description]
-     * @return {string}        [description]
+     *
+     * @param  {string} type
+     * @param  {number} value
+     * @return {string}
      */
     private computeText(type: string, value: number): string {
         if (type === 'bike') {

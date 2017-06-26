@@ -29,6 +29,7 @@ export class Home {
 
     public activeStation: Observable<VlilleStation>;
     private activeStationSubject = new ReplaySubject<VlilleStation>(1);
+    public isActiveStationRefreshing: boolean = false;
 
     @ViewChild('map') map: Map;
 
@@ -105,21 +106,56 @@ export class Home {
      * @param {boolean} centerMap
      */
     public setActiveStation(station: VlilleStation, centerMap: boolean = true) {
+        // immediately set 'cold' data, to get fast UI updates
         this.activeStationSubject.next(station);
 
+        // fetch 'fresh' station date
+        this.isActiveStationRefreshing = true;
+        this.fetchStationWithDistance(station.id)
+        .then(station => this.activeStationSubject.next(station))
+        .catch(error => Raven.captureException(new Error(error)))
+        .then(() => this.isActiveStationRefreshing = false);
+
+        //
         if (centerMap) {
             this.map.setCenter(MapPosition.fromCoordinates(station), true);
         }
     }
 
     /**
+     * Get fresh station information and compute distance attribute
+     *
+     * @param  {string}                 stationId
+     * @return {Promise<VlilleStation>}
+     */
+    private fetchStationWithDistance(stationId: string): Promise<VlilleStation> {
+        let stationPromise = this.vlilleService.getStation(stationId).toPromise();
+        let currentPositionPromise = this.locationService.getCurrentPosition();
+
+        return Promise.all([
+            stationPromise,
+            currentPositionPromise
+        ])
+        .then(values => {
+            let station = values[0];
+            let stationPosition = MapPosition.fromCoordinates(station);
+            let position = values[1];
+
+            //  compute distance between station and current user position
+            station.distance = this.mapService.getDistance(position, stationPosition);
+
+            return station;
+        });
+    }
+
+    /**
      * Update user position or show a toast if an error appeared.
      */
     public updatePosition() {
+        // loading icon
         this.locationState = LocationIconState.Loading;
 
         this.locationService.updateCurrentPosition()
-        .then(() => this.locationState = LocationIconState.Default)
         .catch(error => {
             if (error === 'locationDisabled') {
                 this.toastController.create({
@@ -135,10 +171,9 @@ export class Home {
 
             // else, sends error to Sentry
             Raven.captureException(new Error(error));
-
-            // reset icon to default value
-            this.locationState = LocationIconState.Default
-        });
+        })
+        // reset icon to default value
+        .then(() => this.locationState = LocationIconState.Default);
     }
 
     /**
