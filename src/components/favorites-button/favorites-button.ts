@@ -1,11 +1,12 @@
-import { Component, Input, Output, ViewChild, EventEmitter } from '@angular/core';
+import { Component, Input, Output, ViewChild, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FabContainer } from 'ionic-angular';
 
 import { VlilleStation } from '../../services/vlille/vlille';
 
 @Component({
     selector: 'favorites-button',
-    templateUrl: './favorites-button.html'
+    templateUrl: './favorites-button.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class FavoritesButton {
