@@ -16,7 +16,7 @@
         <!-- Station name & distance -->
         <ion-col>
             <div class="station-name">{{ station.name }}</div>
-            <div class="station-distance">{{ formatedDistance() }}</div>
+            <div *ngIf="isLoaded" class="station-distance">à {{ station.formatedDistance }}</div>
         </ion-col>
 
         <!-- CB -->
