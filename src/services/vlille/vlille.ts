@@ -27,7 +27,8 @@ export class VlilleStation {
         public docks: number,
         public payment: string,
         public status: string,
-        public lastupd: string
+        public lastupd: string,
+        public distance?: number
     ) {}
 }
 
