@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 export enum LocationIconState {
     Default,
@@ -9,7 +9,8 @@ export enum LocationIconState {
 
 @Component({
     selector: 'location-icon',
-    templateUrl: './location-icon.html'
+    templateUrl: './location-icon.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class LocationIcon {
