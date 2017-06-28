@@ -1,6 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
-import { VlilleStation } from '../../services/vlille/vlille';
+import { VlilleStation } from '../../models/vlillestation';
 
 @Component({
     selector: 'station-card',

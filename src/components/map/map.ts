@@ -6,7 +6,7 @@ import { DeviceOrientation } from '@ionic-native/device-orientation';
 import { MapPosition } from './map-position';
 import { MapIcon } from './map-icon';
 import { MapService } from '../../services/map/map';
-import { VlilleStation } from '../../services/vlille/vlille';
+import { VlilleStation } from '../../models/vlillestation';
 import { MarkersService } from '../../services/map/markers';
 import { ToastService } from '../../services/toast/toast';
 

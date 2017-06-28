@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { MapPosition } from '../../components/map/map-position';
-import { VlilleStation } from '../vlille/vlille';
+import { VlilleStation } from '../../models/vlillestation';
 
 const MAPBOX_API_BASE = 'https://api.mapbox.com/directions/v5/mapbox/walking/';
 const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiYmxja3NocmsiLCJhIjoiY2l5YWc5anUyMDA0cDMzcWtxcnN0ZWxxcCJ9.xKDTqbkNCQTRvizwIDGeCQ';

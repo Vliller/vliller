@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { NativeStorage } from '@ionic-native/native-storage';
 
-import { VlilleStation } from '../vlille/vlille'
+import { VlilleStation } from '../../models/vlillestation'
 
 const FAVORITES_MAX_SIZE = 4;
 const STORAGE_ID = 'favorites';
