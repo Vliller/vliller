@@ -7,7 +7,22 @@ import { FavoritesActions } from '../../actions/favorites';
 
 @Component({
     selector: 'favorites-add-icon',
-    templateUrl: './favorites-add-icon.html',
+    template: `
+        <button ion-button clear (click)="toggleFavorite()">
+            <img *ngIf="station.isFavorite" class="img-responsive" src="assets/img/vliller-icon-fav-added.svg">
+            <img *ngIf="!station.isFavorite" class="img-responsive" src="assets/img/vliller-icon-fav-add.svg">
+        </button>
+    `,
+    styles: [`
+        :host {
+            display: block;
+        }
+
+        .button {
+            margin: 0;
+            padding: 0 1rem;
+        }
+    `],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 

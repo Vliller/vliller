@@ -23,12 +23,20 @@ const ZOOM_THRESHOLD = 14;
 
 @Component({
     selector: 'map',
-    template:
-    `
+    template:`
         <div id="map-canvas" class="map-canvas">
             <ng-content></ng-content>
         </div>
     `,
+    styles: [`
+        :host {
+            display: block;
+        }
+
+        .map-canvas {
+            height: 100%;
+        }
+    `],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 

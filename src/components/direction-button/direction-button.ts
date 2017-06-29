@@ -9,7 +9,7 @@ declare var launchnavigator: any;
 
 @Component({
     selector: 'direction-button',
-    templateUrl: './direction-button.html',
+    template: `<button ion-button clear (click)="navigate()">ALLER<img class="img-responsive" src="assets/img/vliller-icon-direction.svg"></button>`,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
