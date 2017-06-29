@@ -47,6 +47,10 @@ export class ToastComponent {
         // show toast
         this.showToast = true;
 
+        // clear potential toast with duration
+        clearTimeout(this.durationId);
+        this.durationId = null;
+
         if (toast.options && toast.options.duration) {
             // hide toast a the end of the given duration
             this.durationId = setTimeout(() => {
