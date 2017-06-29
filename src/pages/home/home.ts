@@ -7,7 +7,11 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { AlertController, ToastController, Platform, ModalController } from 'ionic-angular';
 import * as Raven from 'raven-js';
 
-import { VlilleService, VlilleStation } from '../../services/vlille/vlille';
+import { AppState, selectFavorites } from '../../app/app.reducers';
+import { Store } from '@ngrx/store';
+
+import { VlilleService } from '../../services/vlille/vlille';
+import { VlilleStation } from '../../models/vlillestation';
 import { FavoritesService } from '../../services/favorites/favorites';
 import { LocationService } from '../../services/location/location';
 import { Map } from '../../components/map/map';
@@ -41,13 +45,16 @@ export class Home {
         private locationService: LocationService,
         private alertController: AlertController,
         private toastController: ToastController,
-        private modalController: ModalController
+        private modalController: ModalController,
+        private store: Store<AppState>
     ) {
         this.stations = vlilleService.getAllStations();
 
         this.activeStation = this.activeStationSubject.asObservable();
-        this.favoriteStations = favoritesService.asObservable();
         this.currentPosition = locationService.asObservable();
+
+        // this.favoriteStations = favoritesService.asObservable();
+        this.favoriteStations = store.select(state => selectFavorites(state));
 
         // gets initial position
         this.locationService.requestLocation()

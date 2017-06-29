@@ -8,7 +8,10 @@ import { MapIcon } from './map-icon';
 import { MapService } from '../../services/map/map';
 import { VlilleStation } from '../../models/vlillestation';
 import { MarkersService } from '../../services/map/markers';
-import { ToastService } from '../../services/toast/toast';
+
+import { Store } from '@ngrx/store';
+import { AppState } from '../../app/app.reducers';
+import { ToastActions } from '../../actions/toast';
 
 declare var plugin: any;
 
@@ -49,13 +52,16 @@ export class Map implements OnInit {
     constructor(
         private platform: Platform,
         private markers: MarkersService,
-        private toastService: ToastService,
-        private mapService: MapService
+        private mapService: MapService,
+        private store: Store<AppState>
     ) {
         // show loader
-        this.toastService.show('Ça pédale pour charger les stations&nbsp;!', {
-            showSpinner: true
-        });
+        store.dispatch(new ToastActions.Show({
+            message: "Ça pédale pour charger les stations&nbsp;!",
+            options: {
+                showSpinner: true
+            }
+        }));
 
         // init the map
         this.mapInstancePromise = this.initMap();
@@ -81,7 +87,7 @@ export class Map implements OnInit {
                 this.initMarkers(stations)
                 .then(() => {
                     // hide loading mlessage
-                    this.toastService.hide();
+                    this.store.dispatch(new ToastActions.Hide());
 
                     // Updates active marker
                     this.activeStation.subscribe(activeStation => {

@@ -6,6 +6,14 @@ import { App } from './app.component';
 import { AppSettings } from './app.settings';
 import { LaunchNavigator } from '@ionic-native/launch-navigator';
 
+// ngrx
+import { StoreModule } from '@ngrx/store';
+import { reducers } from './app.reducers';
+
+import { EffectsModule } from '@ngrx/effects';
+import { FavoritesEffects } from '../effects/favorites';
+import { ToastEffects } from '../effects/toast';
+
 // components
 import { Map } from '../components/map/map';
 import { StationCard } from '../components/station-card/station-card';
@@ -25,7 +33,6 @@ import { LocationService } from '../services/location/location';
 import { MapService } from '../services/map/map';
 import { MarkersService } from '../services/map/markers';
 import { FeedbackFormService, FeedbackFrom } from '../services/feedback-form/feedback-form';
-import { ToastService } from '../services/toast/toast';
 
 // pages
 import { Home } from '../pages/home/home';
@@ -59,7 +66,8 @@ Raven.config(
             }
         }
     }
-).install();
+)
+// .install();
 
 export class RavenErrorHandler implements ErrorHandler {
     handleError(err: any) : void {
@@ -92,7 +100,10 @@ export class RavenErrorHandler implements ErrorHandler {
         HttpModule,
         IonicModule.forRoot(App, {
             mode: "md"
-        })
+        }),
+        StoreModule.provideStore(reducers),
+        EffectsModule.run(FavoritesEffects),
+        EffectsModule.run(ToastEffects),
     ],
     bootstrap: [IonicApp],
     entryComponents: [
@@ -106,8 +117,8 @@ export class RavenErrorHandler implements ErrorHandler {
     providers: [
         {
             provide: ErrorHandler,
-            // useClass: IonicErrorHandler
-            useClass: RavenErrorHandler
+            useClass: IonicErrorHandler
+            // useClass: RavenErrorHandler
         },
         VlilleService,
         FavoritesService,
@@ -115,7 +126,6 @@ export class RavenErrorHandler implements ErrorHandler {
         MapService,
         MarkersService,
         FeedbackFormService,
-        ToastService,
         LaunchNavigator
     ]
 })

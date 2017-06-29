@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { ToastService, Toast } from './toast';
+import { Toast } from '../../models/toast';
+
+import { Store } from '@ngrx/store';
+import { AppState } from '../../app/app.reducers';
+import { selectToast } from '../../app/app.reducers';
 
 @Component({
     selector: 'toast-component',
@@ -19,8 +23,8 @@ export class ToastComponent {
 
     private durationId: number;
 
-    constructor(private toastService: ToastService) {
-        this.toastService.asObservable().subscribe(toast => {
+    constructor(private store: Store<AppState>) {
+        this.store.select(state => selectToast(state)).subscribe((toast: Toast) => {
             if (toast) {
                 this.show(toast);
             } else {
@@ -37,8 +41,8 @@ export class ToastComponent {
         this.hide();
 
         this.message = toast.message;
-        this.showSpinner = toast.options && toast.options.showSpinner || false;
-        this.isError = toast.options && toast.options.isError || false;
+        this.showSpinner = toast.options.showSpinner;
+        this.isError = toast.options.isError;
 
         // show toast
         this.showToast = true;
