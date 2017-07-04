@@ -25,7 +25,6 @@
             [stations]="stations"
             [userPosition]="currentPosition"
             [activeStation]="activeStation"
-            (activeStationChange)="setActiveStation($event)"
         >
             <favorites-button
                 [favoriteStations]="favoriteStations | async"

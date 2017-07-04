@@ -22,8 +22,6 @@ const initialState: FavoritesState = {
  * @return {FavoritesState}
  */
 export function favoritesReducer(state: FavoritesState = initialState, action: FavoritesActions.All): FavoritesState {
-    console.log(action.type)
-
     switch (action.type) {
         case FavoritesActions.LOAD_SUCCESS: {
             return {

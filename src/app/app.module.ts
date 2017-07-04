@@ -4,15 +4,23 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { BrowserModule } from '@angular/platform-browser';
 import { App } from './app.component';
 import { AppSettings } from './app.settings';
+import { ravenInstall, RavenErrorHandler } from './raven';
+
+// native
 import { LaunchNavigator } from '@ionic-native/launch-navigator';
 
 // ngrx
 import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
+
+// reducers
 import { reducers } from './app.reducers';
 
-import { EffectsModule } from '@ngrx/effects';
+// effects
 import { FavoritesEffects } from '../effects/favorites';
 import { ToastEffects } from '../effects/toast';
+import { StationsEffects } from '../effects/stations';
 
 // components
 import { Map } from '../components/map/map';
@@ -41,38 +49,9 @@ import { About } from '../pages/about/about';
 import { Contribs } from '../pages/contribs/contribs';
 import { CodeMemo } from '../pages/code-memo/code-memo';
 
-// Sentry
-import * as Raven from 'raven-js';
-
-Raven.config(
-    AppSettings.sentryDSN,
-    {
-        /**
-         * Clear the path filename to allow Sentry to use map.js file
-         *
-         * @see https://gonehybrid.com/how-to-log-errors-in-your-ionic-2-app-with-sentry/
-         */
-        dataCallback: data => {
-            if (data.culprit) {
-                data.culprit = data.culprit.substring(data.culprit.lastIndexOf('/'));
-            }
-
-            var stacktrace = data.stacktrace || data.exception && data.exception.values[0].stacktrace;
-
-            if (stacktrace) {
-                stacktrace.frames.forEach(frame => {
-                    frame.filename = frame.filename.substring(frame.filename.lastIndexOf('/'));
-                });
-            }
-        }
-    }
-)
-// .install();
-
-export class RavenErrorHandler implements ErrorHandler {
-    handleError(err: any) : void {
-        Raven.captureException(err.originalError);
-    }
+// active Sentry repporting during developpement
+if (!AppSettings.isProduction) {
+    ravenInstall(AppSettings.sentryDSN);
 }
 
 @NgModule({
@@ -102,8 +81,11 @@ export class RavenErrorHandler implements ErrorHandler {
             mode: "md"
         }),
         StoreModule.provideStore(reducers),
+        // Should be commented in production
+        StoreDevtoolsModule.instrumentOnlyWithExtension(),
         EffectsModule.run(FavoritesEffects),
         EffectsModule.run(ToastEffects),
+        EffectsModule.run(StationsEffects),
     ],
     bootstrap: [IonicApp],
     entryComponents: [
@@ -117,8 +99,7 @@ export class RavenErrorHandler implements ErrorHandler {
     providers: [
         {
             provide: ErrorHandler,
-            useClass: IonicErrorHandler
-            // useClass: RavenErrorHandler
+            useClass: AppSettings.isProduction ? RavenErrorHandler : IonicErrorHandler
         },
         VlilleService,
         FavoritesService,

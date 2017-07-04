@@ -7,12 +7,16 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { AlertController, ToastController, Platform, ModalController } from 'ionic-angular';
 import * as Raven from 'raven-js';
 
-import { AppState, selectFavorites } from '../../app/app.reducers';
+import {
+    AppState,
+    selectFavorites,
+    selectStations,
+    selectActiveStation
+} from '../../app/app.reducers';
 import { Store } from '@ngrx/store';
+import { StationsActions } from '../../actions/stations';
 
-import { VlilleService } from '../../services/vlille/vlille';
 import { VlilleStation } from '../../models/vlillestation';
-import { FavoritesService } from '../../services/favorites/favorites';
 import { LocationService } from '../../services/location/location';
 import { Map } from '../../components/map/map';
 import { MapPosition } from '../../components/map/map-position';
@@ -32,28 +36,24 @@ export class Home {
     public locationState: LocationIconState = LocationIconState.Default;
 
     public activeStation: Observable<VlilleStation>;
-    private activeStationSubject = new ReplaySubject<VlilleStation>(1);
     public isActiveStationRefreshing: boolean = false;
 
     @ViewChild('map') map: Map;
 
     constructor(
         private platform: Platform,
-        private vlilleService: VlilleService,
         private mapService: MapService,
-        private favoritesService: FavoritesService,
         private locationService: LocationService,
         private alertController: AlertController,
         private toastController: ToastController,
         private modalController: ModalController,
         private store: Store<AppState>
     ) {
-        this.stations = vlilleService.getAllStations();
+        this.stations = store.select(state => selectStations(state));
+        this.activeStation = store.select(state => selectActiveStation(state));
 
-        this.activeStation = this.activeStationSubject.asObservable();
         this.currentPosition = locationService.asObservable();
 
-        // this.favoriteStations = favoritesService.asObservable();
         this.favoriteStations = store.select(state => selectFavorites(state));
 
         // gets initial position
@@ -114,14 +114,14 @@ export class Home {
      */
     public setActiveStation(station: VlilleStation, centerMap: boolean = true) {
         // immediately set 'cold' data, to get fast UI updates
-        this.activeStationSubject.next(station);
+        this.store.dispatch(new StationsActions.SetActive(station));
 
         // fetch 'fresh' station date
-        this.isActiveStationRefreshing = true;
-        this.fetchStationWithDistance(station.id)
-        .then(station => this.activeStationSubject.next(station))
-        .catch(error => Raven.captureException(new Error(error)))
-        .then(() => this.isActiveStationRefreshing = false);
+        // this.isActiveStationRefreshing = true;
+        // this.fetchStationWithDistance(station.id)
+        // .then(station => this.activeStationSubject.next(station))
+        // .catch(error => Raven.captureException(new Error(error)))
+        // .then(() => this.isActiveStationRefreshing = false);
 
         //
         if (centerMap) {
@@ -129,31 +129,31 @@ export class Home {
         }
     }
 
-    /**
-     * Get fresh station information and compute distance attribute
-     *
-     * @param  {string}                 stationId
-     * @return {Promise<VlilleStation>}
-     */
-    private fetchStationWithDistance(stationId: string): Promise<VlilleStation> {
-        let stationPromise = this.vlilleService.getStation(stationId).toPromise();
-        let currentPositionPromise = this.locationService.getCurrentPosition();
+    // /**
+    //  * Get fresh station information and compute distance attribute
+    //  *
+    //  * @param  {string}                 stationId
+    //  * @return {Promise<VlilleStation>}
+    //  */
+    // private fetchStationWithDistance(stationId: string): Promise<VlilleStation> {
+    //     let stationPromise = this.vlilleService.getStation(stationId).toPromise();
+    //     let currentPositionPromise = this.locationService.getCurrentPosition();
 
-        return Promise.all([
-            stationPromise,
-            currentPositionPromise
-        ])
-        .then(values => {
-            let station = values[0];
-            let stationPosition = MapPosition.fromCoordinates(station);
-            let position = values[1];
+    //     return Promise.all([
+    //         stationPromise,
+    //         currentPositionPromise
+    //     ])
+    //     .then(values => {
+    //         let station = values[0];
+    //         let stationPosition = MapPosition.fromCoordinates(station);
+    //         let position = values[1];
 
-            //  compute distance between station and current user position
-            station.distance = this.mapService.getDistance(position, stationPosition);
+    //         //  compute distance between station and current user position
+    //         station.distance = this.mapService.getDistance(position, stationPosition);
 
-            return station;
-        });
-    }
+    //         return station;
+    //     });
+    // }
 
     /**
      * Update user position or show a toast if an error appeared.

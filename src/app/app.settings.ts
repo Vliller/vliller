@@ -1,4 +1,6 @@
 export class AppSettings {
+    public static isProduction = false;
+
     public static appId = {
         android: 'com.alexetmanon.vliller',
         ios: '1161025016'

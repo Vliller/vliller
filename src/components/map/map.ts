@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { DeviceOrientation } from '@ionic-native/device-orientation';
@@ -12,6 +12,7 @@ import { MarkersService } from '../../services/map/markers';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../app/app.reducers';
 import { ToastActions } from '../../actions/toast';
+import { StationsActions } from '../../actions/stations';
 
 declare var plugin: any;
 
@@ -55,7 +56,6 @@ export class Map implements OnInit {
     @Input() stations: Observable<VlilleStation[]>;
     @Input() userPosition: Observable<MapPosition>;
     @Input() activeStation: Observable<VlilleStation>;
-    @Output() activeStationChange = new EventEmitter<VlilleStation>();
 
     constructor(
         private platform: Platform,
@@ -94,11 +94,13 @@ export class Map implements OnInit {
             this.stations.subscribe((stations: VlilleStation[]) => {
                 this.initMarkers(stations)
                 .then(() => {
-                    // hide loading mlessage
+                    // hide loading message
                     this.store.dispatch(new ToastActions.Hide());
 
                     // Updates active marker
-                    this.activeStation.subscribe(activeStation => {
+                    this.activeStation
+                    .filter(station => station !== undefined)
+                    .subscribe(activeStation => {
                         let marker = this.markers.get(activeStation.id);
 
                         // avoid double call to setActiveMarker during marker click
@@ -190,7 +192,7 @@ export class Map implements OnInit {
                         this.setActiveMarker(marker);
 
                         // updates active station
-                        this.activeStationChange.emit(station);
+                        this.store.dispatch(new StationsActions.UpdateActive(station))
                     });
 
                     /**
