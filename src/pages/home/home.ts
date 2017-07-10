@@ -116,6 +116,9 @@ export class Home {
         // immediately set 'cold' data, to get fast UI updates
         this.store.dispatch(new StationsActions.SetActive(station));
 
+        // Update station data
+        this.store.dispatch(new StationsActions.UpdateActive(station));
+
         // fetch 'fresh' station date
         // this.isActiveStationRefreshing = true;
         // this.fetchStationWithDistance(station.id)
