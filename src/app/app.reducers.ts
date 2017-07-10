@@ -1,6 +1,7 @@
 import { FavoritesState, favoritesReducer } from '../reducers/favorites';
 import { ToastState, toastReducer } from '../reducers/toast';
 import { StationsState, stationsReducer } from '../reducers/stations';
+import { LocationState, locationReducer } from '../reducers/location';
 
 /**
  * App state
@@ -8,7 +9,8 @@ import { StationsState, stationsReducer } from '../reducers/stations';
 export interface AppState {
     favorites: FavoritesState,
     toast: ToastState,
-    stations: StationsState
+    stations: StationsState,
+    location: LocationState
 }
 
 /**
@@ -17,7 +19,8 @@ export interface AppState {
 export const reducers = {
     favorites: favoritesReducer,
     toast: toastReducer,
-    stations: stationsReducer
+    stations: stationsReducer,
+    location: locationReducer
 }
 
 /**
@@ -37,4 +40,8 @@ export function selectStations(state: AppState) {
 
 export function selectActiveStation(state: AppState) {
     return state.stations.active;
+}
+
+export function selectCurrentPosition(state: AppState) {
+    return state.location.position;
 }

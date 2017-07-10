@@ -4,8 +4,11 @@ import { Action, Store } from '@ngrx/store';
 import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 
+import * as Raven from 'raven-js';
+
 import { ToastActions } from '../actions/toast';
 import { FavoritesActions } from '../actions/favorites';
+import { LocationActions } from '../actions/location';
 
 @Injectable()
 export class ToastEffects {
@@ -54,5 +57,34 @@ export class ToastEffects {
           duration: 3000
         }
       })
+    });
+
+  /**
+   * Location update fail
+   */
+  @Effect() locationUpdateFail: Observable<Action> = this.actions$
+    .ofType(LocationActions.UPDATE_FAIL)
+    .map(action => {
+      let error = action.payload;
+
+      if (error === "locationDisabled") {
+        return new ToastActions.ShowError({
+          message: "Vous devez activer votre GPS pour utiliser cette fonctionnalité.",
+          options: {
+           showCloseButton: true,
+           closeButtonText: "OK"
+          }
+        });
+      }
+
+      // else, sends error to Sentry
+      Raven.captureException(new Error(error));
+
+      return new ToastActions.ShowError({
+        message: "Impossible de récupérer votre position ! Vérifiez que votre GPS est activé.",
+        options: {
+          duration: 3000
+        }
+      });
     });
 }

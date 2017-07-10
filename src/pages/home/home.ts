@@ -11,7 +11,8 @@ import {
     AppState,
     selectFavorites,
     selectStations,
-    selectActiveStation
+    selectActiveStation,
+    selectCurrentPosition
 } from '../../app/app.reducers';
 import { Store } from '@ngrx/store';
 import { StationsActions } from '../../actions/stations';
@@ -52,7 +53,7 @@ export class Home {
         this.stations = store.select(state => selectStations(state));
         this.activeStation = store.select(state => selectActiveStation(state));
 
-        this.currentPosition = locationService.asObservable();
+        this.currentPosition = store.select(state => selectCurrentPosition(state));
 
         this.favoriteStations = store.select(state => selectFavorites(state));
 
