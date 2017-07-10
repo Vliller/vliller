@@ -49,8 +49,8 @@ import { About } from '../pages/about/about';
 import { Contribs } from '../pages/contribs/contribs';
 import { CodeMemo } from '../pages/code-memo/code-memo';
 
-// active Sentry repporting during developpement
-if (!AppSettings.isProduction) {
+// active Sentry repporting during production
+if (AppSettings.isProduction) {
     ravenInstall(AppSettings.sentryDSN);
 }
 
