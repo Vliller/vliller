@@ -45,3 +45,7 @@ export function selectActiveStation(state: AppState) {
 export function selectCurrentPosition(state: AppState) {
     return state.location.position;
 }
+
+export function selectCurrentPositionIsLoading(state: AppState) {
+    return state.location.isLoading;
+}

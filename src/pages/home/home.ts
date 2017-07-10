@@ -12,13 +12,14 @@ import {
     selectFavorites,
     selectStations,
     selectActiveStation,
-    selectCurrentPosition
+    selectCurrentPosition,
+    selectCurrentPositionIsLoading
 } from '../../app/app.reducers';
 import { Store } from '@ngrx/store';
 import { StationsActions } from '../../actions/stations';
+import { LocationActions } from '../../actions/location';
 
 import { VlilleStation } from '../../models/vlillestation';
-import { LocationService } from '../../services/location/location';
 import { Map } from '../../components/map/map';
 import { MapPosition } from '../../components/map/map-position';
 import { MapService } from '../../services/map/map';
@@ -44,7 +45,6 @@ export class Home {
     constructor(
         private platform: Platform,
         private mapService: MapService,
-        private locationService: LocationService,
         private alertController: AlertController,
         private toastController: ToastController,
         private modalController: ModalController,
@@ -54,13 +54,15 @@ export class Home {
         this.activeStation = store.select(state => selectActiveStation(state));
 
         this.currentPosition = store.select(state => selectCurrentPosition(state));
+        // watch location loading
+        store.select(state => selectCurrentPositionIsLoading(state)).subscribe(isLoading => this.locationState = isLoading ? LocationIconState.Loading : LocationIconState.Default);
 
         this.favoriteStations = store.select(state => selectFavorites(state));
 
-        // gets initial position
-        this.locationService.requestLocation()
-        .then(() => this.updatePosition())
-        .catch(error => this.handleLocationError(error));
+        // // gets initial position
+        // this.locationService.requestLocation()
+        // .then(() => this.updatePosition())
+        // .catch(error => this.handleLocationError(error));
 
         // Updates activeStation according to user position
         this.stations.subscribe(stations => this.currentPosition.subscribe(position => {
@@ -79,32 +81,32 @@ export class Home {
      * Manage location error
      * @param {any} error
      */
-    private handleLocationError(error: any) {
-        // Android only
-        if (error && error.code !== new LocationAccuracy().ERROR_USER_DISAGREED) {
+    // private handleLocationError(error: any) {
+    //     // Android only
+    //     if (error && error.code !== new LocationAccuracy().ERROR_USER_DISAGREED) {
 
-            // open popup asking for settings
-            return this.alertController.create({
-                title: 'Vliller a besoin de votre position',
-                message: "Impossible d'activer le GPS automatiquement. Voulez-vous ouvrir les préférences et activer la localisation \"haute précision\" manuellement ?",
-                buttons: [{
-                    text: 'Annuler',
-                    handler: () => {
-                        throw {
-                          code: new LocationAccuracy().ERROR_USER_DISAGREED
-                        };
-                    }
-                },
-                {
-                    text: 'Ouvrir les paramètres',
-                    handler: () => new Diagnostic().switchToLocationSettings()
-                }]
-            }).present();
-        }
+    //         // open popup asking for settings
+    //         return this.alertController.create({
+    //             title: 'Vliller a besoin de votre position',
+    //             message: "Impossible d'activer le GPS automatiquement. Voulez-vous ouvrir les préférences et activer la localisation \"haute précision\" manuellement ?",
+    //             buttons: [{
+    //                 text: 'Annuler',
+    //                 handler: () => {
+    //                     throw {
+    //                       code: new LocationAccuracy().ERROR_USER_DISAGREED
+    //                     };
+    //                 }
+    //             },
+    //             {
+    //                 text: 'Ouvrir les paramètres',
+    //                 handler: () => new Diagnostic().switchToLocationSettings()
+    //             }]
+    //         }).present();
+    //     }
 
-        // else, sends error to Sentry
-        Raven.captureException(new Error(error));
-    }
+    //     // else, sends error to Sentry
+    //     Raven.captureException(new Error(error));
+    // }
 
     /**
      * Put new value in activeStation stream
@@ -163,28 +165,30 @@ export class Home {
      * Update user position or show a toast if an error appeared.
      */
     public updatePosition() {
+        this.store.dispatch(new LocationActions.Update());
+
         // loading icon
-        this.locationState = LocationIconState.Loading;
+        // this.locationState = LocationIconState.Loading;
 
-        this.locationService.updateCurrentPosition()
-        .catch(error => {
-            if (error === 'locationDisabled') {
-                this.toastController.create({
-                    message: 'Vous devez activer votre GPS pour utiliser cette fonctionnalité.',
-                    showCloseButton: true,
-                    closeButtonText: 'OK'
-                }).present();
+        // this.locationService.updateCurrentPosition()
+        // .catch(error => {
+        //     if (error === 'locationDisabled') {
+        //         this.toastController.create({
+        //             message: 'Vous devez activer votre GPS pour utiliser cette fonctionnalité.',
+        //             showCloseButton: true,
+        //             closeButtonText: 'OK'
+        //         }).present();
 
-                this.locationState = LocationIconState.Disabled;
+        //         this.locationState = LocationIconState.Disabled;
 
-                return error;
-            }
+        //         return error;
+        //     }
 
-            // else, sends error to Sentry
-            Raven.captureException(new Error(error));
-        })
-        // reset icon to default value
-        .then(() => this.locationState = LocationIconState.Default);
+        //     // else, sends error to Sentry
+        //     Raven.captureException(new Error(error));
+        // })
+        // // reset icon to default value
+        // .then(() => this.locationState = LocationIconState.Default);
     }
 
     /**

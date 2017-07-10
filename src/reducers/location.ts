@@ -7,11 +7,13 @@ import { MapPosition } from '../components/map/map-position';
  *
  */
 export interface LocationState {
-    position: MapPosition
+    position: MapPosition,
+    isLoading: boolean
 }
 
 const initialState: LocationState = {
-    position: undefined
+    position: undefined,
+    isLoading: false
 };
 
 /**
@@ -22,14 +24,32 @@ const initialState: LocationState = {
  * @return {LocationState}
  */
 export function locationReducer(state: LocationState = initialState, action: LocationActions.All): LocationState {
-    console.log(action)
     switch (action.type) {
+        case LocationActions.UPDATE: {
+            return {
+                ...state,
+
+                // start loading
+                isLoading: true
+            }
+        }
+
         case LocationActions.UPDATE_SUCCESS: {
             return {
                 ...state,
 
                 // updates current position
-                position: action.payload
+                position: action.payload,
+                isLoading: false
+            }
+        }
+
+        case LocationActions.UPDATE_FAIL: {
+            return {
+                ...state,
+
+                // stop loading
+                isLoading: false
             }
         }
 
