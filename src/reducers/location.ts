@@ -1,5 +1,6 @@
 import { Store, ActionReducer } from '@ngrx/store';
 
+import { AppSettings } from '../app/app.settings';
 import { LocationActions } from '../actions/location';
 import { MapPosition } from '../components/map/map-position';
 
@@ -12,7 +13,7 @@ export interface LocationState {
 }
 
 const initialState: LocationState = {
-    position: undefined,
+    position: AppSettings.defaultPosition,
     isLoading: false
 };
 

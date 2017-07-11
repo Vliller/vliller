@@ -13,11 +13,9 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../app/app.reducers';
 import { ToastActions } from '../../actions/toast';
 import { StationsActions } from '../../actions/stations';
+import { AppSettings } from '../../app/app.settings';
 
 declare var plugin: any;
-
-// Lille
-const DEFAULT_POSITION = new MapPosition(50.633333, 3.066667);
 
 const ZOOM_DEFAULT = 12;
 const ZOOM_THRESHOLD = 14;
@@ -114,7 +112,7 @@ export class Map implements OnInit {
             });
 
             // init user marker
-            this.initUserMarker(DEFAULT_POSITION).then(() => {
+            this.initUserMarker(AppSettings.defaultPosition).then(() => {
                 // start heading update
                 window.requestAnimationFrame(() => this.updateUserHeading());
 
@@ -134,7 +132,7 @@ export class Map implements OnInit {
     private initMap(): Promise<any> {
         let mapOptions = {
             camera: {
-                latLng: DEFAULT_POSITION.toLatLng(),
+                latLng: AppSettings.defaultPosition.toLatLng(),
                 zoom: this.mapZoom
             }
         };
