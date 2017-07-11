@@ -76,6 +76,10 @@ export class MapService {
      * @return {VlilleStation}
      */
     public computeClosestStation(position: MapPosition, stations: any[]): VlilleStation {
+        if (!position || !stations.length) {
+            return undefined;
+        }
+
         // computes the distance between the position and each marker
         return stations.reduce((closest, current) => {
             current.distance = this.getDistance(position, MapPosition.fromCoordinates(current));

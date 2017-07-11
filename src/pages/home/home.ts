@@ -65,13 +65,20 @@ export class Home {
         // .catch(error => this.handleLocationError(error));
 
         // Updates activeStation according to user position
-        this.stations.subscribe(stations => this.currentPosition.subscribe(position => {
-            // computes and actives the closest station
-            let closestStation = this.mapService.computeClosestStation(position, stations);
+        this.stations
+        .filter(stations => stations && stations.length > 0)
+        .switchMap(stations => new Observable<VlilleStation>(observer => this.currentPosition.subscribe(position => {
+                let closestStation = this.mapService.computeClosestStation(position, stations);
 
+                if (closestStation) {
+                    observer.next(closestStation);
+                }
+            })
+        ))
+        .subscribe(closestStation => {
             // updates active station
             this.setActiveStation(closestStation, false);
-        }));
+        });
 
         // Hide splashscreen
         this.platform.ready().then(() => new SplashScreen().hide());
