@@ -211,11 +211,11 @@ export class Map implements OnInit {
     /**
      *
      * @param  {MapPosition} position
-     * @return {Promise<google.maps.Marker>}
+     * @return {Promise<any>}
      */
     private initUserMarker(position: MapPosition): Promise<any> {
-        return new Promise<any>((resolve, reject) => {
-            // user position
+        // Create user position marker
+        let userMarkerPromise = new Promise<any>((resolve, reject) => {
             this.mapInstance.addMarker({
                 position: position.toLatLng(),
                 icon: MapIcon.USER,
@@ -231,8 +231,10 @@ export class Map implements OnInit {
 
                 resolve(marker);
             });
+        });
 
-            // user position accuracy
+        // Create a circle to represent the user position accuracy
+        let userMarkerAccuracyPromise = new Promise<any>((resolve, reject) => {
             this.mapInstance.addCircle({
                 center: position.toLatLng(),
                 radius: position.accuracy,
@@ -247,8 +249,16 @@ export class Map implements OnInit {
 
                 // updates marker ref
                 this.userMarkerAccuracy = markerAccuracy;
+
+                resolve(markerAccuracy);
             });
         });
+
+        // wait for both to be created
+        return Promise.all([
+            userMarkerPromise,
+            userMarkerAccuracyPromise
+        ]);
     }
 
     /**
