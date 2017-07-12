@@ -22,13 +22,12 @@ import { MapPosition } from '../../components/map/map-position';
 import { MapService } from '../../services/map/map';
 import { LocationIconState } from '../../components/location-icon/location-icon';
 import { CodeMemo } from '../code-memo/code-memo';
-import { StoreDebugView } from '../store-debug/store-debug';
-
 
 @Component({
     selector: 'page-home',
     templateUrl: 'home.html'
 })
+
 export class Home {
     public stations: Observable<VlilleStation[]>;
     public favoriteStations: Observable<VlilleStation[]>;
@@ -122,20 +121,6 @@ export class Home {
      */
     public openCodeMemoPage() {
         let modal = this.modalController.create(CodeMemo);
-
-        modal.onDidDismiss(() => {
-            this.store.dispatch(new MapActions.SetClickable(true));
-        });
-
-        this.store.dispatch(new MapActions.SetClickable(false));
-        modal.present();
-    }
-
-    /**
-     *
-     */
-    public openStoreDebug() {
-        let modal = this.modalController.create(StoreDebugView);
 
         modal.onDidDismiss(() => {
             this.store.dispatch(new MapActions.SetClickable(true));
