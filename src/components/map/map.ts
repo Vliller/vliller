@@ -9,11 +9,12 @@ import { MapService } from '../../services/map/map';
 import { VlilleStation } from '../../models/vlillestation';
 import { MarkersService } from '../../services/map/markers';
 
+import { AppSettings } from '../../app/app.settings';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../app/app.reducers';
+import { AppState, selectMapIsClickable } from '../../app/app.reducers';
 import { ToastActions } from '../../actions/toast';
 import { StationsActions } from '../../actions/stations';
-import { AppSettings } from '../../app/app.settings';
+
 
 declare var plugin: any;
 
@@ -84,7 +85,7 @@ export class Map implements OnInit {
         // wait for map instance to be initialized
         this.mapInstancePromise.then(() => {
             // register isClickable service
-            this.mapService.isMapClickableAsObservable().subscribe(isClickable => {
+            this.store.select(state => selectMapIsClickable(state)).subscribe(isClickable => {
                 this.setClickable(isClickable);
             });
 

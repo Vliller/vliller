@@ -1,11 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { Diagnostic } from '@ionic-native/diagnostic';
-import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AlertController, ToastController, Platform, ModalController } from 'ionic-angular';
-import * as Raven from 'raven-js';
 
 import {
     AppState,
@@ -18,6 +14,7 @@ import {
 import { Store } from '@ngrx/store';
 import { StationsActions } from '../../actions/stations';
 import { LocationActions } from '../../actions/location';
+import { MapActions } from '../../actions/map';
 
 import { VlilleStation } from '../../models/vlillestation';
 import { Map } from '../../components/map/map';
@@ -77,7 +74,6 @@ export class Home {
 
         // updates active station
         .subscribe(closestStation => {
-
             this.setActiveStation(closestStation, false);
         });
 
@@ -117,7 +113,7 @@ export class Home {
      * @param {boolean} isClickable
      */
     public setMapClickable(isClickable: boolean) {
-        this.mapService.setMapClickable(isClickable);
+        this.store.dispatch(new MapActions.SetClickable(isClickable));
     }
 
     /**
@@ -127,10 +123,10 @@ export class Home {
         let modal = this.modalController.create(CodeMemo);
 
         modal.onDidDismiss(() => {
-            this.mapService.setMapClickable(true);
+            this.store.dispatch(new MapActions.SetClickable(true));
         });
 
-        this.mapService.setMapClickable(false);
+        this.store.dispatch(new MapActions.SetClickable(false));
         modal.present();
     }
 }

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { MapPosition } from '../../components/map/map-position';
 import { VlilleStation } from '../../models/vlillestation';
@@ -16,11 +15,7 @@ function rad(x: number): number {
 @Injectable()
 export class MapService {
 
-    public isMapClickableSubject: BehaviorSubject<boolean>;
-
-    constructor(private http: Http) {
-        this.isMapClickableSubject = new BehaviorSubject(true);
-    }
+    constructor(private http: Http) {}
 
     /**
      * Haversine formula
@@ -81,23 +76,5 @@ export class MapService {
                 return -1;
             }
         });
-    }
-
-    /**
-     * Manage map clickable status through an Observable.
-     *
-     * @param {boolean} isClickable
-     */
-    public setMapClickable(isClickable: boolean) {
-        this.isMapClickableSubject.next(isClickable);
-    }
-
-    /**
-     * Return map clickable Observable
-     *
-     * @return {Observable<boolean>}
-     */
-    public isMapClickableAsObservable(): Observable<boolean> {
-        return this.isMapClickableSubject.asObservable();
     }
 }
