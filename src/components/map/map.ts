@@ -189,6 +189,8 @@ export class Map implements OnInit {
                     marker.on(plugin.google.maps.event.MARKER_CLICK, () => {
                         this.setActiveMarker(marker);
 
+                        this.setCenter(MapPosition.fromCoordinates(station), true);
+
                         // updates active station
                         this.store.dispatch(new StationsActions.UpdateActive(station))
                     });
