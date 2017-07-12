@@ -59,14 +59,13 @@ export class Home {
 
         this.favoriteStations = store.select(state => selectFavorites(state));
 
-        // // gets initial position
-        // this.locationService.requestLocation()
-        // .then(() => this.updatePosition())
-        // .catch(error => this.handleLocationError(error));
-
         // Updates activeStation according to user position
         this.stations
+
+        // removes request with empty result
         .filter(stations => stations && stations.length > 0)
+
+        // compute closest station
         .switchMap(stations => new Observable<VlilleStation>(observer => this.currentPosition.subscribe(position => {
                 let closestStation = this.mapService.computeClosestStation(position, stations);
 
@@ -75,45 +74,16 @@ export class Home {
                 }
             })
         ))
+
+        // updates active station
         .subscribe(closestStation => {
-            // updates active station
+
             this.setActiveStation(closestStation, false);
         });
 
         // Hide splashscreen
         this.platform.ready().then(() => new SplashScreen().hide());
     }
-
-    /**
-     * Manage location error
-     * @param {any} error
-     */
-    // private handleLocationError(error: any) {
-    //     // Android only
-    //     if (error && error.code !== new LocationAccuracy().ERROR_USER_DISAGREED) {
-
-    //         // open popup asking for settings
-    //         return this.alertController.create({
-    //             title: 'Vliller a besoin de votre position',
-    //             message: "Impossible d'activer le GPS automatiquement. Voulez-vous ouvrir les préférences et activer la localisation \"haute précision\" manuellement ?",
-    //             buttons: [{
-    //                 text: 'Annuler',
-    //                 handler: () => {
-    //                     throw {
-    //                       code: new LocationAccuracy().ERROR_USER_DISAGREED
-    //                     };
-    //                 }
-    //             },
-    //             {
-    //                 text: 'Ouvrir les paramètres',
-    //                 handler: () => new Diagnostic().switchToLocationSettings()
-    //             }]
-    //         }).present();
-    //     }
-
-    //     // else, sends error to Sentry
-    //     Raven.captureException(new Error(error));
-    // }
 
     /**
      * Put new value in activeStation stream
@@ -129,73 +99,17 @@ export class Home {
         // Update station data
         this.store.dispatch(new StationsActions.UpdateActive(station));
 
-        // fetch 'fresh' station date
-        // this.isActiveStationRefreshing = true;
-        // this.fetchStationWithDistance(station.id)
-        // .then(station => this.activeStationSubject.next(station))
-        // .catch(error => Raven.captureException(new Error(error)))
-        // .then(() => this.isActiveStationRefreshing = false);
-
         //
         if (centerMap) {
             this.map.setCenter(MapPosition.fromCoordinates(station), true);
         }
     }
 
-    // /**
-    //  * Get fresh station information and compute distance attribute
-    //  *
-    //  * @param  {string}                 stationId
-    //  * @return {Promise<VlilleStation>}
-    //  */
-    // private fetchStationWithDistance(stationId: string): Promise<VlilleStation> {
-    //     let stationPromise = this.vlilleService.getStation(stationId).toPromise();
-    //     let currentPositionPromise = this.locationService.getCurrentPosition();
-
-    //     return Promise.all([
-    //         stationPromise,
-    //         currentPositionPromise
-    //     ])
-    //     .then(values => {
-    //         let station = values[0];
-    //         let stationPosition = MapPosition.fromCoordinates(station);
-    //         let position = values[1];
-
-    //         //  compute distance between station and current user position
-    //         station.distance = this.mapService.getDistance(position, stationPosition);
-
-    //         return station;
-    //     });
-    // }
-
     /**
      * Update user position or show a toast if an error appeared.
      */
     public updatePosition() {
         this.store.dispatch(new LocationActions.Update());
-
-        // loading icon
-        // this.locationState = LocationIconState.Loading;
-
-        // this.locationService.updateCurrentPosition()
-        // .catch(error => {
-        //     if (error === 'locationDisabled') {
-        //         this.toastController.create({
-        //             message: 'Vous devez activer votre GPS pour utiliser cette fonctionnalité.',
-        //             showCloseButton: true,
-        //             closeButtonText: 'OK'
-        //         }).present();
-
-        //         this.locationState = LocationIconState.Disabled;
-
-        //         return error;
-        //     }
-
-        //     // else, sends error to Sentry
-        //     Raven.captureException(new Error(error));
-        // })
-        // // reset icon to default value
-        // .then(() => this.locationState = LocationIconState.Default);
     }
 
     /**
