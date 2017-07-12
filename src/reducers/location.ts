@@ -1,5 +1,3 @@
-import { Store, ActionReducer } from '@ngrx/store';
-
 import { AppSettings } from '../app/app.settings';
 import { LocationActions } from '../actions/location';
 import { MapPosition } from '../components/map/map-position';

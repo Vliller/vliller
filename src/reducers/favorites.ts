@@ -1,5 +1,3 @@
-import { Store, ActionReducer } from '@ngrx/store';
-
 import { FavoritesActions } from '../actions/favorites';
 import { VlilleStation } from '../models/vlillestation';
 

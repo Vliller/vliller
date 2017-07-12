@@ -1,5 +1,3 @@
-import { Store, ActionReducer } from '@ngrx/store';
-
 import { Toast } from '../models/toast';
 import { ToastActions } from '../actions/toast';
 

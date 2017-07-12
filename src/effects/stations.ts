@@ -6,7 +6,6 @@ import { Observable } from 'rxjs/Observable';
 
 import { StationsActions } from '../actions/stations';
 import { VlilleService } from '../services/vlille/vlille';
-import { VlilleStation } from '../models/vlillestation';
 import { MapService } from '../services/map/map';
 import { MapPosition } from '../components/map/map-position';
 
