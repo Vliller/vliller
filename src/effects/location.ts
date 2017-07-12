@@ -34,9 +34,9 @@ export class LocationEffects {
       .catch(error => new LocationActions.RequestFail(error))
     ));
 
-  // Update position after
+  // Update position after request successfully
   @Effect() requestSuccess$: Observable<Action> = this.actions$
-    .ofType(LocationActions.REQUEST)
+    .ofType(LocationActions.REQUEST_SUCCESS)
     .map(() => new LocationActions.Update());
 
   /**
