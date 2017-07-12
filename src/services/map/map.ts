@@ -43,33 +43,6 @@ export class MapService {
     }
 
     /**
-     * @deprecated TODO: removes
-     *
-     * Computes the closest marker from the given position using the Haversine formula.
-     * @param  {MapPosition}               position
-     * @param  {Array<google.maps.Marker>} markers
-     * @return {Observable<google.maps.Marker>}
-     */
-    public computeClosestMarker(position: MapPosition, markers: Array<any>): Observable<any> {
-        return new Observable<any>(observer => {
-            // computes the distance between the position and each marker
-            let closestMarker = markers.reduce((closest, current) => {
-                let currentPosition = current.get('position');
-                let distance = this.getDistance(position, MapPosition.fromLatLng(currentPosition));
-
-                current.set('distance', distance);
-
-                return closest.get('distance') > current.get('distance') ? current : closest;
-            }, {
-                get: () => Infinity
-            });
-
-            // sends the closest marker through the stream
-            observer.next(closestMarker);
-        });
-    }
-
-    /**
      * Computes the closest station from the given position using the Haversine formula.
      * @param  {MapPosition}           position
      * @param  {any[]}                 stations
