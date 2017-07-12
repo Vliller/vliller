@@ -12,6 +12,7 @@ import { LaunchNavigator } from '@ionic-native/launch-navigator';
 // ngrx
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreLogMonitorModule, useLogMonitor } from '@ngrx/store-log-monitor';
 import { EffectsModule } from '@ngrx/effects';
 
 // reducers
@@ -43,12 +44,14 @@ import { MapService } from '../services/map/map';
 import { MarkersService } from '../services/map/markers';
 import { FeedbackFormService, FeedbackFrom } from '../services/feedback-form/feedback-form';
 
+
 // pages
 import { Home } from '../pages/home/home';
 import { Sidemenu } from '../pages/sidemenu/sidemenu';
 import { About } from '../pages/about/about';
 import { Contribs } from '../pages/contribs/contribs';
 import { CodeMemo } from '../pages/code-memo/code-memo';
+import { StoreDebugView } from '../pages/store-debug/store-debug';
 
 // active Sentry repporting during production
 if (AppSettings.isProduction) {
@@ -73,7 +76,8 @@ if (AppSettings.isProduction) {
         AetmFooter,
         ToastComponent,
         CbIcon,
-        DirectionButton
+        DirectionButton,
+        StoreDebugView
     ],
     imports: [
         BrowserModule,
@@ -82,8 +86,22 @@ if (AppSettings.isProduction) {
             mode: "md"
         }),
         StoreModule.provideStore(reducers),
-        // Should be commented in production
-        StoreDevtoolsModule.instrumentOnlyWithExtension(),
+
+        /**
+         * Should be commented in production
+         */
+        // StoreDevtoolsModule.instrumentOnlyWithExtension(),
+        StoreDevtoolsModule.instrumentStore(() => {
+                return {
+                    monitor: useLogMonitor({ visible: true,
+                        position: 'bottom',
+                        size: 1
+                    })
+                }
+            }),
+        StoreLogMonitorModule,
+        /********************************/
+
         EffectsModule.run(FavoritesEffects),
         EffectsModule.run(ToastEffects),
         EffectsModule.run(StationsEffects),
@@ -96,7 +114,8 @@ if (AppSettings.isProduction) {
         About,
         Contribs,
         FeedbackFrom,
-        CodeMemo
+        CodeMemo,
+        StoreDebugView
     ],
     providers: [
         {
