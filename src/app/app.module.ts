@@ -21,6 +21,7 @@ import { reducers } from './app.reducers';
 import { FavoritesEffects } from '../effects/favorites';
 import { ToastEffects } from '../effects/toast';
 import { StationsEffects } from '../effects/stations';
+import { LocationEffects } from '../effects/location';
 
 // components
 import { Map } from '../components/map/map';
@@ -86,6 +87,7 @@ if (AppSettings.isProduction) {
         EffectsModule.run(FavoritesEffects),
         EffectsModule.run(ToastEffects),
         EffectsModule.run(StationsEffects),
+        EffectsModule.run(LocationEffects)
     ],
     bootstrap: [IonicApp],
     entryComponents: [
