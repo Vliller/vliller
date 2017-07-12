@@ -1,5 +1,3 @@
-import { Store, ActionReducer } from '@ngrx/store';
-
 import { StationsActions } from '../actions/stations';
 import { VlilleStation } from '../models/vlillestation';
 
@@ -40,7 +38,12 @@ export function stationsReducer(state: StationsState = initialState, action: Sta
                 ...state,
 
                 // updates active station
-                active: action.payload
+                active: action.payload,
+                collection: state.collection.map(station => {
+                    let freshStation = action.payload;
+
+                    return freshStation.id === station.id ? freshStation : station;
+                })
             }
         }
 

@@ -47,35 +47,30 @@ export class Home {
         private modalController: ModalController,
         private store: Store<AppState>
     ) {
+        // get streams
         this.stations = store.select(state => selectStations(state));
         this.activeStation = store.select(state => selectActiveStation(state));
+        this.favoriteStations = store.select(state => selectFavorites(state));
 
         this.currentPosition = store.select(state => selectCurrentPosition(state));
+
         // watch location loading
         store.select(state => selectCurrentPositionIsLoading(state)).subscribe(isLoading => this.locationState = isLoading ? LocationIconState.Loading : LocationIconState.Default);
 
-        this.favoriteStations = store.select(state => selectFavorites(state));
-
         // Updates activeStation according to user position
-        this.stations
+        this.currentPosition.withLatestFrom(
+            // get non-empty stations collection
+            this.stations.filter(stations => stations && stations.length > 0),
 
-        // removes request with empty result
-        .filter(stations => stations && stations.length > 0)
-
-        // compute closest station
-        .switchMap(stations => new Observable<VlilleStation>(observer => this.currentPosition.subscribe(position => {
-                let closestStation = this.mapService.computeClosestStation(position, stations);
-
-                if (closestStation) {
-                    observer.next(closestStation);
-                }
-            })
-        ))
-
-        // updates active station
-        .subscribe(closestStation => {
+            // computes closest station
+            (position, stations) => {
+                return this.mapService.computeClosestStation(position, stations);
+            }
+        ).subscribe(closestStation => {
+            console.log('setActiveStation')
+            // updates active station
             this.setActiveStation(closestStation, false);
-        });
+        })
 
         // Hide splashscreen
         this.platform.ready().then(() => new SplashScreen().hide());
@@ -102,7 +97,7 @@ export class Home {
     }
 
     /**
-     * Update user position or show a toast if an error appeared.
+     * Update user position
      */
     public updatePosition() {
         this.store.dispatch(new LocationActions.Update());
