@@ -24,7 +24,6 @@ const initialState: StationsState = {
  * @return {StationsState}
  */
 export function stationsReducer(state: StationsState = initialState, action: StationsActions.All): StationsState {
-    console.log(action)
     switch (action.type) {
         case StationsActions.LOAD_SUCCESS: {
             return {
