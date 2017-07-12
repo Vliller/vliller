@@ -8,6 +8,7 @@ import { StationsActions } from '../actions/stations';
 import { VlilleService } from '../services/vlille/vlille';
 import { VlilleStation } from '../models/vlillestation';
 import { MapService } from '../services/map/map';
+import { MapPosition } from '../components/map/map-position';
 
 @Injectable()
 export class StationsEffects {
@@ -26,9 +27,9 @@ export class StationsEffects {
     .startWith(new StationsActions.Load())
     .switchMap(() => {
       return this.vlilleService
-      .getAllStations()
-      .map(stations => new StationsActions.LoadSuccess(stations))
-      .catch(error => Observable.of(new StationsActions.LoadFail(error)));
+        .getAllStations()
+        .map(stations => new StationsActions.LoadSuccess(stations))
+        .catch(error => Observable.of(new StationsActions.LoadFail(error)));
     });
 
   /**
@@ -36,12 +37,21 @@ export class StationsEffects {
    */
   @Effect() updateActiveStation: Observable<Action> = this.actions$
     .ofType(StationsActions.UPDATE_ACTIVE)
-    .switchMap(action => {
-      let station = action.payload;
-
+    // get store value
+    .withLatestFrom(this.store$)
+    .map(([action, state]) => [action.payload, state.location.position])
+    .switchMap(([station, position]) => {
       return this.vlilleService
-      .getStation(station.id)
-      .map(station => new StationsActions.UpdateActiveSuccess(station))
-      .catch(error => Observable.of(new StationsActions.UpdateActiveFail(error)));
+        .getStation(station.id)
+
+        // compute distance between station and last known position
+        .map(station => {
+          station.distance = this.mapService.getDistance(MapPosition.fromCoordinates(station), position)
+
+          return station;
+        })
+
+        .map(station => new StationsActions.UpdateActiveSuccess(station))
+        .catch(error => Observable.of(new StationsActions.UpdateActiveFail(error)));
     });
 }
