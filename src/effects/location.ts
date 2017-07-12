@@ -80,8 +80,7 @@ export class LocationEffects {
               }]
           }).present();
 
-          // TODO: check if correct
-          return Observable.of();
+          return Observable.empty();
       }
 
       // else, sends error to Sentry
