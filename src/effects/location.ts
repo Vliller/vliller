@@ -13,7 +13,7 @@ import { LocationActions } from '../actions/location';
 import { LocationService } from '../services/location/location';
 
 @Injectable()
-export class ToastEffects {
+export class LocationEffects {
   constructor(
     private store$: Store<AppState>,
     private actions$: Actions,
