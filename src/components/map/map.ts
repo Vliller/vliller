@@ -90,7 +90,10 @@ export class Map implements OnInit {
             });
 
             // init stations marker
-            this.stations.subscribe((stations: VlilleStation[]) => {
+            this.stations
+            .filter(stations => stations && stations.length > 0)
+            .take(1)
+            .subscribe((stations: VlilleStation[]) => {
                 this.initMarkers(stations)
                 .then(() => {
                     // hide loading message
