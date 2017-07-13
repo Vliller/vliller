@@ -25,16 +25,18 @@
             [stations]="stations"
             [userPosition]="currentPosition"
             [activeStation]="activeStation"
-            (activeStationChange)="setActiveStation($event)"
         >
             <favorites-button
-                [favoriteStations]="favoriteStations"
+                [favoriteStations]="favoriteStations | async"
                 (favoriteStationClick)="setActiveStation($event)"
                 (favoritesOpen)="setMapClickable(false)"
                 (favoritesClose)="setMapClickable(true)"
             ></favorites-button>
         </map>
-        <station-card [station]="activeStation"></station-card>
+        <station-card
+            [station]="activeStation | async"
+            [isLoading]="isActiveStationRefreshing | async"
+        ></station-card>
 
         <!-- support for toast service -->
         <toast-component></toast-component>

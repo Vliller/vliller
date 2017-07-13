@@ -16,7 +16,9 @@
         <!-- Station name & distance -->
         <ion-col>
             <div class="station-name">{{ station.name }}</div>
-            <div class="station-distance">{{ formatedDistance() }}</div>
+
+            <div *ngIf="!isLoading" class="station-distance">à {{ station.formatedDistance }}</div>
+            <div *ngIf="isLoading" class="station-distance">chargements en cours...</div>
         </ion-col>
 
         <!-- CB -->
@@ -34,13 +36,14 @@
     <ion-row class="station-card--content" *ngIf="station.status === '0'" align-items-center>
         <ion-col>
             <!-- bikes -->
-            <station-card-metric type="bike" [value]="station.bikes" class="border-right"></station-card-metric>
+            <station-card-metric type="bike" [value]="station.bikes" [isLoading]="isLoading" class="border-right"></station-card-metric>
         </ion-col>
         <ion-col>
             <!-- docks -->
-            <station-card-metric type="dock" [value]="station.docks"></station-card-metric>
+            <station-card-metric type="dock" [value]="station.docks" [isLoading]="isLoading"></station-card-metric>
         </ion-col>
     </ion-row>
+
     <ion-row class="station-card--dead" *ngIf="station.status !== '0'" align-items-center justify-content-center>
         <div padding>Cette station semble indisponible.<br>Tente ta chance, ou va plus loin&nbsp;!</div>
     </ion-row>
@@ -48,8 +51,8 @@
     <!-- Footer -->
     <ion-row class="station-card--footer" align-items-center>
         <ion-col>
-            <div *ngIf="!isLoaded">Actualisation en cours...</div>
-            <div *ngIf="isLoaded">Dernière mise à jour il y a {{ station.lastupd }}</div>
+            <div *ngIf="isLoading">Actualisation en cours...</div>
+            <div *ngIf="!isLoading">Dernière mise à jour il y a {{ station.lastupd }}</div>
         </ion-col>
     </ion-row>
 </ion-grid>

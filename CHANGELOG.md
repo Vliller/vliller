@@ -1,3 +1,10 @@
+# 2.4.0
+
+- Réécriture basée sur le pattern Redux
+- Amélioration des indicateurs de chargements des détails d'une station
+- Rafraichissement automatique de la position lors de la réouveture de l'application
+- Correction de bugs
+
 # 2.3.2
 
 - Amélioration de l'icône cadenas

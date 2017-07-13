@@ -5,9 +5,10 @@ import { SocialSharing } from '@ionic-native/social-sharing';
 import { Platform, ModalController } from 'ionic-angular';
 import { About } from '../about/about';
 import { Contribs } from '../contribs/contribs';
+import { Feedback } from '../feedback/feedback';
 
 import { AppSettings } from '../../app/app.settings';
-import { FeedbackFormService } from '../../services/feedback-form/feedback-form';
+import * as Raven from 'raven-js';
 
 @Component({
     selector: 'sidemenu',
@@ -20,8 +21,7 @@ export class Sidemenu {
 
     constructor(
         private platform: Platform,
-        private modalCtrl: ModalController,
-        private feedbackFormService: FeedbackFormService
+        private modalCtrl: ModalController
     ) {
         this.platform.ready().then(() => {
             new AppVersion().getVersionNumber().then(version => this.appVersion = version);
@@ -37,7 +37,7 @@ export class Sidemenu {
         } else if (this.platform.is('ios')) {
             new InAppBrowser().create('itms-apps://itunes.apple.com/fr/app/vliller/id' + AppSettings.appId.ios + '?mt=8', '_system');
         } else {
-            console.error('Rate app - Unknow platform?!');
+            Raven.captureException(new Error('Rate app - Unknow platform?!'));
         }
     };
 
@@ -53,7 +53,9 @@ export class Sidemenu {
      * Show bug report form
      */
     public openBugReport() {
-        this.feedbackFormService.showModal();
+        this.modalCtrl.create(Feedback, {
+            appVersion: this.appVersion
+        }).present();
     };
 
     /**
@@ -78,8 +80,6 @@ export class Sidemenu {
      * Show contributors page.
      */
     public openContribsPage() {
-        this.modalCtrl.create(Contribs, {
-            appVersion: this.appVersion
-        }).present();
+        this.modalCtrl.create(Contribs).present();
     }
 }

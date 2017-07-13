@@ -1,12 +1,21 @@
-export class AppSettings {
-    public static appId = {
+export namespace AppSettings {
+    export const isProduction = false;
+
+    export const appId = {
         android: 'com.alexetmanon.vliller',
         ios: '1161025016'
     };
 
-    public static googleAnalyticsId = 'UA-85251159-1';
+    export const googleAnalyticsId = 'UA-85251159-1';
 
-    public static vlillerSiteUrl = 'http://vliller.alexetmanon.com';
+    export const vlillerSiteUrl = 'http://vliller.alexetmanon.com';
+    export const vlillerContribsUrl = 'https://api.github.com/repos/alexetmanon/vliller/contributors';
 
-    public static sentryDSN = 'https://0cdc4000f06146d58781cef186b88b4d@sentry.io/134393';
+    export const sentryDSN = 'https://0cdc4000f06146d58781cef186b88b4d@sentry.io/134393';
+
+    // Lille coordinates
+    export const defaultPosition = {
+        lat: 50.633333,
+        lng: 3.066667
+    };
 }
