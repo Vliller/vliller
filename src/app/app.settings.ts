@@ -11,6 +11,7 @@ export class AppSettings {
     public static googleAnalyticsId = 'UA-85251159-1';
 
     public static vlillerSiteUrl = 'http://vliller.alexetmanon.com';
+    public static vlillerContribsUrl = 'https://api.github.com/repos/alexetmanon/vliller/contributors';
 
     public static sentryDSN = 'https://0cdc4000f06146d58781cef186b88b4d@sentry.io/134393';
 

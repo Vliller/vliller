@@ -3,6 +3,7 @@ import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { ViewController, Platform } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { AppSettings } from '../../app/app.settings';
 
 @Component({
     selector: 'page-contribs',
@@ -29,7 +30,7 @@ export class Contribs {
 
     private getContributorsFromGithub(): Observable<any> {
         return this.http
-            .get('https://api.github.com/repos/alexetmanon/vliller/contributors')
+            .get(AppSettings.vlillerContribsUrl)
             .map(response => response.json());
     }
 
