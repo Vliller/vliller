@@ -5,6 +5,8 @@
     <div><img class="metric-value-icon" [src]="computeIconUrl(type, 'grey')"></div>
 </div>
 
+<p *ngIf="isLoading" class="metric-text">chargement en cours...</p>
+
 <!-- loaded -->
 <div *ngIf="!isLoading" class="metric-value">
     <div class="metric-value-text text-{{ color }}">{{ value }}</div>
