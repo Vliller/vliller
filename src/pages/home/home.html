@@ -25,7 +25,6 @@
             [stations]="stations"
             [userPosition]="currentPosition"
             [activeStation]="activeStation"
-            (activeStationChange)="setActiveStation($event)"
         >
             <favorites-button
                 [favoriteStations]="favoriteStations | async"
@@ -36,7 +35,7 @@
         </map>
         <station-card
             [station]="activeStation | async"
-            [isLoaded]="!isActiveStationRefreshing"
+            [isLoading]="isActiveStationRefreshing | async"
         ></station-card>
 
         <!-- support for toast service -->

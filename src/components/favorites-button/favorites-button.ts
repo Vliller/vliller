@@ -1,7 +1,7 @@
 import { Component, Input, Output, ViewChild, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FabContainer } from 'ionic-angular';
 
-import { VlilleStation } from '../../services/vlille/vlille';
+import { VlilleStation } from '../../models/vlille-station';
 
 @Component({
     selector: 'favorites-button',

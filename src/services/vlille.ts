@@ -9,55 +9,10 @@ import * as Raven from 'raven-js';
 import moment from 'moment';
 import 'moment/locale/fr';
 
+import { VlilleStation } from '../models/vlille-station';
+
 const API_BASE = 'https://opendata.lillemetropole.fr/api/records/1.0/search';
 const API_ENDPOINT = '/?dataset=vlille-realtime&rows=500';
-
-
-/**
- *
- */
-export class VlilleStation {
-    constructor(
-        public id: string,
-        public name: string,
-        public latitude: number,
-        public longitude: number,
-        public address: string,
-        public bikes: number,
-        public docks: number,
-        public payment: string,
-        public status: string,
-        public lastupd: string,
-        public distance?: number
-    ) {}
-
-    /**
-     * Returns a string format in meters or kilometers.
-     *
-     * @return {string}
-     */
-    get formatedDistance() {
-        let distanceInMeter = this.distance,
-            distanceString = '';
-
-        // to avoid blinking
-        if (!distanceInMeter) {
-            return '';
-        }
-
-        // meters
-        if (distanceInMeter < 1000) {
-            distanceString += Math.round(distanceInMeter) + 'm';
-        }
-
-        // kilometers
-        else {
-            distanceString += (Math.round(distanceInMeter / 100) / 10) + 'km';
-        }
-
-        return distanceString;
-    }
-}
 
 @Injectable()
 export class VlilleService {
@@ -137,10 +92,8 @@ export class VlilleService {
             errMsg = error.message ? error.message : error.toString();
         }
 
-        console.error(errMsg);
-
         // sends error to Sentry
-        Raven.captureException(Error(errMsg));
+        Raven.captureException(new Error(errMsg));
 
         return Observable.throw(errMsg);
     }

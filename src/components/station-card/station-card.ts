@@ -1,6 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
-import { VlilleStation } from '../../services/vlille/vlille';
+import { VlilleStation } from '../../models/vlille-station';
 
 @Component({
     selector: 'station-card',
@@ -10,5 +10,5 @@ import { VlilleStation } from '../../services/vlille/vlille';
 
 export class StationCard {
     @Input() station: VlilleStation;
-    @Input() isLoaded: boolean = true;
+    @Input() isLoading: boolean = true;
 }

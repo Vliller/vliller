@@ -1,39 +1,49 @@
-import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { DeviceOrientation } from '@ionic-native/device-orientation';
 
-import { MapPosition } from './map-position';
 import { MapIcon } from './map-icon';
-import { MapService } from '../../services/map/map';
-import { VlilleStation } from '../../services/vlille/vlille';
-import { MarkersService } from '../../services/map/markers';
-import { ToastService } from '../../services/toast/toast';
+import { MapPosition } from '../../models/map-position';
+import { VlilleStation } from '../../models/vlille-station';
+
+import { AppSettings } from '../../app/app.settings';
+import { Store } from '@ngrx/store';
+import { AppState, selectMapIsClickable } from '../../app/app.reducers';
+import { ToastActions } from '../../actions/toast';
+import { StationsActions } from '../../actions/stations';
+
 
 declare var plugin: any;
-
-// Lille
-const DEFAULT_POSITION = new MapPosition(50.633333, 3.066667);
 
 const ZOOM_DEFAULT = 12;
 const ZOOM_THRESHOLD = 14;
 
 @Component({
     selector: 'map',
-    template:
-    `
+    template:`
         <div id="map-canvas" class="map-canvas">
             <ng-content></ng-content>
         </div>
     `,
+    styles: [`
+        :host {
+            display: block;
+        }
+
+        .map-canvas {
+            height: 100%;
+        }
+    `],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class Map implements OnInit {
+export class MapComponent implements OnInit {
     private mapInstance: any;
     private mapInstancePromise: Promise<any>;
     private mapZoom: number = ZOOM_DEFAULT;
 
+    private markers: Map<string, any> = new Map();
     private markerIcon: any = MapIcon.NORMAL;
     private activeMarker: any;
 
@@ -44,18 +54,18 @@ export class Map implements OnInit {
     @Input() stations: Observable<VlilleStation[]>;
     @Input() userPosition: Observable<MapPosition>;
     @Input() activeStation: Observable<VlilleStation>;
-    @Output() activeStationChange = new EventEmitter<VlilleStation>();
 
     constructor(
         private platform: Platform,
-        private markers: MarkersService,
-        private toastService: ToastService,
-        private mapService: MapService
+        private store: Store<AppState>
     ) {
         // show loader
-        this.toastService.show('Ça pédale pour charger les stations&nbsp;!', {
-            showSpinner: true
-        });
+        store.dispatch(new ToastActions.Show({
+            message: "Ça pédale pour charger les stations&nbsp;!",
+            options: {
+                showSpinner: true
+            }
+        }));
 
         // init the map
         this.mapInstancePromise = this.initMap();
@@ -72,19 +82,24 @@ export class Map implements OnInit {
         // wait for map instance to be initialized
         this.mapInstancePromise.then(() => {
             // register isClickable service
-            this.mapService.isMapClickableAsObservable().subscribe(isClickable => {
+            this.store.select(state => selectMapIsClickable(state)).subscribe(isClickable => {
                 this.setClickable(isClickable);
             });
 
             // init stations marker
-            this.stations.subscribe((stations: VlilleStation[]) => {
+            this.stations
+            .filter(stations => stations && stations.length > 0)
+            .take(1)
+            .subscribe((stations: VlilleStation[]) => {
                 this.initMarkers(stations)
                 .then(() => {
-                    // hide loading mlessage
-                    this.toastService.hide();
+                    // hide loading message
+                    this.store.dispatch(new ToastActions.Hide());
 
                     // Updates active marker
-                    this.activeStation.subscribe(activeStation => {
+                    this.activeStation
+                    .filter(station => station !== undefined)
+                    .subscribe(activeStation => {
                         let marker = this.markers.get(activeStation.id);
 
                         // avoid double call to setActiveMarker during marker click
@@ -98,7 +113,7 @@ export class Map implements OnInit {
             });
 
             // init user marker
-            this.initUserMarker(DEFAULT_POSITION).then(() => {
+            this.initUserMarker(MapPosition.fromLatLng(AppSettings.defaultPosition)).then(() => {
                 // start heading update
                 window.requestAnimationFrame(() => this.updateUserHeading());
 
@@ -118,7 +133,7 @@ export class Map implements OnInit {
     private initMap(): Promise<any> {
         let mapOptions = {
             camera: {
-                latLng: DEFAULT_POSITION.toLatLng(),
+                latLng: AppSettings.defaultPosition,
                 zoom: this.mapZoom
             }
         };
@@ -175,15 +190,17 @@ export class Map implements OnInit {
                     marker.on(plugin.google.maps.event.MARKER_CLICK, () => {
                         this.setActiveMarker(marker);
 
+                        this.setCenter(MapPosition.fromCoordinates(station), true);
+
                         // updates active station
-                        this.activeStationChange.emit(station);
+                        this.store.dispatch(new StationsActions.UpdateActive(station))
                     });
 
                     /**
                      * addMarker() is async, so we need to wait until all the markers are created.
                      * @see https://github.com/mapsplugin/cordova-plugin-googlemaps/wiki/Marker#create-multiple-markers
                      */
-                    if (this.markers.size() !== stations.length) {
+                    if (this.markers.size !== stations.length) {
                         return;
                     }
 
@@ -197,11 +214,11 @@ export class Map implements OnInit {
     /**
      *
      * @param  {MapPosition} position
-     * @return {Promise<google.maps.Marker>}
+     * @return {Promise<any>}
      */
     private initUserMarker(position: MapPosition): Promise<any> {
-        return new Promise<any>((resolve, reject) => {
-            // user position
+        // Create user position marker
+        let userMarkerPromise = new Promise<any>((resolve, reject) => {
             this.mapInstance.addMarker({
                 position: position.toLatLng(),
                 icon: MapIcon.USER,
@@ -217,8 +234,10 @@ export class Map implements OnInit {
 
                 resolve(marker);
             });
+        });
 
-            // user position accuracy
+        // Create a circle to represent the user position accuracy
+        let userMarkerAccuracyPromise = new Promise<any>((resolve, reject) => {
             this.mapInstance.addCircle({
                 center: position.toLatLng(),
                 radius: position.accuracy,
@@ -233,8 +252,16 @@ export class Map implements OnInit {
 
                 // updates marker ref
                 this.userMarkerAccuracy = markerAccuracy;
+
+                resolve(markerAccuracy);
             });
         });
+
+        // wait for both to be created
+        return Promise.all([
+            userMarkerPromise,
+            userMarkerAccuracyPromise
+        ]);
     }
 
     /**

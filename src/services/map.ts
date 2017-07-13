@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import { MapPosition } from '../../components/map/map-position';
-import { VlilleStation } from '../vlille/vlille';
+import { MapPosition } from '../models/map-position';
+import { VlilleStation } from '../models/vlille-station';
 
 const MAPBOX_API_BASE = 'https://api.mapbox.com/directions/v5/mapbox/walking/';
 const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiYmxja3NocmsiLCJhIjoiY2l5YWc5anUyMDA0cDMzcWtxcnN0ZWxxcCJ9.xKDTqbkNCQTRvizwIDGeCQ';
@@ -16,11 +15,7 @@ function rad(x: number): number {
 @Injectable()
 export class MapService {
 
-    public isMapClickableSubject: BehaviorSubject<boolean>;
-
-    constructor(private http: Http) {
-        this.isMapClickableSubject = new BehaviorSubject(true);
-    }
+    constructor(private http: Http) {}
 
     /**
      * Haversine formula
@@ -29,7 +24,7 @@ export class MapService {
      * @param  {MapPosition} p2
      * @return {number}
      */
-    public getDistance(p1: MapPosition, p2: MapPosition): number {
+    public computeDistance(p1: MapPosition, p2: MapPosition): number {
         let R = 6378137; // Earth’s mean radius in meter
         let dLat = rad(p2.latitude - p1.latitude);
         let dLong = rad(p2.longitude - p1.longitude);
@@ -43,42 +38,19 @@ export class MapService {
     }
 
     /**
-     * @deprecated TODO: removes
-     *
-     * Computes the closest marker from the given position using the Haversine formula.
-     * @param  {MapPosition}               position
-     * @param  {Array<google.maps.Marker>} markers
-     * @return {Observable<google.maps.Marker>}
-     */
-    public computeClosestMarker(position: MapPosition, markers: Array<any>): Observable<any> {
-        return new Observable<any>(observer => {
-            // computes the distance between the position and each marker
-            let closestMarker = markers.reduce((closest, current) => {
-                let currentPosition = current.get('position');
-                let distance = this.getDistance(position, MapPosition.fromLatLng(currentPosition));
-
-                current.set('distance', distance);
-
-                return closest.get('distance') > current.get('distance') ? current : closest;
-            }, {
-                get: () => Infinity
-            });
-
-            // sends the closest marker through the stream
-            observer.next(closestMarker);
-        });
-    }
-
-    /**
      * Computes the closest station from the given position using the Haversine formula.
      * @param  {MapPosition}           position
      * @param  {any[]}                 stations
      * @return {VlilleStation}
      */
     public computeClosestStation(position: MapPosition, stations: any[]): VlilleStation {
+        if (!position || !stations.length) {
+            return undefined;
+        }
+
         // computes the distance between the position and each marker
         return stations.reduce((closest, current) => {
-            current.distance = this.getDistance(position, MapPosition.fromCoordinates(current));
+            current.distance = this.computeDistance(position, MapPosition.fromCoordinates(current));
 
             return closest.distance > current.distance ? current : closest;
         }, {
@@ -104,23 +76,5 @@ export class MapService {
                 return -1;
             }
         });
-    }
-
-    /**
-     * Manage map clickable status through an Observable.
-     *
-     * @param {boolean} isClickable
-     */
-    public setMapClickable(isClickable: boolean) {
-        this.isMapClickableSubject.next(isClickable);
-    }
-
-    /**
-     * Return map clickable Observable
-     *
-     * @return {Observable<boolean>}
-     */
-    public isMapClickableAsObservable(): Observable<boolean> {
-        return this.isMapClickableSubject.asObservable();
     }
 }

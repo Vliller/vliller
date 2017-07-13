@@ -1,65 +1,46 @@
-import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
-import { VlilleStation } from '../../services/vlille/vlille';
-import { FavoritesService } from '../../services/favorites/favorites';
-import { ToastService } from '../../services/toast/toast';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { VlilleStation } from '../../models/vlille-station';
+
+import { Store } from '@ngrx/store';
+import { AppState } from '../../app/app.reducers';
+import { FavoritesActions } from '../../actions/favorites';
 
 @Component({
     selector: 'favorites-add-icon',
-    templateUrl: './favorites-add-icon.html',
+    template: `
+        <button ion-button clear (click)="toggleFavorite()">
+            <img *ngIf="station.isFavorite" class="img-responsive" src="assets/img/vliller-icon-fav-added.svg">
+            <img *ngIf="!station.isFavorite" class="img-responsive" src="assets/img/vliller-icon-fav-add.svg">
+        </button>
+    `,
+    styles: [`
+        :host {
+            display: block;
+        }
+
+        .button {
+            margin: 0;
+            padding: 0 1rem;
+        }
+    `],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class FavoritesAddIcon implements OnChanges {
-    public isFavoriteStation: boolean = false;
-
+export class FavoritesAddIcon {
     @Input() station: VlilleStation;
 
-    constructor(
-        private favoritesService: FavoritesService,
-        private toastService: ToastService
-    ) {}
-
-    ngOnChanges() {
-        this.isFavoriteStation = this.favoritesService.contains(this.station);
-    }
+    constructor(private store: Store<AppState>) {}
 
     /**
      * Updates favorites service and star icon
      */
     public toggleFavorite() {
-        this.isFavoriteStation = !this.isFavoriteStation;
+        this.station.isFavorite = !this.station.isFavorite;
 
-        if (this.isFavoriteStation) {
-            this.isFavoriteStation = this.favoritesService.add(this.station);
-
-            if (this.isFavoriteStation) {
-                this.showAddToast();
-            } else {
-                this.showErrorToast();
-            }
-
+        if (this.station.isFavorite) {
+            this.store.dispatch(new FavoritesActions.Add(this.station));
         } else {
-            this.isFavoriteStation = !this.favoritesService.remove(this.station);
-
-            this.showRemoveToast();
+            this.store.dispatch(new FavoritesActions.Remove(this.station));
         }
-    }
-
-    private showAddToast() {
-        this.toastService.show('Station <b>' + this.station.name + '</b> ajoutée !', {
-            duration: 3000
-        });
-    }
-
-    private showRemoveToast() {
-        this.toastService.show('Station <b>' + this.station.name + '</b> retirée.',  {
-            duration: 3000
-        });
-    }
-
-    private showErrorToast() {
-        this.toastService.showError('Vous avez atteint le nombre maximum de favoris&nbsp;!',  {
-            duration: 3000
-        });
     }
 }

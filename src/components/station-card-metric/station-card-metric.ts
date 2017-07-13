@@ -13,6 +13,7 @@ export class StationCardMetric implements OnChanges {
 
     @Input() type: string;
     @Input() value: number;
+    @Input() isLoading?: false;
 
     ngOnChanges() {
         if (this.type !== 'bike' && this.type !== 'dock') {
@@ -51,7 +52,7 @@ export class StationCardMetric implements OnChanges {
      * @param  {string} color
      * @return {string}
      */
-    private computeIconUrl(type: string, color: string): string {
+    public computeIconUrl(type: string, color: string): string {
         return 'assets/img/vliller_' + type + '-' + color + '.png';
     }
 
