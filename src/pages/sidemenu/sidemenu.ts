@@ -80,8 +80,6 @@ export class Sidemenu {
      * Show contributors page.
      */
     public openContribsPage() {
-        this.modalCtrl.create(Contribs, {
-            appVersion: this.appVersion
-        }).present();
+        this.modalCtrl.create(Contribs).present();
     }
 }

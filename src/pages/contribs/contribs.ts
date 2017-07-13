@@ -12,7 +12,6 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 export class Contribs {
     public contributors: Observable<any>;
     public contributorsLoaded: boolean = false;
-    public appVersion: string;
 
     private unRegisterBackButtonAction: any;
 
