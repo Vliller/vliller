@@ -3,10 +3,9 @@ import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { DeviceOrientation } from '@ionic-native/device-orientation';
 
-import { MapPosition } from './map-position';
 import { MapIcon } from './map-icon';
-import { MapService } from '../../services/map/map';
-import { VlilleStation } from '../../models/vlillestation';
+import { MapPosition } from '../../models/map-position';
+import { VlilleStation } from '../../models/vlille-station';
 import { MarkersService } from '../../services/map/markers';
 
 import { AppSettings } from '../../app/app.settings';
@@ -59,7 +58,6 @@ export class Map implements OnInit {
     constructor(
         private platform: Platform,
         private markers: MarkersService,
-        private mapService: MapService,
         private store: Store<AppState>
     ) {
         // show loader

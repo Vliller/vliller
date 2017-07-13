@@ -1,5 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { VlilleStation } from '../../models/vlillestation';
+import { VlilleStation } from '../../models/vlille-station';
 
 import { Store } from '@ngrx/store';
 import { AppState } from '../../app/app.reducers';

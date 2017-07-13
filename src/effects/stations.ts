@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { StationsActions } from '../actions/stations';
 import { VlilleService } from '../services/vlille/vlille';
 import { MapService } from '../services/map/map';
-import { MapPosition } from '../components/map/map-position';
+import { MapPosition } from '../models/map-position';
 
 @Injectable()
 export class StationsEffects {

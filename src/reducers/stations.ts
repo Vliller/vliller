@@ -1,5 +1,5 @@
 import { StationsActions } from '../actions/stations';
-import { VlilleStation } from '../models/vlillestation';
+import { VlilleStation } from '../models/vlille-station';
 
 /**
  *

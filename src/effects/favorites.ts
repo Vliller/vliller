@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { FavoritesActions } from '../actions/favorites';
 import { FavoritesService } from '../services/favorites/favorites';
-import { VlilleStation } from '../models/vlillestation';
+import { VlilleStation } from '../models/vlille-station';
 
 const FAVORITES_MAX_SIZE = 4;
 

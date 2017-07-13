@@ -3,7 +3,7 @@ import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { NativeStorage } from '@ionic-native/native-storage';
 
-import { VlilleStation } from '../../models/vlillestation'
+import { VlilleStation } from '../../models/vlille-station'
 
 const STORAGE_ID = 'favorites';
 

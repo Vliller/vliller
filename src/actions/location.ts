@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { MapPosition } from '../components/map/map-position';
+import { MapPosition } from '../models/map-position';
 
 /**
  *

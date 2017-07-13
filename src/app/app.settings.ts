@@ -1,4 +1,4 @@
-import { MapPosition } from '../components/map/map-position';
+import { MapPosition } from '../models/map-position';
 
 export class AppSettings {
     public static isProduction = false;

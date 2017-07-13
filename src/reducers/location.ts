@@ -1,6 +1,6 @@
 import { AppSettings } from '../app/app.settings';
 import { LocationActions } from '../actions/location';
-import { MapPosition } from '../components/map/map-position';
+import { MapPosition } from '../models/map-position';
 
 /**
  *

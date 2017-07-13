@@ -3,7 +3,7 @@ import { LaunchNavigator } from '@ionic-native/launch-navigator';
 import { Platform } from 'ionic-angular';
 import * as Raven from 'raven-js';
 
-import { VlilleStation } from '../../models/vlillestation';
+import { VlilleStation } from '../../models/vlille-station';
 
 declare var launchnavigator: any;
 

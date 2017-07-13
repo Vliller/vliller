@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { VlilleStation } from '../models/vlillestation';
+import { VlilleStation } from '../models/vlille-station';
 
 /**
  *

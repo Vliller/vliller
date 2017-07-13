@@ -1,5 +1,5 @@
 import { FavoritesActions } from '../actions/favorites';
-import { VlilleStation } from '../models/vlillestation';
+import { VlilleStation } from '../models/vlille-station';
 
 /**
  *

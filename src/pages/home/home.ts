@@ -16,9 +16,9 @@ import { StationsActions } from '../../actions/stations';
 import { LocationActions } from '../../actions/location';
 import { MapActions } from '../../actions/map';
 
-import { VlilleStation } from '../../models/vlillestation';
+import { VlilleStation } from '../../models/vlille-station';
+import { MapPosition } from '../../models/map-position';
 import { Map } from '../../components/map/map';
-import { MapPosition } from '../../components/map/map-position';
 import { MapService } from '../../services/map/map';
 import { LocationIconState } from '../../components/location-icon/location-icon';
 import { CodeMemo } from '../code-memo/code-memo';
