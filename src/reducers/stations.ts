@@ -32,12 +32,20 @@ export function stationsReducer(state: StationsState = initialState, action: Sta
             }
         }
 
-        case StationsActions.SET_ACTIVE:
+        case StationsActions.SET_ACTIVE: {
+            return {
+                ...state,
+
+                // set active station
+                active: action.payload
+            }
+        }
+
         case StationsActions.UPDATE_ACTIVE_SUCCESS: {
             return {
                 ...state,
 
-                // updates active station
+                // updates active station in stations collection
                 active: action.payload,
                 collection: state.collection.map(station => {
                     let freshStation = action.payload;
