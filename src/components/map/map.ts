@@ -49,7 +49,7 @@ export class MapComponent implements OnInit {
 
     private userMarker: any;
     private userMarkerAccuracy: any;
-    private userHeading: number = 0;
+    private userHeading: Observable<number>;
 
     @Input() stations: Observable<VlilleStation[]>;
     @Input() userPosition: Observable<MapPosition>;
@@ -70,11 +70,14 @@ export class MapComponent implements OnInit {
         // init the map
         this.mapInstancePromise = this.initMap();
 
-        // init heading watcher
+        // init heading observable
         this.platform.ready().then(() => {
-            new DeviceOrientation().watchHeading({
-                frequency: 200 // ms
-            }).subscribe(compassHeading => this.userHeading = compassHeading.magneticHeading);
+            this.userHeading = new DeviceOrientation()
+            .watchHeading({
+                frequency: 500 // ms
+            })
+            .map(compassHeading => compassHeading.magneticHeading)
+            .filter(heading => !!heading);
         });
     }
 
@@ -98,7 +101,7 @@ export class MapComponent implements OnInit {
 
                     // Updates active marker
                     this.activeStation
-                    .filter(station => station !== undefined)
+                    .filter(station => !!station)
                     .subscribe(activeStation => {
                         let marker = this.markers.get(activeStation.id);
 
@@ -114,14 +117,14 @@ export class MapComponent implements OnInit {
 
             // init user marker
             this.initUserMarker(MapPosition.fromLatLng(AppSettings.defaultPosition)).then(() => {
-                // start heading update
-                window.requestAnimationFrame(() => this.updateUserHeading());
-
                 // listen for user position
                 this.userPosition.subscribe(position => {
                     this.setUserPosition(position);
                     this.setCenter(position);
                 });
+
+                // listen for user heading
+                this.userHeading.subscribe(heading => this.userMarker.setRotation(heading));
             });
         });
     }
@@ -321,7 +324,6 @@ export class MapComponent implements OnInit {
     }
 
     /**
-     *
      * @param {MapPosition} position
      */
     private setUserPosition(position: MapPosition) {
@@ -330,16 +332,6 @@ export class MapComponent implements OnInit {
         // displays accuracy
         this.userMarkerAccuracy.setCenter(position.toLatLng());
         this.userMarkerAccuracy.setRadius(position.accuracy);
-    }
-
-    /**
-     * /!\ This function should be exclusively called by requestAnimationFrame() to avoid performance issues.
-     */
-    private updateUserHeading() {
-        this.userMarker.setRotation(this.userHeading);
-
-        // recursive call to requestAnimationFrame()
-        window.requestAnimationFrame(() => this.updateUserHeading());
     }
 
     /**
