@@ -45,7 +45,7 @@ export class StationsEffects {
 
         // compute distance between station and last known position
         .map(station => {
-          station.distance = this.mapService.getDistance(MapPosition.fromCoordinates(station), position)
+          station.distance = this.mapService.computeDistance(MapPosition.fromCoordinates(station), position)
 
           return station;
         })

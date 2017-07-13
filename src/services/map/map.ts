@@ -24,7 +24,7 @@ export class MapService {
      * @param  {MapPosition} p2
      * @return {number}
      */
-    public getDistance(p1: MapPosition, p2: MapPosition): number {
+    public computeDistance(p1: MapPosition, p2: MapPosition): number {
         let R = 6378137; // Earth’s mean radius in meter
         let dLat = rad(p2.latitude - p1.latitude);
         let dLong = rad(p2.longitude - p1.longitude);
@@ -50,7 +50,7 @@ export class MapService {
 
         // computes the distance between the position and each marker
         return stations.reduce((closest, current) => {
-            current.distance = this.getDistance(position, MapPosition.fromCoordinates(current));
+            current.distance = this.computeDistance(position, MapPosition.fromCoordinates(current));
 
             return closest.distance > current.distance ? current : closest;
         }, {
