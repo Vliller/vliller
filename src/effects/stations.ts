@@ -39,17 +39,18 @@ export class StationsEffects {
     // get store value
     .withLatestFrom(this.store$)
     .map(([action, state]) => [action.payload, state.location.position])
-    .switchMap(([station, position]) => {
+    .switchMap(([activeStation, position]) => {
       return this.vlilleService
-        .getStation(station.id)
-
-        // compute distance between station and last known position
+        .getStation(activeStation.id)
         .map(station => {
+          // set favorite information
+          station.isFavorite = activeStation.isFavorite;
+
+          // compute distance between station and last known position
           station.distance = this.mapService.computeDistance(MapPosition.fromCoordinates(station), position)
 
           return station;
         })
-
         .map(station => new StationsActions.UpdateActiveSuccess(station))
         .catch(error => Observable.of(new StationsActions.UpdateActiveFail(error)));
     });
