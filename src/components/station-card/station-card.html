@@ -7,7 +7,7 @@
 <!-- Card station details -->
 <ion-grid *ngIf="station" no-padding>
     <!-- Header -->
-    <ion-row class="station-card--header" align-items-center>
+    <ion-row class="station-card--header" align-items-center (click)="unExpandMap()">
         <!-- Add-to-favorites button -->
         <ion-col col-auto>
             <favorites-add-icon [station]="station"></favorites-add-icon>

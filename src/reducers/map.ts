@@ -4,11 +4,13 @@ import { MapActions } from '../actions/map';
  *
  */
 export interface MapState {
-    isClickable: boolean
+    isClickable: boolean,
+    isExpanded: boolean
 }
 
 const initialState: MapState = {
-    isClickable: true
+    isClickable: true,
+    isExpanded: false
 };
 
 /**
@@ -22,7 +24,15 @@ export function mapReducer(state: MapState = initialState, action: MapActions.Al
     switch (action.type) {
         case MapActions.SET_CLICKABLE: {
             return {
+                ...state,
                 isClickable: action.payload
+            };
+        }
+
+        case MapActions.SET_EXPANDED: {
+            return {
+                ...state,
+                isExpanded: action.payload
             };
         }
 

@@ -12,6 +12,7 @@ import { Store } from '@ngrx/store';
 import { AppState, selectMapIsClickable } from '../../app/app.reducers';
 import { ToastActions } from '../../actions/toast';
 import { StationsActions } from '../../actions/stations';
+import { MapActions } from '../../actions/map';
 
 
 declare var plugin: any;
@@ -162,6 +163,9 @@ export class MapComponent implements OnInit {
 
                     this.updateDefaultMarker(event.zoom)
                 });
+
+                // listen for map clicks
+                map.on(plugin.google.maps.event.MAP_CLICK, () => this.store.dispatch(new MapActions.SetExpanded(true)));
             });
         });
     }

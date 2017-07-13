@@ -10,7 +10,8 @@ import {
     selectActiveStation,
     selectIsLoadingActiveStation,
     selectCurrentPosition,
-    selectCurrentPositionIsLoading
+    selectCurrentPositionIsLoading,
+    selectMapIsExpanded
 } from '../../app/app.reducers';
 import { Store } from '@ngrx/store';
 import { StationsActions } from '../../actions/stations';
@@ -71,7 +72,13 @@ export class Home {
         ).subscribe(closestStation => {
             // updates active station
             this.setActiveStation(closestStation, false);
-        })
+        });
+
+        // watch map size
+        store.select(state => selectMapIsExpanded(state)).subscribe(mapIsExpanded => {
+            //TODO
+            console.log(mapIsExpanded);
+        });
 
         // Hide splashscreen
         this.platform.ready().then(() => new SplashScreen().hide());
