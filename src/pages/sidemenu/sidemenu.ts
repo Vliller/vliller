@@ -5,9 +5,9 @@ import { SocialSharing } from '@ionic-native/social-sharing';
 import { Platform, ModalController } from 'ionic-angular';
 import { About } from '../about/about';
 import { Contribs } from '../contribs/contribs';
+import { Feedback } from '../feedback/feedback';
 
 import { AppSettings } from '../../app/app.settings';
-import { FeedbackFormService } from '../../services/feedback-form/feedback-form';
 import * as Raven from 'raven-js';
 
 @Component({
@@ -21,8 +21,7 @@ export class Sidemenu {
 
     constructor(
         private platform: Platform,
-        private modalCtrl: ModalController,
-        private feedbackFormService: FeedbackFormService
+        private modalCtrl: ModalController
     ) {
         this.platform.ready().then(() => {
             new AppVersion().getVersionNumber().then(version => this.appVersion = version);
@@ -54,7 +53,9 @@ export class Sidemenu {
      * Show bug report form
      */
     public openBugReport() {
-        this.feedbackFormService.showModal();
+        this.modalCtrl.create(Feedback, {
+            appVersion: this.appVersion
+        }).present();
     };
 
     /**

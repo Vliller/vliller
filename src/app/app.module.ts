@@ -41,7 +41,6 @@ import { FavoritesService } from '../services/favorites/favorites';
 import { LocationService } from '../services/location/location';
 import { MapService } from '../services/map/map';
 import { MarkersService } from '../services/map/markers';
-import { FeedbackFormService, FeedbackFrom } from '../services/feedback-form/feedback-form';
 
 // pages
 import { Home } from '../pages/home/home';
@@ -49,6 +48,7 @@ import { Sidemenu } from '../pages/sidemenu/sidemenu';
 import { About } from '../pages/about/about';
 import { Contribs } from '../pages/contribs/contribs';
 import { CodeMemo } from '../pages/code-memo/code-memo';
+import { Feedback } from '../pages/feedback/feedback';
 
 // active Sentry repporting during production
 if (AppSettings.isProduction) {
@@ -69,7 +69,7 @@ if (AppSettings.isProduction) {
         FavoritesButton,
         FavoritesAddIcon,
         LocationIcon,
-        FeedbackFrom,
+        Feedback,
         AetmFooter,
         ToastComponent,
         CbIcon,
@@ -95,7 +95,7 @@ if (AppSettings.isProduction) {
         Home,
         About,
         Contribs,
-        FeedbackFrom,
+        Feedback,
         CodeMemo
     ],
     providers: [
@@ -108,7 +108,6 @@ if (AppSettings.isProduction) {
         LocationService,
         MapService,
         MarkersService,
-        FeedbackFormService,
         LaunchNavigator
     ]
 })
