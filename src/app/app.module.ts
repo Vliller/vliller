@@ -24,7 +24,7 @@ import { StationsEffects } from '../effects/stations';
 import { LocationEffects } from '../effects/location';
 
 // components
-import { Map } from '../components/map/map';
+import { MapComponent } from '../components/map/map';
 import { StationCard } from '../components/station-card/station-card';
 import { StationCardMetric } from '../components/station-card-metric/station-card-metric';
 import { FavoritesButton } from '../components/favorites-button/favorites-button';
@@ -40,7 +40,6 @@ import { VlilleService } from '../services/vlille/vlille';
 import { FavoritesService } from '../services/favorites/favorites';
 import { LocationService } from '../services/location/location';
 import { MapService } from '../services/map/map';
-import { MarkersService } from '../services/map/markers';
 
 // pages
 import { Home } from '../pages/home/home';
@@ -63,7 +62,7 @@ if (AppSettings.isProduction) {
         Contribs,
         Sidemenu,
         CodeMemo,
-        Map,
+        MapComponent,
         StationCard,
         StationCardMetric,
         FavoritesButton,
@@ -106,7 +105,6 @@ if (AppSettings.isProduction) {
         FavoritesService,
         LocationService,
         MapService,
-        MarkersService,
         LaunchNavigator
     ]
 })

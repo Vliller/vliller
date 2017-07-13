@@ -18,7 +18,7 @@ import { MapActions } from '../../actions/map';
 
 import { VlilleStation } from '../../models/vlille-station';
 import { MapPosition } from '../../models/map-position';
-import { Map } from '../../components/map/map';
+import { MapComponent } from '../../components/map/map';
 import { MapService } from '../../services/map/map';
 import { LocationIconState } from '../../components/location-icon/location-icon';
 import { CodeMemo } from '../code-memo/code-memo';
@@ -37,7 +37,7 @@ export class Home {
     public activeStation: Observable<VlilleStation>;
     public isActiveStationRefreshing: boolean = false;
 
-    @ViewChild('map') map: Map;
+    @ViewChild('map') map: MapComponent;
 
     constructor(
         private platform: Platform,

@@ -6,7 +6,6 @@ import { DeviceOrientation } from '@ionic-native/device-orientation';
 import { MapIcon } from './map-icon';
 import { MapPosition } from '../../models/map-position';
 import { VlilleStation } from '../../models/vlille-station';
-import { MarkersService } from '../../services/map/markers';
 
 import { AppSettings } from '../../app/app.settings';
 import { Store } from '@ngrx/store';
@@ -39,11 +38,12 @@ const ZOOM_THRESHOLD = 14;
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class Map implements OnInit {
+export class MapComponent implements OnInit {
     private mapInstance: any;
     private mapInstancePromise: Promise<any>;
     private mapZoom: number = ZOOM_DEFAULT;
 
+    private markers: Map<string, any> = new Map();
     private markerIcon: any = MapIcon.NORMAL;
     private activeMarker: any;
 
@@ -57,7 +57,6 @@ export class Map implements OnInit {
 
     constructor(
         private platform: Platform,
-        private markers: MarkersService,
         private store: Store<AppState>
     ) {
         // show loader
@@ -201,7 +200,7 @@ export class Map implements OnInit {
                      * addMarker() is async, so we need to wait until all the markers are created.
                      * @see https://github.com/mapsplugin/cordova-plugin-googlemaps/wiki/Marker#create-multiple-markers
                      */
-                    if (this.markers.size() !== stations.length) {
+                    if (this.markers.size !== stations.length) {
                         return;
                     }
 
