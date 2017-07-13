@@ -11,7 +11,7 @@ export interface LocationState {
 }
 
 const initialState: LocationState = {
-    position: AppSettings.defaultPosition,
+    position: MapPosition.fromLatLng(AppSettings.defaultPosition),
     isLoading: false
 };
 

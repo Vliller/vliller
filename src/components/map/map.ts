@@ -114,7 +114,7 @@ export class Map implements OnInit {
             });
 
             // init user marker
-            this.initUserMarker(AppSettings.defaultPosition).then(() => {
+            this.initUserMarker(MapPosition.fromLatLng(AppSettings.defaultPosition)).then(() => {
                 // start heading update
                 window.requestAnimationFrame(() => this.updateUserHeading());
 
@@ -134,7 +134,7 @@ export class Map implements OnInit {
     private initMap(): Promise<any> {
         let mapOptions = {
             camera: {
-                latLng: AppSettings.defaultPosition.toLatLng(),
+                latLng: AppSettings.defaultPosition,
                 zoom: this.mapZoom
             }
         };
