@@ -1,6 +1,11 @@
 /**
- * Helper to manage Google LatLng class easily.
+ * Helpers to manage Google LatLng class easily.
  */
+export interface LatLng {
+    lat: number,
+    lng: number
+}
+
 export class MapPosition {
     constructor(
         public latitude: number,
@@ -8,7 +13,7 @@ export class MapPosition {
         public accuracy: number = 0
     ) {}
 
-    static fromLatLng(latlng: any): MapPosition {
+    static fromLatLng(latlng: LatLng): MapPosition {
         return new MapPosition(
             latlng.lat,
             latlng.lng
@@ -23,7 +28,7 @@ export class MapPosition {
         );
     }
 
-    public toLatLng(): any {
+    public toLatLng(): LatLng {
         return {
             lat: this.latitude,
             lng: this.longitude
