@@ -16,7 +16,7 @@
         <!-- Station name & distance -->
         <ion-col>
             <div class="station-name">{{ station.name }}</div>
-            <div *ngIf="isLoaded" class="station-distance">à {{ station.formatedDistance }}</div>
+            <div *ngIf="!isLoading" class="station-distance">à {{ station.formatedDistance }}</div>
         </ion-col>
 
         <!-- CB -->
@@ -48,8 +48,8 @@
     <!-- Footer -->
     <ion-row class="station-card--footer" align-items-center>
         <ion-col>
-            <div *ngIf="!isLoaded">Actualisation en cours...</div>
-            <div *ngIf="isLoaded">Dernière mise à jour il y a {{ station.lastupd }}</div>
+            <div *ngIf="isLoading">Actualisation en cours...</div>
+            <div *ngIf="!isLoading">Dernière mise à jour il y a {{ station.lastupd }}</div>
         </ion-col>
     </ion-row>
 </ion-grid>

@@ -45,6 +45,10 @@ export function selectActiveStation(state: AppState) {
     return state.stations.active;
 }
 
+export function selectIsLoadingActiveStation(state: AppState) {
+    return state.stations.isActiveLoading;
+}
+
 export function selectCurrentPosition(state: AppState) {
     return state.location.position;
 }

@@ -10,5 +10,5 @@ import { VlilleStation } from '../../models/vlille-station';
 
 export class StationCard {
     @Input() station: VlilleStation;
-    @Input() isLoaded: boolean = true;
+    @Input() isLoading: boolean = true;
 }

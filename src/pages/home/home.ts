@@ -8,6 +8,7 @@ import {
     selectFavorites,
     selectStations,
     selectActiveStation,
+    selectIsLoadingActiveStation,
     selectCurrentPosition,
     selectCurrentPositionIsLoading
 } from '../../app/app.reducers';
@@ -35,7 +36,7 @@ export class Home {
     public locationState: LocationIconState = LocationIconState.Default;
 
     public activeStation: Observable<VlilleStation>;
-    public isActiveStationRefreshing: boolean = false;
+    public isActiveStationRefreshing: Observable<boolean>;
 
     @ViewChild('map') map: MapComponent;
 
@@ -50,6 +51,7 @@ export class Home {
         // get streams
         this.stations = store.select(state => selectStations(state));
         this.activeStation = store.select(state => selectActiveStation(state));
+        this.isActiveStationRefreshing = store.select(state => selectIsLoadingActiveStation(state));
         this.favoriteStations = store.select(state => selectFavorites(state));
 
         this.currentPosition = store.select(state => selectCurrentPosition(state));

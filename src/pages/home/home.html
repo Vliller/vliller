@@ -35,7 +35,7 @@
         </map>
         <station-card
             [station]="activeStation | async"
-            [isLoaded]="!isActiveStationRefreshing"
+            [isLoading]="isActiveStationRefreshing | async"
         ></station-card>
 
         <!-- support for toast service -->
