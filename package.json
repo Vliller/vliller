@@ -71,7 +71,7 @@
     "ios",
     "android"
   ],
-  "version": "2.4.0-alpha",
+  "version": "2.4.0",
   "cordova": {
     "plugins": {
       "cordova-custom-config": {},
