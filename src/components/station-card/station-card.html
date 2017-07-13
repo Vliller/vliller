@@ -16,7 +16,9 @@
         <!-- Station name & distance -->
         <ion-col>
             <div class="station-name">{{ station.name }}</div>
+
             <div *ngIf="!isLoading" class="station-distance">à {{ station.formatedDistance }}</div>
+            <div *ngIf="isLoading" class="station-distance">chargements en cours...</div>
         </ion-col>
 
         <!-- CB -->
