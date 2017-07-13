@@ -9,7 +9,7 @@ import * as Raven from 'raven-js';
 import moment from 'moment';
 import 'moment/locale/fr';
 
-import { VlilleStation } from '../../models/vlille-station';
+import { VlilleStation } from '../models/vlille-station';
 
 const API_BASE = 'https://opendata.lillemetropole.fr/api/records/1.0/search';
 const API_ENDPOINT = '/?dataset=vlille-realtime&rows=500';

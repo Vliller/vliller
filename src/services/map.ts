@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
-import { MapPosition } from '../../models/map-position';
-import { VlilleStation } from '../../models/vlille-station';
+import { MapPosition } from '../models/map-position';
+import { VlilleStation } from '../models/vlille-station';
 
 const MAPBOX_API_BASE = 'https://api.mapbox.com/directions/v5/mapbox/walking/';
 const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiYmxja3NocmsiLCJhIjoiY2l5YWc5anUyMDA0cDMzcWtxcnN0ZWxxcCJ9.xKDTqbkNCQTRvizwIDGeCQ';

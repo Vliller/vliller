@@ -5,8 +5,8 @@ import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 
 import { StationsActions } from '../actions/stations';
-import { VlilleService } from '../services/vlille/vlille';
-import { MapService } from '../services/map/map';
+import { VlilleService } from '../services/vlille';
+import { MapService } from '../services/map';
 import { MapPosition } from '../models/map-position';
 
 @Injectable()

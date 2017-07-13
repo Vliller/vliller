@@ -19,7 +19,7 @@ import { MapActions } from '../../actions/map';
 import { VlilleStation } from '../../models/vlille-station';
 import { MapPosition } from '../../models/map-position';
 import { MapComponent } from '../../components/map/map';
-import { MapService } from '../../services/map/map';
+import { MapService } from '../../services/map';
 import { LocationIconState } from '../../components/location-icon/location-icon';
 import { CodeMemo } from '../code-memo/code-memo';
 

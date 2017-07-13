@@ -4,7 +4,7 @@ import { Geolocation, Geoposition } from '@ionic-native/geolocation';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
 
-import { MapPosition } from '../../models/map-position';
+import { MapPosition } from '../models/map-position';
 
 @Injectable()
 export class LocationService {

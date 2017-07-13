@@ -10,7 +10,7 @@ import * as Raven from 'raven-js';
 
 import { ToastActions } from '../actions/toast';
 import { LocationActions } from '../actions/location';
-import { LocationService } from '../services/location/location';
+import { LocationService } from '../services/location';
 
 @Injectable()
 export class LocationEffects {

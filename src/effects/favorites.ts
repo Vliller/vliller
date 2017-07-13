@@ -5,7 +5,7 @@ import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 
 import { FavoritesActions } from '../actions/favorites';
-import { FavoritesService } from '../services/favorites/favorites';
+import { FavoritesService } from '../services/favorites';
 import { VlilleStation } from '../models/vlille-station';
 
 const FAVORITES_MAX_SIZE = 4;

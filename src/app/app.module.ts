@@ -36,10 +36,10 @@ import { CbIcon } from '../components/cb-icon/cb-icon';
 import { DirectionButton } from '../components/direction-button/direction-button';
 
 // services
-import { VlilleService } from '../services/vlille/vlille';
-import { FavoritesService } from '../services/favorites/favorites';
-import { LocationService } from '../services/location/location';
-import { MapService } from '../services/map/map';
+import { VlilleService } from '../services/vlille';
+import { FavoritesService } from '../services/favorites';
+import { LocationService } from '../services/location';
+import { MapService } from '../services/map';
 
 // pages
 import { Home } from '../pages/home/home';
