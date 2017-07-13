@@ -12,7 +12,6 @@ import { LaunchNavigator } from '@ionic-native/launch-navigator';
 
 // ngrx
 import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 
 // reducers
@@ -84,8 +83,6 @@ if (AppSettings.isProduction) {
             mode: "md"
         }),
         StoreModule.provideStore(reducers),
-        // Should be commented in production
-        StoreDevtoolsModule.instrumentOnlyWithExtension(),
         EffectsModule.run(FavoritesEffects),
         EffectsModule.run(ToastEffects),
         EffectsModule.run(StationsEffects),
