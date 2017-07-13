@@ -14,7 +14,7 @@
             <img class="img-responsive" src="assets/img/vliller-feedbackform-icon.png">
         </div>
 
-        <form (ngSubmit)="submit()" padding novalidate>
+        <form #feedbackForm="ngForm" (ngSubmit)="submit()" padding novalidate>
             <header padding-horizontal text-center>
                 <h2>Remarques &amp; suggestions</h2>
 
@@ -23,12 +23,12 @@
 
             <ion-item>
                 <ion-label floating>J'aimerais que...</ion-label>
-                <ion-textarea [(ngModel)]="userFeedback.message" name="message"></ion-textarea>
+                <ion-textarea [(ngModel)]="userFeedback.message" name="message" required></ion-textarea>
             </ion-item>
 
             <ion-item>
                 <ion-label floating>Mon e-mail</ion-label>
-                <ion-input type="email" [(ngModel)]="userFeedback.email" name="email"></ion-input>
+                <ion-input type="email" [(ngModel)]="userFeedback.email" name="email" required></ion-input>
             </ion-item>
 
             <ion-grid margin-top no-padding>
@@ -37,7 +37,7 @@
                         <button type="button" ion-button block outline color="secondary" (click)="close()">Annuler</button>
                     </ion-col>
                     <ion-col width-50>
-                        <button type="submit" ion-button block color="secondary">Envoyer</button>
+                        <button type="submit" ion-button block color="secondary" [disabled]="!feedbackForm.form.valid">Envoyer</button>
                     </ion-col>
                 </ion-row>
             </ion-grid>

@@ -2,6 +2,7 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule }   from '@angular/forms';
 import { App } from './app.component';
 import { AppSettings } from './app.settings';
 import { ravenInstall, RavenErrorHandler } from './raven';
@@ -77,6 +78,7 @@ if (AppSettings.isProduction) {
     ],
     imports: [
         BrowserModule,
+        FormsModule,
         HttpModule,
         IonicModule.forRoot(App, {
             mode: "md"
