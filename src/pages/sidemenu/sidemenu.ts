@@ -8,6 +8,7 @@ import { Contribs } from '../contribs/contribs';
 
 import { AppSettings } from '../../app/app.settings';
 import { FeedbackFormService } from '../../services/feedback-form/feedback-form';
+import * as Raven from 'raven-js';
 
 @Component({
     selector: 'sidemenu',
@@ -37,7 +38,7 @@ export class Sidemenu {
         } else if (this.platform.is('ios')) {
             new InAppBrowser().create('itms-apps://itunes.apple.com/fr/app/vliller/id' + AppSettings.appId.ios + '?mt=8', '_system');
         } else {
-            console.error('Rate app - Unknow platform?!');
+            Raven.captureException(new Error('Rate app - Unknow platform?!'));
         }
     };
 

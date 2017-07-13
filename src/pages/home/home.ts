@@ -67,7 +67,6 @@ export class Home {
                 return this.mapService.computeClosestStation(position, stations);
             }
         ).subscribe(closestStation => {
-            console.log('setActiveStation')
             // updates active station
             this.setActiveStation(closestStation, false);
         })

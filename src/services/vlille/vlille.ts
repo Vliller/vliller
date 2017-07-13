@@ -92,10 +92,8 @@ export class VlilleService {
             errMsg = error.message ? error.message : error.toString();
         }
 
-        console.error(errMsg);
-
         // sends error to Sentry
-        Raven.captureException(Error(errMsg));
+        Raven.captureException(new Error(errMsg));
 
         return Observable.throw(errMsg);
     }
