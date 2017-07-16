@@ -46,21 +46,22 @@ export class DirectionButton {
      * Start navigation to the station
      */
     navigate() {
-        this.launchNavigator
-        .navigate([
-            this.station.latitude,
-            this.station.longitude
-        ], {
-            app: this.navigationApp,
-            destinationName: this.station.name,
-            transportMode: 'walking',
-            // launchMode: 'turn-by-turn',
-            appSelectionDialogHeader: 'Sélectionnez une application de navigation',
-            appSelectionCancelButton: 'Annuler'
-        })
-        .catch(error => {
-            // TODO: check if errors a relevant
-            Raven.captureException(new Error(error));
-        });
+        this.platform.ready().then(() =>
+            this.launchNavigator.navigate([
+                this.station.latitude,
+                this.station.longitude
+            ], {
+                app: this.navigationApp,
+                destinationName: this.station.name,
+                transportMode: 'walking',
+                // launchMode: 'turn-by-turn',
+                appSelectionDialogHeader: 'Sélectionnez une application de navigation',
+                appSelectionCancelButton: 'Annuler'
+            })
+            .catch(error => {
+                // TODO: check if errors a relevant
+                Raven.captureException(new Error(error));
+            })
+        );
     }
 }
