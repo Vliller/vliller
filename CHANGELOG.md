@@ -1,3 +1,7 @@
+# 2.4.1
+
+- Correction d'un bug dans la fonctionnalité "ALLER"
+
 # 2.4.0
 
 - Réécriture basée sur le pattern Redux
