@@ -1,3 +1,7 @@
+# 2.4.3
+
+- Mise à jours mineur d'Ionic
+
 # 2.4.2
 
 - Correction du bug de demande d'autorisation GPS
