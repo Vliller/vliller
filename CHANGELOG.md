@@ -1,3 +1,7 @@
+# 2.4.2
+
+- Correction du bug de demande d'autorisation GPS
+
 # 2.4.1
 
 - Correction d'un bug dans la fonctionnalité "ALLER"
