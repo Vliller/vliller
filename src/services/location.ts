@@ -6,6 +6,17 @@ import { LocationAccuracy } from '@ionic-native/location-accuracy';
 
 import { MapPosition } from '../models/map-position';
 
+export class LocationDisabledError extends Error {
+  type: string = "LocationDisabledError";
+
+  constructor(m: string) {
+    super(m);
+
+    // Set the prototype explicitly.
+    Object.setPrototypeOf(this, LocationDisabledError.prototype);
+  }
+}
+
 @Injectable()
 export class LocationService {
 
@@ -29,7 +40,7 @@ export class LocationService {
                      * @see https://github.com/Microsoft/TypeScript/issues/7588#issuecomment-198700729
                      */
                     return Promise.reject<Geoposition>(
-                        new Error('Geolocation system disabled.'));
+                        new LocationDisabledError('Geolocation system disabled.'));
                 }
 
                 // Get current location
