@@ -9,6 +9,7 @@ import * as Raven from 'raven-js';
 import { ToastActions } from '../actions/toast';
 import { FavoritesActions } from '../actions/favorites';
 import { LocationActions } from '../actions/location';
+import { LocationDisabledError } from '../services/location';
 
 @Injectable()
 export class ToastEffects {
@@ -67,12 +68,11 @@ export class ToastEffects {
     .map(action => {
       let error = action.payload;
 
-      if (error === "locationDisabled") {
+      if (error instanceof LocationDisabledError) {
         return new ToastActions.ShowError({
           message: "Vous devez activer votre GPS pour utiliser cette fonctionnalité.",
           options: {
-           showCloseButton: true,
-           closeButtonText: "OK"
+            duration: 3000
           }
         });
       }
@@ -81,7 +81,7 @@ export class ToastEffects {
       Raven.captureException(new Error(error));
 
       return new ToastActions.ShowError({
-        message: "Impossible de récupérer votre position ! Vérifiez que votre GPS est activé.",
+        message: "Impossible de récupérer votre position&nbsp;! Vérifiez que votre GPS est activé.",
         options: {
           duration: 3000
         }
