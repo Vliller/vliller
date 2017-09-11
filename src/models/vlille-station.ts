@@ -1,6 +1,12 @@
 /**
- *
+ * Models related to VlilleStation
  */
+
+export enum VlilleStationStatus {
+  NORMAL = 0,
+  UNAVAIBLE = 1
+}
+
 export class VlilleStation {
     constructor(
         public id: string,
@@ -11,7 +17,7 @@ export class VlilleStation {
         public bikes: number,
         public docks: number,
         public payment: string,
-        public status: string,
+        public status: VlilleStationStatus,
         public lastupd: string,
         public distance?: number,
         public isFavorite: boolean = false
