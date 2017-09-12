@@ -5,7 +5,7 @@ import { DeviceOrientation } from '@ionic-native/device-orientation';
 
 import { MapIcon } from './map-icon';
 import { MapPosition } from '../../models/map-position';
-import { VlilleStation } from '../../models/vlille-station';
+import { VlilleStation, VlilleStationStatus } from '../../models/vlille-station';
 
 import { AppSettings } from '../../app/app.settings';
 import { Store } from '@ngrx/store';
@@ -94,7 +94,8 @@ export class MapComponent implements OnInit {
             .filter(stations => stations && stations.length > 0)
             .take(1)
             .subscribe((stations: VlilleStation[]) => {
-                this.initMarkers(stations)
+                this
+                .initMarkers(stations)
                 .then(() => {
                     // hide loading message
                     this.store.dispatch(new ToastActions.Hide());
@@ -181,7 +182,7 @@ export class MapComponent implements OnInit {
                         lat: station.latitude,
                         lng: station.longitude
                     },
-                    icon: this.markerIcon,
+                    icon: station.status === VlilleStationStatus.NORMAL ? MapIcon.NORMAL : MapIcon.UNAVAIBLE,
                     disableAutoPan: true
                 }, marker => {
                     // stores created marker
@@ -276,7 +277,7 @@ export class MapComponent implements OnInit {
         if (zoom <= ZOOM_THRESHOLD && this.mapZoom > ZOOM_THRESHOLD) {
             // we are "unzooming"
             // change the marker icon for the small one
-            this.markerIcon = MapIcon.SMALL;
+            this.markerIcon = MapIcon.NORMAL_SMALL;
         } else if (zoom > ZOOM_THRESHOLD && this.mapZoom <= ZOOM_THRESHOLD) {
             // we are "zooming"
             // change the marker icon for the normal one

@@ -6,7 +6,7 @@ export const MapIcon = {
             height: 45
         }
     },
-    SMALL: {
+    NORMAL_SMALL: {
         url: 'www/assets/img/vliller-marker-red-small.png',
         size: {
             width: 12,
@@ -25,6 +25,14 @@ export const MapIcon = {
         size: {
             width: 60,
             height: 69
+        }
+    },
+    // TODO changes to gray icon
+    UNAVAIBLE_SMALL: {
+        url: 'www/assets/img/vliller-marker-red-small.png',
+        size: {
+            width: 12,
+            height: 12
         }
     },
     USER: {
