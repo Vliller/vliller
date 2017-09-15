@@ -113,6 +113,18 @@ export class MapComponent implements OnInit {
 
                         this.setActiveMarker(marker);
                     });
+
+                    // updates markers 'isAvailable' attribute
+                    this.stations
+                    .filter(stations => stations && stations.length > 0)
+                    .subscribe((stations: VlilleStation[]) => {
+                        stations.forEach(station => {
+                            let marker = this.markers.get(station.id);
+
+                            // updates marker data
+                            marker.set('isAvailable', station.status === VlilleStationStatus.NORMAL);
+                        })
+                    });
                 });
             });
 
