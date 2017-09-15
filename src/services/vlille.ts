@@ -58,12 +58,12 @@ export class VlilleService {
         if (data.fields.etat === 'EN SERVICE') {
             station.status = VlilleStationStatus.NORMAL;
         } else {
-            station.status = VlilleStationStatus.UNAVAIBLE;
+            station.status = VlilleStationStatus.UNAVAILABLE;
         }
 
         if (station.bikes === 0 && station.docks === 0) {
             // teapot
-            station.status = VlilleStationStatus.UNAVAIBLE;
+            station.status = VlilleStationStatus.UNAVAILABLE;
         }
 
         /*

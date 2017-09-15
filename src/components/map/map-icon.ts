@@ -25,23 +25,23 @@ export const MapIcon = {
     }
   },
 
-  // Station unavaible
-  UNAVAIBLE: {
-    url: 'www/assets/img/vliller-marker-unavaible@2x.png',
+  // Station unavailable
+  UNAVAILABLE: {
+    url: 'www/assets/img/vliller-marker-unavailable@2x.png',
     size: {
       width: 34,
       height: 40
     }
   },
-  UNAVAIBLE_ACTIVE: {
-    url: 'www/assets/img/vliller-marker-unavaible-active@2x.png',
+  UNAVAILABLE_ACTIVE: {
+    url: 'www/assets/img/vliller-marker-unavailable-active@2x.png',
     size: {
       width: 62,
       height: 72
     }
   },
-  UNAVAIBLE_SMALL: {
-    url: 'www/assets/img/vliller-marker-unavaible-small@2x.png',
+  UNAVAILABLE_SMALL: {
+    url: 'www/assets/img/vliller-marker-unavailable-small@2x.png',
     size: {
       width: 10,
       height: 10

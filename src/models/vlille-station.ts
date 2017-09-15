@@ -4,7 +4,7 @@
 
 export enum VlilleStationStatus {
   NORMAL = 0,
-  UNAVAIBLE = 1
+  UNAVAILABLE = 1
 }
 
 export class VlilleStation {
