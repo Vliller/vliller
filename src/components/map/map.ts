@@ -321,7 +321,7 @@ export class MapComponent implements OnInit {
 
         // set new marker
         this.activeMarker = marker;
-        this.activeMarker.setIcon(MapIcon.ACTIVE);
+        this.activeMarker.setIcon(MapIcon.NORMAL_ACTIVE);
     }
 
     /**
