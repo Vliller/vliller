@@ -197,9 +197,18 @@ export class MapComponent implements OnInit {
                     icon: station.status === VlilleStationStatus.NORMAL ? MapIcon.NORMAL : MapIcon.UNAVAILABLE,
                     disableAutoPan: true
                 }, marker => {
-                    let isLast = this.markers.size !== stations.length;
+                    this.handleMarkerCreated(marker, station);
 
-                    this.handleMarkerCreated(marker, station, isLast, resolve);
+                    /**
+                     * addMarker() is async, so we need to wait until all the markers are created.
+                     * @see https://github.com/mapsplugin/cordova-plugin-googlemaps/wiki/Marker#create-multiple-markers
+                     */
+                    if (this.markers.size !== stations.length) {
+                        return;
+                    }
+
+                    // indicates that markers creation is done
+                    resolve();
                 });
             }
         });
@@ -209,10 +218,8 @@ export class MapComponent implements OnInit {
      * Manage marker after it has been add to the map
      * @param marker 
      * @param station 
-     * @param isLast 
-     * @param resolve 
      */
-    private handleMarkerCreated(marker: any, station:VlilleStation, isLast: boolean, resolve: Function) {
+    private handleMarkerCreated(marker: any, station:VlilleStation) {
         // stores created marker
         this.markers.set(station.id, marker);
         
@@ -230,17 +237,6 @@ export class MapComponent implements OnInit {
             // updates active station
             this.store.dispatch(new StationsActions.UpdateActive(station))
         });
-
-        /**
-         * addMarker() is async, so we need to wait until all the markers are created.
-         * @see https://github.com/mapsplugin/cordova-plugin-googlemaps/wiki/Marker#create-multiple-markers
-         */
-        if (!isLast) {
-            return;
-        }
-
-        // indicates that markers creation is done
-        resolve();
     }
 
     /**
