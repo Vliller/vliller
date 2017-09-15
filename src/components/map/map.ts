@@ -187,7 +187,6 @@ export class MapComponent implements OnInit {
      */
     private initMarkers(stations: VlilleStation[]): Promise<any> {
         return new Promise((resolve, reject) => {
-
             // adds stations markers on map
             for (let station of stations) {
                 this.mapInstance.addMarker({
@@ -198,37 +197,50 @@ export class MapComponent implements OnInit {
                     icon: station.status === VlilleStationStatus.NORMAL ? MapIcon.NORMAL : MapIcon.UNAVAILABLE,
                     disableAutoPan: true
                 }, marker => {
-                    // stores created marker
-                    this.markers.set(station.id, marker);
+                    let isLast = this.markers.size !== stations.length;
 
-                    // init station status
-                    marker.set('isAvailable', station.status === VlilleStationStatus.NORMAL);
-
-                    /**
-                     * Set active marker on click
-                     */
-                    marker.on(plugin.google.maps.event.MARKER_CLICK, () => {
-                        this.setActiveMarker(marker);
-
-                        this.setCenter(MapPosition.fromCoordinates(station), true);
-
-                        // updates active station
-                        this.store.dispatch(new StationsActions.UpdateActive(station))
-                    });
-
-                    /**
-                     * addMarker() is async, so we need to wait until all the markers are created.
-                     * @see https://github.com/mapsplugin/cordova-plugin-googlemaps/wiki/Marker#create-multiple-markers
-                     */
-                    if (this.markers.size !== stations.length) {
-                        return;
-                    }
-
-                    // indicates that markers creation is done
-                    resolve();
+                    this.handleMarkerCreated(marker, station, isLast, resolve);
                 });
             }
         });
+    }
+
+    /**
+     * Manage marker after it has been add to the map
+     * @param marker 
+     * @param station 
+     * @param isLast 
+     * @param resolve 
+     */
+    private handleMarkerCreated(marker: any, station:VlilleStation, isLast: boolean, resolve: Function) {
+        // stores created marker
+        this.markers.set(station.id, marker);
+        
+        // init station status
+        marker.set('isAvailable', station.status === VlilleStationStatus.NORMAL);
+
+        /**
+         * Set active marker on click
+         */
+        marker.on(plugin.google.maps.event.MARKER_CLICK, () => {
+            this.setActiveMarker(marker);
+
+            this.setCenter(MapPosition.fromCoordinates(station), true);
+
+            // updates active station
+            this.store.dispatch(new StationsActions.UpdateActive(station))
+        });
+
+        /**
+         * addMarker() is async, so we need to wait until all the markers are created.
+         * @see https://github.com/mapsplugin/cordova-plugin-googlemaps/wiki/Marker#create-multiple-markers
+         */
+        if (!isLast) {
+            return;
+        }
+
+        // indicates that markers creation is done
+        resolve();
     }
 
     /**
