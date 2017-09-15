@@ -1,6 +1,6 @@
 # 2.5.0
 
-- Affichage des stations indisponibles direction sur la carte et dans les favoris
+- Affichage des stations indisponibles directement sur la carte et dans les favoris
 
 # 2.4.3
 
