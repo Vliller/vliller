@@ -42,9 +42,9 @@ export class MapComponent implements OnInit {
     private mapInstance: any;
     private mapInstancePromise: Promise<any>;
     private mapZoom: number = ZOOM_DEFAULT;
+    private mapIsUnzoom: boolean = false;
 
     private markers: Map<string, any> = new Map();
-    private markerIcon: any = MapIcon.NORMAL;
     private activeMarker: any;
 
     private userMarker: any;
@@ -169,6 +169,7 @@ export class MapComponent implements OnInit {
 
     /**
      * Create stations markers on the map
+     * 
      * @param  {VlilleStation[]} stations
      * @return {Promise<>}
      */
@@ -182,11 +183,14 @@ export class MapComponent implements OnInit {
                         lat: station.latitude,
                         lng: station.longitude
                     },
-                    icon: station.status === VlilleStationStatus.NORMAL ? MapIcon.NORMAL : MapIcon.UNAVAIBLE,
+                    icon: station.status === VlilleStationStatus.NORMAL ? MapIcon.NORMAL : MapIcon.UNAVAILABLE,
                     disableAutoPan: true
                 }, marker => {
                     // stores created marker
                     this.markers.set(station.id, marker);
+
+                    // init station status
+                    marker.set('isAvailable', station.status === VlilleStationStatus.NORMAL);
 
                     /**
                      * Set active marker on click
@@ -269,7 +273,7 @@ export class MapComponent implements OnInit {
     }
 
     /**
-     * Updates `this.markerIcon` value according to the given `zoom` value.
+     * Updates `this.mapIsUnzoom` value according to the given `zoom` value.
      *
      * @param {number} zoom
      */
@@ -277,11 +281,11 @@ export class MapComponent implements OnInit {
         if (zoom <= ZOOM_THRESHOLD && this.mapZoom > ZOOM_THRESHOLD) {
             // we are "unzooming"
             // change the marker icon for the small one
-            this.markerIcon = MapIcon.NORMAL_SMALL;
+            this.mapIsUnzoom = true;
         } else if (zoom > ZOOM_THRESHOLD && this.mapZoom <= ZOOM_THRESHOLD) {
             // we are "zooming"
             // change the marker icon for the normal one
-            this.markerIcon = MapIcon.NORMAL;
+            this.mapIsUnzoom = false;
         } else {
             // seems to be the same zoom level
             // nothing to do
@@ -305,7 +309,21 @@ export class MapComponent implements OnInit {
                 return;
             }
 
-            marker.setIcon(this.markerIcon);
+            // update marker icon according to zoom and station status
+            let isAvailable = marker.get('isAvailable');
+            if (this.mapIsUnzoom) {
+                if (isAvailable) {
+                    marker.setIcon(MapIcon.NORMAL_SMALL);
+                } else {
+                    marker.setIcon(MapIcon.UNAVAILABLE_SMALL);
+                }
+            } else {
+                if (isAvailable) {
+                    marker.setIcon(MapIcon.NORMAL);
+                } else {
+                    marker.setIcon(MapIcon.UNAVAILABLE);
+                }
+            }
         });
     }
 
@@ -314,14 +332,24 @@ export class MapComponent implements OnInit {
      * @param {google.maps.Marker} marker
      */
     private setActiveMarker(marker: any) {
-        // set default icon on current office marker
+        // reset default icon on current office marker
         if (this.activeMarker && this.activeMarker.id !== marker.id) {
-            this.activeMarker.setIcon(this.markerIcon);
+            if (this.activeMarker.get('isAvailable')) {
+                this.activeMarker.setIcon(MapIcon.NORMAL);
+            } else {
+                this.activeMarker.setIcon(MapIcon.UNAVAILABLE);
+            }
         }
 
         // set new marker
         this.activeMarker = marker;
-        this.activeMarker.setIcon(MapIcon.NORMAL_ACTIVE);
+
+        // updates marker icon according to station state
+        if (this.activeMarker.get('isAvailable')) {
+            this.activeMarker.setIcon(MapIcon.NORMAL_ACTIVE);
+        } else {
+            this.activeMarker.setIcon(MapIcon.UNAVAILABLE_ACTIVE);
+        }
     }
 
     /**
