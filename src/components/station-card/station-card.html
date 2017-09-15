@@ -33,7 +33,7 @@
     </ion-row>
 
     <!-- Content -->
-    <ion-row class="station-card--content" *ngIf="station.status === '0'" align-items-center>
+    <ion-row class="station-card--content" *ngIf="station.status === 0" align-items-center>
         <ion-col>
             <!-- bikes -->
             <station-card-metric type="bike" [value]="station.bikes" [isLoading]="isLoading" class="border-right"></station-card-metric>
@@ -44,7 +44,7 @@
         </ion-col>
     </ion-row>
 
-    <ion-row class="station-card--dead" *ngIf="station.status !== '0'" align-items-center justify-content-center>
+    <ion-row class="station-card--dead" *ngIf="station.status !== 0" align-items-center justify-content-center>
         <div padding>Cette station semble indisponible.<br>Tente ta chance, ou va plus loin&nbsp;!</div>
     </ion-row>
 

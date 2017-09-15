@@ -9,7 +9,7 @@ import * as Raven from 'raven-js';
 import moment from 'moment';
 import 'moment/locale/fr';
 
-import { VlilleStation } from '../models/vlille-station';
+import { VlilleStation, VlilleStationStatus } from '../models/vlille-station';
 
 const API_BASE = 'https://opendata.lillemetropole.fr/api/records/1.0/search';
 const API_ENDPOINT = '/?dataset=vlille-realtime&rows=500';
@@ -56,13 +56,14 @@ export class VlilleService {
             Status
          */
         if (data.fields.etat === 'EN SERVICE') {
-            station.status = '0';
+            station.status = VlilleStationStatus.NORMAL;
         } else {
-            station.status = '1';
+            station.status = VlilleStationStatus.UNAVAILABLE;
         }
 
         if (station.bikes === 0 && station.docks === 0) {
-            station.status = '418';
+            // teapot
+            station.status = VlilleStationStatus.UNAVAILABLE;
         }
 
         /*
