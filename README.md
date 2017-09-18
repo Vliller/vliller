@@ -22,7 +22,3 @@ https://github.com/alexetmanon/vliller/wiki/Roadmap
 ## Contributions
 
 https://github.com/alexetmanon/vliller/wiki/Contributions
-
-## Licence
-
-GNU GPL v3
