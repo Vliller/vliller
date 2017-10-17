@@ -3,7 +3,7 @@ import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { DeviceOrientation } from '@ionic-native/device-orientation';
 
-import { MapIcon } from './map-icon';
+import { MapIcon, MapDynamicIcon } from './map-icon';
 import { MapPosition } from '../../models/map-position';
 import { VlilleStation, VlilleStationStatus } from '../../models/vlille-station';
 
@@ -181,7 +181,7 @@ export class MapComponent implements OnInit {
 
     /**
      * Create stations markers on the map
-     * 
+     *
      * @param  {VlilleStation[]} stations
      * @return {Promise<>}
      */
@@ -216,13 +216,13 @@ export class MapComponent implements OnInit {
 
     /**
      * Manage marker after it has been add to the map
-     * @param marker 
-     * @param station 
+     * @param marker
+     * @param station
      */
     private handleMarkerCreated(marker: any, station:VlilleStation) {
         // stores created marker
         this.markers.set(station.id, marker);
-        
+
         // init station status
         marker.set('isAvailable', station.status === VlilleStationStatus.NORMAL);
 
@@ -339,7 +339,10 @@ export class MapComponent implements OnInit {
                 }
             } else {
                 if (isAvailable) {
-                    marker.setIcon(MapIcon.NORMAL);
+                    // marker.setIcon(MapIcon.NORMAL);
+                    let debug = MapDynamicIcon.generate(60);
+                    console.log(debug.url);
+                    marker.setIcon(debug);
                 } else {
                     marker.setIcon(MapIcon.UNAVAILABLE);
                 }
