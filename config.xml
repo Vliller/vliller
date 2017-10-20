@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" id="com.alexetmanon.vliller" version="2.5.0" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.alexetmanon.vliller" version="2.5.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Vliller</name>
     <description>1 clic, 1 vélo, 1 place !</description>
     <author email="wall-e@alexetmanon.com" href="http://alexetmanon.com/">alex et manon</author>
@@ -95,7 +95,6 @@
     <plugin name="cordova-plugin-geolocation" spec="2.4.2">
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="Show your location on the map" />
     </plugin>
-    <plugin name="cordova-plugin-google-analytics" spec="1.7.4" />
     <plugin name="cordova-plugin-googlemaps" spec="git+https://github.com/mapsplugin/cordova-plugin-googlemaps.git">
         <variable name="API_KEY_FOR_ANDROID" value="AIzaSyCwaMhgCXRnhlbBulzNGi5BU0JBLej0FbI" />
         <variable name="API_KEY_FOR_IOS" value="AIzaSyB7l0BYrnYjYqAY8tiX81XT6j-1iIz-YUY" />
@@ -112,4 +111,5 @@
     <plugin name="cordova.plugins.diagnostic" spec="3.4.1" />
     <plugin name="ionic-plugin-keyboard" spec="2.2.1" />
     <plugin name="uk.co.workingedge.phonegap.plugin.launchnavigator" spec="3.2.2" />
+    <plugin name="cordova-plugin-appsee" spec="^2.3.65" />
 </widget>

@@ -6,7 +6,7 @@ export namespace AppSettings {
         ios: '1161025016'
     };
 
-    export const googleAnalyticsId = 'UA-85251159-1';
+    export const appSeeId = "33b5efa851e145479d65e7346893b223";
 
     export const vlillerSiteUrl = 'http://vliller.alexetmanon.com';
     export const vlillerContribsUrl = 'https://api.github.com/repos/alexetmanon/vliller/contributors';
