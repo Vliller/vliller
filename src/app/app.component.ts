@@ -49,8 +49,10 @@ export class App {
                 return version;
             });
 
-            // Starts AppSee tracking
-            Appsee.start(AppSettings.appSeeId);
+            if (AppSettings.isProduction) {
+                // Starts AppSee tracking
+                Appsee.start(AppSettings.appSeeId);
+            }
         });
     }
 
