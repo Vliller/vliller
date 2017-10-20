@@ -12,6 +12,7 @@ import './rxjs-operators';
 import { Home } from '../pages/home/home';
 import { AppSettings } from './app.settings';
 
+declare var Appsee: any;
 
 @Component({
     templateUrl: 'app.html'
@@ -48,14 +49,8 @@ export class App {
                 return version;
             });
 
-            // Starts GA tracking
-            let GAPromise = new GoogleAnalytics().startTrackerWithId(AppSettings.googleAnalyticsId);
-
-            // Configure GA (wait for app version)
-            Promise
-                .all([versionPromise, GAPromise])
-                .then(data => new GoogleAnalytics().setAppVersion(data[0]))
-                .catch(error => Raven.captureException(error));
+            // Starts AppSee tracking
+            Appsee.start(AppSettings.appSeeId);
         });
     }
 
