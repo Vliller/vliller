@@ -45,6 +45,7 @@
         "cordova-plugin-geolocation": "2.4.2",
         "cordova-plugin-googlemaps": "git+https://github.com/mapsplugin/cordova-plugin-googlemaps.git",
         "cordova-plugin-inappbrowser": "1.7.0",
+        "cordova-plugin-ionic-webview": "^1.1.16",
         "cordova-plugin-nativestorage": "2.0.2",
         "cordova-plugin-request-location-accuracy": "2.2.0",
         "cordova-plugin-splashscreen": "4.0.2",
@@ -96,7 +97,8 @@
                 "NSLOCATIONWHENINUSEUSAGEDESCRIPTION": "Show your location on the map",
                 "NSLOCATIONALWAYSUSAGEDESCRIPTION": "Trace your location on the map"
             },
-            "cordova-plugin-appsee": {}
+            "cordova-plugin-appsee": {},
+            "cordova-plugin-ionic-webview": {}
         },
         "platforms": [
             "android",

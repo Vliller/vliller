@@ -11,6 +11,7 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <allow-navigation href="http://localhost:8080/*" />
     <platform name="android">
         <config-file parent="/*" target="AndroidManifest.xml">
             <uses-permission android:name="android.permission.INTERNET" />
@@ -82,8 +83,12 @@
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="3000" />
     <preference name="ShowSplashScreenSpinner" value="false" />
+    <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
     <feature name="StatusBar">
         <param name="ios-package" onload="true" value="CDVStatusBar" />
+    </feature>
+    <feature name="CDVWKWebViewEngine">
+        <param name="ios-package" value="CDVWKWebViewEngine" />
     </feature>
     <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
     <engine name="android" spec="^6.2.3" />
@@ -111,5 +116,6 @@
     <plugin name="cordova.plugins.diagnostic" spec="3.4.1" />
     <plugin name="ionic-plugin-keyboard" spec="2.2.1" />
     <plugin name="uk.co.workingedge.phonegap.plugin.launchnavigator" spec="3.2.2" />
-    <plugin name="cordova-plugin-appsee" spec="^2.3.65" />
+    <plugin name="cordova-plugin-appsee" spec="2.3.65" />
+    <plugin name="cordova-plugin-ionic-webview" spec="1.1.16" />
 </widget>
