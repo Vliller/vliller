@@ -37,7 +37,7 @@
         "@ngrx/store": "2.2.2",
         "cordova-android": "^6.2.3",
         "cordova-custom-config": "3.1.3",
-        "cordova-ios": "~4.4.0",
+        "cordova-ios": "4.5.2",
         "cordova-plugin-app-version": "0.1.9",
         "cordova-plugin-appsee": "2.3.65",
         "cordova-plugin-device": "1.1.5",
@@ -45,7 +45,7 @@
         "cordova-plugin-geolocation": "2.4.2",
         "cordova-plugin-googlemaps": "git+https://github.com/mapsplugin/cordova-plugin-googlemaps.git",
         "cordova-plugin-inappbrowser": "1.7.0",
-        "cordova-plugin-ionic-webview": "^1.1.16",
+        "cordova-plugin-ionic-webview": "1.1.16",
         "cordova-plugin-nativestorage": "2.0.2",
         "cordova-plugin-request-location-accuracy": "2.2.0",
         "cordova-plugin-splashscreen": "4.0.2",
@@ -61,7 +61,8 @@
         "rxjs": "5.4.3",
         "sw-toolbox": "3.6.0",
         "uk.co.workingedge.phonegap.plugin.launchnavigator": "3.2.2",
-        "zone.js": "0.8.18"
+        "zone.js": "0.8.18",
+        "cordova-plugin-actionsheet": "2.3.3"
     },
     "devDependencies": {
         "@ionic/app-scripts": "3.0.0",
@@ -98,7 +99,8 @@
                 "NSLOCATIONALWAYSUSAGEDESCRIPTION": "Trace your location on the map"
             },
             "cordova-plugin-appsee": {},
-            "cordova-plugin-ionic-webview": {}
+            "cordova-plugin-ionic-webview": {},
+            "cordova-plugin-actionsheet": {}
         },
         "platforms": [
             "android",
