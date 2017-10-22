@@ -21,11 +21,15 @@ export class Sidemenu {
 
     constructor(
         private platform: Platform,
+        private appVersionPlugin: AppVersion,
+        private inAppBrowserPlugin: InAppBrowser,
+        private socialSharingPlugin: SocialSharing,
         private modalCtrl: ModalController
     ) {
-        this.platform.ready().then(() => {
-            new AppVersion().getVersionNumber().then(version => this.appVersion = version);
-        });
+        this.platform
+            .ready()
+            .then(() => appVersionPlugin.getVersionNumber())
+            .then(version => this.appVersion = version);
     }
 
     /**
@@ -33,9 +37,9 @@ export class Sidemenu {
      */
     public rateApp() {
         if (this.platform.is('android')) {
-            new InAppBrowser().create('market://details?id=' + AppSettings.appId.android, '_system');
+            this.inAppBrowserPlugin.create('market://details?id=' + AppSettings.appId.android, '_system');
         } else if (this.platform.is('ios')) {
-            new InAppBrowser().create('itms-apps://itunes.apple.com/fr/app/vliller/id' + AppSettings.appId.ios + '?mt=8', '_system');
+            this.inAppBrowserPlugin.create('itms-apps://itunes.apple.com/fr/app/vliller/id' + AppSettings.appId.ios + '?mt=8', '_system');
         } else {
             Raven.captureException(new Error('Rate app - Unknow platform?!'));
         }
@@ -46,7 +50,7 @@ export class Sidemenu {
      * @param {String} link
      */
     public openLink(link) {
-        new InAppBrowser().create(link, '_system');
+        this.inAppBrowserPlugin.create(link, '_system');
     };
 
     /**
@@ -62,7 +66,7 @@ export class Sidemenu {
      * Show system social sharing to share the Vliller landing page.
      */
     public openSocialSharing() {
-        new SocialSharing().shareWithOptions({
+        this.socialSharingPlugin.shareWithOptions({
             url: AppSettings.vlillerSiteUrl
         });
     };

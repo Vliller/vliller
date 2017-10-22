@@ -21,7 +21,8 @@ export class Feedback {
         private viewCtrl: ViewController,
         private params: NavParams,
         private http: Http,
-        private platform: Platform
+        private platform: Platform,
+        private devicePlugin: Device
     ) {
         this.appVersion = params.get('appVersion');
 
@@ -32,19 +33,17 @@ export class Feedback {
     public submit() {
         this.platform.ready()
             .then(() => {
-                let device = new Device();
-
                 this.sendRequest({
                     email: this.userFeedback.email,
                     message: this.userFeedback.message,
                     properties: {
                         version: this.appVersion,
                         device: {
-                            cordova: device.cordova,
-                            model: device.model,
-                            platform: device.platform,
-                            version: device.version,
-                            manufacturer: device.manufacturer
+                            cordova: this.devicePlugin.cordova,
+                            model: this.devicePlugin.model,
+                            platform: this.devicePlugin.platform,
+                            version: this.devicePlugin.version,
+                            manufacturer: this.devicePlugin.manufacturer
                         }
                     }
                 })

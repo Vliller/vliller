@@ -1,7 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
-import { GoogleAnalytics } from '@ionic-native/google-analytics';
-import { StatusBar } from '@ionic-native/status-bar';
 import { AppVersion } from '@ionic-native/app-version';
 
 import * as Raven from 'raven-js';
@@ -26,19 +24,13 @@ export class App {
 
     appVersion: string;
 
-    constructor(private platform: Platform) {
+    constructor(
+        private platform: Platform,
+        private appVersionPlugin: AppVersion
+    ) {
         this.platform.ready().then(() => {
-            let statusBar = new StatusBar();
-
-            // Manage status bar color
-            if (this.platform.is('ios')) {
-                statusBar.styleLightContent();
-            } else if (this.platform.is('android')) {
-                statusBar.backgroundColorByHexString('#b7212c');
-            }
-
             // Get app version
-            let versionPromise = new AppVersion().getVersionNumber().then(version => {
+            let versionPromise = appVersionPlugin.getVersionNumber().then(version => {
                 this.appVersion = version;
 
                 // set version in error tracker

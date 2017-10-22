@@ -9,6 +9,16 @@ import { ravenInstall, RavenErrorHandler } from './raven';
 
 // native
 import { LaunchNavigator } from '@ionic-native/launch-navigator';
+import { AppVersion } from '@ionic-native/app-version';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { DeviceOrientation } from '@ionic-native/device-orientation';
+import { Device } from '@ionic-native/device';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { SocialSharing } from '@ionic-native/social-sharing';
+import { NativeStorage } from '@ionic-native/native-storage';
+import { Geolocation } from '@ionic-native/geolocation';
+import { Diagnostic } from '@ionic-native/diagnostic';
+import { LocationAccuracy } from '@ionic-native/location-accuracy';
 
 // ngrx
 import { StoreModule } from '@ngrx/store';
@@ -105,7 +115,17 @@ if (AppSettings.isProduction) {
         FavoritesService,
         LocationService,
         MapService,
-        LaunchNavigator
+        LaunchNavigator,
+        AppVersion,
+        InAppBrowser,
+        DeviceOrientation,
+        Device,
+        SplashScreen,
+        SocialSharing,
+        NativeStorage,
+        Geolocation,
+        Diagnostic,
+        LocationAccuracy
     ]
 })
 export class AppModule {}

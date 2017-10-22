@@ -8,8 +8,9 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 })
 
 export class AetmFooter {
+    constructor (private inAppBrowserPlugin: InAppBrowser) {}
 
     public openLink(link) {
-        new InAppBrowser().create(link, '_system');
+        this.inAppBrowserPlugin.create(link, '_system');
     }
 }
