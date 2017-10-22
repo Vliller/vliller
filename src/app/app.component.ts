@@ -26,17 +26,15 @@ export class App {
 
     appVersion: string;
 
-    constructor(public platform: Platform) {
-        this.initializeApp();
-    }
-
-    initializeApp() {
+    constructor(private platform: Platform) {
         this.platform.ready().then(() => {
+            let statusBar = new StatusBar();
+
             // Manage status bar color
             if (this.platform.is('ios')) {
-                new StatusBar().styleLightContent();
+                statusBar.styleLightContent();
             } else if (this.platform.is('android')) {
-                new StatusBar().backgroundColorByHexString('#b7212c');
+                statusBar.backgroundColorByHexString('#b7212c');
             }
 
             // Get app version
