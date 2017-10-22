@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { AppVersion } from '@ionic-native/app-version';
+import { StatusBar } from '@ionic-native/status-bar';
 
 import * as Raven from 'raven-js';
 
@@ -26,9 +27,16 @@ export class App {
 
     constructor(
         private platform: Platform,
-        private appVersionPlugin: AppVersion
+        private appVersionPlugin: AppVersion,
+        private statusBarPlugin: StatusBar
     ) {
-        this.platform.ready().then(() => {
+        platform.ready().then(() => {
+            // bugfix status bar white bar bug on iOS 11
+            if (platform.is("ios") && platform.version().major === 11) {
+                statusBarPlugin.overlaysWebView(false);
+                statusBarPlugin.backgroundColorByHexString("#e52b38");
+            }
+
             // Get app version
             let versionPromise = appVersionPlugin.getVersionNumber().then(version => {
                 this.appVersion = version;

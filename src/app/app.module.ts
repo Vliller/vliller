@@ -19,6 +19,7 @@ import { NativeStorage } from '@ionic-native/native-storage';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
+import { StatusBar } from '@ionic-native/status-bar';
 
 // ngrx
 import { StoreModule } from '@ngrx/store';
@@ -125,7 +126,8 @@ if (AppSettings.isProduction) {
         NativeStorage,
         Geolocation,
         Diagnostic,
-        LocationAccuracy
+        LocationAccuracy,
+        StatusBar
     ]
 })
 export class AppModule {}
