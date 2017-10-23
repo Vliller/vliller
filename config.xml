@@ -72,6 +72,8 @@
         <splash height="1024" src="resources/ios/splash/Default-Portrait~ipad.png" width="768" />
         <splash height="960" src="resources/ios/splash/Default@2x~iphone.png" width="640" />
         <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
+        <icon height="1024" src="resources/ios/icon/icon-1024.png" width="1024" />
+        <splash height="2732" src="resources/ios/splash/Default@2x~universal~anyany.png" width="2732" />
     </platform>
     <preference name="LoadUrlTimeoutValue" value="60000" />
     <preference name="Orientation" value="portrait" />
@@ -124,4 +126,5 @@
     <plugin name="uk.co.workingedge.phonegap.plugin.launchnavigator" spec="4.0.7">
         <variable name="LOCATION_USAGE_DESCRIPTION" value="This app requires access to your location for navigation purposes" />
     </plugin>
+    <preference name="SplashShowOnlyFirstTime" value="false" />
 </widget>
