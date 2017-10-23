@@ -12,7 +12,10 @@ const STORAGE_ID = 'favorites';
  */
 @Injectable()
 export class FavoritesService {
-    constructor(private platform: Platform) {}
+    constructor(
+        private platform: Platform,
+        private nativeStoragePlugin: NativeStorage
+    ) {}
 
     /**
      * Loads favorites elements from storage
@@ -28,7 +31,7 @@ export class FavoritesService {
     }
 
     private _load(): Promise<VlilleStation[]> {
-        return new NativeStorage().getItem(STORAGE_ID);
+        return this.nativeStoragePlugin.getItem(STORAGE_ID);
     }
 
     /**
@@ -45,6 +48,6 @@ export class FavoritesService {
     }
 
     private _save(favorites: VlilleStation[]): Promise<VlilleStation[]> {
-        return new NativeStorage().setItem(STORAGE_ID, favorites);
+        return this.nativeStoragePlugin.setItem(STORAGE_ID, favorites);
     }
 }

@@ -46,7 +46,8 @@ export class Home {
         private alertController: AlertController,
         private toastController: ToastController,
         private modalController: ModalController,
-        private store: Store<AppState>
+        private store: Store<AppState>,
+        private splashScreenPlugin: SplashScreen
     ) {
         // get streams
         this.stations = store.select(state => selectStations(state));
@@ -77,7 +78,7 @@ export class Home {
         this.platform.resume.subscribe(() => this.updatePosition());
 
         // Hide splashscreen
-        this.platform.ready().then(() => new SplashScreen().hide());
+        this.platform.ready().then(() => this.splashScreenPlugin.hide());
     }
 
     /**

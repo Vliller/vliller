@@ -1,4 +1,8 @@
-$station-card-height: 154px;
+// iPhone X safe area
+// @see http://stephenradford.me/removing-the-white-bars-in-safari-on-iphone-x/
+$safe-area-padding-bottom: calc(constant(safe-area-inset-bottom) / 3);
+
+$station-card-height: calc(154px + #{$safe-area-padding-bottom});
 $favorites-button-margin: $fab-content-margin;
 
 page-home {
@@ -36,6 +40,8 @@ page-home {
             right: 0;
             bottom: 0;
             height: $station-card-height;
+            background: $white;
+            padding-bottom: $safe-area-padding-bottom;
         }
     }
 }
