@@ -1,3 +1,7 @@
+# 2.5.2
+
+- Amélioration des performances de la carte
+
 # 2.5.1
 
 - Mise jours de l'interface pour iPhone X
