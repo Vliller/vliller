@@ -35,6 +35,7 @@
     "@ngrx/core": "1.2.0",
     "@ngrx/effects": "2.0.3",
     "@ngrx/store": "2.2.2",
+    "cordova-android": "6.3.0",
     "cordova-custom-config": "3.1.3",
     "cordova-ios": "4.5.3",
     "cordova-plugin-actionsheet": "2.3.3",
@@ -45,7 +46,7 @@
     "cordova-plugin-device-orientation": "1.0.7",
     "cordova-plugin-dialogs": "1.3.3",
     "cordova-plugin-geolocation": "2.4.3",
-    "cordova-plugin-googlemaps": "1.4.5",
+    "cordova-plugin-googlemaps": "2.0.11",
     "cordova-plugin-googlemaps-sdk": "git+https://github.com/mapsplugin/cordova-plugin-googlemaps-sdk.git",
     "cordova-plugin-inappbrowser": "1.7.1",
     "cordova-plugin-ionic-webview": "1.1.16",
@@ -64,8 +65,7 @@
     "rxjs": "5.4.3",
     "sw-toolbox": "3.6.0",
     "uk.co.workingedge.phonegap.plugin.launchnavigator": "4.0.7",
-    "zone.js": "0.8.18",
-    "cordova-android": "6.3.0"
+    "zone.js": "0.8.18"
   },
   "devDependencies": {
     "@ionic/app-scripts": "3.0.0",
@@ -87,12 +87,6 @@
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-actionsheet": {},
       "cordova-plugin-statusbar": {},
-      "cordova-plugin-googlemaps": {
-        "API_KEY_FOR_ANDROID": "AIzaSyCwaMhgCXRnhlbBulzNGi5BU0JBLej0FbI",
-        "API_KEY_FOR_IOS": "AIzaSyB7l0BYrnYjYqAY8tiX81XT6j-1iIz-YUY",
-        "NSLOCATIONWHENINUSEUSAGEDESCRIPTION": "Show your location on the map",
-        "NSLOCATIONALWAYSUSAGEDESCRIPTION": "Trace your location on the map"
-      },
       "cordova-plugin-device": {},
       "cordova-plugin-device-orientation": {},
       "cordova-plugin-geolocation": {
@@ -106,7 +100,13 @@
       "uk.co.workingedge.phonegap.plugin.launchnavigator": {
         "LOCATION_USAGE_DESCRIPTION": "This app requires access to your location for navigation purposes"
       },
-      "cordova-plugin-compat": {}
+      "cordova-plugin-compat": {},
+      "cordova-plugin-googlemaps": {
+        "API_KEY_FOR_ANDROID": "AIzaSyCwaMhgCXRnhlbBulzNGi5BU0JBLej0FbI",
+        "API_KEY_FOR_IOS": "AIzaSyB7l0BYrnYjYqAY8tiX81XT6j-1iIz-YUY",
+        "LOCATION_WHEN_IN_USE_DESCRIPTION": "Show your location on the map",
+        "LOCATION_ALWAYS_USAGE_DESCRIPTION": "Trace your location on the map"
+      }
     },
     "platforms": [
       "ios",
