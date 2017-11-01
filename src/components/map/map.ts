@@ -177,7 +177,15 @@ export class MapComponent implements OnInit {
                 });
 
                 // listen for map clicks
-                map.on(plugin.google.maps.event.MAP_CLICK, () => this.store.dispatch(new MapActions.SetExpanded(true)));
+                map.on(plugin.google.maps.event.CAMERA_MOVE_START, isUserAction => {
+                    console.log(isUserAction);
+                    if (isUserAction) {
+                        console.log("you touch me");
+                        this.store.dispatch(new MapActions.SetExpanded(true));
+                    } else {
+                        console.log("automatic zoom");
+                    }
+                });
             });
         });
     }
