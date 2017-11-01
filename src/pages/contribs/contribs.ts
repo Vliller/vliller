@@ -19,7 +19,8 @@ export class Contribs {
     constructor(
         private http: Http,
         private viewCtrl: ViewController,
-        private platform: Platform
+        private platform: Platform,
+        private inAppBrowserPlugin: InAppBrowser
     ) {
         this.contributors = this.getContributorsFromGithub();
         this.contributors.subscribe(() => this.contributorsLoaded = true);
@@ -40,6 +41,6 @@ export class Contribs {
     }
 
     public openLink(link) {
-        new InAppBrowser().create(link, '_system');
+        this.inAppBrowserPlugin.create(link, '_system');
     }
 }

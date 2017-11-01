@@ -16,7 +16,6 @@ import {
 import { Store } from '@ngrx/store';
 import { StationsActions } from '../../actions/stations';
 import { LocationActions } from '../../actions/location';
-import { MapActions } from '../../actions/map';
 
 import { VlilleStation } from '../../models/vlille-station';
 import { MapPosition } from '../../models/map-position';
@@ -47,7 +46,8 @@ export class Home {
         private alertController: AlertController,
         private toastController: ToastController,
         private modalController: ModalController,
-        private store: Store<AppState>
+        private store: Store<AppState>,
+        private splashScreenPlugin: SplashScreen
     ) {
         // get streams
         this.stations = store.select(state => selectStations(state));
@@ -80,8 +80,11 @@ export class Home {
             console.log(mapIsExpanded);
         });
 
+        // update position on resume
+        this.platform.resume.subscribe(() => this.updatePosition());
+
         // Hide splashscreen
-        this.platform.ready().then(() => new SplashScreen().hide());
+        this.platform.ready().then(() => this.splashScreenPlugin.hide());
     }
 
     /**
@@ -113,23 +116,8 @@ export class Home {
 
     /**
      *
-     * @param {boolean} isClickable
-     */
-    public setMapClickable(isClickable: boolean) {
-        this.store.dispatch(new MapActions.SetClickable(isClickable));
-    }
-
-    /**
-     *
      */
     public openCodeMemoPage() {
-        let modal = this.modalController.create(CodeMemo);
-
-        modal.onDidDismiss(() => {
-            this.store.dispatch(new MapActions.SetClickable(true));
-        });
-
-        this.store.dispatch(new MapActions.SetClickable(false));
-        modal.present();
+        this.modalController.create(CodeMemo).present();
     }
 }

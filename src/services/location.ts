@@ -6,10 +6,26 @@ import { LocationAccuracy } from '@ionic-native/location-accuracy';
 
 import { MapPosition } from '../models/map-position';
 
+export class LocationDisabledError extends Error {
+  type: string = "LocationDisabledError";
+
+  constructor(m: string) {
+    super(m);
+
+    // Set the prototype explicitly.
+    Object.setPrototypeOf(this, LocationDisabledError.prototype);
+  }
+}
+
 @Injectable()
 export class LocationService {
 
-    constructor(private platform: Platform) {}
+    constructor(
+        private platform: Platform,
+        private geolocationPlugin: Geolocation,
+        private locationAccuracyPlugin: LocationAccuracy,
+        private diagnosticPlugin: Diagnostic
+    ) {}
 
     /**
      * Resolves a promise with the new position.
@@ -18,7 +34,7 @@ export class LocationService {
     public getCurrentPosition(): Promise<MapPosition> {
         return this.platform
             .ready()
-            .then(() => new Diagnostic().isLocationEnabled())
+            .then(() => this.diagnosticPlugin.isLocationEnabled())
             .then((isLocationEnabled: boolean) => {
                 // GPS disabled
                 if (!isLocationEnabled) {
@@ -29,11 +45,11 @@ export class LocationService {
                      * @see https://github.com/Microsoft/TypeScript/issues/7588#issuecomment-198700729
                      */
                     return Promise.reject<Geoposition>(
-                        new Error('Geolocation system disabled.'));
+                        new LocationDisabledError('Geolocation system disabled.'));
                 }
 
                 // Get current location
-                return new Geolocation().getCurrentPosition({
+                return this.geolocationPlugin.getCurrentPosition({
                     enableHighAccuracy: true
                 });
             })
@@ -48,14 +64,12 @@ export class LocationService {
      */
     public requestLocation(): Promise<any> {
         return this.platform.ready().then(() => {
-            let locationAccuracy = new LocationAccuracy();
-
-            return locationAccuracy.canRequest().then(canRequest => {
+            return this.locationAccuracyPlugin.canRequest().then(canRequest => {
                 if (!canRequest) {
                     return Promise.resolve();
                 }
 
-                return locationAccuracy.request(locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY);
+                return this.locationAccuracyPlugin.request(this.locationAccuracyPlugin.REQUEST_PRIORITY_HIGH_ACCURACY);
             });
         });
     }

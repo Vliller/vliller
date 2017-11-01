@@ -1,3 +1,35 @@
+# 2.5.2
+
+- Amélioration des performances de la carte
+
+# 2.5.1
+
+- Mise jours de l'interface pour iPhone X
+- Correction de bugs sur iOS 11
+
+# 2.5.0
+
+- Affichage des stations indisponibles directement sur la carte et dans les favoris
+
+# 2.4.3
+
+- Mise à jours mineur d'Ionic
+
+# 2.4.2
+
+- Correction du bug de demande d'autorisation GPS
+
+# 2.4.1
+
+- Correction d'un bug dans la fonctionnalité "ALLER"
+
+# 2.4.0
+
+- Réécriture basée sur le pattern Redux
+- Amélioration des indicateurs de chargements des détails d'une station
+- Rafraichissement automatique de la position lors de la réouveture de l'application
+- Correction de bugs
+
 # 2.3.2
 
 - Amélioration de l'icône cadenas
