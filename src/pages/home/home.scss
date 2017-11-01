@@ -1,8 +1,4 @@
-// iPhone X safe area
-// @see http://stephenradford.me/removing-the-white-bars-in-safari-on-iphone-x/
-$safe-area-padding-bottom: calc(constant(safe-area-inset-bottom) / 3);
-
-$station-card-height: calc(154px + #{$safe-area-padding-bottom});
+$station-card-height: 154px;
 $favorites-button-margin: $fab-content-margin;
 
 page-home {
@@ -41,7 +37,26 @@ page-home {
             bottom: 0;
             height: $station-card-height;
             background: $white;
-            padding-bottom: $safe-area-padding-bottom;
+        }
+    }
+}
+
+// iPhone X safe area
+// @see http://stephenradford.me/removing-the-white-bars-in-safari-on-iphone-x/
+.platform-ios11 {
+    $safe-area-padding-bottom: calc(constant(safe-area-inset-bottom) / 3);
+    $safe-area-station-card-height: calc(154px + #{$safe-area-padding-bottom});
+
+    page-home {
+        .home-content {
+            map {
+                bottom: $safe-area-station-card-height;
+            }
+
+            station-card {
+                height: $safe-area-station-card-height;
+                padding-bottom: $safe-area-padding-bottom;
+            }
         }
     }
 }
