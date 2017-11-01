@@ -168,7 +168,7 @@ export class MapComponent implements OnInit {
                 });
 
                 // listen for camera changes
-                map.on(plugin.google.maps.event.CAMERA_CHANGE, event => {
+                map.on(plugin.google.maps.event.CAMERA_MOVE_END, event => {
                     // zoom unchanged, nothing to do
                     if (event.zoom === this.mapZoom) {
                         return;
