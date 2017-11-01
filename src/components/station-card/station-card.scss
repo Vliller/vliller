@@ -23,12 +23,11 @@ station-card {
 }
 
 .station-card--header {
-    background-color: $white;
+    background: $white;
 
     .station-name,
     .station-distance {
         display: block;
-        vertical-align: bottom;
         line-height: 1.3;
     }
 
@@ -53,6 +52,7 @@ station-card {
 .station-card--content,
 .station-card--dead {
     flex-grow: 1;
+    background: #fff;
 }
 
 .station-card--dead {

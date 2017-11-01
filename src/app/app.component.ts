@@ -1,8 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
-import { GoogleAnalytics } from '@ionic-native/google-analytics';
-import { StatusBar } from '@ionic-native/status-bar';
 import { AppVersion } from '@ionic-native/app-version';
+import { StatusBar } from '@ionic-native/status-bar';
 
 import * as Raven from 'raven-js';
 
@@ -12,6 +11,7 @@ import './rxjs-operators';
 import { Home } from '../pages/home/home';
 import { AppSettings } from './app.settings';
 
+declare var Appsee: any;
 
 @Component({
     templateUrl: 'app.html'
@@ -25,21 +25,20 @@ export class App {
 
     appVersion: string;
 
-    constructor(public platform: Platform) {
-        this.initializeApp();
-    }
-
-    initializeApp() {
-        this.platform.ready().then(() => {
-            // Manage status bar color
-            if (this.platform.is('ios')) {
-                new StatusBar().styleLightContent();
-            } else if (this.platform.is('android')) {
-                new StatusBar().backgroundColorByHexString('#b7212c');
+    constructor(
+        private platform: Platform,
+        private appVersionPlugin: AppVersion,
+        private statusBarPlugin: StatusBar
+    ) {
+        platform.ready().then(() => {
+            // bugfix status bar white bar bug on iOS 11
+            if (platform.is("ios") && platform.version().major === 11) {
+                statusBarPlugin.overlaysWebView(false);
+                statusBarPlugin.backgroundColorByHexString("#e52b38");
             }
 
             // Get app version
-            let versionPromise = new AppVersion().getVersionNumber().then(version => {
+            let versionPromise = appVersionPlugin.getVersionNumber().then(version => {
                 this.appVersion = version;
 
                 // set version in error tracker
@@ -48,14 +47,10 @@ export class App {
                 return version;
             });
 
-            // Starts GA tracking
-            let GAPromise = new GoogleAnalytics().startTrackerWithId(AppSettings.googleAnalyticsId);
-
-            // Configure GA (wait for app version)
-            Promise
-                .all([versionPromise, GAPromise])
-                .then(data => new GoogleAnalytics().setAppVersion(data[0]))
-                .catch(error => Raven.captureException(error));
+            if (AppSettings.isProduction) {
+                // Starts AppSee tracking
+                Appsee.start(AppSettings.appSeeId);
+            }
         });
     }
 

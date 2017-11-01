@@ -57,6 +57,7 @@ export class MapComponent implements OnInit {
 
     constructor(
         private platform: Platform,
+        private deviceOrientationPlugin: DeviceOrientation,
         private store: Store<AppState>
     ) {
         // show loader
@@ -72,7 +73,7 @@ export class MapComponent implements OnInit {
 
         // init heading observable
         this.platform.ready().then(() => {
-            this.userHeading = new DeviceOrientation()
+            this.userHeading = this.deviceOrientationPlugin
             .watchHeading({
                 frequency: 500 // ms
             })
@@ -181,7 +182,7 @@ export class MapComponent implements OnInit {
 
     /**
      * Create stations markers on the map
-     * 
+     *
      * @param  {VlilleStation[]} stations
      * @return {Promise<>}
      */
@@ -216,13 +217,13 @@ export class MapComponent implements OnInit {
 
     /**
      * Manage marker after it has been add to the map
-     * @param marker 
-     * @param station 
+     * @param marker
+     * @param station
      */
     private handleMarkerCreated(marker: any, station:VlilleStation) {
         // stores created marker
         this.markers.set(station.id, marker);
-        
+
         // init station status
         marker.set('isAvailable', station.status === VlilleStationStatus.NORMAL);
 
