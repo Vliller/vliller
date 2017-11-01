@@ -90,14 +90,24 @@ export class MapComponent implements OnInit {
                 this.setClickable(isClickable);
             });
 
+            // init user marker
+            this.initUserMarker(MapPosition.fromLatLng(AppSettings.defaultPosition)).then(() => {
+                // listen for user position
+                this.userPosition.subscribe(position => {
+                    this.setUserPosition(position);
+                    this.setCenter(position);
+                });
+
+                // listen for user heading
+                this.userHeading.subscribe(heading => this.userMarker.setRotation(heading));
+            });
+
             // init stations marker
             this.stations
             .filter(stations => stations && stations.length > 0)
             .take(1)
             .subscribe((stations: VlilleStation[]) => {
-                this
-                .initMarkers(stations)
-                .then(() => {
+                this.initMarkers(stations).then(() => {
                     // hide loading message
                     this.store.dispatch(new ToastActions.Hide());
 
@@ -127,18 +137,6 @@ export class MapComponent implements OnInit {
                         })
                     });
                 });
-            });
-
-            // init user marker
-            this.initUserMarker(MapPosition.fromLatLng(AppSettings.defaultPosition)).then(() => {
-                // listen for user position
-                this.userPosition.subscribe(position => {
-                    this.setUserPosition(position);
-                    this.setCenter(position);
-                });
-
-                // listen for user heading
-                this.userHeading.subscribe(heading => this.userMarker.setRotation(heading));
             });
         });
     }
