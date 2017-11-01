@@ -29,8 +29,6 @@
             <favorites-button
                 [favoriteStations]="favoriteStations | async"
                 (favoriteStationClick)="setActiveStation($event)"
-                (favoritesOpen)="setMapClickable(false)"
-                (favoritesClose)="setMapClickable(true)"
             ></favorites-button>
         </map>
         <station-card
