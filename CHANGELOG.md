@@ -1,3 +1,7 @@
+# 2.5.3
+
+- Amélioration du support de l'iPhone X
+
 # 2.5.2
 
 - Amélioration des performances de la carte
