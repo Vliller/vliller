@@ -96,8 +96,9 @@
         <param name="ios-package" value="CDVWKWebViewEngine" />
     </feature>
     <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
-    <engine name="android" spec="6.2.3" />
-    <engine name="ios" spec="4.5.2" />
+    <preference name="SplashShowOnlyFirstTime" value="false" />
+    <engine name="ios" spec="4.5.3" />
+    <engine name="android" spec="6.3.0" />
     <plugin name="cordova-custom-config" spec="3.1.3" />
     <plugin name="cordova-plugin-app-version" spec="0.1.9" />
     <plugin name="cordova-plugin-whitelist" spec="1.3.2" />
@@ -126,5 +127,5 @@
     <plugin name="uk.co.workingedge.phonegap.plugin.launchnavigator" spec="4.0.7">
         <variable name="LOCATION_USAGE_DESCRIPTION" value="This app requires access to your location for navigation purposes" />
     </plugin>
-    <preference name="SplashShowOnlyFirstTime" value="false" />
+    <plugin name="cordova-plugin-compat" spec="1.2.0" />
 </widget>
