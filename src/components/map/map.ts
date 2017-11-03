@@ -185,31 +185,35 @@ export class MapComponent implements OnInit {
      * @return {Promise<>}
      */
     private initMarkers(stations: VlilleStation[]): Promise<any> {
+        let promises = [];
+        for (let station of stations) {
+            promises.push(this.initMarker(station));
+        }
+
+        return Promise.all(promises);
+    }
+
+    /**
+     * Create station marker on the map
+     *
+     * @param  {VlilleStation} station
+     * @return {Promise<>}
+     */
+    private initMarker(station: VlilleStation): Promise<any> {
         return new Promise((resolve, reject) => {
-            // adds stations markers on map
-            for (let station of stations) {
-                this.mapInstance.addMarker({
-                    position: {
-                        lat: station.latitude,
-                        lng: station.longitude
-                    },
-                    icon: station.status === VlilleStationStatus.NORMAL ? MapIcon.NORMAL : MapIcon.UNAVAILABLE,
-                    disableAutoPan: true
-                }, marker => {
-                    this.handleMarkerCreated(marker, station);
+            this.mapInstance.addMarker({
+                position: {
+                    lat: station.latitude,
+                    lng: station.longitude
+                },
+                icon: station.status === VlilleStationStatus.NORMAL ? MapIcon.NORMAL : MapIcon.UNAVAILABLE,
+                disableAutoPan: true
+            }, marker => {
+                this.handleMarkerCreated(marker, station);
 
-                    /**
-                     * addMarker() is async, so we need to wait until all the markers are created.
-                     * @see https://github.com/mapsplugin/cordova-plugin-googlemaps/wiki/Marker#create-multiple-markers
-                     */
-                    if (this.markers.size !== stations.length) {
-                        return;
-                    }
-
-                    // indicates that markers creation is done
-                    resolve();
-                });
-            }
+                // indicates that markers creation is done
+                resolve();
+            });
         });
     }
 
