@@ -18,8 +18,8 @@ export class CodeMemo {
     isCodeEdition: boolean = false;
 
     constructor(
+        platform: Platform,
         private viewCtrl: ViewController,
-        private platform: Platform,
         private toastController: ToastController
     ) {
         // loads data from storage

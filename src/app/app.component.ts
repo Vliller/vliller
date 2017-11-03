@@ -26,9 +26,9 @@ export class App {
     appVersion: string;
 
     constructor(
-        private platform: Platform,
-        private appVersionPlugin: AppVersion,
-        private statusBarPlugin: StatusBar
+        platform: Platform,
+        appVersionPlugin: AppVersion,
+        statusBarPlugin: StatusBar
     ) {
         platform.ready().then(() => {
             // bugfix status bar white bar bug on iOS 11
@@ -38,7 +38,7 @@ export class App {
             }
 
             // Get app version
-            let versionPromise = appVersionPlugin.getVersionNumber().then(version => {
+            appVersionPlugin.getVersionNumber().then(version => {
                 this.appVersion = version;
 
                 // set version in error tracker

@@ -17,9 +17,9 @@ export class Contribs {
     private unRegisterBackButtonAction: any;
 
     constructor(
+        platform: Platform,
         private http: Http,
         private viewCtrl: ViewController,
-        private platform: Platform,
         private inAppBrowserPlugin: InAppBrowser
     ) {
         this.contributors = this.getContributorsFromGithub();
