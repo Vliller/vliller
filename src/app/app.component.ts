@@ -1,15 +1,12 @@
-// Add the RxJS Observable operators.
-import './rxjs-operators';
-
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { AppVersion } from '@ionic-native/app-version';
 import { StatusBar } from '@ionic-native/status-bar';
-import { Store } from '@ngrx/store';
-import { AppState } from '../app/app.reducers';
-import { MapActions } from '../actions/map';
 
 import * as Raven from 'raven-js';
+
+// Add the RxJS Observable operators.
+import './rxjs-operators';
 
 import { Home } from '../pages/home/home';
 import { AppSettings } from './app.settings';
@@ -31,8 +28,7 @@ export class App {
     constructor(
         private platform: Platform,
         private appVersionPlugin: AppVersion,
-        private statusBarPlugin: StatusBar,
-        private store: Store<AppState>
+        private statusBarPlugin: StatusBar
     ) {
         platform.ready().then(() => {
             // bugfix status bar white bar bug on iOS 11
@@ -61,12 +57,5 @@ export class App {
     openPage(page) {
         // Reset the content nav to have just this page we wouldn't want the back button to show in this scenario
         this.nav.setRoot(page.component);
-    }
-
-    /**
-     * @param {boolean} isClickable
-     */
-    public setMapClickable(isClickable: boolean) {
-        this.store.dispatch(new MapActions.SetClickable(isClickable));
     }
 }
