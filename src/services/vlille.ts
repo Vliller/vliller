@@ -9,10 +9,10 @@ import * as Raven from 'raven-js';
 import moment from 'moment';
 import 'moment/locale/fr';
 
+import { AppSettings } from '../app/app.settings';
 import { VlilleStation, VlilleStationStatus } from '../models/vlille-station';
 
-const API_BASE = 'https://opendata.lillemetropole.fr/api/records/1.0/search';
-const API_ENDPOINT = '/?dataset=vlille-realtime&rows=500';
+const API_BASE = `${AppSettings.vlille.apiBase}&apikey=${AppSettings.vlille.apiKey}`;
 
 @Injectable()
 export class VlilleService {
@@ -21,14 +21,14 @@ export class VlilleService {
 
     public getStation(id: string): Observable<VlilleStation> {
         return this.http
-            .get(API_BASE + API_ENDPOINT + '&q=libelle:' + id)
+            .get(`${API_BASE}&q=libelle:${id}`)
             .map(response => response.json().records.map(this.rawDataToVlilleStation)[0])
             .catch(this.handleError);
     }
 
     public getAllStations(): Observable<VlilleStation[]> {
         return this.http
-            .get(API_BASE + API_ENDPOINT)
+            .get(API_BASE)
             .map(response => response.json().records.map(this.rawDataToVlilleStation))
             .catch(this.handleError);
     }

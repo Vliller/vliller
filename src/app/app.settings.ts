@@ -18,4 +18,9 @@ export namespace AppSettings {
         lat: 50.633333,
         lng: 3.066667
     };
+
+    export const vlille = {
+        apiBase: 'https://opendata.lillemetropole.fr/api/records/1.0/search/?dataset=vlille-realtime&rows=-1',
+        apiKey: 'f9b97f402060621fcf83f0c599304832c6a5332abadc17dd2c381a84'
+    }
 }
