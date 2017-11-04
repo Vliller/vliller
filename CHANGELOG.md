@@ -1,3 +1,8 @@
+# 2.5.5
+
+- Correction d'un bug dans la bar de navigation sur iPhone X
+- Amélioration des performances de la carte
+
 # 2.5.4
 
 - Amélioration des performances de chargement de la carte
