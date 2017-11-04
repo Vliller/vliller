@@ -28,7 +28,7 @@
 
             <ion-item>
                 <ion-label floating>Mon e-mail</ion-label>
-                <ion-input type="email" [(ngModel)]="userFeedback.email" name="email" pattern="^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$" email required></ion-input>
+                <ion-input type="email" [(ngModel)]="userFeedback.email" name="email" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" email required></ion-input>
             </ion-item>
 
             <ion-grid margin-top no-padding>
