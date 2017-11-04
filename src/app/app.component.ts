@@ -38,11 +38,6 @@ export class App {
 
                 return version;
             });
-
-            if (AppSettings.isProduction) {
-                // TODO
-
-            }
         });
     }
 
