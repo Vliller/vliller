@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { AlertController, ToastController, Platform, ModalController } from 'ionic-angular';
+import { AlertController, Platform, ModalController } from 'ionic-angular';
 
 import {
     AppState,
@@ -40,13 +40,12 @@ export class Home {
     @ViewChild('map') map: MapComponent;
 
     constructor(
-        private platform: Platform,
-        private mapService: MapService,
-        private alertController: AlertController,
-        private toastController: ToastController,
+        alertController: AlertController,
+        platform: Platform,
+        mapService: MapService,
+        splashScreenPlugin: SplashScreen,
         private modalController: ModalController,
-        private store: Store<AppState>,
-        private splashScreenPlugin: SplashScreen
+        private store: Store<AppState>
     ) {
         // get streams
         this.stations = store.select(state => selectStations(state));
@@ -66,7 +65,7 @@ export class Home {
 
             // computes closest station
             (position, stations) => {
-                return this.mapService.computeClosestStation(position, stations);
+                return mapService.computeClosestStation(position, stations);
             }
         ).subscribe(closestStation => {
             // updates active station
@@ -74,10 +73,10 @@ export class Home {
         });
 
         // update position on resume
-        this.platform.resume.subscribe(() => this.updatePosition());
+        platform.resume.subscribe(() => this.updatePosition());
 
         // Hide splashscreen
-        this.platform.ready().then(() => this.splashScreenPlugin.hide());
+        platform.ready().then(() => splashScreenPlugin.hide());
     }
 
     /**

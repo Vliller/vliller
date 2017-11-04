@@ -18,8 +18,8 @@ export class Feedback {
     private unRegisterBackButtonAction: any;
 
     constructor(
+        params: NavParams,
         private viewCtrl: ViewController,
-        private params: NavParams,
         private http: Http,
         private platform: Platform,
         private devicePlugin: Device
@@ -31,31 +31,32 @@ export class Feedback {
     }
 
     public submit() {
-        this.platform.ready()
-            .then(() => {
-                this.sendRequest({
-                    email: this.userFeedback.email,
-                    message: this.userFeedback.message,
-                    properties: {
-                        version: this.appVersion,
-                        device: {
-                            cordova: this.devicePlugin.cordova,
-                            model: this.devicePlugin.model,
-                            platform: this.devicePlugin.platform,
-                            version: this.devicePlugin.version,
-                            manufacturer: this.devicePlugin.manufacturer
-                        }
+        this.platform
+        .ready()
+        .then(() => {
+            this.sendRequest({
+                email: this.userFeedback.email,
+                message: this.userFeedback.message,
+                properties: {
+                    version: this.appVersion,
+                    device: {
+                        cordova: this.devicePlugin.cordova,
+                        model: this.devicePlugin.model,
+                        platform: this.devicePlugin.platform,
+                        version: this.devicePlugin.version,
+                        manufacturer: this.devicePlugin.manufacturer
                     }
-                })
-                .catch(error => {
-                    Raven.captureException(new Error(error));
+                }
+            })
+            .catch(error => {
+                Raven.captureException(new Error(error));
 
-                    return Observable.throw(error);
-                })
-                .subscribe(() => {
-                    this.close();
-                });
+                return Observable.throw(error);
+            })
+            .subscribe(() => {
+                this.close();
             });
+        });
     }
 
     public close() {

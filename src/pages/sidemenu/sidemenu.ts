@@ -20,8 +20,8 @@ export class Sidemenu {
     public appVersion: string;
 
     constructor(
+        appVersionPlugin: AppVersion,
         private platform: Platform,
-        private appVersionPlugin: AppVersion,
         private inAppBrowserPlugin: InAppBrowser,
         private socialSharingPlugin: SocialSharing,
         private modalCtrl: ModalController

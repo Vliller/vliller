@@ -14,9 +14,9 @@ export class About {
     private unRegisterBackButtonAction: any;
 
     constructor(
+        params: NavParams,
+        platform: Platform,
         private viewCtrl: ViewController,
-        private params: NavParams,
-        private platform: Platform,
         private inAppBrowserPlugin: InAppBrowser
     ) {
         this.appVersion = params.get('appVersion');

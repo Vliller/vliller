@@ -102,12 +102,27 @@ export class MapComponent implements OnInit {
                 this.userHeading.subscribe(heading => this.userMarker.setRotation(heading));
             });
 
-            // init stations marker
-            this.stations
-            .filter(stations => stations && stations.length > 0)
+            // Init active marker first
+            this.activeStation
+            .filter(station => !!station)
             .take(1)
-            .subscribe((stations: VlilleStation[]) => {
-                this.initMarkers(stations).then(() => {
+            .toPromise()
+            .then((activeStation: VlilleStation) => this.initMarker(activeStation))
+            .then(marker => {
+                // marker is still in creation
+                if (marker.then) {
+                    marker.then(markerCreated => this.setActiveMarker(markerCreated));
+                } else {
+                    this.setActiveMarker(marker);
+                }
+
+                // init stations marker
+                this.stations
+                .filter(stations => stations && stations.length > 0)
+                .take(1)
+                .toPromise()
+                .then((stations: VlilleStation[]) => this.initMarkers(stations))
+                .then(() => {
                     // hide loading message
                     this.store.dispatch(new ToastActions.Hide());
 
@@ -185,32 +200,46 @@ export class MapComponent implements OnInit {
      * @return {Promise<>}
      */
     private initMarkers(stations: VlilleStation[]): Promise<any> {
-        return new Promise((resolve, reject) => {
-            // adds stations markers on map
-            for (let station of stations) {
-                this.mapInstance.addMarker({
-                    position: {
-                        lat: station.latitude,
-                        lng: station.longitude
-                    },
-                    icon: station.status === VlilleStationStatus.NORMAL ? MapIcon.NORMAL : MapIcon.UNAVAILABLE,
-                    disableAutoPan: true
-                }, marker => {
-                    this.handleMarkerCreated(marker, station);
+        let promises = [];
+        for (let station of stations) {
+            promises.push(this.initMarker(station));
+        }
 
-                    /**
-                     * addMarker() is async, so we need to wait until all the markers are created.
-                     * @see https://github.com/mapsplugin/cordova-plugin-googlemaps/wiki/Marker#create-multiple-markers
-                     */
-                    if (this.markers.size !== stations.length) {
-                        return;
-                    }
+        return Promise.all(promises);
+    }
 
-                    // indicates that markers creation is done
-                    resolve();
-                });
-            }
+    /**
+     * Create station marker on the map
+     *
+     * @param  {VlilleStation} station
+     * @return {Promise<>}
+     */
+    private initMarker(station: VlilleStation): Promise<any> {
+        let existingMarker = this.markers.get(station.id);
+        if (existingMarker) {
+            return Promise.resolve(existingMarker);
+        }
+
+        let promise = new Promise((resolve, reject) => {
+            this.mapInstance.addMarker({
+                position: {
+                    lat: station.latitude,
+                    lng: station.longitude
+                },
+                icon: station.status === VlilleStationStatus.NORMAL ? MapIcon.NORMAL : MapIcon.UNAVAILABLE,
+                disableAutoPan: true
+            }, marker => {
+                this.handleMarkerCreated(marker, station);
+
+                // indicates that markers creation is done
+                resolve(marker);
+            });
         });
+
+        // set the promise to "lock" the space during marker async creation
+        this.markers.set(station.id, promise);
+
+        return promise;
     }
 
     /**

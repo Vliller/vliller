@@ -1,3 +1,8 @@
+# 2.5.4
+
+- Amélioration des performances de chargement de la carte
+- Modification du menu lattéral
+
 # 2.5.3
 
 - Amélioration du support de l'iPhone X
