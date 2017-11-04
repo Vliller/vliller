@@ -109,7 +109,7 @@ export class MapComponent implements OnInit {
             .toPromise()
             .then((activeStation: VlilleStation) => this.initMarker(activeStation))
             .then(marker => {
-                // marker is still in creation
+                // if marker is still in creation, handle promise
                 if (marker.then) {
                     marker.then(markerCreated => this.setActiveMarker(markerCreated));
                 } else {
@@ -126,38 +126,18 @@ export class MapComponent implements OnInit {
                     // hide loading message
                     this.store.dispatch(new ToastActions.Hide());
 
-                    // Updates active marker
-                    this.activeStation
-                    .filter(station => !!station)
-                    .subscribe(activeStation => {
-                        let marker = this.markers.get(activeStation.id);
-
-                        // avoid double call to setActiveMarker during marker click
-                        if (this.activeMarker && marker.id === this.activeMarker.id) {
-                            return;
-                        }
-
-                        this.setActiveMarker(marker);
-                    });
-
-                    // updates markers 'isAvailable' attribute
-                    this.stations
-                    .filter(stations => stations && stations.length > 0)
-                    .subscribe((stations: VlilleStation[]) => {
-                        stations.forEach(station => {
-                            let marker = this.markers.get(station.id);
-
-                            // updates marker data
-                            marker.set('isAvailable', station.status === VlilleStationStatus.NORMAL);
-                        })
-                    });
+                    // Run watchers
+                    this.startActiveStationWatcher(this.activeStation);
+                    this.startStationsStateWatcher(this.stations);
+                    this.startZoomLevelWatcher(this.mapInstance);
                 });
             });
         });
     }
 
     /**
-     * Initialize map instance and bind it to #map-canvas element
+     * Initialize map instance and bind it to #map-canvas element.
+     *
      * @return {Promise<any>}
      */
     private initMap(): Promise<any> {
@@ -171,23 +151,12 @@ export class MapComponent implements OnInit {
         return new Promise<any>((resolve, reject) => {
             this.platform.ready().then(() => {
                 // init map instance
-                let map = plugin.google.maps.Map
-                    .getMap(document.getElementById('map-canvas'), mapOptions);
-
-                map.one(plugin.google.maps.event.MAP_READY, mapInstance => {
+                plugin.google.maps.Map
+                .getMap(document.getElementById('map-canvas'), mapOptions)
+                .one(plugin.google.maps.event.MAP_READY, mapInstance => {
                     this.mapInstance = mapInstance;
 
                     resolve(mapInstance);
-                });
-
-                // listen for camera changes
-                map.on(plugin.google.maps.event.CAMERA_MOVE_END, event => {
-                    // zoom unchanged, nothing to do
-                    if (event.zoom === this.mapZoom) {
-                        return;
-                    }
-
-                    this.updateDefaultMarker(event.zoom)
                 });
             });
         });
@@ -197,7 +166,7 @@ export class MapComponent implements OnInit {
      * Create stations markers on the map
      *
      * @param  {VlilleStation[]} stations
-     * @return {Promise<>}
+     * @return {Promise<any>}
      */
     private initMarkers(stations: VlilleStation[]): Promise<any> {
         let promises = [];
@@ -212,7 +181,7 @@ export class MapComponent implements OnInit {
      * Create station marker on the map
      *
      * @param  {VlilleStation} station
-     * @return {Promise<>}
+     * @return {Promise<any>}
      */
     private initMarker(station: VlilleStation): Promise<any> {
         let existingMarker = this.markers.get(station.id);
@@ -372,6 +341,62 @@ export class MapComponent implements OnInit {
                     marker.setIcon(MapIcon.UNAVAILABLE);
                 }
             }
+        });
+    }
+
+    /**
+     * Run the active marker watcher through an observable
+     *
+     * @param {Observable<VlilleStation>} activeStationObservable
+     */
+    private startActiveStationWatcher(activeStationObservable: Observable<VlilleStation>) {
+        activeStationObservable
+        .filter(station => !!station)
+        .subscribe(station => {
+            let marker = this.markers.get(station.id);
+
+            // avoid double call to setActiveMarker during marker click
+            if (this.activeMarker && marker.id === this.activeMarker.id) {
+                return;
+            }
+
+            this.setActiveMarker(marker);
+        });
+    }
+
+    /**
+     * Run the stations watcher through an observable
+     *
+     * @param {Observable<VlilleStation[]>} stationsObservable
+     */
+    private startStationsStateWatcher(stationsObservable: Observable<VlilleStation[]>) {
+        stationsObservable
+        .filter(stations => stations && stations.length > 0)
+        .subscribe((stations: VlilleStation[]) => {
+            // update marker state
+            stations.forEach(station => {
+                let marker = this.markers.get(station.id);
+
+                // updates marker data
+                marker.set('isAvailable', station.status === VlilleStationStatus.NORMAL);
+            });
+        });
+    }
+
+    /**
+     * Run the map zoom level watcher through map plug event.
+     *
+     * @param {google.maps.Map} mapInstance
+     */
+    private startZoomLevelWatcher(mapInstance) {
+        // listen for camera changes
+        mapInstance.on(plugin.google.maps.event.CAMERA_MOVE_END, event => {
+            // zoom unchanged, nothing to do
+            if (event.zoom === this.mapZoom) {
+                return;
+            }
+
+            this.updateDefaultMarker(event.zoom)
         });
     }
 
