@@ -4,9 +4,7 @@ import { Headers, RequestOptions, Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import * as Raven from 'raven-js';
 import { Device } from '@ionic-native/device';
-
-const FEEDBACK_API_URL = 'https://doorbell.io/api/applications/4561/submit';
-const FEEDBACK_API_TOKEN = 'g9xKf3v4aM29diiMXJVh2Ko9J54fEaQ6uCqysESJSf8WWaKIcXwmVBXT94rXF8Lr';
+import { AppSettings } from '../../app/app.settings';
 
 @Component({
     templateUrl: 'feedback.html'
@@ -72,6 +70,6 @@ export class Feedback {
             headers: headers
         });
 
-        return this.http.post(FEEDBACK_API_URL + '?key=' + FEEDBACK_API_TOKEN, data, options)
+        return this.http.post(`${AppSettings.doorbell.apiBase}?key=${AppSettings.doorbell.apiKey}`, data, options)
     }
 }
