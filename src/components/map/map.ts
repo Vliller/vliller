@@ -102,12 +102,27 @@ export class MapComponent implements OnInit {
                 this.userHeading.subscribe(heading => this.userMarker.setRotation(heading));
             });
 
-            // init stations marker
-            this.stations
-            .filter(stations => stations && stations.length > 0)
+            // Init active marker first
+            this.activeStation
+            .filter(station => !!station)
             .take(1)
-            .subscribe((stations: VlilleStation[]) => {
-                this.initMarkers(stations).then(() => {
+            .toPromise()
+            .then((activeStation: VlilleStation) => this.initMarker(activeStation))
+            .then(marker => {
+                // marker is still in creation
+                if (marker.then) {
+                    marker.then(markerCreated => this.setActiveMarker(markerCreated));
+                } else {
+                    this.setActiveMarker(marker);
+                }
+
+                // init stations marker
+                this.stations
+                .filter(stations => stations && stations.length > 0)
+                .take(1)
+                .toPromise()
+                .then((stations: VlilleStation[]) => this.initMarkers(stations))
+                .then(() => {
                     // hide loading message
                     this.store.dispatch(new ToastActions.Hide());
 
@@ -200,7 +215,12 @@ export class MapComponent implements OnInit {
      * @return {Promise<>}
      */
     private initMarker(station: VlilleStation): Promise<any> {
-        return new Promise((resolve, reject) => {
+        let existingMarker = this.markers.get(station.id);
+        if (existingMarker) {
+            return Promise.resolve(existingMarker);
+        }
+
+        let promise = new Promise((resolve, reject) => {
             this.mapInstance.addMarker({
                 position: {
                     lat: station.latitude,
@@ -212,9 +232,14 @@ export class MapComponent implements OnInit {
                 this.handleMarkerCreated(marker, station);
 
                 // indicates that markers creation is done
-                resolve();
+                resolve(marker);
             });
         });
+
+        // set the promise to "lock" the space during marker async creation
+        this.markers.set(station.id, promise);
+
+        return promise;
     }
 
     /**
