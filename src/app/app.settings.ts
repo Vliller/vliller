@@ -1,12 +1,10 @@
 export namespace AppSettings {
-    export const isProduction = false;
+    export const isProduction = true;
 
     export const appId = {
         android: 'com.alexetmanon.vliller',
         ios: '1161025016'
     };
-
-    export const appSeeId = "a101b3d5371f44b6aed12ecd5908fbe8";
 
     export const vlillerSiteUrl = 'http://vliller.alexetmanon.com';
     export const vlillerContribsUrl = 'https://api.github.com/repos/alexetmanon/vliller/contributors';

@@ -40,7 +40,6 @@
     "cordova-ios": "4.5.3",
     "cordova-plugin-actionsheet": "2.3.3",
     "cordova-plugin-app-version": "0.1.9",
-    "cordova-plugin-appsee": "2.3.65",
     "cordova-plugin-compat": "1.2.0",
     "cordova-plugin-device": "1.1.6",
     "cordova-plugin-device-orientation": "1.0.7",
@@ -75,7 +74,7 @@
     "ios",
     "android"
   ],
-  "version": "2.5.4",
+  "version": "2.5.5",
   "cordova": {
     "plugins": {
       "cordova-custom-config": {},
@@ -83,7 +82,6 @@
       "cordova-plugin-whitelist": {},
       "cordova-plugin-x-socialsharing": {},
       "ionic-plugin-keyboard": {},
-      "cordova-plugin-appsee": {},
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-actionsheet": {},
       "cordova-plugin-statusbar": {},
