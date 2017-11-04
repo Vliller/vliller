@@ -11,8 +11,6 @@ import './rxjs-operators';
 import { Home } from '../pages/home/home';
 import { AppSettings } from './app.settings';
 
-declare var Appsee: any;
-
 @Component({
     templateUrl: 'app.html'
 })
@@ -42,8 +40,8 @@ export class App {
             });
 
             if (AppSettings.isProduction) {
-                // Starts AppSee tracking
-                Appsee.start(AppSettings.appSeeId);
+                // TODO
+
             }
         });
     }
