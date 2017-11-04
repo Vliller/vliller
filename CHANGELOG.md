@@ -1,3 +1,7 @@
+# 2.5.6
+
+- Correction d'un bug dans le formulaire de contact (vérification de l'email)
+
 # 2.5.5
 
 - Correction d'un bug dans la bar de navigation sur iPhone X
