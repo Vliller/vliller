@@ -41,7 +41,7 @@ export class VlilleStationMarker extends MapMarker {
       }
     } else {
       if (this.isAvailable()) {
-          this.marker.setIcon(DynamicMapIcon.getIcon(this.station.usageInPercent));
+          this.marker.setIcon(DynamicMapIcon.getIcon(this.station.fulfillmentInPercent));
       } else {
           this.marker.setIcon(MapIcon.UNAVAILABLE);
       }

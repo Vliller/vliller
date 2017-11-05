@@ -125,7 +125,7 @@ export class MapComponent implements OnInit {
                     // Run watchers
                     this.startActiveStationWatcher(this.activeStation);
                     this.startStationsStateWatcher(this.stations);
-                    this.startZoomLevelWatcher(this.mapInstance);
+                    // this.startZoomLevelWatcher(this.mapInstance);
                 });
             });
         });
@@ -191,13 +191,11 @@ export class MapComponent implements OnInit {
                     lat: station.latitude,
                     lng: station.longitude
                 },
-                icon: station.status === VlilleStationStatus.NORMAL ? MapIcon.NORMAL : MapIcon.UNAVAILABLE,
+                icon: station.status === VlilleStationStatus.NORMAL ? DynamicMapIcon.getIcon(station.fulfillmentInPercent) : MapIcon.UNAVAILABLE,
                 disableAutoPan: true
             }, marker => {
-                var vlilleStationMarker = this.handleMarkerCreated(marker, station);
-
                 // indicates that markers creation is done
-                resolve(vlilleStationMarker);
+                resolve(this.handleMarkerCreated(marker, station));
             });
         });
     }
@@ -214,11 +212,10 @@ export class MapComponent implements OnInit {
         this.markers.set(station.id, vlilleStationMarker);
 
         /**
-         * Set active marker on click
+         * Set active marker onClick event
          */
         vlilleStationMarker.onClick(() => {
             this.setActiveMarker(vlilleStationMarker);
-
             this.setCenter(MapPosition.fromCoordinates(station), true);
 
             // updates active station
@@ -309,33 +306,10 @@ export class MapComponent implements OnInit {
     }
 
     /**
-     * Refresh marker icons using the `this.markerIcon` value.
+     * Refresh marker icons according to zoom and station status.
      */
     private refreshMarkerIcons() {
-        this.markers.forEach((marker: VlilleStationMarker) => {
-            // do not refresh active marker
-            if (this.activeMarker && this.activeMarker.isEqual(marker)) {
-                return;
-            }
-
-            // update marker icon according to zoom and station status
-            let isAvailable = marker.isAvailable();
-            if (this.mapIsUnzoom) {
-                if (isAvailable) {
-                    marker.setIcon(MapIcon.NORMAL_SMALL);
-                } else {
-                    marker.setIcon(MapIcon.UNAVAILABLE_SMALL);
-                }
-            } else {
-                if (isAvailable) {
-                    // marker.setIcon(MapIcon.NORMAL);
-                    let debug = DynamicMapIcon.getIcon(60);
-                    marker.setIcon(debug);
-                } else {
-                    marker.setIcon(MapIcon.UNAVAILABLE);
-                }
-            }
-        });
+        this.markers.forEach((marker: VlilleStationMarker) => marker.updateIcon(this.mapIsUnzoom));
     }
 
     /**
@@ -350,7 +324,7 @@ export class MapComponent implements OnInit {
             let marker = this.markers.get(station.id);
 
             // avoid double call to setActiveMarker during marker click
-            if (this.activeMarker && this.activeMarker.isEqual(marker)) {
+            if (marker.isActive()) {
                 return;
             }
 
@@ -399,24 +373,22 @@ export class MapComponent implements OnInit {
      * @param {VlilleStationMarker} marker
      */
     private setActiveMarker(marker: VlilleStationMarker) {
+        if (marker.isActive()) {
+            return;
+        }
+
         // reset default icon on current office marker
-        if (this.activeMarker && !this.activeMarker.isEqual(marker)) {
-            if (this.activeMarker.isAvailable()) {
-                this.activeMarker.setIcon(MapIcon.NORMAL);
-            } else {
-                this.activeMarker.setIcon(MapIcon.UNAVAILABLE);
-            }
+        if (this.activeMarker) {
+            this.activeMarker.setIsActive(false);
+            this.activeMarker.updateIcon(this.mapIsUnzoom);
         }
 
-        // set new marker
+        // pimp new marker
+        marker.setIsActive(true);
+        marker.updateIcon(this.mapIsUnzoom);
+
+        // update local reference
         this.activeMarker = marker;
-
-        // updates marker icon according to station state
-        if (this.activeMarker.isAvailable()) {
-            this.activeMarker.setIcon(MapIcon.NORMAL_ACTIVE);
-        } else {
-            this.activeMarker.setIcon(MapIcon.UNAVAILABLE_ACTIVE);
-        }
     }
 
     /**

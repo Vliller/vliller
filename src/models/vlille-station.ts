@@ -51,11 +51,11 @@ export class VlilleStation {
     }
 
     /**
-     * Compute the station current usage in percent
+     * Compute the station fulfillment in percent
      *
      * @return {number}
      */
-    get usageInPercent(): number {
+    get fulfillmentInPercent(): number {
         return (this.bikes * 100) / (this.bikes + this.docks);
     }
 }
