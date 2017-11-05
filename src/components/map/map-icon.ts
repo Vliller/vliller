@@ -88,7 +88,7 @@ export class DynamicMapIcon {
     } else if (usageInPercent <= 66) {
       markerUrl = MARKERS_BY_USAGE[66];
     } else if (usageInPercent <= 75) {
-      markerUrl = MARKERS_BY_USAGE[73];
+      markerUrl = MARKERS_BY_USAGE[75];
     } else if (usageInPercent <= 83) {
       markerUrl = MARKERS_BY_USAGE[83];
     } else {
