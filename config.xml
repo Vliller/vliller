@@ -121,7 +121,7 @@
         <variable name="LOCATION_USAGE_DESCRIPTION" value="This app requires access to your location for navigation purposes" />
     </plugin>
     <plugin name="cordova-plugin-compat" spec="1.2.0" />
-    <plugin name="cordova-plugin-googlemaps" spec="2.1.1">
+    <plugin name="cordova-plugin-googlemaps" spec="^2.1.1">
         <variable name="API_KEY_FOR_ANDROID" value="AIzaSyCwaMhgCXRnhlbBulzNGi5BU0JBLej0FbI" />
         <variable name="API_KEY_FOR_IOS" value="AIzaSyB7l0BYrnYjYqAY8tiX81XT6j-1iIz-YUY" />
         <variable name="LOCATION_WHEN_IN_USE_DESCRIPTION" value="Show your location on the map" />
