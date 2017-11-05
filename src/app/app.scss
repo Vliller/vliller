@@ -77,9 +77,11 @@ body {
 }
 
 // bug fix blackscreen of map on iOS
-// @see https://github.com/driftyco/ionic/issues/7205#issuecomment-230977122
+// @see https://github.com/ionic-team/ionic/issues/7205#issuecomment-313271103
 ion-app._gmaps_cdv_ .nav-decor {
-  background-color: transparent !important;
+    display: none !important;
+    background-color: rgba(0,0,0,0) !important;
+    background: rgba(0,0,0,0) !important;
 }
 
 // bug fix

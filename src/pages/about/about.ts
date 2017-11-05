@@ -14,9 +14,10 @@ export class About {
     private unRegisterBackButtonAction: any;
 
     constructor(
+        params: NavParams,
+        platform: Platform,
         private viewCtrl: ViewController,
-        private params: NavParams,
-        private platform: Platform
+        private inAppBrowserPlugin: InAppBrowser
     ) {
         this.appVersion = params.get('appVersion');
 
@@ -30,6 +31,6 @@ export class About {
     }
 
     public openLink(link) {
-        new InAppBrowser().create(link, '_system');
+        this.inAppBrowserPlugin.create(link, '_system');
     }
 }

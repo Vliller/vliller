@@ -4,9 +4,7 @@ import { Headers, RequestOptions, Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import * as Raven from 'raven-js';
 import { Device } from '@ionic-native/device';
-
-const FEEDBACK_API_URL = 'https://doorbell.io/api/applications/4561/submit';
-const FEEDBACK_API_TOKEN = 'g9xKf3v4aM29diiMXJVh2Ko9J54fEaQ6uCqysESJSf8WWaKIcXwmVBXT94rXF8Lr';
+import { AppSettings } from '../../app/app.settings';
 
 @Component({
     templateUrl: 'feedback.html'
@@ -18,10 +16,11 @@ export class Feedback {
     private unRegisterBackButtonAction: any;
 
     constructor(
+        params: NavParams,
         private viewCtrl: ViewController,
-        private params: NavParams,
         private http: Http,
-        private platform: Platform
+        private platform: Platform,
+        private devicePlugin: Device
     ) {
         this.appVersion = params.get('appVersion');
 
@@ -30,33 +29,32 @@ export class Feedback {
     }
 
     public submit() {
-        this.platform.ready()
-            .then(() => {
-                let device = new Device();
-
-                this.sendRequest({
-                    email: this.userFeedback.email,
-                    message: this.userFeedback.message,
-                    properties: {
-                        version: this.appVersion,
-                        device: {
-                            cordova: device.cordova,
-                            model: device.model,
-                            platform: device.platform,
-                            version: device.version,
-                            manufacturer: device.manufacturer
-                        }
+        this.platform
+        .ready()
+        .then(() => {
+            this.sendRequest({
+                email: this.userFeedback.email,
+                message: this.userFeedback.message,
+                properties: {
+                    version: this.appVersion,
+                    device: {
+                        cordova: this.devicePlugin.cordova,
+                        model: this.devicePlugin.model,
+                        platform: this.devicePlugin.platform,
+                        version: this.devicePlugin.version,
+                        manufacturer: this.devicePlugin.manufacturer
                     }
-                })
-                .catch(error => {
-                    Raven.captureException(new Error(error));
+                }
+            })
+            .catch(error => {
+                Raven.captureException(new Error(error));
 
-                    return Observable.throw(error);
-                })
-                .subscribe(() => {
-                    this.close();
-                });
+                return Observable.throw(error);
+            })
+            .subscribe(() => {
+                this.close();
             });
+        });
     }
 
     public close() {
@@ -72,6 +70,6 @@ export class Feedback {
             headers: headers
         });
 
-        return this.http.post(FEEDBACK_API_URL + '?key=' + FEEDBACK_API_TOKEN, data, options)
+        return this.http.post(`${AppSettings.doorbell.apiBase}?key=${AppSettings.doorbell.apiKey}`, data, options)
     }
 }

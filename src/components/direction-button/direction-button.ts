@@ -55,8 +55,10 @@ export class DirectionButton {
                 destinationName: this.station.name,
                 transportMode: 'walking',
                 // launchMode: 'turn-by-turn',
-                appSelectionDialogHeader: 'Sélectionnez une application de navigation',
-                appSelectionCancelButton: 'Annuler'
+                appSelection: {
+                    dialogHeaderText: 'Sélectionnez une application de navigation',
+                    cancelButtonText: 'Annuler'
+                }
             })
             .catch(error => {
                 // TODO: check if errors a relevant

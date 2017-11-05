@@ -1,3 +1,30 @@
+# 2.5.6
+
+- Correction d'un bug dans le formulaire de contact (vérification de l'email)
+
+# 2.5.5
+
+- Correction d'un bug dans la bar de navigation sur iPhone X
+- Amélioration des performances de la carte
+
+# 2.5.4
+
+- Amélioration des performances de chargement de la carte
+- Modification du menu lattéral
+
+# 2.5.3
+
+- Amélioration du support de l'iPhone X
+
+# 2.5.2
+
+- Amélioration des performances de la carte
+
+# 2.5.1
+
+- Mise jours de l'interface pour iPhone X
+- Correction de bugs sur iOS 11
+
 # 2.5.0
 
 - Affichage des stations indisponibles directement sur la carte et dans les favoris

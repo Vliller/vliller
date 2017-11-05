@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AppState } from '../app/app.reducers';
-import { Action, Store } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 
@@ -14,7 +13,6 @@ import { LocationDisabledError } from '../services/location';
 @Injectable()
 export class ToastEffects {
   constructor(
-    private store$: Store<AppState>,
     private actions$: Actions
   ) {}
 
