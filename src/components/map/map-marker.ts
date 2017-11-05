@@ -15,8 +15,11 @@ export abstract class MapMarker implements MapMarkerInterface {
     this.marker.on(plugin.google.maps.event.MARKER_CLICK, this.onClick);
   }
 
-  abstract onClick(callback: Function);
+  onClick(callback: Function) {
+    return callback();
+  }
 
+  // TODO
   abstract select();
 
   isEqual(marker: any) {
