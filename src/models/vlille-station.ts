@@ -28,7 +28,7 @@ export class VlilleStation {
      *
      * @return {string}
      */
-    get formatedDistance() {
+    get formatedDistance(): string {
         let distanceInMeter = this.distance,
             distanceString = '';
 
@@ -48,5 +48,14 @@ export class VlilleStation {
         }
 
         return distanceString;
+    }
+
+    /**
+     * Compute the station current usage in percent
+     *
+     * @return {number}
+     */
+    get usageInPercent(): number {
+        return (this.bikes * 100) / (this.bikes + this.docks);
     }
 }
