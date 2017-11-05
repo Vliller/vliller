@@ -8,6 +8,7 @@ export class VlilleStationMarker extends MapMarker {
    * @var VlilleStation
    */
   private station: VlilleStation
+  private isStationActive: boolean = false;
 
   constructor(marker: any, station: VlilleStation) {
     super(marker);
@@ -19,9 +20,9 @@ export class VlilleStationMarker extends MapMarker {
     throw new Error("Method not implemented.");
   }
 
-  updateIcon(isMapUnzoom: boolean, isActive: boolean = false) {
+  updateIcon(isMapUnzoom: boolean) {
     // active marker
-    if (isActive) {
+    if (this.isActive()) {
       if (this.isAvailable()) {
         this.marker.setIcon(MapIcon.NORMAL_ACTIVE);
       } else {
@@ -45,12 +46,18 @@ export class VlilleStationMarker extends MapMarker {
           this.marker.setIcon(MapIcon.UNAVAILABLE);
       }
     }
-
-
   }
 
   isAvailable(): boolean {
     return this.station.status === VlilleStationStatus.NORMAL;
+  }
+
+  isActive(): boolean {
+    return this.isStationActive;
+  }
+
+  setIsActive(isActive: boolean) {
+    this.isStationActive = isActive;
   }
 
   setStation(station: VlilleStation) {
