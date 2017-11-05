@@ -6,13 +6,13 @@ import { DeviceOrientation } from '@ionic-native/device-orientation';
 import { MapIcon, DynamicMapIcon } from './map-icon';
 import { MapPosition } from '../../models/map-position';
 import { VlilleStation, VlilleStationStatus } from '../../models/vlille-station';
+import { VlilleStationMarker } from '../../models/vlille-station-marker';
 
 import { AppSettings } from '../../app/app.settings';
 import { Store } from '@ngrx/store';
 import { AppState, selectMapIsClickable } from '../../app/app.reducers';
 import { ToastActions } from '../../actions/toast';
 import { StationsActions } from '../../actions/stations';
-
 
 declare var plugin: any;
 
@@ -44,8 +44,8 @@ export class MapComponent implements OnInit {
     private mapZoom: number = ZOOM_DEFAULT;
     private mapIsUnzoom: boolean = false;
 
-    private markers: Map<string, any> = new Map();
-    private activeMarker: any;
+    private markers: Map<string, VlilleStationMarker|any> = new Map();
+    private activeMarker: VlilleStationMarker;
 
     private userMarker: any;
     private userMarkerAccuracy: any;
@@ -217,16 +217,18 @@ export class MapComponent implements OnInit {
      * @param station
      */
     private handleMarkerCreated(marker: any, station:VlilleStation) {
+        let vlilleStationMarker = new VlilleStationMarker(marker, station);
+
         // stores created marker
-        this.markers.set(station.id, marker);
+        this.markers.set(station.id, vlilleStationMarker);
 
         // init station status
-        marker.set('isAvailable', station.status === VlilleStationStatus.NORMAL);
+        // marker.set('isAvailable', station.status === VlilleStationStatus.NORMAL);
 
         /**
          * Set active marker on click
          */
-        marker.on(plugin.google.maps.event.MARKER_CLICK, () => {
+        vlilleStationMarker.onClick(() => {
             this.setActiveMarker(marker);
 
             this.setCenter(MapPosition.fromCoordinates(station), true);
@@ -320,14 +322,14 @@ export class MapComponent implements OnInit {
      * Refresh marker icons using the `this.markerIcon` value.
      */
     private refreshMarkerIcons() {
-        this.markers.forEach(marker => {
+        this.markers.forEach((marker: VlilleStationMarker) => {
             // do not refresh active marker
-            if (this.activeMarker && this.activeMarker.id === marker.id) {
+            if (this.activeMarker && this.activeMarker.isEqual(marker)) {
                 return;
             }
 
             // update marker icon according to zoom and station status
-            let isAvailable = marker.get('isAvailable');
+            let isAvailable = marker.isAvailable();
             if (this.mapIsUnzoom) {
                 if (isAvailable) {
                     marker.setIcon(MapIcon.NORMAL_SMALL);
@@ -358,7 +360,7 @@ export class MapComponent implements OnInit {
             let marker = this.markers.get(station.id);
 
             // avoid double call to setActiveMarker during marker click
-            if (this.activeMarker && marker.id === this.activeMarker.id) {
+            if (this.activeMarker && this.activeMarker.isEqual(marker)) {
                 return;
             }
 
@@ -380,7 +382,7 @@ export class MapComponent implements OnInit {
                 let marker = this.markers.get(station.id);
 
                 // updates marker data
-                marker.set('isAvailable', station.status === VlilleStationStatus.NORMAL);
+                // marker.set('isAvailable', station.status === VlilleStationStatus.NORMAL);
             });
         });
     }
@@ -408,8 +410,8 @@ export class MapComponent implements OnInit {
      */
     private setActiveMarker(marker: any) {
         // reset default icon on current office marker
-        if (this.activeMarker && this.activeMarker.id !== marker.id) {
-            if (this.activeMarker.get('isAvailable')) {
+        if (this.activeMarker && !this.activeMarker.isEqual(marker)) {
+            if (this.activeMarker.isAvailable()) {
                 this.activeMarker.setIcon(MapIcon.NORMAL);
             } else {
                 this.activeMarker.setIcon(MapIcon.UNAVAILABLE);
@@ -420,7 +422,7 @@ export class MapComponent implements OnInit {
         this.activeMarker = marker;
 
         // updates marker icon according to station state
-        if (this.activeMarker.get('isAvailable')) {
+        if (this.activeMarker.isAvailable()) {
             this.activeMarker.setIcon(MapIcon.NORMAL_ACTIVE);
         } else {
             this.activeMarker.setIcon(MapIcon.UNAVAILABLE_ACTIVE);

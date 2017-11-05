@@ -1,4 +1,10 @@
+interface GoogleMapsMarker {
+  id;
+}
+
 export interface MapMarkerInterface {
-  onClick();
+  onClick(callback: Function);
   select();
+  isEqual(marker: GoogleMapsMarker);
+  setIcon(icon: any);
 }
