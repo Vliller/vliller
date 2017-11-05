@@ -3,7 +3,7 @@ import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { DeviceOrientation } from '@ionic-native/device-orientation';
 
-import { MapIcon, MapDynamicIcon } from './map-icon';
+import { MapIcon, DynamicMapIcon } from './map-icon';
 import { MapPosition } from '../../models/map-position';
 import { VlilleStation, VlilleStationStatus } from '../../models/vlille-station';
 
@@ -337,8 +337,7 @@ export class MapComponent implements OnInit {
             } else {
                 if (isAvailable) {
                     // marker.setIcon(MapIcon.NORMAL);
-                    let debug = MapDynamicIcon.generate(60);
-                    console.log(debug.url);
+                    let debug = DynamicMapIcon.getIcon(60);
                     marker.setIcon(debug);
                 } else {
                     marker.setIcon(MapIcon.UNAVAILABLE);

@@ -59,21 +59,47 @@ export const MapIcon = {
   }
 };
 
-export class MapDynamicIcon {
-  static generate(usageInPercent: number, width: number = 100, height: number = 100): any {
-    const TOTAL = 158; // pi*2*r
-    const COLOR = "#E52B38";
-    const BG_COLOR = "#FFF";
+const MARKERS_BY_USAGE = {
+  0: 'www/assets/img/marker/marker-0.png',
+  16: 'www/assets/img/marker/marker-16.png',
+  25: 'www/assets/img/marker/marker-25.png',
+  33: 'www/assets/img/marker/marker-33.png',
+  50: 'www/assets/img/marker/marker-50.png',
+  66: 'www/assets/img/marker/marker-66.png',
+  75: 'www/assets/img/marker/marker-75.png',
+  83: 'www/assets/img/marker/marker-83.png',
+  100: 'www/assets/img/marker/marker-100.png',
+}
 
-    let dashSize = (usageInPercent / 100) * TOTAL;
+export class DynamicMapIcon {
+  static getIcon(usageInPercent: number): any {
+    let markerUrl = MARKERS_BY_USAGE[100];
 
-    let svgMarker = `<?xml version="1.0"?>\n<svg width="${width}px" height="${height}px" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg" style="transform:rotate(-90deg);background:${COLOR};border-radius:50%;"><circle r="25" cx="50" cy="50" fill="${COLOR}" stroke="${BG_COLOR}" stroke-width="50" stroke-dasharray="${dashSize} ${TOTAL}"/></svg>`;
+    if (usageInPercent <= 0) {
+      markerUrl = MARKERS_BY_USAGE[0];
+    } else if (usageInPercent <= 16) {
+      markerUrl = MARKERS_BY_USAGE[16];
+    } else if (usageInPercent <= 25) {
+      markerUrl = MARKERS_BY_USAGE[25];
+    } else if (usageInPercent <= 33) {
+      markerUrl = MARKERS_BY_USAGE[33];
+    } else if (usageInPercent <= 50) {
+      markerUrl = MARKERS_BY_USAGE[50];
+    } else if (usageInPercent <= 66) {
+      markerUrl = MARKERS_BY_USAGE[66];
+    } else if (usageInPercent <= 75) {
+      markerUrl = MARKERS_BY_USAGE[73];
+    } else if (usageInPercent <= 83) {
+      markerUrl = MARKERS_BY_USAGE[83];
+    } else {
+      markerUrl = MARKERS_BY_USAGE[100];
+    }
 
     return {
-      url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svgMarker),
+      url: markerUrl,
       size: {
-        width: 34,
-        height: 40
+        width: 20,
+        height: 20
       }
     }
   }
