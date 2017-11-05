@@ -9,7 +9,6 @@ import * as Raven from 'raven-js';
 import './rxjs-operators';
 
 import { Home } from '../pages/home/home';
-import { AppSettings } from './app.settings';
 
 @Component({
     templateUrl: 'app.html'
@@ -35,8 +34,6 @@ export class App {
 
                 // set version in error tracker
                 Raven.setRelease(version);
-
-                return version;
             });
         });
     }
