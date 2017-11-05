@@ -44,7 +44,7 @@ export class MapComponent implements OnInit {
     private mapZoom: number = ZOOM_DEFAULT;
     private mapIsUnzoom: boolean = false;
 
-    private markers: Map<string, VlilleStationMarker|any> = new Map();
+    private markers: Map<string, VlilleStationMarker> = new Map();
     private activeMarker: VlilleStationMarker;
 
     private userMarker: any;
@@ -108,15 +108,11 @@ export class MapComponent implements OnInit {
             .take(1)
             .toPromise()
             .then((activeStation: VlilleStation) => this.initMarker(activeStation))
-            .then(marker => {
-                // if marker is still in creation, handle promise
-                if (marker.then) {
-                    marker.then(markerCreated => this.setActiveMarker(markerCreated));
-                } else {
-                    this.setActiveMarker(marker);
-                }
+            .then((marker: VlilleStationMarker) => {
+                // first, set active marker
+                this.setActiveMarker(marker);
 
-                // init stations marker
+                // then, init stations marker
                 this.stations
                 .filter(stations => stations && stations.length > 0)
                 .take(1)
@@ -166,9 +162,9 @@ export class MapComponent implements OnInit {
      * Create stations markers on the map
      *
      * @param  {VlilleStation[]} stations
-     * @return {Promise<any>}
+     * @return {Promise<VlilleStationMarker[]>}
      */
-    private initMarkers(stations: VlilleStation[]): Promise<any> {
+    private initMarkers(stations: VlilleStation[]): Promise<VlilleStationMarker[]> {
         let promises = [];
         for (let station of stations) {
             promises.push(this.initMarker(station));
@@ -181,15 +177,15 @@ export class MapComponent implements OnInit {
      * Create station marker on the map
      *
      * @param  {VlilleStation} station
-     * @return {Promise<any>}
+     * @return {Promise<VlilleStationMarker>}
      */
-    private initMarker(station: VlilleStation): Promise<any> {
-        let existingMarker = this.markers.get(station.id);
-        if (existingMarker) {
-            return Promise.resolve(existingMarker);
+    private initMarker(station: VlilleStation): Promise<VlilleStationMarker> {
+        let marker = this.markers.get(station.id);
+        if (marker) {
+            return Promise.resolve(marker);
         }
 
-        let promise = new Promise((resolve, reject) => {
+        return new Promise<VlilleStationMarker>((resolve, reject) => {
             this.mapInstance.addMarker({
                 position: {
                     lat: station.latitude,
@@ -198,17 +194,12 @@ export class MapComponent implements OnInit {
                 icon: station.status === VlilleStationStatus.NORMAL ? MapIcon.NORMAL : MapIcon.UNAVAILABLE,
                 disableAutoPan: true
             }, marker => {
-                this.handleMarkerCreated(marker, station);
+                var vlilleStationMarker = this.handleMarkerCreated(marker, station);
 
                 // indicates that markers creation is done
-                resolve(marker);
+                resolve(vlilleStationMarker);
             });
         });
-
-        // set the promise to "lock" the space during marker async creation
-        this.markers.set(station.id, promise);
-
-        return promise;
     }
 
     /**
@@ -216,26 +207,25 @@ export class MapComponent implements OnInit {
      * @param marker
      * @param station
      */
-    private handleMarkerCreated(marker: any, station:VlilleStation) {
+    private handleMarkerCreated(marker: any, station: VlilleStation): VlilleStationMarker {
         let vlilleStationMarker = new VlilleStationMarker(marker, station);
 
         // stores created marker
         this.markers.set(station.id, vlilleStationMarker);
 
-        // init station status
-        // marker.set('isAvailable', station.status === VlilleStationStatus.NORMAL);
-
         /**
          * Set active marker on click
          */
         vlilleStationMarker.onClick(() => {
-            this.setActiveMarker(marker);
+            this.setActiveMarker(vlilleStationMarker);
 
             this.setCenter(MapPosition.fromCoordinates(station), true);
 
             // updates active station
             this.store.dispatch(new StationsActions.UpdateActive(station))
         });
+
+        return vlilleStationMarker;
     }
 
     /**
@@ -382,7 +372,7 @@ export class MapComponent implements OnInit {
                 let marker = this.markers.get(station.id);
 
                 // updates marker data
-                // marker.set('isAvailable', station.status === VlilleStationStatus.NORMAL);
+                marker.setStation(station);
             });
         });
     }
@@ -406,9 +396,9 @@ export class MapComponent implements OnInit {
 
     /**
      *
-     * @param {google.maps.Marker} marker
+     * @param {VlilleStationMarker} marker
      */
-    private setActiveMarker(marker: any) {
+    private setActiveMarker(marker: VlilleStationMarker) {
         // reset default icon on current office marker
         if (this.activeMarker && !this.activeMarker.isEqual(marker)) {
             if (this.activeMarker.isAvailable()) {

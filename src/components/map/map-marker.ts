@@ -11,12 +11,10 @@ export abstract class MapMarker implements MapMarkerInterface {
 
   constructor(marker: any) {
     this.marker = marker;
-
-    this.marker.on(plugin.google.maps.event.MARKER_CLICK, this.onClick);
   }
 
   onClick(callback: Function) {
-    return callback();
+    return this.marker.on(plugin.google.maps.event.MARKER_CLICK, callback);
   }
 
   // TODO

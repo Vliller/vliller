@@ -1,5 +1,5 @@
 export namespace AppSettings {
-    export const isProduction = true;
+    export const isProduction = false;
 
     export const appId = {
         android: 'com.alexetmanon.vliller',
