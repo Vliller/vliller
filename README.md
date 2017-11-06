@@ -1,6 +1,6 @@
 # Vliller
 
-Vliller est une application mobile gratuite et opensource initiée par @alexetmanon pour facilitéer la vie des utilisateurs du réseau VLille.
+Vliller est une application mobile gratuite et opensource initiée par [alexetmanon](https://alexetmanon.com) pour facilitéer la vie des utilisateurs du réseau VLille.
 
 **!!! Contributeurs.trices recherchés.es !!!**
 
