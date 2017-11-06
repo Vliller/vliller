@@ -1,15 +1,12 @@
-import { MapMarkerInterface } from './map-marker-interface';
+import { MapMarkerInterface, MarkerInterface } from './map-marker-interface';
 
 declare var plugin: any;
 
-export abstract class MapMarker implements MapMarkerInterface {
+export class MapMarker implements MapMarkerInterface {
 
-  /**
-   * @var google.maps.Marker
-   */
-  marker: any;
+  protected marker: MarkerInterface;
 
-  constructor(marker: any) {
+  constructor(marker: MarkerInterface) {
     this.marker = marker;
   }
 
@@ -17,11 +14,15 @@ export abstract class MapMarker implements MapMarkerInterface {
     return this.marker.on(plugin.google.maps.event.MARKER_CLICK, callback);
   }
 
-  isEqual(marker: any) {
-    return this.marker.id === marker.id;
+  isEqual(marker: MapMarkerInterface) {
+    return this.marker.id === marker.getMarker().id;
   }
 
   setIcon(icon: any) {
     this.marker.setIcon(icon);
+  }
+
+  getMarker(): MarkerInterface {
+    return this.marker;
   }
 }

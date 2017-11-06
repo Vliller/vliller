@@ -4,16 +4,28 @@ import { VlilleStation, VlilleStationStatus } from './vlille-station';
 
 export class VlilleStationMarker extends MapMarker {
 
-  /**
-   * @var VlilleStation
-   */
-  private station: VlilleStation
-  private isStationActive: boolean = false;
+  protected station: VlilleStation
+  protected isStationActive: boolean = false;
 
   constructor(marker: any, station: VlilleStation) {
     super(marker);
 
     this.setStation(station);
+  }
+
+  static create(mapInstance: any, station: VlilleStation): Promise<VlilleStationMarker> {
+    return new Promise((resolve, reject) => {
+      mapInstance.addMarker({
+        position: {
+            lat: station.latitude,
+            lng: station.longitude
+        },
+        icon: station.status === VlilleStationStatus.NORMAL ? DynamicMapIcon.getIcon(station.fulfillmentInPercent) : MapIcon.UNAVAILABLE,
+        disableAutoPan: true
+      }, marker => {
+        resolve(new VlilleStationMarker(marker, station));
+      });
+    });
   }
 
   updateIcon(isMapUnzoom: boolean) {

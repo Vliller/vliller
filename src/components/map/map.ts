@@ -185,44 +185,23 @@ export class MapComponent implements OnInit {
             return Promise.resolve(marker);
         }
 
-        return new Promise<VlilleStationMarker>((resolve, reject) => {
-            this.mapInstance.addMarker({
-                position: {
-                    lat: station.latitude,
-                    lng: station.longitude
-                },
-                icon: station.status === VlilleStationStatus.NORMAL ? DynamicMapIcon.getIcon(station.fulfillmentInPercent) : MapIcon.UNAVAILABLE,
-                disableAutoPan: true
-            }, marker => {
-                // indicates that markers creation is done
-                resolve(this.handleMarkerCreated(marker, station));
+        return VlilleStationMarker.create(this.mapInstance, station).then(stationMarker => {
+            // stores created marker
+            this.markers.set(station.id, stationMarker);
+
+            /**
+             * Set active marker onClick event
+             */
+            stationMarker.onClick(() => {
+                this.setActiveMarker(stationMarker);
+                this.setCenter(MapPosition.fromCoordinates(station), true);
+
+                // updates active station
+                this.store.dispatch(new StationsActions.UpdateActive(station))
             });
+
+            return stationMarker;
         });
-    }
-
-    /**
-     * Manage marker after it has been add to the map
-     * @param marker
-     * @param station
-     */
-    private handleMarkerCreated(marker: any, station: VlilleStation): VlilleStationMarker {
-        let vlilleStationMarker = new VlilleStationMarker(marker, station);
-
-        // stores created marker
-        this.markers.set(station.id, vlilleStationMarker);
-
-        /**
-         * Set active marker onClick event
-         */
-        vlilleStationMarker.onClick(() => {
-            this.setActiveMarker(vlilleStationMarker);
-            this.setCenter(MapPosition.fromCoordinates(station), true);
-
-            // updates active station
-            this.store.dispatch(new StationsActions.UpdateActive(station))
-        });
-
-        return vlilleStationMarker;
     }
 
     /**
