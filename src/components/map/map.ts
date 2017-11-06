@@ -7,6 +7,7 @@ import { MapIcon, DynamicMapIcon } from './map-icon';
 import { MapPosition } from '../../models/map-position';
 import { VlilleStation, VlilleStationStatus } from '../../models/vlille-station';
 import { VlilleStationMarker } from '../../models/vlille-station-marker';
+import { UserMarker } from '../../models/user-marker';
 
 import { AppSettings } from '../../app/app.settings';
 import { Store } from '@ngrx/store';
@@ -47,8 +48,7 @@ export class MapComponent implements OnInit {
     private markers: Map<string, VlilleStationMarker> = new Map();
     private activeMarker: VlilleStationMarker;
 
-    private userMarker: any;
-    private userMarkerAccuracy: any;
+    private userMarker: UserMarker;
     private userHeading: Observable<number>;
 
     @Input() stations: Observable<VlilleStation[]>;
@@ -94,12 +94,14 @@ export class MapComponent implements OnInit {
             this.initUserMarker(MapPosition.fromLatLng(AppSettings.defaultPosition)).then(() => {
                 // listen for user position
                 this.userPosition.subscribe(position => {
-                    this.setUserPosition(position);
+                    this.userMarker.setPosition(position);
                     this.setCenter(position);
                 });
 
                 // listen for user heading
-                this.userHeading.subscribe(heading => this.userMarker.setRotation(heading));
+                this.userHeading.subscribe(heading => {
+                    this.userMarker.setHeading(heading);
+                });
             });
 
             // Init active marker first
@@ -207,54 +209,20 @@ export class MapComponent implements OnInit {
     /**
      *
      * @param  {MapPosition} position
-     * @return {Promise<any>}
+     * @return {Promise<UserMarker>}
      */
-    private initUserMarker(position: MapPosition): Promise<any> {
-        // Create user position marker
-        let userMarkerPromise = new Promise<any>((resolve, reject) => {
-            this.mapInstance.addMarker({
-                position: position.toLatLng(),
-                icon: MapIcon.USER,
-                disableAutoPan: true
-            }, marker => {
-                // avoid duplication bug
-                if (this.userMarker) {
-                    this.userMarker.remove();
-                }
+    private initUserMarker(position: MapPosition): Promise<UserMarker> {
+        return UserMarker.create(this.mapInstance, MapPosition.fromLatLng(AppSettings.defaultPosition)).then((marker: UserMarker) => {
+            // avoid duplication bug
+            if (this.userMarker) {
+                this.userMarker.removeMarker();
+            }
 
-                // updates marker ref
-                this.userMarker = marker;
+            // updates marker ref
+            this.userMarker = marker;
 
-                resolve(marker);
-            });
+            return this.userMarker;
         });
-
-        // Create a circle to represent the user position accuracy
-        let userMarkerAccuracyPromise = new Promise<any>((resolve, reject) => {
-            this.mapInstance.addCircle({
-                center: position.toLatLng(),
-                radius: position.accuracy,
-                strokeWidth: 0,
-                strokeColor: 'rgba(0, 0, 0, 0)',
-                fillColor: 'rgba(25, 209, 191, 0.15)' // #19D1BF + opacity = 15%,
-            }, markerAccuracy => {
-                // avoid duplication bug
-                if (this.userMarkerAccuracy) {
-                    this.userMarkerAccuracy.remove();
-                }
-
-                // updates marker ref
-                this.userMarkerAccuracy = markerAccuracy;
-
-                resolve(markerAccuracy);
-            });
-        });
-
-        // wait for both to be created
-        return Promise.all([
-            userMarkerPromise,
-            userMarkerAccuracyPromise
-        ]);
     }
 
     /**
@@ -368,17 +336,6 @@ export class MapComponent implements OnInit {
 
         // update local reference
         this.activeMarker = marker;
-    }
-
-    /**
-     * @param {MapPosition} position
-     */
-    private setUserPosition(position: MapPosition) {
-        this.userMarker.setPosition(position.toLatLng());
-
-        // displays accuracy
-        this.userMarkerAccuracy.setCenter(position.toLatLng());
-        this.userMarkerAccuracy.setRadius(position.accuracy);
     }
 
     /**

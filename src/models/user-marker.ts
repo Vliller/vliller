@@ -1,15 +1,16 @@
+import { MarkerInterface, CircleInterface } from '../components/map/map-marker-interface';
 import { MapMarker } from '../components/map/map-marker';
 import { MapIcon } from '../components/map/map-icon';
 import { MapPosition } from '../models/map-position';
 
 export class UserMarker extends MapMarker {
 
-  protected accuracyMarker: any;
+  protected accuracyCircle: any;
 
-  constructor(marker:any, accuracyMarker: any) {
+  constructor(marker: MarkerInterface, accuracyCircle: CircleInterface) {
     super(marker);
 
-    this.accuracyMarker = accuracyMarker;
+    this.accuracyCircle = accuracyCircle;
   }
 
   static create(mapInstance: any, position: MapPosition): Promise<UserMarker> {
@@ -30,17 +31,23 @@ export class UserMarker extends MapMarker {
         strokeWidth: 0,
         strokeColor: 'rgba(0, 0, 0, 0)',
         fillColor: 'rgba(25, 209, 191, 0.15)' // #19D1BF + opacity = 15%,
-      }, markerAccuracy => {
+      }, accuracyCircle => {
         // finally, create UserMarker object
         markerPromise.then(marker => {
-          resolve(new UserMarker(marker, markerAccuracy));
+          resolve(new UserMarker(marker, accuracyCircle));
         });
       });
     });
   }
 
-  setPosition(position) {
-    this.marker.setCenter(position);
+  setPosition(position: MapPosition) {
+    let latLng = position.toLatLng();
+
+    this.marker.setPosition(latLng);
+    this.accuracyCircle.setCenter(latLng);
+
+    // set accuracy from position data
+    this.setAccuracy(position.accuracy);
   }
 
   setHeading(heading: number) {
@@ -48,7 +55,7 @@ export class UserMarker extends MapMarker {
   }
 
   setAccuracy(accuracy: number) {
-    this.accuracyMarker.setRadius(accuracy);
+    this.accuracyCircle.setRadius(accuracy);
   }
 
   // NO-OP

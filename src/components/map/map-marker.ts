@@ -22,7 +22,17 @@ export class MapMarker implements MapMarkerInterface {
     this.marker.setIcon(icon);
   }
 
+  setMarker(marker: MarkerInterface) {
+    this.removeMarker();
+    this.marker = marker;
+  }
+
   getMarker(): MarkerInterface {
     return this.marker;
+  }
+
+  removeMarker() {
+    this.marker.remove();
+    this.marker = undefined;
   }
 }
