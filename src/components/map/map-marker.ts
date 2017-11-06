@@ -17,9 +17,6 @@ export abstract class MapMarker implements MapMarkerInterface {
     return this.marker.on(plugin.google.maps.event.MARKER_CLICK, callback);
   }
 
-  // TODO
-  abstract select();
-
   isEqual(marker: any) {
     return this.marker.id === marker.id;
   }

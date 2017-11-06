@@ -16,10 +16,6 @@ export class VlilleStationMarker extends MapMarker {
     this.setStation(station);
   }
 
-  select() {
-    throw new Error("Method not implemented.");
-  }
-
   updateIcon(isMapUnzoom: boolean) {
     // active marker
     if (this.isActive()) {
