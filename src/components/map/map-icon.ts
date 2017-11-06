@@ -27,10 +27,10 @@ export const MapIcon = {
 
   // Station unavailable
   UNAVAILABLE: {
-    url: 'www/assets/img/vliller-marker-unavailable@2x.png',
+    url: 'www/assets/img/marker/marker-unavailable.png',
     size: {
-      width: 34,
-      height: 40
+      width: 28,
+      height: 28
     }
   },
   UNAVAILABLE_ACTIVE: {
