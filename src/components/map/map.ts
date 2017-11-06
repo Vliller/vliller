@@ -379,12 +379,12 @@ export class MapComponent implements OnInit {
 
         // reset default icon on current office marker
         if (this.activeMarker) {
-            this.activeMarker.setIsActive(false);
+            this.activeMarker.setActive(false);
             this.activeMarker.updateIcon(this.mapIsUnzoom);
         }
 
         // pimp new marker
-        marker.setIsActive(true);
+        marker.setActive(true);
         marker.updateIcon(this.mapIsUnzoom);
 
         // update local reference

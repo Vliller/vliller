@@ -52,7 +52,7 @@ export class VlilleStationMarker extends MapMarker {
     return this.isStationActive;
   }
 
-  setIsActive(isActive: boolean) {
+  setActive(isActive: boolean) {
     this.isStationActive = isActive;
   }
 
