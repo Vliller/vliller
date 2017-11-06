@@ -89,17 +89,15 @@ export class DynamicMapIcon {
       markerUrl = MARKERS_BY_USAGE[66];
     } else if (usageInPercent <= 75) {
       markerUrl = MARKERS_BY_USAGE[75];
-    } else if (usageInPercent <= 83) {
+    } else if (usageInPercent < 100) {
       markerUrl = MARKERS_BY_USAGE[83];
-    } else {
-      markerUrl = MARKERS_BY_USAGE[100];
     }
 
     return {
       url: markerUrl,
       size: {
-        width: 20,
-        height: 20
+        width: 28,
+        height: 28
       }
     }
   }
