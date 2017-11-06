@@ -3,9 +3,8 @@ import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { DeviceOrientation } from '@ionic-native/device-orientation';
 
-import { MapIcon, DynamicMapIcon } from './map-icon';
 import { MapPosition } from '../../models/map-position';
-import { VlilleStation, VlilleStationStatus } from '../../models/vlille-station';
+import { VlilleStation } from '../../models/vlille-station';
 import { VlilleStationMarker } from '../../models/vlille-station-marker';
 import { UserMarker } from '../../models/user-marker';
 
