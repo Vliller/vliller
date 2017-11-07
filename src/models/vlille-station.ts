@@ -59,7 +59,9 @@ export class VlilleStation {
      * @return {number}
      */
     get fulfillmentInPercent(): number {
-        return (this.bikes * 100) / (this.bikes + this.docks);
+        let total = this.bikes + this.docks;
+
+        return total !== 0 ? (this.bikes / total) * 100 : 0;
     }
 
     /**
