@@ -72,8 +72,11 @@ export class Home {
             this.setActiveStation(closestStation, false);
         });
 
-        // update position on resume
-        platform.resume.subscribe(() => this.updatePosition());
+        // update position & stations data on resume
+        platform.resume.subscribe(() => {
+            this.store.dispatch(new StationsActions.Load());
+            this.updatePosition();
+        });
 
         // Hide splashscreen
         platform.ready().then(() => splashScreenPlugin.hide());
