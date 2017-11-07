@@ -59,46 +59,29 @@ export const MapIcon = {
   }
 };
 
-const MARKERS_BY_USAGE = {
-  0: 'www/assets/img/marker/marker-0.png',
-  16: 'www/assets/img/marker/marker-16.png',
-  25: 'www/assets/img/marker/marker-25.png',
-  33: 'www/assets/img/marker/marker-33.png',
-  50: 'www/assets/img/marker/marker-50.png',
-  66: 'www/assets/img/marker/marker-66.png',
-  75: 'www/assets/img/marker/marker-75.png',
-  83: 'www/assets/img/marker/marker-83.png',
-  100: 'www/assets/img/marker/marker-100.png',
-}
+const MARKER_USAGE_BASE = 'www/assets/img/marker/marker-';
+const MARKER_USAGE_EXT = '.png';
 
 export class DynamicMapIcon {
   static getIcon(usageInPercent: number): any {
-    let markerUrl = MARKERS_BY_USAGE[100];
-
-    if (usageInPercent <= 0) {
-      markerUrl = MARKERS_BY_USAGE[0];
-    } else if (usageInPercent <= 16) {
-      markerUrl = MARKERS_BY_USAGE[16];
-    } else if (usageInPercent <= 25) {
-      markerUrl = MARKERS_BY_USAGE[25];
-    } else if (usageInPercent <= 33) {
-      markerUrl = MARKERS_BY_USAGE[33];
-    } else if (usageInPercent <= 50) {
-      markerUrl = MARKERS_BY_USAGE[50];
-    } else if (usageInPercent <= 66) {
-      markerUrl = MARKERS_BY_USAGE[66];
-    } else if (usageInPercent <= 75) {
-      markerUrl = MARKERS_BY_USAGE[75];
-    } else if (usageInPercent < 100) {
-      markerUrl = MARKERS_BY_USAGE[83];
-    }
-
-    return {
-      url: markerUrl,
+    let baseIcon = {
+      url: '',
       size: {
         width: 28,
         height: 28
       }
+    };
+
+    // generate marker based on usage value
+    for (var i = 0; i < 100; i += 10) {
+      if (usageInPercent <= i) {
+        baseIcon.url = `${MARKER_USAGE_BASE}${i}${MARKER_USAGE_EXT}`;
+        return baseIcon;
+      }
     }
+
+    // usageInPercent >= 100
+    baseIcon.url = `${MARKER_USAGE_BASE}100${MARKER_USAGE_EXT}`;
+    return baseIcon;
   }
 }
