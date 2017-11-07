@@ -6,8 +6,6 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import * as Raven from 'raven-js';
-import moment from 'moment';
-import 'moment/locale/fr';
 
 import { AppSettings } from '../app/app.settings';
 import { VlilleStation, VlilleStationStatus } from '../models/vlille-station';
@@ -22,58 +20,15 @@ export class VlilleService {
     public getStation(id: string): Observable<VlilleStation> {
         return this.http
             .get(`${API_BASE}&q=libelle:${id}`)
-            .map(response => response.json().records.map(this.rawDataToVlilleStation)[0])
+            .map(response => response.json().records.map(VlilleStation.rawDataToVlilleStation)[0])
             .catch(this.handleError);
     }
 
     public getAllStations(): Observable<VlilleStation[]> {
         return this.http
             .get(API_BASE)
-            .map(response => response.json().records.map(this.rawDataToVlilleStation))
+            .map(response => response.json().records.map(VlilleStation.rawDataToVlilleStation))
             .catch(this.handleError);
-    }
-
-    /**
-     *
-     * @param  {any} data
-     * @return {VlilleStation}
-     */
-    private rawDataToVlilleStation(data): VlilleStation {
-        let station = new VlilleStation(
-            data.fields.libelle,
-            data.fields.nom.replace(/^([0-9]+ )/, '').replace(/( \(CB\))$/, ''),
-            data.fields.geo[0],
-            data.fields.geo[1],
-            data.fields.adresse,
-            data.fields.nbVelosDispo,
-            data.fields.nbPlacesDispo,
-            data.fields.type,
-            undefined,
-            undefined
-        );
-
-        /*
-            Status
-         */
-        if (data.fields.etat === 'EN SERVICE') {
-            station.status = VlilleStationStatus.NORMAL;
-        } else {
-            station.status = VlilleStationStatus.UNAVAILABLE;
-        }
-
-        if (station.bikes === 0 && station.docks === 0) {
-            // teapot
-            station.status = VlilleStationStatus.UNAVAILABLE;
-        }
-
-        /*
-            Last up
-         */
-        var diffInSeconds = Math.round(moment().diff(moment.utc(data.record_timestamp))/ 1000);
-
-        station.lastupd = diffInSeconds + ' seconde' + (diffInSeconds > 1 ? 's' : '');
-
-        return station;
     }
 
     /**

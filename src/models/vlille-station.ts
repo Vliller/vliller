@@ -1,3 +1,6 @@
+import moment from 'moment';
+import 'moment/locale/fr';
+
 /**
  * Models related to VlilleStation
  */
@@ -57,5 +60,48 @@ export class VlilleStation {
      */
     get fulfillmentInPercent(): number {
         return (this.bikes * 100) / (this.bikes + this.docks);
+    }
+
+    /**
+     *
+     * @param  {any} data
+     * @return {VlilleStation}
+     */
+    static rawDataToVlilleStation(data): VlilleStation {
+        let station = new VlilleStation(
+            data.fields.libelle,
+            data.fields.nom.replace(/^([0-9]+ )/, '').replace(/( \(CB\))$/, ''),
+            data.fields.geo[0],
+            data.fields.geo[1],
+            data.fields.adresse,
+            data.fields.nbVelosDispo,
+            data.fields.nbPlacesDispo,
+            data.fields.type,
+            undefined,
+            undefined
+        );
+
+        /*
+            Status
+         */
+        if (data.fields.etat === 'EN SERVICE') {
+            station.status = VlilleStationStatus.NORMAL;
+        } else {
+            station.status = VlilleStationStatus.UNAVAILABLE;
+        }
+
+        if (station.bikes === 0 && station.docks === 0) {
+            // teapot
+            station.status = VlilleStationStatus.UNAVAILABLE;
+        }
+
+        /*
+            Last up
+         */
+        var diffInSeconds = Math.round(moment().diff(moment.utc(data.record_timestamp))/ 1000);
+
+        station.lastupd = diffInSeconds + ' seconde' + (diffInSeconds > 1 ? 's' : '');
+
+        return station;
     }
 }
