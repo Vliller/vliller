@@ -294,6 +294,9 @@ export class MapComponent implements OnInit {
                 // updates marker data
                 marker.setStation(station);
             });
+
+            // hide loading message
+            this.store.dispatch(new ToastActions.Hide());
         });
     }
 

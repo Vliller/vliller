@@ -15,6 +15,7 @@ import {
 import { Store } from '@ngrx/store';
 import { StationsActions } from '../../actions/stations';
 import { LocationActions } from '../../actions/location';
+import { ToastActions } from '../../actions/toast';
 
 import { VlilleStation } from '../../models/vlille-station';
 import { MapPosition } from '../../models/map-position';
@@ -74,6 +75,14 @@ export class Home {
 
         // update position & stations data on resume
         platform.resume.subscribe(() => {
+            // show loader
+            store.dispatch(new ToastActions.Show({
+                message: "Ça pédale pour charger les stations&nbsp;!",
+                options: {
+                    showSpinner: true
+                }
+            }));
+
             this.store.dispatch(new StationsActions.Load());
             this.updatePosition();
         });
