@@ -1,5 +1,5 @@
-import { MarkerInterface, CircleInterface } from '../components/map/map-marker-interface';
-import { MapMarker } from '../components/map/map-marker';
+import { MarkerInterface, CircleInterface } from './map-marker-interface';
+import { MapMarker } from './map-marker';
 import { MapIcon } from '../components/map/map-icon';
 import { MapPosition } from '../models/map-position';
 

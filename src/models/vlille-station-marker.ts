@@ -1,4 +1,4 @@
-import { MapMarker } from '../components/map/map-marker';
+import { MapMarker } from './map-marker';
 import { MapIcon, DynamicMapIcon } from '../components/map/map-icon';
 import { VlilleStation, VlilleStationStatus } from './vlille-station';
 
