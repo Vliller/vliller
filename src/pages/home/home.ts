@@ -75,16 +75,7 @@ export class Home {
 
         // update position & stations data on resume
         platform.resume.subscribe(() => {
-            // show loader
-            store.dispatch(new ToastActions.Show({
-                message: "Ça pédale pour charger les stations&nbsp;!",
-                options: {
-                    showSpinner: true
-                }
-            }));
-
-            this.store.dispatch(new StationsActions.Load());
-            this.updatePosition();
+            this.updateData();
         });
 
         // Hide splashscreen
@@ -114,7 +105,16 @@ export class Home {
     /**
      * Update user position
      */
-    public updatePosition() {
+    public updateData() {
+        // show loader
+        this.store.dispatch(new ToastActions.Show({
+            message: "Ça pédale pour charger les stations&nbsp;!",
+            options: {
+                showSpinner: true
+            }
+        }));
+
+        this.store.dispatch(new StationsActions.Load());
         this.store.dispatch(new LocationActions.Update());
     }
 
