@@ -63,25 +63,44 @@ const MARKER_USAGE_BASE = 'www/assets/img/marker/marker-';
 const MARKER_USAGE_EXT = '.png';
 
 export class DynamicMapIcon {
-  static getIcon(usageInPercent: number): any {
+  static getIcon(fulfillmentInPercent: number): any {
     let baseIcon = {
       url: '',
       size: {
         width: 28,
-        height: 28
+        height: 30
       }
     };
 
-    // generate marker based on usage value
-    for (var i = 0; i < 100; i += 10) {
-      if (usageInPercent <= i) {
-        baseIcon.url = `${MARKER_USAGE_BASE}${i}${MARKER_USAGE_EXT}`;
-        return baseIcon;
-      }
+    // generate marker based on fulfillment value
+    let markerValue = 0;
+    if (fulfillmentInPercent <= 0) {
+      markerValue = 0;
+    } else if (fulfillmentInPercent <= 10) {
+      markerValue = 10;
+    } else if (fulfillmentInPercent <= 20) {
+      markerValue = 20;
+    } else if (fulfillmentInPercent <= 30) {
+      markerValue = 30;
+    } else if (fulfillmentInPercent <= 40) {
+      markerValue = 40;
+    } else if (fulfillmentInPercent <= 50) {
+      markerValue = 50;
+    } else if (fulfillmentInPercent <= 60) {
+      markerValue = 60;
+    } else if (fulfillmentInPercent <= 70) {
+      markerValue = 70;
+    } else if (fulfillmentInPercent <= 80) {
+      markerValue = 80;
+    }
+    // avoid to have station with 1 bike and a full icon
+    else if (fulfillmentInPercent < 100) {
+      markerValue = 90;
+    } else if (fulfillmentInPercent === 100) {
+      markerValue = 100;
     }
 
-    // usageInPercent >= 100
-    baseIcon.url = `${MARKER_USAGE_BASE}100${MARKER_USAGE_EXT}`;
+    baseIcon.url = `${MARKER_USAGE_BASE}${markerValue}${MARKER_USAGE_EXT}`;
     return baseIcon;
   }
 }
