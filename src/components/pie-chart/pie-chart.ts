@@ -22,9 +22,12 @@ export class PieChart implements OnChanges {
   private computeStrokeDasharray(valueInPercent: number): string {
     const MAX = 100;
 
-    // fix SVG bug
+    // fix SVG bugs
     if (valueInPercent === 100) {
       valueInPercent = 99.99;
+    }
+    if (valueInPercent === 0) {
+      valueInPercent = -1;
     }
 
     return `${MAX - valueInPercent} ${MAX}`;
