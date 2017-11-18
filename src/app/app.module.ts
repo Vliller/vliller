@@ -45,6 +45,7 @@ import { AetmFooter } from '../components/aetm-footer/aetm-footer';
 import { ToastComponent } from '../components/toast/toast';
 import { CbIcon } from '../components/cb-icon/cb-icon';
 import { DirectionButton } from '../components/direction-button/direction-button';
+import { PieChart } from '../components/pie-chart/pie-chart';
 
 // services
 import { VlilleService } from '../services/vlille';
@@ -83,7 +84,8 @@ if (AppSettings.isProduction) {
         AetmFooter,
         ToastComponent,
         CbIcon,
-        DirectionButton
+        DirectionButton,
+        PieChart
     ],
     imports: [
         BrowserModule,

@@ -39,6 +39,10 @@
             <station-card-metric type="bike" [value]="station.bikes" [isLoading]="isLoading" class="border-right"></station-card-metric>
         </ion-col>
         <ion-col>
+            <!-- pie chart for station usage -->
+            <pie-chart [value]="station.fulfillmentInPercent"></pie-chart>
+        </ion-col>
+        <ion-col>
             <!-- docks -->
             <station-card-metric type="dock" [value]="station.docks" [isLoading]="isLoading"></station-card-metric>
         </ion-col>
