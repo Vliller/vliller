@@ -291,8 +291,9 @@ export class MapComponent implements OnInit {
             stations.forEach(station => {
                 let marker = this.markers.get(station.id);
 
-                // updates marker data
+                // updates marker data & icon
                 marker.setStation(station);
+                marker.updateIcon(this.mapIsUnzoom);
             });
 
             // hide loading message
