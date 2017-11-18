@@ -36,16 +36,16 @@
     <ion-row class="station-card--content" *ngIf="station.status === 0" align-items-center>
         <ion-col>
             <!-- bikes -->
-            <station-card-metric type="bike" [value]="station.bikes" [isLoading]="isLoading" class="border-right"></station-card-metric>
+            <station-card-metric type="bike" [value]="station.bikes" [isLoading]="isLoading" class="station-bikes"></station-card-metric>
         </ion-col>
-        <ion-col>
-            <!-- pie chart for station usage -->
-            <pie-chart [value]="station.fulfillmentInPercent"></pie-chart>
-        </ion-col>
+
         <ion-col>
             <!-- docks -->
-            <station-card-metric type="dock" [value]="station.docks" [isLoading]="isLoading"></station-card-metric>
+            <station-card-metric type="dock" [value]="station.docks" [isLoading]="isLoading" class="station-docks"></station-card-metric>
         </ion-col>
+
+        <!-- pie chart for station usage -->
+        <pie-chart class="station-fulfillment" [value]="station.fulfillmentInPercent"></pie-chart>
     </ion-row>
 
     <ion-row class="station-card--dead" *ngIf="station.status !== 0" align-items-center justify-content-center>
