@@ -1,20 +1,27 @@
 pie-chart {
-  svg {
-    transform: rotate(-90deg);
-    background: yellowgreen;
+  .pie-chart-container {
+    height: 55px;
+    width: 55px;
+    padding: 4px;
     border-radius: 50%;
-  }
+    border: 1px solid $black-12;
+    background: $light;
 
-  circle {
-    fill: yellowgreen;
-    stroke: #655;
-    stroke-width: 50;
-    stroke-dasharray: 0 158;
-    animation: fillup 5s linear;
-  }
+    svg {
+      height: 100%;
+      width: 100%;
+      transform: rotate(-90deg);
+      border-radius: 50%;
+      border: none;
+      background: $light;
+    }
 
-  @keyframes fillup {
-    to { stroke-dasharray: 158 158; }
+    circle {
+      fill: $light-grey;
+      stroke: $light;
+      stroke-width: 32;
+      stroke-dasharray: 0 100;
+      transition: stroke-dasharray 1s linear;
+    }
   }
-
 }
