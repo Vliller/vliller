@@ -17,7 +17,6 @@ import { StationsActions } from '../../actions/stations';
 declare var plugin: any;
 
 const ZOOM_DEFAULT = 12;
-const ZOOM_THRESHOLD = 14;
 
 @Component({
     selector: 'map',
@@ -42,7 +41,6 @@ export class MapComponent implements OnInit {
     private mapInstance: any;
     private mapInstancePromise: Promise<any>;
     private mapZoom: number = ZOOM_DEFAULT;
-    private mapIsUnzoom: boolean = false;
 
     private markers: Map<string, VlilleStationMarker> = new Map();
     private activeMarker: VlilleStationMarker;
@@ -126,7 +124,6 @@ export class MapComponent implements OnInit {
                     // Run watchers
                     this.startActiveStationWatcher(this.activeStation);
                     this.startStationsStateWatcher(this.stations);
-                    // this.startZoomLevelWatcher(this.mapInstance);
                 });
             });
         });
@@ -225,40 +222,6 @@ export class MapComponent implements OnInit {
     }
 
     /**
-     * Updates `this.mapIsUnzoom` value according to the given `zoom` value.
-     *
-     * @param {number} zoom
-     */
-    private updateDefaultMarker(zoom: number) {
-        if (zoom <= ZOOM_THRESHOLD && this.mapZoom > ZOOM_THRESHOLD) {
-            // we are "unzooming"
-            // change the marker icon for the small one
-            this.mapIsUnzoom = true;
-        } else if (zoom > ZOOM_THRESHOLD && this.mapZoom <= ZOOM_THRESHOLD) {
-            // we are "zooming"
-            // change the marker icon for the normal one
-            this.mapIsUnzoom = false;
-        } else {
-            // seems to be the same zoom level
-            // nothing to do
-            return;
-        }
-
-        // refresh on the marker icons
-        this.refreshMarkerIcons();
-
-        // stores zoom value
-        this.mapZoom = zoom;
-    }
-
-    /**
-     * Refresh marker icons according to zoom and station status.
-     */
-    private refreshMarkerIcons() {
-        this.markers.forEach((marker: VlilleStationMarker) => marker.updateIcon(this.mapIsUnzoom));
-    }
-
-    /**
      * Run the active marker watcher through an observable
      *
      * @param {Observable<VlilleStation>} activeStationObservable
@@ -293,28 +256,11 @@ export class MapComponent implements OnInit {
 
                 // updates marker data & icon
                 marker.setStation(station);
-                marker.updateIcon(this.mapIsUnzoom);
+                marker.updateIcon();
             });
 
             // hide loading message
             this.store.dispatch(new ToastActions.Hide());
-        });
-    }
-
-    /**
-     * Run the map zoom level watcher through map plug event.
-     *
-     * @param {google.maps.Map} mapInstance
-     */
-    private startZoomLevelWatcher(mapInstance) {
-        // listen for camera changes
-        mapInstance.on(plugin.google.maps.event.CAMERA_MOVE_END, event => {
-            // zoom unchanged, nothing to do
-            if (event.zoom === this.mapZoom) {
-                return;
-            }
-
-            this.updateDefaultMarker(event.zoom)
         });
     }
 
@@ -330,12 +276,12 @@ export class MapComponent implements OnInit {
         // reset default icon on current office marker
         if (this.activeMarker) {
             this.activeMarker.setActive(false);
-            this.activeMarker.updateIcon(this.mapIsUnzoom);
+            this.activeMarker.updateIcon();
         }
 
         // pimp new marker
         marker.setActive(true);
-        marker.updateIcon(this.mapIsUnzoom);
+        marker.updateIcon();
 
         // update local reference
         this.activeMarker = marker;

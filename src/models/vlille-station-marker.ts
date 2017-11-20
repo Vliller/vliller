@@ -28,11 +28,11 @@ export class VlilleStationMarker extends MapMarker {
     });
   }
 
-  updateIcon(isMapUnzoom: boolean) {
+  updateIcon() {
     // active marker
     if (this.isActive()) {
       if (this.isAvailable()) {
-        this.marker.setIcon(MapIcon.NORMAL_ACTIVE);
+        this.marker.setIcon(MapIcon.ACTIVE);
       } else {
         this.marker.setIcon(MapIcon.UNAVAILABLE_ACTIVE);
       }
@@ -41,18 +41,10 @@ export class VlilleStationMarker extends MapMarker {
     }
 
     // unactive marker
-    if (isMapUnzoom) {
-      if (this.isAvailable()) {
-          this.marker.setIcon(MapIcon.NORMAL_SMALL);
-      } else {
-          this.marker.setIcon(MapIcon.UNAVAILABLE_SMALL);
-      }
+    if (this.isAvailable()) {
+      this.marker.setIcon(DynamicMapIcon.getIcon(this.station.fulfillmentInPercent));
     } else {
-      if (this.isAvailable()) {
-          this.marker.setIcon(DynamicMapIcon.getIcon(this.station.fulfillmentInPercent));
-      } else {
-          this.marker.setIcon(MapIcon.UNAVAILABLE);
-      }
+      this.marker.setIcon(MapIcon.UNAVAILABLE);
     }
   }
 

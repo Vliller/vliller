@@ -1,33 +1,21 @@
+const BASE_MAP_ASSETS = 'www/assets/img/map/';
+
 /**
  * All icons are in retina size
  */
 export const MapIcon = {
-  // Normal state
-  NORMAL: {
-    url: 'www/assets/img/vliller-marker-normal@2x.png',
-    size: {
-      width: 34,
-      height: 40
-    }
-  },
-  NORMAL_ACTIVE: {
-    url: 'www/assets/img/vliller-marker-normal-active@2x.png',
+  // Active state
+  ACTIVE: {
+    url: BASE_MAP_ASSETS + 'marker-active.png',
     size: {
       width: 62,
       height: 72
     }
   },
-  NORMAL_SMALL: {
-    url: 'www/assets/img/vliller-marker-normal-small@2x.png',
-    size: {
-      width: 10,
-      height: 10
-    }
-  },
 
   // Station unavailable
   UNAVAILABLE: {
-    url: 'www/assets/img/marker/marker-unavailable.png',
+    url: BASE_MAP_ASSETS + 'marker-unavailable.png',
     size: {
       width: 29,
       height: 29
@@ -35,23 +23,16 @@ export const MapIcon = {
     anchor: [14.5, 13]
   },
   UNAVAILABLE_ACTIVE: {
-    url: 'www/assets/img/vliller-marker-unavailable-active@2x.png',
+    url: BASE_MAP_ASSETS + 'marker-unavailable-active.png',
     size: {
       width: 62,
       height: 72
     }
   },
-  UNAVAILABLE_SMALL: {
-    url: 'www/assets/img/vliller-marker-unavailable-small@2x.png',
-    size: {
-      width: 10,
-      height: 10
-    }
-  },
 
   // User position
   USER: {
-    url: 'www/assets/img/vliller-marker-user@2x.png',
+    url: BASE_MAP_ASSETS + 'marker-user.png',
     size: {
       width: 18,
       height: 30
@@ -60,7 +41,7 @@ export const MapIcon = {
   }
 };
 
-const MARKER_USAGE_BASE = 'www/assets/img/marker/marker-';
+const MARKER_USAGE_BASE = BASE_MAP_ASSETS + 'marker-';
 const MARKER_USAGE_EXT = '.png';
 
 export class DynamicMapIcon {
