@@ -29,9 +29,10 @@ export const MapIcon = {
   UNAVAILABLE: {
     url: 'www/assets/img/marker/marker-unavailable.png',
     size: {
-      width: 28,
-      height: 28
-    }
+      width: 29,
+      height: 29
+    },
+    anchor: [14.5, 13]
   },
   UNAVAILABLE_ACTIVE: {
     url: 'www/assets/img/vliller-marker-unavailable-active@2x.png',
@@ -67,9 +68,10 @@ export class DynamicMapIcon {
     let baseIcon = {
       url: '',
       size: {
-        width: 28,
-        height: 30
-      }
+        width: 29,
+        height: 29
+      },
+      anchor: [14.5, 13]
     };
 
     // generate marker based on fulfillment value
