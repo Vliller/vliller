@@ -20,6 +20,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { StatusBar } from '@ionic-native/status-bar';
+import { HTTP } from '@ionic-native/http';
 
 // ngrx
 import { StoreModule } from '@ngrx/store';
@@ -129,7 +130,8 @@ if (AppSettings.isProduction) {
         Geolocation,
         Diagnostic,
         LocationAccuracy,
-        StatusBar
+        StatusBar,
+        HTTP
     ]
 })
 export class AppModule {}

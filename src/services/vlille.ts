@@ -3,7 +3,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Platform } from 'ionic-angular';
+import { HTTP, HTTPResponse } from '@ionic-native/http';
 import { Observable } from 'rxjs/Observable';
 import * as Raven from 'raven-js';
 
@@ -15,43 +16,49 @@ const API_BASE = `${AppSettings.vlille.apiBase}&apikey=${AppSettings.vlille.apiK
 @Injectable()
 export class VlilleService {
 
-    constructor(private http: Http) {}
+    constructor(
+        private http: HTTP,
+        private platform: Platform
+    ) {}
 
     public getStation(id: string): Observable<VlilleStation> {
-        return this.http
-            .get(`${API_BASE}&q=libelle:${id}`)
-            .map(response => response.json().records.map(VlilleStation.rawDataToVlilleStation)[0])
+        return Observable
+            .fromPromise(
+                this.platform.ready().then(() => this.http.get(`${API_BASE}&q=libelle:${id}`, {}, {}))
+            )
+            .map(response => JSON.parse(response.data))
+            .map(data => data.records.map(VlilleStation.rawDataToVlilleStation)[0])
             .catch(this.handleError);
     }
 
     public getAllStations(): Observable<VlilleStation[]> {
-        return this.http
-            .get(API_BASE)
-            .map(response => response.json().records.map(VlilleStation.rawDataToVlilleStation))
+        return Observable
+            .fromPromise(
+                this.platform.ready().then(() => this.http.get(API_BASE, {}, {}))
+            )
+            .map(response => JSON.parse(response.data))
+            .map(data => data.records.map(VlilleStation.rawDataToVlilleStation))
             .catch(this.handleError);
     }
 
     /**
-     * From Angular doc.
-     * TODO: improve
+     * Minimal error handler
      *
-     * @param {Response | any} error [description]
+     * @param {HTTPResponse | any} errorResponse
      */
-    private handleError (error: Response | any) {
-        let errMsg: string;
+    private handleError (errorResponse: HTTPResponse | any) {
+        let errorMessage: string;
 
-        if (error instanceof Response) {
-            const body = error.json() || '';
-            const err = body.error || JSON.stringify(body);
-            errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+        if (errorResponse.error) {
+            errorMessage = `${errorResponse.status} - ${errorResponse.error}`;
         } else {
-            errMsg = error.message ? error.message : error.toString();
+            errorMessage = errorResponse.message ? errorResponse.message : errorResponse.toString();
         }
 
         // sends error to Sentry
-        Raven.captureException(new Error(errMsg));
+        Raven.captureException(new Error(errorMessage));
 
-        return Observable.throw(errMsg);
+        return Observable.throw(errorMessage);
     }
 
 }
