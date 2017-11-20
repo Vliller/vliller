@@ -37,3 +37,6 @@ UserInterfaceState.xcuserstate
 # release scripts
 build-release.sh
 bump-version.py
+
+# env production
+src/environments/environment.prod.ts

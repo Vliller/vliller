@@ -20,6 +20,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { StatusBar } from '@ionic-native/status-bar';
+import { HTTP } from '@ionic-native/http';
 
 // ngrx
 import { StoreModule } from '@ngrx/store';
@@ -45,6 +46,7 @@ import { AetmFooter } from '../components/aetm-footer/aetm-footer';
 import { ToastComponent } from '../components/toast/toast';
 import { CbIcon } from '../components/cb-icon/cb-icon';
 import { DirectionButton } from '../components/direction-button/direction-button';
+import { PieChart } from '../components/pie-chart/pie-chart';
 
 // services
 import { VlilleService } from '../services/vlille';
@@ -83,7 +85,8 @@ if (AppSettings.isProduction) {
         AetmFooter,
         ToastComponent,
         CbIcon,
-        DirectionButton
+        DirectionButton,
+        PieChart
     ],
     imports: [
         BrowserModule,
@@ -127,7 +130,8 @@ if (AppSettings.isProduction) {
         Geolocation,
         Diagnostic,
         LocationAccuracy,
-        StatusBar
+        StatusBar,
+        HTTP
     ]
 })
 export class AppModule {}

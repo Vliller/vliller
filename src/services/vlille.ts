@@ -3,100 +3,62 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Platform } from 'ionic-angular';
+import { HTTP, HTTPResponse } from '@ionic-native/http';
 import { Observable } from 'rxjs/Observable';
 import * as Raven from 'raven-js';
-import moment from 'moment';
-import 'moment/locale/fr';
 
 import { AppSettings } from '../app/app.settings';
-import { VlilleStation, VlilleStationStatus } from '../models/vlille-station';
+import { VlilleStation } from '../models/vlille-station';
 
 const API_BASE = `${AppSettings.vlille.apiBase}&apikey=${AppSettings.vlille.apiKey}`;
 
 @Injectable()
 export class VlilleService {
 
-    constructor(private http: Http) {}
+    constructor(
+        private http: HTTP,
+        private platform: Platform
+    ) {}
 
     public getStation(id: string): Observable<VlilleStation> {
-        return this.http
-            .get(`${API_BASE}&q=libelle:${id}`)
-            .map(response => response.json().records.map(this.rawDataToVlilleStation)[0])
+        return Observable
+            .fromPromise(
+                this.platform.ready().then(() => this.http.get(`${API_BASE}&q=libelle:${id}`, {}, {}))
+            )
+            .map(response => JSON.parse(response.data))
+            .map(data => data.records.map(VlilleStation.rawDataToVlilleStation)[0])
             .catch(this.handleError);
     }
 
     public getAllStations(): Observable<VlilleStation[]> {
-        return this.http
-            .get(API_BASE)
-            .map(response => response.json().records.map(this.rawDataToVlilleStation))
+        return Observable
+            .fromPromise(
+                this.platform.ready().then(() => this.http.get(API_BASE, {}, {}))
+            )
+            .map(response => JSON.parse(response.data))
+            .map(data => data.records.map(VlilleStation.rawDataToVlilleStation))
             .catch(this.handleError);
     }
 
     /**
+     * Minimal error handler
      *
-     * @param  {any} data
-     * @return {VlilleStation}
+     * @param {HTTPResponse | any} errorResponse
      */
-    private rawDataToVlilleStation(data): VlilleStation {
-        let station = new VlilleStation(
-            data.fields.libelle,
-            data.fields.nom.replace(/^([0-9]+ )/, '').replace(/( \(CB\))$/, ''),
-            data.fields.geo[0],
-            data.fields.geo[1],
-            data.fields.adresse,
-            data.fields.nbVelosDispo,
-            data.fields.nbPlacesDispo,
-            data.fields.type,
-            undefined,
-            undefined
-        );
+    private handleError (errorResponse: HTTPResponse | any) {
+        let errorMessage: string;
 
-        /*
-            Status
-         */
-        if (data.fields.etat === 'EN SERVICE') {
-            station.status = VlilleStationStatus.NORMAL;
+        if (errorResponse.error) {
+            errorMessage = `${errorResponse.status} - ${errorResponse.error}`;
         } else {
-            station.status = VlilleStationStatus.UNAVAILABLE;
-        }
-
-        if (station.bikes === 0 && station.docks === 0) {
-            // teapot
-            station.status = VlilleStationStatus.UNAVAILABLE;
-        }
-
-        /*
-            Last up
-         */
-        var diffInSeconds = Math.round(moment().diff(moment.utc(data.record_timestamp))/ 1000);
-
-        station.lastupd = diffInSeconds + ' seconde' + (diffInSeconds > 1 ? 's' : '');
-
-        return station;
-    }
-
-    /**
-     * From Angular doc.
-     * TODO: improve
-     *
-     * @param {Response | any} error [description]
-     */
-    private handleError (error: Response | any) {
-        let errMsg: string;
-
-        if (error instanceof Response) {
-            const body = error.json() || '';
-            const err = body.error || JSON.stringify(body);
-            errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-        } else {
-            errMsg = error.message ? error.message : error.toString();
+            errorMessage = errorResponse.message ? errorResponse.message : errorResponse.toString();
         }
 
         // sends error to Sentry
-        Raven.captureException(new Error(errMsg));
+        Raven.captureException(new Error(errorMessage));
 
-        return Observable.throw(errMsg);
+        return Observable.throw(errorMessage);
     }
 
 }

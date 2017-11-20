@@ -1,5 +1,6 @@
 import { StationsActions } from '../actions/stations';
 import { VlilleStation } from '../models/vlille-station';
+import { rawStations } from '../data/vlille-stations-raw';
 
 /**
  *
@@ -13,7 +14,7 @@ export interface StationsState {
 const initialState: StationsState = {
     active: undefined,
     isActiveLoading: false,
-    collection: []
+    collection: rawStations.records.map(VlilleStation.rawDataToVlilleStation)
 };
 
 /**

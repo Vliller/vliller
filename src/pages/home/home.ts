@@ -15,6 +15,7 @@ import {
 import { Store } from '@ngrx/store';
 import { StationsActions } from '../../actions/stations';
 import { LocationActions } from '../../actions/location';
+import { ToastActions } from '../../actions/toast';
 
 import { VlilleStation } from '../../models/vlille-station';
 import { MapPosition } from '../../models/map-position';
@@ -72,8 +73,10 @@ export class Home {
             this.setActiveStation(closestStation, false);
         });
 
-        // update position on resume
-        platform.resume.subscribe(() => this.updatePosition());
+        // update position & stations data on resume
+        platform.resume.subscribe(() => {
+            this.updateData();
+        });
 
         // Hide splashscreen
         platform.ready().then(() => splashScreenPlugin.hide());
@@ -102,7 +105,16 @@ export class Home {
     /**
      * Update user position
      */
-    public updatePosition() {
+    public updateData() {
+        // show loader
+        this.store.dispatch(new ToastActions.Show({
+            message: "Ça pédale pour charger les stations&nbsp;!",
+            options: {
+                showSpinner: true
+            }
+        }));
+
+        this.store.dispatch(new StationsActions.Load());
         this.store.dispatch(new LocationActions.Update());
     }
 
