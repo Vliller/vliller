@@ -1,3 +1,7 @@
+# 2.6.0
+
+- Affichage du taux de remplissage des stations environnantes 🎉
+
 # 2.5.6
 
 - Correction d'un bug dans le formulaire de contact (vérification de l'email)
