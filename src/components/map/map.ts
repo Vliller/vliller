@@ -3,9 +3,10 @@ import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { DeviceOrientation } from '@ionic-native/device-orientation';
 
-import { MapIcon } from './map-icon';
 import { MapPosition } from '../../models/map-position';
-import { VlilleStation, VlilleStationStatus } from '../../models/vlille-station';
+import { VlilleStation } from '../../models/vlille-station';
+import { VlilleStationMarker } from '../../models/vlille-station-marker';
+import { UserMarker } from '../../models/user-marker';
 
 import { AppSettings } from '../../app/app.settings';
 import { Store } from '@ngrx/store';
@@ -13,11 +14,9 @@ import { AppState, selectMapIsClickable } from '../../app/app.reducers';
 import { ToastActions } from '../../actions/toast';
 import { StationsActions } from '../../actions/stations';
 
-
 declare var plugin: any;
 
 const ZOOM_DEFAULT = 12;
-const ZOOM_THRESHOLD = 14;
 
 @Component({
     selector: 'map',
@@ -42,13 +41,11 @@ export class MapComponent implements OnInit {
     private mapInstance: any;
     private mapInstancePromise: Promise<any>;
     private mapZoom: number = ZOOM_DEFAULT;
-    private mapIsUnzoom: boolean = false;
 
-    private markers: Map<string, any> = new Map();
-    private activeMarker: any;
+    private markers: Map<string, VlilleStationMarker> = new Map();
+    private activeMarker: VlilleStationMarker;
 
-    private userMarker: any;
-    private userMarkerAccuracy: any;
+    private userMarker: UserMarker;
     private userHeading: Observable<number>;
 
     @Input() stations: Observable<VlilleStation[]>;
@@ -94,12 +91,14 @@ export class MapComponent implements OnInit {
             this.initUserMarker(MapPosition.fromLatLng(AppSettings.defaultPosition)).then(() => {
                 // listen for user position
                 this.userPosition.subscribe(position => {
-                    this.setUserPosition(position);
+                    this.userMarker.setPosition(position);
                     this.setCenter(position);
                 });
 
                 // listen for user heading
-                this.userHeading.subscribe(heading => this.userMarker.setRotation(heading));
+                this.userHeading.subscribe(heading => {
+                    this.userMarker.setHeading(heading);
+                });
             });
 
             // Init active marker first
@@ -108,15 +107,11 @@ export class MapComponent implements OnInit {
             .take(1)
             .toPromise()
             .then((activeStation: VlilleStation) => this.initMarker(activeStation))
-            .then(marker => {
-                // if marker is still in creation, handle promise
-                if (marker.then) {
-                    marker.then(markerCreated => this.setActiveMarker(markerCreated));
-                } else {
-                    this.setActiveMarker(marker);
-                }
+            .then((marker: VlilleStationMarker) => {
+                // first, set active marker
+                this.setActiveMarker(marker);
 
-                // init stations marker
+                // then, init stations marker
                 this.stations
                 .filter(stations => stations && stations.length > 0)
                 .take(1)
@@ -129,7 +124,6 @@ export class MapComponent implements OnInit {
                     // Run watchers
                     this.startActiveStationWatcher(this.activeStation);
                     this.startStationsStateWatcher(this.stations);
-                    this.startZoomLevelWatcher(this.mapInstance);
                 });
             });
         });
@@ -166,9 +160,9 @@ export class MapComponent implements OnInit {
      * Create stations markers on the map
      *
      * @param  {VlilleStation[]} stations
-     * @return {Promise<any>}
+     * @return {Promise<VlilleStationMarker[]>}
      */
-    private initMarkers(stations: VlilleStation[]): Promise<any> {
+    private initMarkers(stations: VlilleStation[]): Promise<VlilleStationMarker[]> {
         let promises = [];
         for (let station of stations) {
             promises.push(this.initMarker(station));
@@ -181,166 +175,49 @@ export class MapComponent implements OnInit {
      * Create station marker on the map
      *
      * @param  {VlilleStation} station
-     * @return {Promise<any>}
+     * @return {Promise<VlilleStationMarker>}
      */
-    private initMarker(station: VlilleStation): Promise<any> {
-        let existingMarker = this.markers.get(station.id);
-        if (existingMarker) {
-            return Promise.resolve(existingMarker);
+    private initMarker(station: VlilleStation): Promise<VlilleStationMarker> {
+        let marker = this.markers.get(station.id);
+        if (marker) {
+            return Promise.resolve(marker);
         }
 
-        let promise = new Promise((resolve, reject) => {
-            this.mapInstance.addMarker({
-                position: {
-                    lat: station.latitude,
-                    lng: station.longitude
-                },
-                icon: station.status === VlilleStationStatus.NORMAL ? MapIcon.NORMAL : MapIcon.UNAVAILABLE,
-                disableAutoPan: true
-            }, marker => {
-                this.handleMarkerCreated(marker, station);
+        return VlilleStationMarker.create(this.mapInstance, station).then(stationMarker => {
+            // stores created marker
+            this.markers.set(station.id, stationMarker);
 
-                // indicates that markers creation is done
-                resolve(marker);
+            /**
+             * Set active marker onClick event
+             */
+            stationMarker.onClick(() => {
+                this.setActiveMarker(stationMarker);
+                this.setCenter(MapPosition.fromCoordinates(station), true);
+
+                // updates active station
+                this.store.dispatch(new StationsActions.UpdateActive(station))
             });
-        });
 
-        // set the promise to "lock" the space during marker async creation
-        this.markers.set(station.id, promise);
-
-        return promise;
-    }
-
-    /**
-     * Manage marker after it has been add to the map
-     * @param marker
-     * @param station
-     */
-    private handleMarkerCreated(marker: any, station:VlilleStation) {
-        // stores created marker
-        this.markers.set(station.id, marker);
-
-        // init station status
-        marker.set('isAvailable', station.status === VlilleStationStatus.NORMAL);
-
-        /**
-         * Set active marker on click
-         */
-        marker.on(plugin.google.maps.event.MARKER_CLICK, () => {
-            this.setActiveMarker(marker);
-
-            this.setCenter(MapPosition.fromCoordinates(station), true);
-
-            // updates active station
-            this.store.dispatch(new StationsActions.UpdateActive(station))
+            return stationMarker;
         });
     }
 
     /**
      *
      * @param  {MapPosition} position
-     * @return {Promise<any>}
+     * @return {Promise<UserMarker>}
      */
-    private initUserMarker(position: MapPosition): Promise<any> {
-        // Create user position marker
-        let userMarkerPromise = new Promise<any>((resolve, reject) => {
-            this.mapInstance.addMarker({
-                position: position.toLatLng(),
-                icon: MapIcon.USER,
-                disableAutoPan: true
-            }, marker => {
-                // avoid duplication bug
-                if (this.userMarker) {
-                    this.userMarker.remove();
-                }
-
-                // updates marker ref
-                this.userMarker = marker;
-
-                resolve(marker);
-            });
-        });
-
-        // Create a circle to represent the user position accuracy
-        let userMarkerAccuracyPromise = new Promise<any>((resolve, reject) => {
-            this.mapInstance.addCircle({
-                center: position.toLatLng(),
-                radius: position.accuracy,
-                strokeWidth: 0,
-                strokeColor: 'rgba(0, 0, 0, 0)',
-                fillColor: 'rgba(25, 209, 191, 0.15)' // #19D1BF + opacity = 15%,
-            }, markerAccuracy => {
-                // avoid duplication bug
-                if (this.userMarkerAccuracy) {
-                    this.userMarkerAccuracy.remove();
-                }
-
-                // updates marker ref
-                this.userMarkerAccuracy = markerAccuracy;
-
-                resolve(markerAccuracy);
-            });
-        });
-
-        // wait for both to be created
-        return Promise.all([
-            userMarkerPromise,
-            userMarkerAccuracyPromise
-        ]);
-    }
-
-    /**
-     * Updates `this.mapIsUnzoom` value according to the given `zoom` value.
-     *
-     * @param {number} zoom
-     */
-    private updateDefaultMarker(zoom: number) {
-        if (zoom <= ZOOM_THRESHOLD && this.mapZoom > ZOOM_THRESHOLD) {
-            // we are "unzooming"
-            // change the marker icon for the small one
-            this.mapIsUnzoom = true;
-        } else if (zoom > ZOOM_THRESHOLD && this.mapZoom <= ZOOM_THRESHOLD) {
-            // we are "zooming"
-            // change the marker icon for the normal one
-            this.mapIsUnzoom = false;
-        } else {
-            // seems to be the same zoom level
-            // nothing to do
-            return;
-        }
-
-        // refresh on the marker icons
-        this.refreshMarkerIcons();
-
-        // stores zoom value
-        this.mapZoom = zoom;
-    }
-
-    /**
-     * Refresh marker icons using the `this.markerIcon` value.
-     */
-    private refreshMarkerIcons() {
-        this.markers.forEach(marker => {
-            // do not refresh active marker
-            if (this.activeMarker && this.activeMarker.id === marker.id) {
-                return;
+    private initUserMarker(position: MapPosition): Promise<UserMarker> {
+        return UserMarker.create(this.mapInstance, MapPosition.fromLatLng(AppSettings.defaultPosition)).then((marker: UserMarker) => {
+            // avoid duplication bug
+            if (this.userMarker) {
+                this.userMarker.removeMarker();
             }
 
-            // update marker icon according to zoom and station status
-            let isAvailable = marker.get('isAvailable');
-            if (this.mapIsUnzoom) {
-                if (isAvailable) {
-                    marker.setIcon(MapIcon.NORMAL_SMALL);
-                } else {
-                    marker.setIcon(MapIcon.UNAVAILABLE_SMALL);
-                }
-            } else {
-                if (isAvailable) {
-                    marker.setIcon(MapIcon.NORMAL);
-                } else {
-                    marker.setIcon(MapIcon.UNAVAILABLE);
-                }
-            }
+            // updates marker ref
+            this.userMarker = marker;
+
+            return this.userMarker;
         });
     }
 
@@ -356,7 +233,7 @@ export class MapComponent implements OnInit {
             let marker = this.markers.get(station.id);
 
             // avoid double call to setActiveMarker during marker click
-            if (this.activeMarker && marker.id === this.activeMarker.id) {
+            if (marker.isActive()) {
                 return;
             }
 
@@ -377,63 +254,37 @@ export class MapComponent implements OnInit {
             stations.forEach(station => {
                 let marker = this.markers.get(station.id);
 
-                // updates marker data
-                marker.set('isAvailable', station.status === VlilleStationStatus.NORMAL);
+                // updates marker data & icon
+                marker.setStation(station);
+                marker.updateIcon();
             });
-        });
-    }
 
-    /**
-     * Run the map zoom level watcher through map plug event.
-     *
-     * @param {google.maps.Map} mapInstance
-     */
-    private startZoomLevelWatcher(mapInstance) {
-        // listen for camera changes
-        mapInstance.on(plugin.google.maps.event.CAMERA_MOVE_END, event => {
-            // zoom unchanged, nothing to do
-            if (event.zoom === this.mapZoom) {
-                return;
-            }
-
-            this.updateDefaultMarker(event.zoom)
+            // hide loading message
+            this.store.dispatch(new ToastActions.Hide());
         });
     }
 
     /**
      *
-     * @param {google.maps.Marker} marker
+     * @param {VlilleStationMarker} marker
      */
-    private setActiveMarker(marker: any) {
+    private setActiveMarker(marker: VlilleStationMarker) {
+        if (marker.isActive()) {
+            return;
+        }
+
         // reset default icon on current office marker
-        if (this.activeMarker && this.activeMarker.id !== marker.id) {
-            if (this.activeMarker.get('isAvailable')) {
-                this.activeMarker.setIcon(MapIcon.NORMAL);
-            } else {
-                this.activeMarker.setIcon(MapIcon.UNAVAILABLE);
-            }
+        if (this.activeMarker) {
+            this.activeMarker.setActive(false);
+            this.activeMarker.updateIcon();
         }
 
-        // set new marker
+        // pimp new marker
+        marker.setActive(true);
+        marker.updateIcon();
+
+        // update local reference
         this.activeMarker = marker;
-
-        // updates marker icon according to station state
-        if (this.activeMarker.get('isAvailable')) {
-            this.activeMarker.setIcon(MapIcon.NORMAL_ACTIVE);
-        } else {
-            this.activeMarker.setIcon(MapIcon.UNAVAILABLE_ACTIVE);
-        }
-    }
-
-    /**
-     * @param {MapPosition} position
-     */
-    private setUserPosition(position: MapPosition) {
-        this.userMarker.setPosition(position.toLatLng());
-
-        // displays accuracy
-        this.userMarkerAccuracy.setCenter(position.toLatLng());
-        this.userMarkerAccuracy.setRadius(position.accuracy);
     }
 
     /**

@@ -1,5 +1,7 @@
+import { env } from '../environments/environment';
+
 export namespace AppSettings {
-    export const isProduction = true;
+    export const isProduction = env.production;
 
     export const appId = {
         android: 'com.alexetmanon.vliller',
@@ -9,7 +11,7 @@ export namespace AppSettings {
     export const vlillerSiteUrl = 'http://vliller.alexetmanon.com';
     export const vlillerContribsUrl = 'https://api.github.com/repos/alexetmanon/vliller/contributors';
 
-    export const sentryDSN = 'https://0cdc4000f06146d58781cef186b88b4d@sentry.io/134393';
+    export const sentryDSN = env.sentry.dsn;
 
     // Lille coordinates
     export const defaultPosition = {
@@ -19,11 +21,11 @@ export namespace AppSettings {
 
     export const vlille = {
         apiBase: 'https://opendata.lillemetropole.fr/api/records/1.0/search/?dataset=vlille-realtime&rows=-1',
-        apiKey: 'f9b97f402060621fcf83f0c599304832c6a5332abadc17dd2c381a84'
+        apiKey: env.vlille.apiKey
     }
 
     export const doorbell = {
         apiBase: 'https://doorbell.io/api/applications/4561/submit',
-        apiKey: 'g9xKf3v4aM29diiMXJVh2Ko9J54fEaQ6uCqysESJSf8WWaKIcXwmVBXT94rXF8Lr'
+        apiKey: env.doorbell.apiKey
     }
 }

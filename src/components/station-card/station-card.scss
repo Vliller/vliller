@@ -16,10 +16,6 @@ station-card {
     .grid {
         height: 100%;
     }
-
-    .border-right {
-        border-right: solid 1px rgba(0, 0, 0, 0.12);
-    }
 }
 
 .station-card--header {
@@ -52,7 +48,28 @@ station-card {
 .station-card--content,
 .station-card--dead {
     flex-grow: 1;
-    background: #fff;
+    background: $light;
+    position: relative;
+}
+
+.station-card--content {
+    .station-fulfillment {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate3d(-50%, -50%, 0);
+    }
+
+    .station-bikes {
+        padding-right: 40px;
+
+        // grey line in the center
+        border-right: solid 1px $black-12;
+    }
+
+    .station-docks {
+        padding-left: 40px;
+    }
 }
 
 .station-card--dead {

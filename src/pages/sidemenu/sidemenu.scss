@@ -6,12 +6,7 @@ sidemenu {
     display: block;
     min-height: 100%;
     color: $light;
-    padding: 40px;
-
-    .sidemenu-close {
-        text-align: right;
-        margin: -20px -20px 0 0;
-    }
+    padding: 40px 20px;
 
     .sidemenu-header {
         text-align: center;
@@ -49,6 +44,7 @@ sidemenu {
     }
 
     .button.button-clear {
+        display: block;
         text-align: left;
         padding: 0;
         color: $light;
