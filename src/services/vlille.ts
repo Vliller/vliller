@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import * as Raven from 'raven-js';
 
 import { AppSettings } from '../app/app.settings';
-import { VlilleStation, VlilleStationStatus } from '../models/vlille-station';
+import { VlilleStation } from '../models/vlille-station';
 
 const API_BASE = `${AppSettings.vlille.apiBase}&apikey=${AppSettings.vlille.apiKey}`;
 
