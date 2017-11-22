@@ -190,7 +190,7 @@ export class MapComponent implements OnInit {
             /**
              * Set active marker onClick event
              */
-            stationMarker.onClick(() => {
+            stationMarker.onClick().subscribe(() => {
                 this.setActiveMarker(stationMarker);
                 this.setCenter(MapPosition.fromCoordinates(station), true);
 
