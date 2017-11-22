@@ -27,6 +27,7 @@
     "@ionic-native/diagnostic": "4.4.2",
     "@ionic-native/geolocation": "4.4.2",
     "@ionic-native/google-analytics": "4.4.2",
+    "@ionic-native/google-maps": "4.4.2",
     "@ionic-native/http": "4.4.2",
     "@ionic-native/in-app-browser": "4.4.2",
     "@ionic-native/launch-navigator": "4.4.2",
