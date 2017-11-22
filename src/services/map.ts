@@ -1,12 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-
 import { MapPosition } from '../models/map-position';
 import { VlilleStation } from '../models/vlille-station';
-
-const MAPBOX_API_BASE = 'https://api.mapbox.com/directions/v5/mapbox/walking/';
-const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiYmxja3NocmsiLCJhIjoiY2l5YWc5anUyMDA0cDMzcWtxcnN0ZWxxcCJ9.xKDTqbkNCQTRvizwIDGeCQ';
 
 function rad(x: number): number {
     return x * Math.PI / 180;
@@ -14,8 +8,6 @@ function rad(x: number): number {
 
 @Injectable()
 export class MapService {
-
-    constructor(private http: Http) {}
 
     /**
      * Haversine formula
@@ -39,11 +31,11 @@ export class MapService {
 
     /**
      * Computes the closest station from the given position using the Haversine formula.
-     * @param  {MapPosition}           position
-     * @param  {any[]}                 stations
-     * @return {VlilleStation}
+     * @param  {MapPosition}     position
+     * @param  {VlilleStation[]} stations
+     * @return {VlilleStation|undefined}
      */
-    public computeClosestStation(position: MapPosition, stations: any[]): VlilleStation {
+    public computeClosestStation(position: MapPosition, stations: VlilleStation[]): VlilleStation {
         if (!position || !stations.length) {
             return undefined;
         }
@@ -53,28 +45,8 @@ export class MapService {
             current.distance = this.computeDistance(position, MapPosition.fromCoordinates(current));
 
             return closest.distance > current.distance ? current : closest;
-        }, {
+        }, <VlilleStation>{
             distance: Infinity
-        });
-    }
-
-    /**
-     * Computes precise walking distance between to points using MapBox API.
-     * @param  {MapPosition}        start
-     * @param  {MapPosition}        end
-     * @return {Observable<number>}
-     */
-    public computePreciseDistance(start: MapPosition, end: MapPosition): Observable<number> {
-        return this.http
-        .get(MAPBOX_API_BASE + start.longitude + ',' + start.latitude + ';' + end.longitude + ',' + end.latitude + '?overview=false&access_token=' + MAPBOX_ACCESS_TOKEN)
-        .map(response => {
-            let direction = response.json();
-
-            if (direction.routes && direction.routes[0]) {
-                return direction.routes[0].distance;
-            } else {
-                return -1;
-            }
         });
     }
 }

@@ -1,5 +1,6 @@
 import moment from 'moment';
 import 'moment/locale/fr';
+import { CoordinatesInterface } from './map-position';
 
 /**
  * Models related to VlilleStation
@@ -10,7 +11,7 @@ export enum VlilleStationStatus {
   UNAVAILABLE = 1
 }
 
-export class VlilleStation {
+export class VlilleStation implements CoordinatesInterface {
     constructor(
         public id: string,
         public name: string,
