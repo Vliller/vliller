@@ -11,7 +11,12 @@ export class MapMarker implements MapMarkerInterface {
   }
 
   onClick(): Observable<ILatLng> {
-    return this.marker.on(GoogleMapsEvent.MARKER_CLICK);
+    return new Observable(observer => {
+      // BUGFIX: on() method should return an observable but return a Marker...
+      (<any>this.marker).on(GoogleMapsEvent.MARKER_CLICK, latLng => {
+        observer.next(latLng);
+      });
+    });
   }
 
   isEqual(marker: MapMarkerInterface) {
