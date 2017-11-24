@@ -3,6 +3,7 @@ import { ILatLng } from '@ionic-native/google-maps';
 export interface CoordinatesInterface {
     latitude: number;
     longitude: number;
+    accuracy?: number;
 }
 
 export class MapPosition implements CoordinatesInterface {
