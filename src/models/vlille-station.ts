@@ -66,6 +66,16 @@ export class VlilleStation implements CoordinatesInterface {
     }
 
     /**
+     * Basic equal method based on station id.
+     *
+     * @param {VlilleStation} station
+     * @return {boolean}
+     */
+    public isEqual(station: VlilleStation): boolean {
+        return this.id === station.id;
+    }
+
+    /**
      *
      * @param  {any} data
      * @return {VlilleStation}
@@ -109,20 +119,15 @@ export class VlilleStation implements CoordinatesInterface {
     }
 
     /**
-     * Simple contains methods base on station id.
+     * Simple contains method bases on isEqual().
      *
      * @param  {VlilleStation[]} collection
      * @param  {VlilleStation}   element
      * @return {boolean}
      */
     static contains(collection: VlilleStation[], element: VlilleStation): boolean {
-        if (!element) {
-            return false;
-        }
-
-        // compare elements id
         for (let currentElement of collection) {
-            if (currentElement.id === element.id) {
+            if (currentElement.isEqual(element)) {
                 return true;
             }
         }
