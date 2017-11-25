@@ -107,4 +107,26 @@ export class VlilleStation implements CoordinatesInterface {
 
         return station;
     }
+
+    /**
+     * Simple contains methods base on station id.
+     *
+     * @param  {VlilleStation[]} collection
+     * @param  {VlilleStation}   element
+     * @return {boolean}
+     */
+    static contains(collection: VlilleStation[], element: VlilleStation): boolean {
+        if (!element) {
+            return false;
+        }
+
+        // compare elements id
+        for (let currentElement of collection) {
+            if (currentElement.id === element.id) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

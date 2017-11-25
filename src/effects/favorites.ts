@@ -52,7 +52,7 @@ export class FavoritesEffects {
         }
 
         // station already in favorites
-        if (this.contains(collection, element)) {
+        if (VlilleStation.contains(collection, element)) {
           return Observable.empty();
         }
 
@@ -90,25 +90,4 @@ export class FavoritesEffects {
           );
       })
     );
-
-  /**
-   * Simple contains function base on element id
-   * @param  {VlilleStation[]} collection
-   * @param  {VlilleStation}   element
-   * @return {boolean}
-   */
-  private contains(collection: VlilleStation[], element: VlilleStation): boolean {
-    if (!element) {
-      return false;
-    }
-
-    // compare elements id
-    for (let currentElement of collection) {
-      if (currentElement.id === element.id) {
-        return true;
-      }
-    }
-
-    return false;
-  }
 }

@@ -54,7 +54,7 @@ export class StationsEffects {
               station.distance = MapTools.computeDistance(MapPosition.fromCoordinates(station), position);
 
               // checks if the station is in favorites
-              station.isFavorite = this.contains(favorites, station);
+              station.isFavorite = VlilleStation.contains(favorites, station);
 
               return new StationsActions.UpdateActiveSuccess(station);
             }),
@@ -62,25 +62,4 @@ export class StationsEffects {
           );
       })
     );
-
-  /**
-   * Simple contains function base on element id
-   * @param  {VlilleStation[]} collection
-   * @param  {VlilleStation}   element
-   * @return {boolean}
-   */
-  private contains(collection: VlilleStation[], element: VlilleStation): boolean {
-    if (!element) {
-      return false;
-    }
-
-    // compare elements id
-    for (let currentElement of collection) {
-      if (currentElement.id === element.id) {
-        return true;
-      }
-    }
-
-    return false;
-  }
 }
