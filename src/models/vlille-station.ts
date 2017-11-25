@@ -76,6 +76,29 @@ export class VlilleStation implements CoordinatesInterface {
     }
 
     /**
+     * Constructs a VlilleStation object from a raw object.
+     *
+     * @param {any} object
+     * @return {VlilleStation}
+     */
+    static fromObject(object: any): VlilleStation {
+        return new VlilleStation(
+            object.id,
+            object.name,
+            object.latitude,
+            object.longitude,
+            object.address,
+            object.bikes,
+            object.docks,
+            object.payment,
+            object.status,
+            object.lastupd,
+            object.distance,
+            object.isFavorite
+        );
+    }
+
+    /**
      *
      * @param  {any} data
      * @return {VlilleStation}
