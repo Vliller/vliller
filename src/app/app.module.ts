@@ -52,7 +52,6 @@ import { PieChart } from '../components/pie-chart/pie-chart';
 import { VlilleService } from '../services/vlille';
 import { FavoritesService } from '../services/favorites';
 import { LocationService } from '../services/location';
-import { MapService } from '../services/map';
 
 // pages
 import { Home } from '../pages/home/home';
@@ -120,7 +119,6 @@ if (AppSettings.isProduction) {
         VlilleService,
         FavoritesService,
         LocationService,
-        MapService,
         LaunchNavigator,
         AppVersion,
         InAppBrowser,

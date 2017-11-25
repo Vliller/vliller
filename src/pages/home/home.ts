@@ -21,7 +21,7 @@ import { ToastActions } from '../../actions/toast';
 import { VlilleStation } from '../../models/vlille-station';
 import { MapPosition } from '../../models/map-position';
 import { MapComponent } from '../../components/map/map';
-import { MapService } from '../../services/map';
+import { MapTools } from '../../components/map/map-tools';
 import { LocationIconState } from '../../components/location-icon/location-icon';
 import { CodeMemo } from '../code-memo/code-memo';
 
@@ -44,7 +44,6 @@ export class Home {
     constructor(
         alertController: AlertController,
         platform: Platform,
-        mapService: MapService,
         splashScreenPlugin: SplashScreen,
         private modalController: ModalController,
         private store: Store<AppState>
@@ -72,7 +71,7 @@ export class Home {
 
                 // computes closest station
                 (position, stations) => {
-                    return mapService.computeClosestStation(position, stations);
+                    return MapTools.computeClosestStation(position, stations);
                 }
             )
         )

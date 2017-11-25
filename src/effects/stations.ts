@@ -7,7 +7,7 @@ import { map, startWith, switchMap, withLatestFrom, catchError } from 'rxjs/oper
 
 import { StationsActions } from '../actions/stations';
 import { VlilleService } from '../services/vlille';
-import { MapService } from '../services/map';
+import { MapTools } from '../components/map/map-tools';
 import { MapPosition } from '../models/map-position';
 import { VlilleStation } from '../models/vlille-station';
 
@@ -16,8 +16,7 @@ export class StationsEffects {
   constructor(
     private store$: Store<AppState>,
     private actions$: Actions,
-    private vlilleService: VlilleService,
-    private mapService: MapService
+    private vlilleService: VlilleService
   ) {}
 
   /**
@@ -52,7 +51,7 @@ export class StationsEffects {
           .pipe(
             map((station: VlilleStation) => {
               // computes distance between station and last known position
-              station.distance = this.mapService.computeDistance(MapPosition.fromCoordinates(station), position);
+              station.distance = MapTools.computeDistance(MapPosition.fromCoordinates(station), position);
 
               // checks if the station is in favorites
               station.isFavorite = this.contains(favorites, station);
