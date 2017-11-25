@@ -113,7 +113,6 @@
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value=" " />
     </plugin>
     <plugin name="cordova-plugin-inappbrowser" spec="1.7.1" />
-    <plugin name="cordova-plugin-nativestorage" spec="2.2.2" />
     <plugin name="cordova-plugin-request-location-accuracy" spec="2.2.2" />
     <plugin name="cordova-plugin-splashscreen" spec="4.0.3" />
     <plugin name="cordova.plugins.diagnostic" spec="3.7.1" />
@@ -128,4 +127,5 @@
         <variable name="LOCATION_ALWAYS_USAGE_DESCRIPTION" value="Trace your location on the map" />
     </plugin>
     <plugin name="cordova-plugin-advanced-http" spec="1.8.1" />
+    <plugin name="cordova-sqlite-storage" spec="2.1.2" />
 </widget>

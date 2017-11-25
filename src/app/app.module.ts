@@ -3,6 +3,7 @@ import { HttpModule } from '@angular/http';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }   from '@angular/forms';
+import { IonicStorageModule } from '@ionic/storage';
 import { App } from './app.component';
 import { AppSettings } from './app.settings';
 import { ravenInstall, RavenErrorHandler } from './raven';
@@ -15,7 +16,6 @@ import { DeviceOrientation } from '@ionic-native/device-orientation';
 import { Device } from '@ionic-native/device';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { SocialSharing } from '@ionic-native/social-sharing';
-import { NativeStorage } from '@ionic-native/native-storage';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
@@ -100,7 +100,8 @@ if (AppSettings.isProduction) {
             ToastEffects,
             StationsEffects,
             LocationEffects
-        ])
+        ]),
+        IonicStorageModule.forRoot()
     ],
     bootstrap: [IonicApp],
     entryComponents: [
@@ -126,7 +127,6 @@ if (AppSettings.isProduction) {
         Device,
         SplashScreen,
         SocialSharing,
-        NativeStorage,
         Geolocation,
         Diagnostic,
         LocationAccuracy,
