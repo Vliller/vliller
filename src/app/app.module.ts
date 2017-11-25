@@ -95,11 +95,13 @@ if (AppSettings.isProduction) {
         IonicModule.forRoot(App, {
             mode: "md"
         }),
-        StoreModule.provideStore(reducers),
-        EffectsModule.run(FavoritesEffects),
-        EffectsModule.run(ToastEffects),
-        EffectsModule.run(StationsEffects),
-        EffectsModule.run(LocationEffects)
+        StoreModule.forRoot(reducers),
+        EffectsModule.forRoot([
+            FavoritesEffects,
+            ToastEffects,
+            StationsEffects,
+            LocationEffects
+        ])
     ],
     bootstrap: [IonicApp],
     entryComponents: [

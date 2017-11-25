@@ -21,7 +21,7 @@ export class ToastEffects {
    */
   @Effect() addFavoriteSuccess$: Observable<Action> = this.actions$
     .ofType(FavoritesActions.ADD_SUCCESS)
-    .map(action => {
+    .map((action: FavoritesActions.AddSuccess) => {
       return new ToastActions.Show({
         message: "Station <b>" + action.payload.name + "</b> ajoutée !",
         options: {
@@ -35,7 +35,7 @@ export class ToastEffects {
    */
   @Effect() removeFavoriteSuccess$: Observable<Action> = this.actions$
     .ofType(FavoritesActions.REMOVE_SUCCESS)
-    .map(action => {
+    .map((action: FavoritesActions.RemoveSuccess) => {
       return new ToastActions.Show({
         message: "Station <b>" + action.payload.name + "</b> retirée.",
         options: {
@@ -63,7 +63,7 @@ export class ToastEffects {
    */
   @Effect() locationUpdateFail: Observable<Action> = this.actions$
     .ofType(LocationActions.UPDATE_FAIL)
-    .map(action => {
+    .map((action: LocationActions.UpdateFail) => {
       let error = action.payload;
 
       if (error instanceof LocationDisabledError) {

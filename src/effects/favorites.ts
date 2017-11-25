@@ -37,8 +37,8 @@ export class FavoritesEffects {
     .ofType(FavoritesActions.ADD)
     // get store value
     .withLatestFrom(this.store$)
-    .map(([action, state]) => [action.payload, state.favorites.collection])
-    .mergeMap(([element, collection]) => {
+    .map(([action, state]: [FavoritesActions.Add, AppState]) => [action.payload, state.favorites.collection])
+    .mergeMap(([element, collection]: [VlilleStation, VlilleStation[]]) => {
       // max size reached
       if (collection.length >= FAVORITES_MAX_SIZE) {
         return Observable.of(new FavoritesActions.AddFailMaxSize());
@@ -63,8 +63,8 @@ export class FavoritesEffects {
     .ofType(FavoritesActions.REMOVE)
     // get store value
     .withLatestFrom(this.store$)
-    .map(([action, state]) => [action.payload, state.favorites.collection])
-    .mergeMap(([element, collection]) => {
+    .map(([action, state]: [FavoritesActions.Remove, AppState]) => [action.payload, state.favorites.collection])
+    .mergeMap(([element, collection]: [VlilleStation, VlilleStation[]]) => {
       // nothing to remove
       if (collection.length === 0) {
         return Observable.empty();

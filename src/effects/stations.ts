@@ -39,8 +39,8 @@ export class StationsEffects {
     .ofType(StationsActions.UPDATE_ACTIVE)
     // get store value
     .withLatestFrom(this.store$)
-    .map(([action, state]) => [action.payload, state.location.position, state.favorites.collection])
-    .switchMap(([activeStation, position, favorites]) => {
+    .map(([action, state]: [StationsActions.UpdateActive, AppState]) => [action.payload, state.location.position, state.favorites.collection])
+    .switchMap(([activeStation, position, favorites]: [VlilleStation, MapPosition, VlilleStation[]]) => {
       return this.vlilleService
         .getStation(activeStation.id)
         .map(station => {
