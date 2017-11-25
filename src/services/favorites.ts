@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
-import { NativeStorage } from '@ionic-native/native-storage';
+import { Storage } from '@ionic/storage';
 
 import { VlilleStation } from '../models/vlille-station'
 
@@ -13,8 +12,7 @@ const STORAGE_ID = 'favorites';
 @Injectable()
 export class FavoritesService {
     constructor(
-        private platform: Platform,
-        private nativeStoragePlugin: NativeStorage
+        private storage: Storage
     ) {}
 
     /**
@@ -24,14 +22,8 @@ export class FavoritesService {
      */
     public load(): Observable<VlilleStation[]> {
         return Observable.fromPromise(
-            this.platform
-            .ready()
-            .then(() => this._load())
+            this.storage.get(STORAGE_ID).then(data => data ? data : [])
         );
-    }
-
-    private _load(): Promise<VlilleStation[]> {
-        return this.nativeStoragePlugin.getItem(STORAGE_ID);
     }
 
     /**
@@ -41,13 +33,7 @@ export class FavoritesService {
      */
     public save(favorites: VlilleStation[]): Observable<VlilleStation[]> {
         return Observable.fromPromise(
-            this.platform
-            .ready()
-            .then(() => this._save(favorites))
+            this.storage.set(STORAGE_ID, favorites)
         );
-    }
-
-    private _save(favorites: VlilleStation[]): Promise<VlilleStation[]> {
-        return this.nativeStoragePlugin.setItem(STORAGE_ID, favorites);
     }
 }
