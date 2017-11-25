@@ -11,11 +11,12 @@ import * as Raven from 'raven-js';
 
 import { AppSettings } from '../app/app.settings';
 import { VlilleStation } from '../models/vlille-station';
+import { VlilleServiceInterface } from './vlille-service-interface';
 
 const API_BASE = `${AppSettings.vlille.apiBase}&apikey=${AppSettings.vlille.apiKey}`;
 
 @Injectable()
-export class VlilleService {
+export class VlilleService implements VlilleServiceInterface {
 
     constructor(
         private http: HTTP,

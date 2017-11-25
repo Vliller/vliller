@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { Storage } from '@ionic/storage';
 
 import { VlilleStation } from '../models/vlille-station'
+import { FavoritesServiceInterface } from './favorites-service-interface';
 
 const STORAGE_ID = 'favorites';
 
@@ -10,7 +11,7 @@ const STORAGE_ID = 'favorites';
  * Service who manage Favorites as an immutable array accessible by an observable.
  */
 @Injectable()
-export class FavoritesService {
+export class FavoritesService implements FavoritesServiceInterface {
     constructor(
         private storage: Storage
     ) {}
@@ -31,9 +32,9 @@ export class FavoritesService {
      *
      * @return {Promise<VlilleStation[]>}
      */
-    public save(favorites: VlilleStation[]): Observable<VlilleStation[]> {
+    public save(stations: VlilleStation[]): Observable<VlilleStation[]> {
         return Observable.fromPromise(
-            this.storage.set(STORAGE_ID, favorites)
+            this.storage.set(STORAGE_ID, stations)
         );
     }
 }

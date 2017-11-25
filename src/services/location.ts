@@ -5,6 +5,7 @@ import { Diagnostic } from '@ionic-native/diagnostic';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
 
 import { MapPosition } from '../models/map-position';
+import { LocationServiceInterface } from './location-service-interface';
 
 export class LocationDisabledError extends Error {
   type: string = "LocationDisabledError";
@@ -18,7 +19,7 @@ export class LocationDisabledError extends Error {
 }
 
 @Injectable()
-export class LocationService {
+export class LocationService implements LocationServiceInterface {
 
     constructor(
         private platform: Platform,
