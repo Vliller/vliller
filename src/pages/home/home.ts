@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { filter, withLatestFrom } from 'rxjs/operators';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AlertController, Platform, ModalController } from 'ionic-angular';
 
@@ -60,15 +61,22 @@ export class Home {
         store.select(state => selectCurrentPositionIsLoading(state)).subscribe(isLoading => this.locationState = isLoading ? LocationIconState.Loading : LocationIconState.Default);
 
         // Updates activeStation according to user position
-        this.currentPosition.withLatestFrom(
-            // get non-empty stations collection
-            this.stations.filter(stations => stations && stations.length > 0),
+        this.currentPosition
+        .pipe(
+            withLatestFrom(
+                // get non-empty stations collection
+                this.stations
+                .pipe(
+                    filter(stations => stations && stations.length > 0)
+                ),
 
-            // computes closest station
-            (position, stations) => {
-                return mapService.computeClosestStation(position, stations);
-            }
-        ).subscribe(closestStation => {
+                // computes closest station
+                (position, stations) => {
+                    return mapService.computeClosestStation(position, stations);
+                }
+            )
+        )
+        .subscribe(closestStation => {
             // updates active station
             this.setActiveStation(closestStation, false);
         });

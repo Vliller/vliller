@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
+import { map, filter, take } from 'rxjs/operators';
 import { DeviceOrientation } from '@ionic-native/device-orientation';
 
 import { MapPosition } from '../../models/map-position';
@@ -74,8 +75,10 @@ export class MapComponent implements OnInit {
             .watchHeading({
                 frequency: 500 // ms
             })
-            .map(compassHeading => compassHeading.magneticHeading)
-            .filter(heading => !!heading);
+            .pipe(
+                map(compassHeading => compassHeading.magneticHeading),
+                filter(heading => !!heading)
+            );
         });
     }
 
@@ -103,8 +106,10 @@ export class MapComponent implements OnInit {
 
             // Init active marker first
             this.activeStation
-            .filter(station => !!station)
-            .take(1)
+            .pipe(
+                filter(station => !!station),
+                take(1)
+            )
             .toPromise()
             .then((activeStation: VlilleStation) => this.initMarker(activeStation))
             .then((marker: VlilleStationMarker) => {
@@ -113,8 +118,10 @@ export class MapComponent implements OnInit {
 
                 // then, init stations marker
                 this.stations
-                .filter(stations => stations && stations.length > 0)
-                .take(1)
+                .pipe(
+                    filter(stations => stations && stations.length > 0),
+                    take(1)
+                )
                 .toPromise()
                 .then((stations: VlilleStation[]) => this.initMarkers(stations))
                 .then(() => {
@@ -228,7 +235,9 @@ export class MapComponent implements OnInit {
      */
     private startActiveStationWatcher(activeStationObservable: Observable<VlilleStation>) {
         activeStationObservable
-        .filter(station => !!station)
+        .pipe(
+            filter(station => !!station)
+        )
         .subscribe(station => {
             let marker = this.markers.get(station.id);
 
@@ -248,7 +257,9 @@ export class MapComponent implements OnInit {
      */
     private startStationsStateWatcher(stationsObservable: Observable<VlilleStation[]>) {
         stationsObservable
-        .filter(stations => stations && stations.length > 0)
+        .pipe(
+            filter(stations => stations && stations.length > 0)
+        )
         .subscribe((stations: VlilleStation[]) => {
             // update marker state
             stations.forEach(station => {

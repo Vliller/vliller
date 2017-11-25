@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { HTTP, HTTPResponse } from '@ionic-native/http';
 import { Observable } from 'rxjs/Observable';
+import { map, catchError } from 'rxjs/operators';
 import * as Raven from 'raven-js';
 
 import { AppSettings } from '../app/app.settings';
@@ -26,9 +27,11 @@ export class VlilleService {
             .fromPromise(
                 this.platform.ready().then(() => this.http.get(`${API_BASE}&q=libelle:${id}`, {}, {}))
             )
-            .map(response => JSON.parse(response.data))
-            .map(data => data.records.map(VlilleStation.rawDataToVlilleStation)[0])
-            .catch(this.handleError);
+            .pipe(
+                map(response => JSON.parse(response.data)),
+                map(data => data.records.map(VlilleStation.rawDataToVlilleStation)[0]),
+                catchError(this.handleError)
+            );
     }
 
     public getAllStations(): Observable<VlilleStation[]> {
@@ -36,9 +39,11 @@ export class VlilleService {
             .fromPromise(
                 this.platform.ready().then(() => this.http.get(API_BASE, {}, {}))
             )
-            .map(response => JSON.parse(response.data))
-            .map(data => data.records.map(VlilleStation.rawDataToVlilleStation))
-            .catch(this.handleError);
+            .pipe(
+                map(response => JSON.parse(response.data)),
+                map(data => data.records.map(VlilleStation.rawDataToVlilleStation)),
+                catchError(this.handleError)
+            );
     }
 
     /**

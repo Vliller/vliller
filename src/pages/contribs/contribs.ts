@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operators';
 import { ViewController, Platform } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { AppSettings } from '../../app/app.settings';
@@ -32,7 +33,9 @@ export class Contribs {
     private getContributorsFromGithub(): Observable<any> {
         return this.http
             .get(AppSettings.vlillerContribsUrl)
-            .map(response => response.json());
+            .pipe(
+                map(response => response.json())
+            );
     }
 
     public close() {

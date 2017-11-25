@@ -3,6 +3,7 @@ import { AppState } from '../app/app.reducers';
 import { Action, Store } from '@ngrx/store';
 import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
+import { startWith, switchMap, withLatestFrom, map, mergeMap, catchError } from 'rxjs/operators';
 
 import { FavoritesActions } from '../actions/favorites';
 import { FavoritesService } from '../services/favorites';
@@ -23,11 +24,16 @@ export class FavoritesEffects {
    */
   @Effect() loadFavorites$: Observable<Action> = this.actions$
     .ofType(FavoritesActions.LOAD)
-    .startWith(new FavoritesActions.Load())
-    .switchMap(() =>
-      this.favoritesService.load()
-        .map((stations: VlilleStation[]) => new FavoritesActions.LoadSuccess(stations))
-        .catch(error => Observable.of(new FavoritesActions.LoadFail(error)))
+    .pipe(
+      startWith(new FavoritesActions.Load()),
+      switchMap(() =>
+        this.favoritesService
+        .load()
+        .pipe(
+          map((stations: VlilleStation[]) => new FavoritesActions.LoadSuccess(stations)),
+          catchError(error => Observable.of(new FavoritesActions.LoadFail(error)))
+        )
+      )
     );
 
   /**
@@ -35,47 +41,55 @@ export class FavoritesEffects {
    */
   @Effect() addFavorites$: Observable<Action> = this.actions$
     .ofType(FavoritesActions.ADD)
-    // get store value
-    .withLatestFrom(this.store$)
-    .map(([action, state]: [FavoritesActions.Add, AppState]) => [action.payload, state.favorites.collection])
-    .mergeMap(([element, collection]: [VlilleStation, VlilleStation[]]) => {
-      // max size reached
-      if (collection.length >= FAVORITES_MAX_SIZE) {
-        return Observable.of(new FavoritesActions.AddFailMaxSize());
-      }
+    .pipe(
+      // get store value
+      withLatestFrom(this.store$),
+      map(([action, state]: [FavoritesActions.Add, AppState]) => [action.payload, state.favorites.collection]),
+      mergeMap(([element, collection]: [VlilleStation, VlilleStation[]]) => {
+        // max size reached
+        if (collection.length >= FAVORITES_MAX_SIZE) {
+          return Observable.of(new FavoritesActions.AddFailMaxSize());
+        }
 
-      // station already in favorites
-      if (this.contains(collection, element)) {
-        return Observable.empty();
-      }
+        // station already in favorites
+        if (this.contains(collection, element)) {
+          return Observable.empty();
+        }
 
-      // adds station to local storage
-      return this.favoritesService
-        .save([...collection, element])
-        .map(() => new FavoritesActions.AddSuccess(element))
-        .catch(error => Observable.of(new FavoritesActions.AddFail(error)));
-    });
+        // adds station to local storage
+        return this.favoritesService
+          .save([...collection, element])
+          .pipe(
+            map(() => new FavoritesActions.AddSuccess(element)),
+            catchError(error => Observable.of(new FavoritesActions.AddFail(error)))
+          );
+      })
+    );
 
   /**
    * Removes a favorite through the FavoritesService
    */
   @Effect() removeFavorites$: Observable<Action> = this.actions$
     .ofType(FavoritesActions.REMOVE)
-    // get store value
-    .withLatestFrom(this.store$)
-    .map(([action, state]: [FavoritesActions.Remove, AppState]) => [action.payload, state.favorites.collection])
-    .mergeMap(([element, collection]: [VlilleStation, VlilleStation[]]) => {
-      // nothing to remove
-      if (collection.length === 0) {
-        return Observable.empty();
-      }
+    .pipe(
+      // get store value
+      withLatestFrom(this.store$),
+      map(([action, state]: [FavoritesActions.Remove, AppState]) => [action.payload, state.favorites.collection]),
+      mergeMap(([element, collection]: [VlilleStation, VlilleStation[]]) => {
+        // nothing to remove
+        if (collection.length === 0) {
+          return Observable.empty();
+        }
 
-      // removes station from local storage
-      return this.favoritesService
-        .save(collection.filter(favorite => favorite.id !== element.id))
-        .map(() => new FavoritesActions.RemoveSuccess(element))
-        .catch(error => Observable.of(new FavoritesActions.RemoveFail(error)));
-    });
+        // removes station from local storage
+        return this.favoritesService
+          .save(collection.filter(favorite => favorite.id !== element.id))
+          .pipe(
+            map(() => new FavoritesActions.RemoveSuccess(element)),
+            catchError(error => Observable.of(new FavoritesActions.RemoveFail(error)))
+          );
+      })
+    );
 
   /**
    * Simple contains function base on element id
@@ -97,5 +111,4 @@ export class FavoritesEffects {
 
     return false;
   }
-
 }
