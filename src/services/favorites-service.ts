@@ -23,7 +23,10 @@ export class FavoritesService implements FavoritesServiceInterface {
      */
     public load(): Observable<VlilleStation[]> {
         return Observable.fromPromise(
-            this.storage.get(STORAGE_ID).then(data => data ? data : [])
+            this.storage
+            .get(STORAGE_ID)
+            .then(data => data instanceof Array ? data : [])
+            .then((collection: any[]) => collection.map(VlilleStation.fromObject))
         );
     }
 
@@ -34,7 +37,10 @@ export class FavoritesService implements FavoritesServiceInterface {
      */
     public save(stations: VlilleStation[]): Observable<VlilleStation[]> {
         return Observable.fromPromise(
-            this.storage.set(STORAGE_ID, stations)
+            this.storage
+            .set(STORAGE_ID, stations)
+            .then(data => data instanceof Array ? data : [])
+            .then((collection: any[]) => collection.map(VlilleStation.fromObject))
         );
     }
 }
