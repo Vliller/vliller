@@ -9,7 +9,7 @@ import * as Raven from 'raven-js';
 import { ToastActions } from '../actions/toast';
 import { FavoritesActions } from '../actions/favorites';
 import { LocationActions } from '../actions/location';
-import { LocationDisabledError } from '../services/location';
+import { LocationDisabledError } from '../services/location-service';
 
 @Injectable()
 export class ToastEffects {

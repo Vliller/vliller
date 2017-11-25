@@ -6,20 +6,10 @@ import { LocationAccuracy } from '@ionic-native/location-accuracy';
 
 import { MapPosition } from '../models/map-position';
 import { LocationServiceInterface } from './location-service-interface';
-
-export class LocationDisabledError extends Error {
-  type: string = "LocationDisabledError";
-
-  constructor(m: string) {
-    super(m);
-
-    // Set the prototype explicitly.
-    Object.setPrototypeOf(this, LocationDisabledError.prototype);
-  }
-}
+import { LocationDisabledError } from './location-service';
 
 @Injectable()
-export class LocationService implements LocationServiceInterface {
+export class LocationServiceNative implements LocationServiceInterface {
 
     constructor(
         private platform: Platform,

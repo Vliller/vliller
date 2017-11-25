@@ -6,8 +6,8 @@ import { Observable } from 'rxjs/Observable';
 import { startWith, switchMap, withLatestFrom, map, mergeMap, catchError } from 'rxjs/operators';
 
 import { FavoritesActions } from '../actions/favorites';
-import { FavoritesService } from '../services/favorites';
 import { VlilleStation } from '../models/vlille-station';
+import { FavoritesService } from '../services/favorites-service';
 
 const FAVORITES_MAX_SIZE = 4;
 

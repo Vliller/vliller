@@ -16,7 +16,7 @@ import { VlilleServiceInterface } from './vlille-service-interface';
 const API_BASE = `${AppSettings.vlille.apiBase}&apikey=${AppSettings.vlille.apiKey}`;
 
 @Injectable()
-export class VlilleService implements VlilleServiceInterface {
+export class VlilleServiceNative implements VlilleServiceInterface {
 
     constructor(
         private http: HTTP,

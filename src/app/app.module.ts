@@ -49,9 +49,11 @@ import { DirectionButton } from '../components/direction-button/direction-button
 import { PieChart } from '../components/pie-chart/pie-chart';
 
 // services
-import { VlilleService } from '../services/vlille';
-import { FavoritesService } from '../services/favorites';
-import { LocationService } from '../services/location';
+import { VlilleService } from '../services/vlille-service';
+import { VlilleServiceNative } from '../services/vlille-service-native';
+import { LocationService } from '../services/location-service';
+import { LocationServiceNative } from '../services/location-service-native';
+import { FavoritesService } from '../services/favorites-service';
 
 // pages
 import { Home } from '../pages/home/home';
@@ -117,9 +119,15 @@ if (AppSettings.isProduction) {
             provide: ErrorHandler,
             useClass: AppSettings.isProduction ? RavenErrorHandler : IonicErrorHandler
         },
-        VlilleService,
+        {
+            provide: VlilleService,
+            useClass: VlilleServiceNative
+        },
+        {
+            provide: LocationService,
+            useClass: LocationServiceNative
+        },
         FavoritesService,
-        LocationService,
         LaunchNavigator,
         AppVersion,
         InAppBrowser,

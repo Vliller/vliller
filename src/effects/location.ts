@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { startWith, switchMap, map } from 'rxjs/operators';
 
 import { LocationActions } from '../actions/location';
-import { LocationService } from '../services/location';
+import { LocationService } from '../services/location-service';
 
 @Injectable()
 export class LocationEffects {

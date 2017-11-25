@@ -6,10 +6,10 @@ import { Observable } from 'rxjs/Observable';
 import { map, startWith, switchMap, withLatestFrom, catchError } from 'rxjs/operators';
 
 import { StationsActions } from '../actions/stations';
-import { VlilleService } from '../services/vlille';
 import { MapTools } from '../components/map/map-tools';
 import { MapPosition } from '../models/map-position';
 import { VlilleStation } from '../models/vlille-station';
+import { VlilleService } from '../services/vlille-service';
 
 @Injectable()
 export class StationsEffects {
