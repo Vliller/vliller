@@ -1,9 +1,5 @@
 import { ILatLng } from '@ionic-native/google-maps';
-
-export interface CoordinatesInterface {
-    latitude: number;
-    longitude: number;
-}
+import { CoordinatesInterface } from './coordinates-interface';
 
 export class MapPosition implements CoordinatesInterface {
     constructor(

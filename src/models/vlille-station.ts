@@ -1,6 +1,6 @@
 import moment from 'moment';
 import 'moment/locale/fr';
-import { CoordinatesInterface } from './map-position';
+import { CoordinatesInterface } from './coordinates-interface';
 
 /**
  * Models related to VlilleStation
