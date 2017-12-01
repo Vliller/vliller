@@ -4,7 +4,7 @@
   </ion-navbar>
 </ion-header>
 <ion-content>
-  <div class="favorites-content" padding>
+  <div class="favorites-content">
     <ion-list *ngFor="let station of favoriteStations | async">
       <ion-item-sliding #item (ionSwipe)="remove(item)">
         <ion-item>
