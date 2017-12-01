@@ -24,6 +24,7 @@ import { MapComponent } from '../../components/map/map';
 import { MapTools } from '../../components/map/map-tools';
 import { LocationIconState } from '../../components/location-icon/location-icon';
 import { CodeMemo } from '../code-memo/code-memo';
+import { FavoritesPage } from '../favorites/favorites';
 
 @Component({
     selector: 'page-home',
@@ -38,6 +39,8 @@ export class Home {
 
     public activeStation: Observable<VlilleStation>;
     public isActiveStationRefreshing: Observable<boolean>;
+
+    public favoritesPage: any = FavoritesPage;
 
     @ViewChild('map') map: MapComponent;
 

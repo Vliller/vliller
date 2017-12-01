@@ -26,10 +26,17 @@
             [userPosition]="currentPosition"
             [activeStation]="activeStation"
         >
-            <favorites-button
+            <!-- <favorites-button
                 [favoriteStations]="favoriteStations | async"
                 (favoriteStationClick)="setActiveStation($event)"
-            ></favorites-button>
+            ></favorites-button> -->
+            <div class="favorites-button" >
+                <ion-fab>
+                    <button ion-fab color="mustard" [navPush]="favoritesPage">
+                        <img class="img-responsive" src="assets/img/vliller-icon-fav-white.svg">
+                    </button>
+                </ion-fab>
+            </div>
         </map>
         <station-card
             [station]="activeStation | async"

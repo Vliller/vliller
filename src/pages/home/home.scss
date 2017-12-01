@@ -23,10 +23,43 @@ page-home {
             right: 0;
             bottom: $station-card-height;
 
-            favorites-button {
+            favorites-button,
+            .favorites-button {
                 position: absolute;
                 right: $favorites-button-margin;
                 bottom: $favorites-button-margin;
+            }
+
+            // TMP DIRTY
+            .favorites-button {
+                ion-fab {
+                    display: block;
+                    position: relative !important;
+                    z-index: auto;
+
+                    // TEMPORARY FIX
+                    & > .fab .button-inner .img-responsive {
+                        margin-right: -5px;
+                    }
+
+                    // Add label support on ion-fab
+                    .fab {
+                        contain: initial;
+
+                        .fab-close-icon {
+                            color: $mustard;
+                            background-color: $light;
+                        }
+                    }
+
+                    button {
+                        box-shadow: 0 4px 10px #6b6b6b;
+                    }
+
+                    .button-inner {
+                        overflow: visible;
+                    }
+                }
             }
         }
 
