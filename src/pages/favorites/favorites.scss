@@ -1,0 +1,16 @@
+page-favorites {
+  ion-list {
+    ion-avatar {
+      // padding-left: 15px;
+
+      pie-chart .pie-chart-container  {
+        height: 35px;
+        width: 35px;
+
+        circle {
+          fill: $lipstick;
+        }
+      }
+    }
+  }
+}

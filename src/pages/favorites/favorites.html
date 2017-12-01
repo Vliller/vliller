@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar color="mustard">
+      <ion-title>Mes stations favorites</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <div class="favorites-content" padding>
+    <ion-list *ngFor="let station of favoriteStations | async">
+      <ion-item-sliding #item (ionSwipe)="remove(item)">
+        <ion-item>
+          <ion-avatar item-start>
+            <pie-chart class="station-fulfillment" [value]="station.fulfillmentInPercent"></pie-chart>
+          </ion-avatar>
+          <h2>{{ station.name }}</h2>
+          <p>{{ station.address }}</p>
+        </ion-item>
+        <ion-item-options side="right">
+          <button ion-button icon-left expandable color="danger" (click)="remove(item)">
+            <ion-icon name="trash"></ion-icon>
+            Retirer
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+  </div>
+</ion-content>

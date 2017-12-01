@@ -62,6 +62,7 @@ import { About } from '../pages/about/about';
 import { Contribs } from '../pages/contribs/contribs';
 import { CodeMemo } from '../pages/code-memo/code-memo';
 import { Feedback } from '../pages/feedback/feedback';
+import { FavoritesPage } from '../pages/favorites/favorites';
 
 // active Sentry repporting during production
 if (AppSettings.isProduction) {
@@ -87,7 +88,8 @@ if (AppSettings.isProduction) {
         ToastComponent,
         CbIcon,
         DirectionButton,
-        PieChart
+        PieChart,
+        FavoritesPage
     ],
     imports: [
         BrowserModule,
@@ -112,7 +114,8 @@ if (AppSettings.isProduction) {
         About,
         Contribs,
         Feedback,
-        CodeMemo
+        CodeMemo,
+        FavoritesPage
     ],
     providers: [
         {
