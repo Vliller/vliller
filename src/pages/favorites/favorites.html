@@ -6,7 +6,7 @@
 <ion-content>
   <div class="favorites-content">
     <ion-list *ngFor="let station of favoriteStations | async">
-      <ion-item-sliding #item (ionSwipe)="remove(item)">
+      <ion-item-sliding #item (ionSwipe)="remove(station)">
         <ion-item>
           <ion-avatar item-start>
             <pie-chart class="station-fulfillment" [value]="station.fulfillmentInPercent"></pie-chart>
@@ -15,7 +15,7 @@
           <p>{{ station.address }}</p>
         </ion-item>
         <ion-item-options side="right">
-          <button ion-button icon-left expandable color="danger" (click)="remove(item)">
+          <button ion-button icon-left expandable color="danger" (click)="remove(station)">
             <ion-icon name="trash"></ion-icon>
             Retirer
           </button>
