@@ -22,10 +22,12 @@ export namespace AppSettings {
     export const vlille = {
         apiBase: 'https://opendata.lillemetropole.fr/api/records/1.0/search/?dataset=vlille-realtime&rows=-1',
         apiKey: env.vlille.apiKey
-    }
+    };
 
     export const doorbell = {
         apiBase: 'https://doorbell.io/api/applications/4561/submit',
         apiKey: env.doorbell.apiKey
-    }
+    };
+
+    export const googleAnalyticsId = env.googleAnalytics.id;
 }
