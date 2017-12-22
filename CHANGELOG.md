@@ -1,3 +1,7 @@
+# 2.6.2
+
+- Ajout d'un tracker Analytics
+
 # 2.6.1
 
 - Correction du format de donnée sur à une MAJ Transpole
