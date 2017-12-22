@@ -1,3 +1,7 @@
+# 2.6.1
+
+- Correction du format de donnée sur à une MAJ Transpole
+
 # 2.6.0
 
 - Affichage du taux de remplissage des stations environnantes 🎉
