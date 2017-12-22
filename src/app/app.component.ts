@@ -2,6 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { AppVersion } from '@ionic-native/app-version';
 import { StatusBar } from '@ionic-native/status-bar';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
+import { AppSettings } from './app.settings';
 
 import * as Raven from 'raven-js';
 
@@ -25,15 +27,30 @@ export class App {
     constructor(
         platform: Platform,
         appVersionPlugin: AppVersion,
-        statusBarPlugin: StatusBar
+        statusBarPlugin: StatusBar,
+        googleAnalyticsPlugin: GoogleAnalytics
     ) {
         platform.ready().then(() => {
             // Get app version
-            appVersionPlugin.getVersionNumber().then(version => {
+            appVersionPlugin.getVersionNumber()
+            .then(version => {
                 this.appVersion = version;
 
                 // set version in error tracker
                 Raven.setRelease(version);
+
+                return version;
+            })
+            // run Analytics
+            .then(version => {
+                if (AppSettings.isProduction) {
+                    googleAnalyticsPlugin.startTrackerWithId(AppSettings.googleAnalyticsId)
+                    .then(() => {
+                        googleAnalyticsPlugin.setAppVersion(version);
+                        googleAnalyticsPlugin.setAnonymizeIp(true);
+                    })
+                    .catch(error => Raven.captureException(new Error(error)));
+                }
             });
         });
     }

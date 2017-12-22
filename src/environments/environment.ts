@@ -11,5 +11,9 @@ export const env = {
 
   doorbell: {
     apiKey: '' // production only
+  },
+
+  googleAnalytics: {
+    id: ''  // production only
   }
 };
