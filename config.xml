@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" id="com.alexetmanon.vliller" version="2.6.1" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<?xml version='1.0' encoding='utf-8'?>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" id="com.alexetmanon.vliller" version="2.6.2" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Vliller</name>
     <description>1 clic, 1 vélo, 1 place !</description>
-    <author email="wall-e@alexetmanon.com" href="http://alexetmanon.com/">alex et manon</author>
+    <author email="vlille@alexetmanon.com" href="https://vliller.alexetmanon.com/">alex et manon</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -35,6 +35,7 @@
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
     </platform>
     <platform name="ios">
+        <hook src="scripts/removeAdFramework.js" type="after_plugin_install" />
         <config-file parent="UIStatusBarHidden" platform="ios" target="*-Info.plist">
             <true />
         </config-file>
@@ -128,4 +129,5 @@
     </plugin>
     <plugin name="cordova-plugin-advanced-http" spec="1.8.1" />
     <plugin name="cordova-sqlite-storage" spec="2.1.2" />
+    <plugin name="cordova-plugin-google-analytics" spec="1.8.3" />
 </widget>

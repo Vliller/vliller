@@ -21,6 +21,7 @@ import { Diagnostic } from '@ionic-native/diagnostic';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { StatusBar } from '@ionic-native/status-bar';
 import { HTTP } from '@ionic-native/http';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 
 // ngrx
 import { StoreModule } from '@ngrx/store';
@@ -139,7 +140,8 @@ if (AppSettings.isProduction) {
         Diagnostic,
         LocationAccuracy,
         StatusBar,
-        HTTP
+        HTTP,
+        GoogleAnalytics
     ]
 })
 export class AppModule {}
