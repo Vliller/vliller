@@ -110,8 +110,8 @@ export class VlilleStation implements CoordinatesInterface {
             data.fields.geo[0],
             data.fields.geo[1],
             data.fields.adresse,
-            data.fields.nbVelosDispo,
-            data.fields.nbPlacesDispo,
+            data.fields.nbvelosdispo,
+            data.fields.nbplacesdispo,
             data.fields.type,
             undefined,
             undefined
