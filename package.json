@@ -80,7 +80,7 @@
     "ios",
     "android"
   ],
-  "version": "2.6.1",
+  "version": "2.6.2",
   "cordova": {
     "plugins": {
       "cordova-custom-config": {},
