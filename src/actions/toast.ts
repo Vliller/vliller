@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { ToastOptionsInterface } from '../models/toast';
 
 /**
  *
@@ -10,7 +11,7 @@ export namespace ToastActions {
 
     export interface ToastPayload {
         message: string,
-        options?: any
+        options?: ToastOptionsInterface
     }
 
     export class Show implements Action {

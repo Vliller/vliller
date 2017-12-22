@@ -1,3 +1,4 @@
+import { ActionReducerMap } from '@ngrx/store';
 import { FavoritesState, favoritesReducer } from '../reducers/favorites';
 import { ToastState, toastReducer } from '../reducers/toast';
 import { StationsState, stationsReducer } from '../reducers/stations';
@@ -18,7 +19,7 @@ export interface AppState {
 /**
  * App reducers
  */
-export const reducers = {
+export const reducers: ActionReducerMap<AppState> = {
     favorites: favoritesReducer,
     toast: toastReducer,
     stations: stationsReducer,

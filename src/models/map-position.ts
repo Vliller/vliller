@@ -1,34 +1,29 @@
-/**
- * Helpers to manage Google LatLng class easily.
- */
-export interface LatLng {
-    lat: number,
-    lng: number
-}
+import { ILatLng } from '@ionic-native/google-maps';
+import { CoordinatesInterface } from './coordinates-interface';
 
-export class MapPosition {
+export class MapPosition implements CoordinatesInterface {
     constructor(
         public latitude: number,
         public longitude: number,
         public accuracy: number = 0
     ) {}
 
-    static fromLatLng(latlng: LatLng): MapPosition {
+    static fromLatLng(latlng: ILatLng): MapPosition {
         return new MapPosition(
             latlng.lat,
             latlng.lng
         );
     }
 
-    static fromCoordinates(coordinates: any): MapPosition {
+    static fromCoordinates(coordinates: CoordinatesInterface): MapPosition {
         return new MapPosition(
             coordinates.latitude,
             coordinates.longitude,
-            coordinates.accuracy
+            (<any>coordinates).accuracy
         );
     }
 
-    public toLatLng(): LatLng {
+    public toLatLng(): ILatLng {
         return {
             lat: this.latitude,
             lng: this.longitude

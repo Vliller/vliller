@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { ViewController, Platform, ToastController } from 'ionic-angular';
-import { NativeStorage } from '@ionic-native/native-storage';
+import { ViewController, ToastController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 import * as Raven from 'raven-js';
 
 const PLACEHOLDER = "____";
@@ -18,23 +18,24 @@ export class CodeMemo {
     isCodeEdition: boolean = false;
 
     constructor(
-        platform: Platform,
         private viewCtrl: ViewController,
-        private toastController: ToastController
+        private toastController: ToastController,
+        private storage: Storage
     ) {
         // loads data from storage
-        platform.ready().then(() => this.loadCode());
+        this.loadCode();
     }
 
     private loadCode(): Promise<any> {
-        return new NativeStorage().getItem(STORAGE_ID).then(code => {
-            this.code = code;
+        return this.storage.get(STORAGE_ID)
+        .then(code => {
+            this.code = (code ? code : "");
             this.updatePlaceholder();
         });
     }
 
     private saveCode(): Promise<any> {
-        return new NativeStorage().setItem(STORAGE_ID, this.code);
+        return this.storage.set(STORAGE_ID, this.code);
     }
 
     resetCode() {

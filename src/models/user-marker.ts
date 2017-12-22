@@ -1,13 +1,14 @@
-import { MarkerInterface, CircleInterface } from './map-marker-interface';
+import { Marker, Circle } from '@ionic-native/google-maps';
 import { MapMarker } from './map-marker';
 import { MapIcon } from '../components/map/map-icon';
 import { MapPosition } from '../models/map-position';
+import { Observable } from 'rxjs/Observable';
 
 export class UserMarker extends MapMarker {
 
   protected accuracyCircle: any;
 
-  constructor(marker: MarkerInterface, accuracyCircle: CircleInterface) {
+  constructor(marker: Marker, accuracyCircle: Circle) {
     super(marker);
 
     this.accuracyCircle = accuracyCircle;
@@ -58,6 +59,10 @@ export class UserMarker extends MapMarker {
     this.accuracyCircle.setRadius(accuracy);
   }
 
-  // NO-OP
-  onClick() {}
+  /**
+   * NO-OP
+   */
+  onClick(): Observable<any> {
+    return Observable.empty();
+  }
 }

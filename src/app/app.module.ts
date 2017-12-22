@@ -3,6 +3,7 @@ import { HttpModule } from '@angular/http';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }   from '@angular/forms';
+import { IonicStorageModule } from '@ionic/storage';
 import { App } from './app.component';
 import { AppSettings } from './app.settings';
 import { ravenInstall, RavenErrorHandler } from './raven';
@@ -15,7 +16,6 @@ import { DeviceOrientation } from '@ionic-native/device-orientation';
 import { Device } from '@ionic-native/device';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { SocialSharing } from '@ionic-native/social-sharing';
-import { NativeStorage } from '@ionic-native/native-storage';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
@@ -49,10 +49,11 @@ import { DirectionButton } from '../components/direction-button/direction-button
 import { PieChart } from '../components/pie-chart/pie-chart';
 
 // services
-import { VlilleService } from '../services/vlille';
-import { FavoritesService } from '../services/favorites';
-import { LocationService } from '../services/location';
-import { MapService } from '../services/map';
+import { VlilleService } from '../services/vlille-service';
+import { VlilleServiceNative } from '../services/vlille-service-native';
+import { LocationService } from '../services/location-service';
+import { LocationServiceNative } from '../services/location-service-native';
+import { FavoritesService } from '../services/favorites-service';
 
 // pages
 import { Home } from '../pages/home/home';
@@ -95,11 +96,14 @@ if (AppSettings.isProduction) {
         IonicModule.forRoot(App, {
             mode: "md"
         }),
-        StoreModule.provideStore(reducers),
-        EffectsModule.run(FavoritesEffects),
-        EffectsModule.run(ToastEffects),
-        EffectsModule.run(StationsEffects),
-        EffectsModule.run(LocationEffects)
+        StoreModule.forRoot(reducers),
+        EffectsModule.forRoot([
+            FavoritesEffects,
+            ToastEffects,
+            StationsEffects,
+            LocationEffects
+        ]),
+        IonicStorageModule.forRoot()
     ],
     bootstrap: [IonicApp],
     entryComponents: [
@@ -115,10 +119,15 @@ if (AppSettings.isProduction) {
             provide: ErrorHandler,
             useClass: AppSettings.isProduction ? RavenErrorHandler : IonicErrorHandler
         },
-        VlilleService,
+        {
+            provide: VlilleService,
+            useClass: VlilleServiceNative
+        },
+        {
+            provide: LocationService,
+            useClass: LocationServiceNative
+        },
         FavoritesService,
-        LocationService,
-        MapService,
         LaunchNavigator,
         AppVersion,
         InAppBrowser,
@@ -126,7 +135,6 @@ if (AppSettings.isProduction) {
         Device,
         SplashScreen,
         SocialSharing,
-        NativeStorage,
         Geolocation,
         Diagnostic,
         LocationAccuracy,

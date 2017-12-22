@@ -1,5 +1,6 @@
 import moment from 'moment';
 import 'moment/locale/fr';
+import { CoordinatesInterface } from './coordinates-interface';
 
 /**
  * Models related to VlilleStation
@@ -10,7 +11,7 @@ export enum VlilleStationStatus {
   UNAVAILABLE = 1
 }
 
-export class VlilleStation {
+export class VlilleStation implements CoordinatesInterface {
     constructor(
         public id: string,
         public name: string,
@@ -65,6 +66,39 @@ export class VlilleStation {
     }
 
     /**
+     * Basic equal method based on station id.
+     *
+     * @param {VlilleStation} station
+     * @return {boolean}
+     */
+    public isEqual(station: VlilleStation): boolean {
+        return this.id === station.id;
+    }
+
+    /**
+     * Constructs a VlilleStation object from a raw object.
+     *
+     * @param {any} object
+     * @return {VlilleStation}
+     */
+    static fromObject(object: any): VlilleStation {
+        return new VlilleStation(
+            object.id,
+            object.name,
+            object.latitude,
+            object.longitude,
+            object.address,
+            object.bikes,
+            object.docks,
+            object.payment,
+            object.status,
+            object.lastupd,
+            object.distance,
+            object.isFavorite
+        );
+    }
+
+    /**
      *
      * @param  {any} data
      * @return {VlilleStation}
@@ -76,8 +110,8 @@ export class VlilleStation {
             data.fields.geo[0],
             data.fields.geo[1],
             data.fields.adresse,
-            data.fields.nbVelosDispo,
-            data.fields.nbPlacesDispo,
+            data.fields.nbvelosdispo,
+            data.fields.nbplacesdispo,
             data.fields.type,
             undefined,
             undefined
@@ -105,5 +139,22 @@ export class VlilleStation {
         station.lastupd = diffInSeconds + ' seconde' + (diffInSeconds > 1 ? 's' : '');
 
         return station;
+    }
+
+    /**
+     * Simple contains method bases on isEqual().
+     *
+     * @param  {VlilleStation[]} collection
+     * @param  {VlilleStation}   element
+     * @return {boolean}
+     */
+    static contains(collection: VlilleStation[], element: VlilleStation): boolean {
+        for (let currentElement of collection) {
+            if (currentElement.isEqual(element)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

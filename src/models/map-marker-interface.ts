@@ -1,23 +1,11 @@
-export interface MarkerInterface {
-  id;
-  on(event: any, callback: Function);
-  remove();
-  setIcon(icon: any);
-  setPosition(latLng: any);
-  setRotation(heading: number);
-}
-
-export interface CircleInterface {
-  id;
-  setCenter(latLng: any);
-  setRadious(radius: number);
-}
+import { Marker, MarkerIcon, ILatLng } from '@ionic-native/google-maps';
+import { Observable } from 'rxjs/Observable';
 
 export interface MapMarkerInterface {
-  onClick(callback: Function);
-  isEqual(marker: MapMarkerInterface);
-  setIcon(icon: any);
-  setMarker(marker: MarkerInterface);
-  getMarker(): MarkerInterface;
-  removeMarker();
+  onClick(): Observable<ILatLng>;
+  isEqual(marker: MapMarkerInterface): void;
+  setIcon(icon: MarkerIcon): void;
+  setMarker(marker: Marker): void;
+  getMarker(): Marker;
+  removeMarker(): void;
 }
