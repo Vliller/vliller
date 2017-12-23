@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" id="com.alexetmanon.vliller" version="2.6.2" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.alexetmanon.vliller" version="2.6.2" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Vliller</name>
     <description>1 clic, 1 vélo, 1 place !</description>
     <author email="vlille@alexetmanon.com" href="https://vliller.alexetmanon.com/">alex et manon</author>
@@ -130,4 +130,11 @@
     <plugin name="cordova-plugin-advanced-http" spec="1.8.1" />
     <plugin name="cordova-sqlite-storage" spec="2.1.2" />
     <plugin name="cordova-plugin-google-analytics" spec="1.8.3" />
+    <plugin name="cordova-plugin-ionic" spec="2.0.4">
+        <variable name="APP_ID" value="1a4d7511" />
+        <variable name="CHANNEL_NAME" value="Production" />
+        <variable name="UPDATE_METHOD" value="background" />
+        <variable name="UPDATE_API" value="https://api.ionicjs.com" />
+        <variable name="MAX_STORE" value="2" />
+    </plugin>
 </widget>
