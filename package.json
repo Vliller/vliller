@@ -5,9 +5,9 @@
   "description": "vliller : 1 clic, 1 velo, 1 place !",
   "private": true,
   "scripts": {
+    "build": "ionic-app-scripts build",
     "ionic:build": "ionic-app-scripts build",
-    "ionic:serve": "ionic-app-scripts serve",
-    "build": "ls"
+    "ionic:serve": "ionic-app-scripts serve"
   },
   "config": {
     "ionic_webpack": "./webpack.config.js"
