@@ -13,7 +13,7 @@ export enum VlilleStationStatus {
 
 export class VlilleStation implements CoordinatesInterface {
     constructor(
-        public id: string,
+        public id: number,
         public name: string,
         public latitude: number,
         public longitude: number,
