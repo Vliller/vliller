@@ -117,8 +117,8 @@ export class VlilleStation implements CoordinatesInterface {
             undefined
         );
 
-        /*
-            Status
+        /**
+         * Status
          */
         if (data.fields.etat === 'EN SERVICE') {
             station.status = VlilleStationStatus.NORMAL;
@@ -131,12 +131,20 @@ export class VlilleStation implements CoordinatesInterface {
             station.status = VlilleStationStatus.UNAVAILABLE;
         }
 
-        /*
-            Last up
+        /**
+         * Last up
          */
-        var diffInSeconds = Math.round(moment().diff(moment.utc(data.record_timestamp))/ 1000);
+        const diffInSeconds = Math.round(moment().diff(moment.utc(data.record_timestamp))/ 1000);
 
         station.lastupd = diffInSeconds + ' seconde' + (diffInSeconds > 1 ? 's' : '');
+
+        /**
+         * Fix Champ de Mars station position
+         */
+        if (station.id === 14) {
+            station.latitude = 50.6378924;
+            station.longitude = 3.0486302;
+        }
 
         return station;
     }
