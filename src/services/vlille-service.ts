@@ -10,10 +10,10 @@ export class VlilleService implements VlilleServiceInterface {
     /**
      * @todo Implements Web version.
      *
-     * @param {string} id
+     * @param {number} id
      * @return {Observable<VlilleStation>}
      */
-    public getStation(id: string): Observable<VlilleStation> {
+    public getStation(id: number): Observable<VlilleStation> {
         return Observable.empty();
     }
 

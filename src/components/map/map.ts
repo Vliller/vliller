@@ -43,7 +43,7 @@ export class MapComponent implements OnInit {
     private mapInstancePromise: Promise<any>;
     private mapZoom: number = ZOOM_DEFAULT;
 
-    private markers: Map<string, VlilleStationMarker> = new Map();
+    private markers: Map<number, VlilleStationMarker> = new Map();
     private activeMarker: VlilleStationMarker;
 
     private userMarker: UserMarker;
