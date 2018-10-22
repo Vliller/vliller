@@ -142,8 +142,8 @@ export class VlilleStation implements CoordinatesInterface {
          * Fix Champ de Mars station position
          */
         if (station.id === 14) {
-            station.latitude = 50.6378924;
-            station.longitude = 3.0486302;
+            station.latitude = 50.6378922;
+            station.longitude = 3.050819;
         }
 
         return station;
