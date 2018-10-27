@@ -15,6 +15,8 @@ import { AppState, selectMapIsClickable } from '../../app/app.reducers';
 import { ToastActions } from '../../actions/toast';
 import { StationsActions } from '../../actions/stations';
 
+import * as Raven from 'raven-js';
+
 declare var plugin: any;
 
 const ZOOM_DEFAULT = 12;
@@ -270,6 +272,12 @@ export class MapComponent implements OnInit {
             // update marker state
             stations.forEach(station => {
                 let marker = this.markers.get(station.id);
+
+                if (!marker) {
+                    Raven.captureException(new Error( `Marker with id ${station.id} not found`));
+
+                    return;
+                }
 
                 // updates marker data & icon
                 marker.setStation(station);
