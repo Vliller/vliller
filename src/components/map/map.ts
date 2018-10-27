@@ -100,9 +100,10 @@ export class MapComponent implements OnInit {
 
                 // listen for user heading
                 this.userHeading.subscribe(heading => {
-                    const bearing = heading - 90;
+                    // const bearing = heading - 90;
 
-                    this.mapInstance.setCameraBearing(bearing)
+                    // this.mapInstance.setCameraBearing(bearing)
+                    this.userMarker.setHeading(heading);
                 });
             });
 
