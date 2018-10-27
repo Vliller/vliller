@@ -1,7 +1,8 @@
-# 2.7.0
+# 2.7.0-halloween
 
-- Rotation de la carte suivant l'orientation de l'utilisateur
+- Thème halloween ! 🎃
 - Affiche le taux de remplissage dans la liste des favoris
+- Correction d'un bug à l'actualisation des stations sur la carte
 
 # 2.6.2
 

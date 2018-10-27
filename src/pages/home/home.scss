@@ -2,6 +2,17 @@ $station-card-height: 154px;
 $favorites-button-margin: $fab-content-margin;
 
 page-home {
+    .halloween-header {
+        position: absolute;
+        top: 18px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-size: cover;
+        background: url('../assets/img/halloween/vliller-background-header.png');
+        height: 96px;
+        width: 1241px;
+    }
+
     .header {
         .bar-button {
             opacity: 0.8;
