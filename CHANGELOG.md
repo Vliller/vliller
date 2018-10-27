@@ -1,3 +1,7 @@
+# 2.7.0
+
+- Rotation de la carte suivant l'orientation de l'utilisateur
+
 # 2.6.2
 
 - Ajout d'un tracker Analytics

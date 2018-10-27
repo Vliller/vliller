@@ -73,7 +73,7 @@ export class MapComponent implements OnInit {
         this.platform.ready().then(() => {
             this.userHeading = this.deviceOrientationPlugin
             .watchHeading({
-                frequency: 500 // ms
+                frequency: 200 // ms
             })
             .pipe(
                 map(compassHeading => compassHeading.magneticHeading),
@@ -84,7 +84,7 @@ export class MapComponent implements OnInit {
 
     ngOnInit() {
         // wait for map instance to be initialized
-        this.mapInstancePromise.then(() => {
+        this.mapInstancePromise.then((map) => {
             // register isClickable service
             this.store.select(state => selectMapIsClickable(state)).subscribe(isClickable => {
                 this.setClickable(isClickable);
@@ -100,7 +100,9 @@ export class MapComponent implements OnInit {
 
                 // listen for user heading
                 this.userHeading.subscribe(heading => {
-                    this.userMarker.setHeading(heading);
+                    const bearing = heading - 90;
+
+                    this.mapInstance.setCameraBearing(bearing)
                 });
             });
 
