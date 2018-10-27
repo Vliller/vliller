@@ -1,6 +1,7 @@
 # 2.7.0
 
 - Rotation de la carte suivant l'orientation de l'utilisateur
+- Affiche le taux de remplissage dans la liste des favoris
 
 # 2.6.2
 
