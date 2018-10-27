@@ -217,17 +217,20 @@ export class MapComponent implements OnInit {
      * @return {Promise<UserMarker>}
      */
     private initUserMarker(position: MapPosition): Promise<UserMarker> {
-        return UserMarker.create(this.mapInstance, MapPosition.fromLatLng(AppSettings.defaultPosition)).then((marker: UserMarker) => {
-            // avoid duplication bug
-            if (this.userMarker) {
-                this.userMarker.removeMarker();
+        return UserMarker
+            .create(this.mapInstance, position)
+            .then((marker: UserMarker) => {
+                // avoid duplication bug
+                if (this.userMarker) {
+                    this.userMarker.removeMarker();
+                }
+
+                // updates marker ref
+                this.userMarker = marker;
+
+                return this.userMarker;
             }
-
-            // updates marker ref
-            this.userMarker = marker;
-
-            return this.userMarker;
-        });
+        );
     }
 
     /**
