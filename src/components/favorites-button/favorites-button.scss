@@ -26,6 +26,7 @@ favorites-button {
         ion-fab-list button[ion-fab] {
             text-align: center;
             overflow: visible;
+            background: transparent;
 
             div.label {
                 position: absolute;
@@ -37,6 +38,16 @@ favorites-button {
                 padding: 5px 8px;
                 border-radius: 3px;
                 box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.14), 0 4px 5px rgba(0, 0, 0, 0.1);
+            }
+
+            pie-chart .pie-chart-container  {
+                height: 40px;
+                width: 40px;
+                border: none;
+
+                circle {
+                    fill: $mustard;
+                }
             }
         }
 
