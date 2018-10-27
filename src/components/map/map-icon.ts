@@ -1,4 +1,4 @@
-const BASE_MAP_ASSETS = 'www/assets/img/map/';
+const BASE_MAP_ASSETS = 'assets/img/map/';
 
 /**
  * All icons are in retina size
