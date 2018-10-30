@@ -15,6 +15,8 @@ import { AppState, selectMapIsClickable } from '../../app/app.reducers';
 import { ToastActions } from '../../actions/toast';
 import { StationsActions } from '../../actions/stations';
 
+import * as Raven from 'raven-js';
+
 declare var plugin: any;
 
 const ZOOM_DEFAULT = 12;
@@ -43,7 +45,7 @@ export class MapComponent implements OnInit {
     private mapInstancePromise: Promise<any>;
     private mapZoom: number = ZOOM_DEFAULT;
 
-    private markers: Map<string, VlilleStationMarker> = new Map();
+    private markers: Map<number, VlilleStationMarker> = new Map();
     private activeMarker: VlilleStationMarker;
 
     private userMarker: UserMarker;
@@ -73,7 +75,7 @@ export class MapComponent implements OnInit {
         this.platform.ready().then(() => {
             this.userHeading = this.deviceOrientationPlugin
             .watchHeading({
-                frequency: 500 // ms
+                frequency: 200 // ms
             })
             .pipe(
                 map(compassHeading => compassHeading.magneticHeading),
@@ -84,7 +86,7 @@ export class MapComponent implements OnInit {
 
     ngOnInit() {
         // wait for map instance to be initialized
-        this.mapInstancePromise.then(() => {
+        this.mapInstancePromise.then((map) => {
             // register isClickable service
             this.store.select(state => selectMapIsClickable(state)).subscribe(isClickable => {
                 this.setClickable(isClickable);
@@ -100,6 +102,9 @@ export class MapComponent implements OnInit {
 
                 // listen for user heading
                 this.userHeading.subscribe(heading => {
+                    // const bearing = heading - 90;
+
+                    // this.mapInstance.setCameraBearing(bearing)
                     this.userMarker.setHeading(heading);
                 });
             });
@@ -215,17 +220,20 @@ export class MapComponent implements OnInit {
      * @return {Promise<UserMarker>}
      */
     private initUserMarker(position: MapPosition): Promise<UserMarker> {
-        return UserMarker.create(this.mapInstance, MapPosition.fromLatLng(AppSettings.defaultPosition)).then((marker: UserMarker) => {
-            // avoid duplication bug
-            if (this.userMarker) {
-                this.userMarker.removeMarker();
+        return UserMarker
+            .create(this.mapInstance, position)
+            .then((marker: UserMarker) => {
+                // avoid duplication bug
+                if (this.userMarker) {
+                    this.userMarker.removeMarker();
+                }
+
+                // updates marker ref
+                this.userMarker = marker;
+
+                return this.userMarker;
             }
-
-            // updates marker ref
-            this.userMarker = marker;
-
-            return this.userMarker;
-        });
+        );
     }
 
     /**
@@ -264,6 +272,12 @@ export class MapComponent implements OnInit {
             // update marker state
             stations.forEach(station => {
                 let marker = this.markers.get(station.id);
+
+                if (!marker) {
+                    Raven.captureException(new Error( `Marker with id ${station.id} not found`));
+
+                    return;
+                }
 
                 // updates marker data & icon
                 marker.setStation(station);

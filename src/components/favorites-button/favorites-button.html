@@ -3,12 +3,10 @@
         <img class="img-responsive" src="assets/img/vliller-icon-fav-white.svg">
     </button>
     <ion-fab-list side="top">
-        <button ion-fab color="mustard" *ngFor="let station of favoriteStations" (click)="favoriteClick(station)" [ngClass]="{
-            'fab-md-mustard': station.status == 0,
-            'fab-md-light-grey': station.status != 0,
+        <button ion-fab *ngFor="let station of favoriteStations" (click)="favoriteClick(station)" [ngClass]="{
             'show': isOpened
         }">
-            <img class="img-responsive" src="assets/img/vliller-icon-bike-white.svg">
+            <pie-chart [value]="station.fulfillmentInPercent"></pie-chart>
             <div class="label">{{ station.name }}</div>
         </button>
     </ion-fab-list>

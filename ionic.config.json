@@ -1,8 +1,8 @@
 {
   "name": "vliller",
-  "app_id": "",
-  "type": "ionic-angular",
   "integrations": {
     "cordova": {}
-  }
+  },
+  "type": "ionic-angular",
+  "pro_id": "1a4d7511"
 }

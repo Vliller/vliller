@@ -67,6 +67,8 @@ import { Feedback } from '../pages/feedback/feedback';
 // active Sentry repporting during production
 if (AppSettings.isProduction) {
     ravenInstall(AppSettings.sentryDSN);
+} else {
+    console.log("Vliller is running in development mode");
 }
 
 @NgModule({

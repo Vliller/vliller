@@ -1,3 +1,9 @@
+# 2.7.0-halloween
+
+- Thème halloween ! 🎃
+- Affiche le taux de remplissage dans la liste des favoris
+- Correction d'un bug à l'actualisation des stations sur la carte
+
 # 2.6.2
 
 - Ajout d'un tracker Analytics

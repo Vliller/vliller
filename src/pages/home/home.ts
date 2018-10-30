@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { filter, withLatestFrom } from 'rxjs/operators';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { AlertController, Platform, ModalController } from 'ionic-angular';
+import { Platform, ModalController } from 'ionic-angular';
 
 import {
     AppState,
@@ -42,7 +42,6 @@ export class Home {
     @ViewChild('map') map: MapComponent;
 
     constructor(
-        alertController: AlertController,
         platform: Platform,
         splashScreenPlugin: SplashScreen,
         private modalController: ModalController,

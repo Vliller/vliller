@@ -23,7 +23,7 @@ export class VlilleServiceNative implements VlilleServiceInterface {
         private platform: Platform
     ) {}
 
-    public getStation(id: string): Observable<VlilleStation> {
+    public getStation(id: number): Observable<VlilleStation> {
         return Observable
             .fromPromise(
                 this.platform.ready().then(() => this.http.get(`${API_BASE}&q=libelle:${id}`, {}, {}))
