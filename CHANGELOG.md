@@ -1,8 +1,13 @@
+# 2.7.1
+
+- Correction des données hors ligne (ajout de la station Faubourg d'Arras)
+
 # 2.7.0-halloween
 
 - Thème halloween ! 🎃
 - Affiche le taux de remplissage dans la liste des favoris
 - Correction d'un bug à l'actualisation des stations sur la carte
+- Correction de la position de la station Champ de Mars
 
 # 2.6.2
 

@@ -1,7 +1,12 @@
 {
   "name": "vliller",
-  "author": "alex et manon <bonjour@alexetmanon.com>",
-  "homepage": "http://alexetmanon.com/",
+  "author": "Alexandre Bonhomme <alex@aqelia.com>",
+  "contributors": [
+    "Alexandre Bonhomme <alex@aqelia.com>",
+    "Manon Verbeke <manon@atelier-jugeote.com>",
+    "Julien Duribreux <julien.duribreux@gmail.com>"
+  ],
+  "homepage": "http://vliller.com/",
   "description": "vliller : 1 clic, 1 velo, 1 place !",
   "private": true,
   "scripts": {
@@ -81,7 +86,7 @@
     "ios",
     "android"
   ],
-  "version": "2.7.0",
+  "version": "2.7.1",
   "cordova": {
     "plugins": {
       "cordova-custom-config": {},
