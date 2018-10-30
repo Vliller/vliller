@@ -1,3 +1,7 @@
+# 2.7.1
+
+- Correction des données hors ligne (ajout de la station Faubourg d'Arras)
+
 # 2.7.0-halloween
 
 - Thème halloween ! 🎃
