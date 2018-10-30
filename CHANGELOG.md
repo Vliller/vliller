@@ -1,6 +1,7 @@
 # 2.7.1
 
 - Correction des données hors ligne (ajout de la station Faubourg d'Arras)
+- Retrait du branding alex et manon
 
 # 2.7.0-halloween
 
