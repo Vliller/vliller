@@ -8,7 +8,7 @@ export namespace AppSettings {
         ios: '1161025016'
     };
 
-    export const vlillerSiteUrl = 'http://vliller.alexetmanon.com';
+    export const vlillerSiteUrl = 'http://vliller.com';
     export const vlillerContribsUrl = 'https://api.github.com/repos/alexetmanon/vliller/contributors';
 
     export const sentryDSN = env.sentry.dsn;

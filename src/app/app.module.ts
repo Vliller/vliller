@@ -43,7 +43,6 @@ import { StationCardMetric } from '../components/station-card-metric/station-car
 import { FavoritesButton } from '../components/favorites-button/favorites-button';
 import { FavoritesAddIcon } from '../components/favorites-add-icon/favorites-add-icon';
 import { LocationIcon } from '../components/location-icon/location-icon';
-import { AetmFooter } from '../components/aetm-footer/aetm-footer';
 import { ToastComponent } from '../components/toast/toast';
 import { CbIcon } from '../components/cb-icon/cb-icon';
 import { DirectionButton } from '../components/direction-button/direction-button';
@@ -86,7 +85,6 @@ if (AppSettings.isProduction) {
         FavoritesAddIcon,
         LocationIcon,
         Feedback,
-        AetmFooter,
         ToastComponent,
         CbIcon,
         DirectionButton,
