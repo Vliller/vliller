@@ -1,3 +1,8 @@
+# 2.7.3
+
+- MAJ du plugin Statusbar
+- Fix typo sidemenu
+
 # 2.7.2
 
 - Retrait du thème halloween
