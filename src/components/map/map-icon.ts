@@ -1,5 +1,5 @@
 const BASE_MAP_ASSETS = 'assets/img/map/';
-const BASE_HALLOWEEN_MAP_ASSETS = 'assets/img/halloween/map/';
+// const BASE_HALLOWEEN_MAP_ASSETS = 'assets/img/halloween/map/';
 
 /**
  * All icons are in retina size
@@ -7,7 +7,7 @@ const BASE_HALLOWEEN_MAP_ASSETS = 'assets/img/halloween/map/';
 export const MapIcon = {
   // Active state
   ACTIVE: {
-    url: BASE_HALLOWEEN_MAP_ASSETS + 'marker-active.png',
+    url: BASE_MAP_ASSETS + 'marker-active.png',
     size: {
       width: 62,
       height: 72
@@ -24,7 +24,7 @@ export const MapIcon = {
     anchor: [14.5, 13]
   },
   UNAVAILABLE_ACTIVE: {
-    url: BASE_HALLOWEEN_MAP_ASSETS + 'marker-unavailable-active.png',
+    url: BASE_MAP_ASSETS + 'marker-unavailable-active.png',
     size: {
       width: 62,
       height: 72
