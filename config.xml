@@ -116,7 +116,6 @@
     <plugin name="cordova-plugin-inappbrowser" spec="1.7.1" />
     <plugin name="cordova-plugin-request-location-accuracy" spec="2.2.2" />
     <plugin name="cordova-plugin-splashscreen" spec="4.0.3" />
-    <plugin name="cordova.plugins.diagnostic" spec="3.7.1" />
     <plugin name="uk.co.workingedge.phonegap.plugin.launchnavigator" spec="4.0.7">
         <variable name="LOCATION_USAGE_DESCRIPTION" value="This app requires access to your location for navigation purposes" />
     </plugin>
@@ -139,4 +138,5 @@
         <variable name="LOCATION_WHEN_IN_USE_DESCRIPTION" value="This app wants to get your location while this app runs only." />
         <variable name="LOCATION_ALWAYS_USAGE_DESCRIPTION" value="This app wants to get your location always, even this app runs in background." />
     </plugin>
+    <plugin name="cordova.plugins.diagnostic" spec="4.0.10" />
 </widget>
