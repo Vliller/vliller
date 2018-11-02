@@ -1,3 +1,8 @@
+# 2.7.2
+
+- Retrait du thème halloween
+- Mise à jours du plugin cordova.plugins.diagnostic pour soumission Apple store
+
 # 2.7.1
 
 - Correction des données hors ligne (ajout de la station Faubourg d'Arras)
