@@ -1,3 +1,7 @@
+# 2.7.4
+
+- Fix android permissions issue
+
 # 2.7.3
 
 - MAJ du plugin Statusbar
