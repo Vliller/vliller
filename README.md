@@ -10,15 +10,15 @@ Vliller est une application mobile gratuite et opensource initiée par [alexetma
 
 ## Contact
 
-vliller@alexetmanon.com
+vliller@aqelia.com
 
 ## Roadmap
 
-https://github.com/alexetmanon/vliller/wiki/Roadmap
+https://github.com/Vliller/vliller/wiki/Roadmap
 
 ## Contributions
 
-https://github.com/alexetmanon/vliller/wiki/Contributions
+https://github.com/Vliller/vliller/wiki/Contributions
 
 ## Crédits
 

@@ -9,7 +9,7 @@ export namespace AppSettings {
     };
 
     export const vlillerSiteUrl = 'http://vliller.com';
-    export const vlillerContribsUrl = 'https://api.github.com/repos/alexetmanon/vliller/contributors';
+    export const vlillerContribsUrl = 'https://api.github.com/repos/Vliller/vliller/contributors';
 
     export const sentryDSN = env.sentry.dsn;
 
