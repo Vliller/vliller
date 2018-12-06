@@ -1,3 +1,7 @@
+# 2.7.5
+
+- Moves source code to Vliller/vliller repo
+
 # 2.7.4
 
 - Fix android permissions issue
