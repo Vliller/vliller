@@ -33,6 +33,7 @@ $RECYCLE.BIN/
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate
+.scannerwork/
 
 # release scripts
 build-release.sh
