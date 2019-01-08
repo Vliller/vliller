@@ -16,7 +16,7 @@
 // automatically applied to the <body> element in the app.
 
 body {
-    font-family: Roboto;
+    font-family: Roboto, sans-serif;
     font-weight: 400;
 }
 
@@ -80,7 +80,6 @@ body {
 // @see https://github.com/ionic-team/ionic/issues/7205#issuecomment-313271103
 ion-app._gmaps_cdv_ .nav-decor {
     display: none !important;
-    background-color: rgba(0,0,0,0) !important;
     background: rgba(0,0,0,0) !important;
 }
 
