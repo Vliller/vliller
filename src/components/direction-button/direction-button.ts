@@ -1,5 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { LaunchNavigator } from '@ionic-native/launch-navigator';
+import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
 import { Platform } from 'ionic-angular';
 import * as Raven from 'raven-js';
 

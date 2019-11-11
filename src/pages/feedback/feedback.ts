@@ -4,7 +4,7 @@ import { Headers, RequestOptions, Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
 import * as Raven from 'raven-js';
-import { Device } from '@ionic-native/device';
+import { Device } from '@ionic-native/device/ngx';
 import { AppSettings } from '../../app/app.settings';
 
 @Component({

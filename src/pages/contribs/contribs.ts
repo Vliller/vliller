@@ -3,7 +3,7 @@ import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
 import { ViewController, Platform } from 'ionic-angular';
-import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { AppSettings } from '../../app/app.settings';
 
 @Component({

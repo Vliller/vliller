@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core
 import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { map, filter, take } from 'rxjs/operators';
-import { DeviceOrientation } from '@ionic-native/device-orientation';
+import { DeviceOrientation } from '@ionic-native/device-orientation/ngx';
 
 import { MapPosition } from '../../models/map-position';
 import { VlilleStation } from '../../models/vlille-station';

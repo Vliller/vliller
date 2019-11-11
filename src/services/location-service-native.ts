@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { Geolocation, Geoposition } from '@ionic-native/geolocation';
-import { Diagnostic } from '@ionic-native/diagnostic';
-import { LocationAccuracy } from '@ionic-native/location-accuracy';
+import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
+import { Diagnostic } from '@ionic-native/diagnostic/ngx';
+import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 
 import { MapPosition } from '../models/map-position';
 import { LocationServiceInterface } from './location-service-interface';

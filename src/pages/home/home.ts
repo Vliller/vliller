@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { filter, withLatestFrom } from 'rxjs/operators';
-import { SplashScreen } from '@ionic-native/splash-screen';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { Platform, ModalController } from 'ionic-angular';
 
 import {
