@@ -8,6 +8,34 @@ Vliller est une application mobile gratuite et opensource initiée par [alexetma
 &nbsp;
 <a href="https://itunes.apple.com/fr/app/vliller-ton-vlille-en-1-clic/id1161025016?mt=8"><img src="https://linkmaker.itunes.apple.com/images/badges/fr-fr/badge_appstore-lrg.svg" style="margin:10px"></a>
 
+## Developpement
+
+### iOS
+
+Afficher la liste des simulateurs disponibles
+
+```
+ionic cordova emulate --list
+```
+
+Lancer le projet sur l'émulateur voulu (identifié par l'uuid)
+
+```
+ionic cordova emulate ios --target "C9E8DF7A-2039-4945-9543-00412771DBC6"
+```
+
+> Voir : https://stackoverflow.com/a/31350074
+
+### Android
+
+Créer et lancer l'élumulateur avec Android studio, puis :
+
+```
+ionic cordova run android --emulator
+```
+
+> Voir : https://ionicframework.com/docs/installation/android
+
 ## Contact
 
 vliller@aqelia.com
