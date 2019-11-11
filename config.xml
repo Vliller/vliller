@@ -108,6 +108,8 @@
     <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="cordova.plugins.diagnostic.modules" value="LOCATION" />
+    <preference name="GOOGLE_MAPS_ANDROID_API_KEY" value="AIzaSyCwaMhgCXRnhlbBulzNGi5BU0JBLej0FbI" />
+    <preference name="GOOGLE_MAPS_IOS_API_KEY" value="AIzaSyB7l0BYrnYjYqAY8tiX81XT6j-1iIz-YUY" />
     <feature name="StatusBar">
         <param name="ios-package" onload="true" value="CDVStatusBar" />
     </feature>
@@ -152,12 +154,10 @@
         <variable name="OKHTTP_VERSION" value="3.12.0" />
         <variable name="LOCATION_USAGE_DESCRIPTION" value="This app requires access to your location for navigation purposes" />
     </plugin>
-    <engine name="android" spec="7.1.4" />
-    <engine name="ios" spec="5.0.1" />
     <plugin name="cordova-plugin-googlemaps" spec="https://github.com/mapsplugin/cordova-plugin-googlemaps#multiple_maps">
-        <variable name="GOOGLE_MAPS_ANDROID_API_KEY" value="AIzaSyCwaMhgCXRnhlbBulzNGi5BU0JBLej0FbI" />
-        <variable name="GOOGLE_MAPS_IOS_API_KEY" value="AIzaSyB7l0BYrnYjYqAY8tiX81XT6j-1iIz-YUY" />
         <variable name="LOCATION_WHEN_IN_USE_DESCRIPTION" value="This app wants to get your location while this app runs only." />
         <variable name="LOCATION_ALWAYS_USAGE_DESCRIPTION" value="This app wants to get your location always, even this app runs in background." />
     </plugin>
+    <engine name="android" spec="7.1.4" />
+    <engine name="ios" spec="5.0.1" />
 </widget>

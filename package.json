@@ -128,8 +128,6 @@
         "LOCATION_USAGE_DESCRIPTION": "This app requires access to your location for navigation purposes"
       },
       "cordova-plugin-googlemaps": {
-        "GOOGLE_MAPS_ANDROID_API_KEY": "AIzaSyCwaMhgCXRnhlbBulzNGi5BU0JBLej0FbI",
-        "GOOGLE_MAPS_IOS_API_KEY": "AIzaSyB7l0BYrnYjYqAY8tiX81XT6j-1iIz-YUY",
         "LOCATION_WHEN_IN_USE_DESCRIPTION": "This app wants to get your location while this app runs only.",
         "LOCATION_ALWAYS_USAGE_DESCRIPTION": "This app wants to get your location always, even this app runs in background."
       }
