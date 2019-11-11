@@ -1,8 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
-import { AppVersion } from '@ionic-native/app-version';
-import { StatusBar } from '@ionic-native/status-bar';
-import { GoogleAnalytics } from '@ionic-native/google-analytics';
+import { AppVersion } from '@ionic-native/app-version/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { GoogleAnalytics } from '@ionic-native/google-analytics/ngx';
 import { AppSettings } from './app.settings';
 
 import * as Raven from 'raven-js';

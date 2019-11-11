@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { InAppBrowser } from '@ionic-native/in-app-browser';
-import { AppVersion } from '@ionic-native/app-version';
-import { SocialSharing } from '@ionic-native/social-sharing';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { AppVersion } from '@ionic-native/app-version/ngx';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Platform, ModalController } from 'ionic-angular';
 import { About } from '../about/about';
 import { Contribs } from '../contribs/contribs';

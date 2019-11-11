@@ -4,7 +4,7 @@
 
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { HTTP, HTTPResponse } from '@ionic-native/http';
+import { HTTP, HTTPResponse } from '@ionic-native/http/ngx';
 import { Observable } from 'rxjs/Observable';
 import { map, catchError } from 'rxjs/operators';
 import * as Raven from 'raven-js';

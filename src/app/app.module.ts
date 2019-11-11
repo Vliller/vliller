@@ -9,19 +9,19 @@ import { AppSettings } from './app.settings';
 import { ravenInstall, RavenErrorHandler } from './raven';
 
 // native
-import { LaunchNavigator } from '@ionic-native/launch-navigator';
-import { AppVersion } from '@ionic-native/app-version';
-import { InAppBrowser } from '@ionic-native/in-app-browser';
-import { DeviceOrientation } from '@ionic-native/device-orientation';
-import { Device } from '@ionic-native/device';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { SocialSharing } from '@ionic-native/social-sharing';
-import { Geolocation } from '@ionic-native/geolocation';
-import { Diagnostic } from '@ionic-native/diagnostic';
-import { LocationAccuracy } from '@ionic-native/location-accuracy';
-import { StatusBar } from '@ionic-native/status-bar';
-import { HTTP } from '@ionic-native/http';
-import { GoogleAnalytics } from '@ionic-native/google-analytics';
+import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
+import { AppVersion } from '@ionic-native/app-version/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { DeviceOrientation } from '@ionic-native/device-orientation/ngx';
+import { Device } from '@ionic-native/device/ngx';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Diagnostic } from '@ionic-native/diagnostic/ngx';
+import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { HTTP } from '@ionic-native/http/ngx';
+import { GoogleAnalytics } from '@ionic-native/google-analytics/ngx';
 
 // ngrx
 import { StoreModule } from '@ngrx/store';
