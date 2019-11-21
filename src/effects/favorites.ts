@@ -9,8 +9,6 @@ import { FavoritesActions } from '../actions/favorites';
 import { VlilleStation } from '../models/vlille-station';
 import { FavoritesService } from '../services/favorites-service';
 
-const FAVORITES_MAX_SIZE = 4;
-
 @Injectable()
 export class FavoritesEffects {
   constructor(
@@ -46,11 +44,6 @@ export class FavoritesEffects {
       withLatestFrom(this.store$),
       map(([action, state]: [FavoritesActions.Add, AppState]) => [action.payload, state.favorites.collection]),
       mergeMap(([element, collection]: [VlilleStation, VlilleStation[]]) => {
-        // max size reached
-        if (collection.length >= FAVORITES_MAX_SIZE) {
-          return Observable.of(new FavoritesActions.AddFailMaxSize());
-        }
-
         // station already in favorites
         if (VlilleStation.contains(collection, element)) {
           return Observable.empty();

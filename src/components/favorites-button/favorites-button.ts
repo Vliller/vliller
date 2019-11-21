@@ -1,7 +1,8 @@
-import { Component, Input, Output, ViewChild, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { FabContainer } from 'ionic-angular';
+import {Component, Input, Output, ViewChild, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
+import {FabContainer, ModalController} from 'ionic-angular';
 
-import { VlilleStation } from '../../models/vlille-station';
+import {VlilleStation} from '../../models/vlille-station';
+import {PagesFavoritesPage} from '../../pages/pages-favorites/pages-favorites';
 
 @Component({
     selector: 'favorites-button',
@@ -19,42 +20,45 @@ export class FavoritesButton {
     @Output() favoritesOpen = new EventEmitter<any>();
     @Output() favoritesClose = new EventEmitter<any>();
 
+    constructor(private modalCtrl: ModalController) {
+    }
+
     /**
      * Emit an open/close event according to the isOpened state.
      */
-    private emitOpenCloseEvent() {
+    /*private emitOpenCloseEvent() {
         if (this.isOpened) {
             this.favoritesOpen.emit();
         } else {
             this.favoritesClose.emit();
         }
-    }
+    }*/
 
     /**
      * Programmaticly closes the FAB and update open/close state.
      */
-    public close() {
+    /*public close() {
         this.fabContainer.close();
         this.isOpened = false;
 
         this.emitOpenCloseEvent();
-    }
+    }*/
 
     /**
-     * Toggle isOpened and send correct event.
+     * Open favorites modal
      */
-    public toggleIsOpened() {
-        this.isOpened = !this.isOpened;
-
-        this.emitOpenCloseEvent();
+    public openFavorites() {
+        this.modalCtrl.create(PagesFavoritesPage,
+            {favoriteStations: this.favoriteStations}
+        ).present();
     }
 
     /**
      * Send the favoriteStationClick event and close the FAB.
      * @param {VlilleStation} station
      */
-    public favoriteClick(station: VlilleStation) {
+    /*public favoriteClick(station: VlilleStation) {
         this.favoriteStationClick.emit(station);
         this.close();
-    }
+    }*/
 }

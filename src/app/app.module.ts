@@ -62,6 +62,7 @@ import { About } from '../pages/about/about';
 import { Contribs } from '../pages/contribs/contribs';
 import { CodeMemo } from '../pages/code-memo/code-memo';
 import { Feedback } from '../pages/feedback/feedback';
+import {PagesFavoritesPageModule} from '../pages/pages-favorites/pages-favorites.module';
 
 // active Sentry repporting during production
 if (AppSettings.isProduction) {
@@ -104,7 +105,8 @@ if (AppSettings.isProduction) {
             StationsEffects,
             LocationEffects
         ]),
-        IonicStorageModule.forRoot()
+        IonicStorageModule.forRoot(),
+        PagesFavoritesPageModule
     ],
     bootstrap: [IonicApp],
     entryComponents: [
