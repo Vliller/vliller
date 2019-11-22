@@ -4,4 +4,28 @@ favorites {
     text-align: center;
   }
 
+  .station {
+    position: absolute;
+    top: 35%;
+  }
+
+  .favorite--content {
+    .station-fulfillment {
+      position: absolute;
+      top: 50%;
+      transform: translate3d(-50%, -50%, 0);
+    }
+  }
+
+  .custom-btn {
+    width: 100px;
+  }
+
+  pie-chart .pie-chart-container {
+
+    circle {
+      fill: $mustard;
+    }
+  }
+
 }

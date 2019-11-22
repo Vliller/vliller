@@ -8,27 +8,36 @@
 
     <ion-navbar>
         <ion-title>Mes Stations Favorites</ion-title>
-      <ion-buttons end>
-        <button ion-button icon-only (click)="close()">
-          <ion-icon color="primary" name="close"></ion-icon>
-        </button>
-      </ion-buttons>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="close()">
+                <ion-icon color="primary" name="close"></ion-icon>
+            </button>
+        </ion-buttons>
     </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-  <ion-list>
-    <ion-item-sliding *ngFor="let station of favoriteStations">
-      <ion-item>
-        <span class="station">{{station.name}}</span>
-      </ion-item>
-      <ion-item-options side="right">
-        <button ion-button (click)="removeFavorite(station)">
-          <ion-icon name="trash"></ion-icon>
-        </button>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list>
+    <ion-list>
+        <ion-item-sliding *ngFor="let station of favoriteStations">
+            <ion-item>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col>
+                          <pie-chart class="station-fulfillment" [value]="station.fulfillmentInPercent"></pie-chart>
+                        </ion-col>
+                        <ion-col>
+                          <span class="station">{{station.name}}</span>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-item>
+            <ion-item-options side="right">
+                <button ion-button class="custom-btn" (click)="removeFavorite(station)">
+                    <ion-icon name="trash"></ion-icon>
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
 </ion-content>
