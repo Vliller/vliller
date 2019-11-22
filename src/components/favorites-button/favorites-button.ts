@@ -2,7 +2,7 @@ import {Component, Input, Output, ViewChild, EventEmitter, ChangeDetectionStrate
 import {FabContainer, ModalController} from 'ionic-angular';
 
 import {VlilleStation} from '../../models/vlille-station';
-import {PagesFavoritesPage} from '../../pages/pages-favorites/pages-favorites';
+import {Favorites} from '../../pages/favorites/favorites';
 
 @Component({
     selector: 'favorites-button',
@@ -48,7 +48,7 @@ export class FavoritesButton {
      * Open favorites modal
      */
     public openFavorites() {
-        this.modalCtrl.create(PagesFavoritesPage,
+        this.modalCtrl.create(Favorites,
             {favoriteStations: this.favoriteStations}
         ).present();
     }

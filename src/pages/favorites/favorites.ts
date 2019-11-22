@@ -13,12 +13,11 @@ import {map} from 'rxjs/operators';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
-    selector: 'page-pages-favorites',
-    templateUrl: 'pages-favorites.html',
+    selector: 'favorites',
+    templateUrl: 'favorites.html',
 })
-export class PagesFavoritesPage {
+export class Favorites {
 
     public favoriteStations: VlilleStation[];
 
