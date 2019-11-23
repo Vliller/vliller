@@ -24,27 +24,6 @@ export class FavoritesButton {
     }
 
     /**
-     * Emit an open/close event according to the isOpened state.
-     */
-    /*private emitOpenCloseEvent() {
-        if (this.isOpened) {
-            this.favoritesOpen.emit();
-        } else {
-            this.favoritesClose.emit();
-        }
-    }*/
-
-    /**
-     * Programmaticly closes the FAB and update open/close state.
-     */
-    /*public close() {
-        this.fabContainer.close();
-        this.isOpened = false;
-
-        this.emitOpenCloseEvent();
-    }*/
-
-    /**
      * Open favorites modal
      */
     public openFavorites() {
@@ -53,12 +32,4 @@ export class FavoritesButton {
         ).present();
     }
 
-    /**
-     * Send the favoriteStationClick event and close the FAB.
-     * @param {VlilleStation} station
-     */
-    /*public favoriteClick(station: VlilleStation) {
-        this.favoriteStationClick.emit(station);
-        this.close();
-    }*/
 }

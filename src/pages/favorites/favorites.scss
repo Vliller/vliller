@@ -7,14 +7,7 @@ favorites {
   .station {
     position: absolute;
     top: 35%;
-  }
-
-  .favorite--content {
-    .station-fulfillment {
-      position: absolute;
-      top: 50%;
-      transform: translate3d(-50%, -50%, 0);
-    }
+    left: -40%;
   }
 
   .custom-btn {
@@ -26,6 +19,10 @@ favorites {
     circle {
       fill: $mustard;
     }
+  }
+
+  #iconDelete {
+    font-size: 90px !important;
   }
 
 }
