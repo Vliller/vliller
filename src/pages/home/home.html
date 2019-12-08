@@ -27,10 +27,7 @@
             [userPosition]="currentPosition"
             [activeStation]="activeStation"
         >
-            <favorites-button
-                [favoriteStations]="favoriteStations | async"
-                (favoriteStationClick)="setActiveStation($event)"
-            ></favorites-button>
+            <favorites-button></favorites-button>
         </map>
         <station-card
             [station]="activeStation | async"
