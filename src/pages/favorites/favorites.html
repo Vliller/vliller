@@ -1,9 +1,9 @@
 <ion-header>
-    <ion-navbar>
-        <ion-title>Mes Stations Favorites</ion-title>
+    <ion-navbar color="mustard">
+        <ion-title>Mes stations favorites</ion-title>
         <ion-buttons end>
             <button ion-button icon-only (click)="close()">
-                <ion-icon color="primary" name="close"></ion-icon>
+                <ion-icon name="close"></ion-icon>
             </button>
         </ion-buttons>
     </ion-navbar>
@@ -11,7 +11,10 @@
 
 <ion-content padding>
     <ion-list>
-        <ion-item-sliding *ngFor="let station of favoriteStations">
+        <ion-item-sliding
+            (click)="selectFavorite(station)"
+            *ngFor="let station of favoriteStations | async"
+        >
             <ion-item>
                 <ion-grid>
                     <ion-row>

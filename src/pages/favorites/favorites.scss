@@ -1,28 +1,25 @@
-favorites {
 
-  ion-title {
-    text-align: center;
+// ion-title {
+//   text-align: center;
+// }
+
+.station {
+  position: absolute;
+  top: 35%;
+  left: -40%;
+}
+
+.custom-btn {
+  width: 100px;
+}
+
+pie-chart .pie-chart-container {
+
+  circle {
+    fill: $mustard;
   }
+}
 
-  .station {
-    position: absolute;
-    top: 35%;
-    left: -40%;
-  }
-
-  .custom-btn {
-    width: 100px;
-  }
-
-  pie-chart .pie-chart-container {
-
-    circle {
-      fill: $mustard;
-    }
-  }
-
-  #iconDelete {
-    font-size: 90px !important;
-  }
-
+#icon-delete {
+  font-size: 90px !important;
 }
