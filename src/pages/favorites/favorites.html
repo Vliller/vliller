@@ -9,27 +9,30 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
     <ion-list>
         <ion-item-sliding
             (click)="selectFavorite(station)"
             *ngFor="let station of favoriteStations | async"
         >
             <ion-item>
-                <ion-grid>
-                    <ion-row>
-                        <ion-col>
-                          <pie-chart class="station-fulfillment" [value]="station.fulfillmentInPercent"></pie-chart>
-                        </ion-col>
-                        <ion-col>
-                          <span class="station">{{station.name}}</span>
-                        </ion-col>
-                    </ion-row>
-                </ion-grid>
+                <div item-start>
+                    <pie-chart
+                        class="station-fulfillment"
+                        [value]="station.fulfillmentInPercent"
+                    ></pie-chart>
+                </div>
+                <h2>{{ station.name }}</h2>
+                <p>{{ station.bikes }} vélo(s) - {{ station.docks }} place(s)</p>
             </ion-item>
             <ion-item-options side="right">
-                <button ion-button class="custom-btn" (click)="removeFavorite(station)">
-                    <img class="img-responsive" src="assets/img/vliller-icon-trash.svg">
+                <button
+                    ion-button
+                    color="danger"
+                    (click)="removeFavorite(station)"
+                >
+                    <ion-icon name="trash"></ion-icon>
+                    Supprimer
                 </button>
             </ion-item-options>
         </ion-item-sliding>
