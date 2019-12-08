@@ -1,9 +1,10 @@
 import {Component} from '@angular/core';
-import {NavParams, ViewController} from 'ionic-angular';
+import {ViewController} from 'ionic-angular';
 import {VlilleStation} from '../../models/vlille-station';
 import {FavoritesActions} from '../../actions/favorites';
 import {Store} from '@ngrx/store';
 import {AppState, selectFavorites} from '../../app/app.reducers';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'favorites',
@@ -11,17 +12,13 @@ import {AppState, selectFavorites} from '../../app/app.reducers';
 })
 export class Favorites {
 
-    public favoriteStations: VlilleStation[];
+    public favoriteStations: Observable<VlilleStation[]>;
 
     constructor(
         private viewCtrl: ViewController,
         private store: Store<AppState>
     ) {
-        this.store
-            .select(state => selectFavorites(state))
-            .subscribe(stations =>
-                this.favoriteStations = stations
-            );
+        this.favoriteStations = this.store.select(state => selectFavorites(state));
     }
 
     /**
@@ -41,4 +38,8 @@ export class Favorites {
         this.store.dispatch(new FavoritesActions.Remove(station));
     }
 
+    selectFavorite(station: VlilleStation) {
+        // @todo
+        console.debug('not implemented yet!')
+    }
 }
