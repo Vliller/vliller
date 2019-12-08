@@ -21,11 +21,15 @@ export class Favorites {
 
     public favoriteStations: VlilleStation[];
 
-    constructor(public navParams: NavParams,
-                private viewCtrl: ViewController,
-                private store: Store<AppState>) {
-        this.favoriteStations = navParams.get('favoriteStations');
-
+    constructor(
+        private viewCtrl: ViewController,
+        private store: Store<AppState>
+    ) {
+        this.store
+            .select(state => selectFavorites(state))
+            .subscribe(stations =>
+                this.favoriteStations = stations
+            );
     }
 
     /**
@@ -41,8 +45,8 @@ export class Favorites {
      */
     removeFavorite(station: VlilleStation) {
         station.isFavorite = !station.isFavorite;
+
         this.store.dispatch(new FavoritesActions.Remove(station));
-        this.store.select(state => selectFavorites(state)).subscribe(stations => this.favoriteStations = stations);
     }
 
 }
