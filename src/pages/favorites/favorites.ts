@@ -1,17 +1,9 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavParams, ViewController} from 'ionic-angular';
+import {NavParams, ViewController} from 'ionic-angular';
 import {VlilleStation} from '../../models/vlille-station';
 import {FavoritesActions} from '../../actions/favorites';
 import {Store} from '@ngrx/store';
 import {AppState, selectFavorites} from '../../app/app.reducers';
-import {map} from 'rxjs/operators';
-
-/**
- * Generated class for the PagesFavoritesPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @Component({
     selector: 'favorites',
