@@ -61,3 +61,7 @@ export function selectCurrentPositionIsLoading(state: AppState) {
 export function selectMapIsClickable(state: AppState) {
     return state.map.isClickable;
 }
+
+export function selectMapCenter(state: AppState) {
+    return state.map.center;
+}

@@ -1,14 +1,21 @@
 import { MapActions } from '../actions/map';
+import { MapPosition } from '../models/map-position';
 
 /**
  *
  */
 export interface MapState {
     isClickable: boolean
+    center: MapPosition
 }
 
 const initialState: MapState = {
-    isClickable: true
+    isClickable: true,
+    // Lille
+    center: MapPosition.fromLatLng({
+        lat: 50.633333,
+        lng: 3.066667
+    })
 };
 
 /**
@@ -18,11 +25,22 @@ const initialState: MapState = {
  * @param  {MapActions.All}          action
  * @return {MapState}
  */
-export function mapReducer(state: MapState = initialState, action: MapActions.All): MapState {
+export function mapReducer(
+    state: MapState = initialState,
+    action: MapActions.All
+): MapState {
     switch (action.type) {
         case MapActions.SET_CLICKABLE: {
             return {
+                ...state,
                 isClickable: action.payload
+            };
+        }
+
+        case MapActions.SET_CENTER: {
+            return {
+                ...state,
+                center: action.payload
             };
         }
 
