@@ -35,18 +35,12 @@ export function stationsReducer(state: StationsState = initialState, action: Sta
             }
         }
 
-        case StationsActions.SET_ACTIVE: {
+        case StationsActions.UPDATE_ACTIVE: {
             return {
                 ...state,
 
                 // set active station
-                active: action.payload
-            }
-        }
-
-        case StationsActions.UPDATE_ACTIVE: {
-            return {
-                ...state,
+                active: action.payload,
 
                 // loading mode during station fetching
                 isActiveLoading: true

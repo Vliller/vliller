@@ -10,7 +10,6 @@ export namespace StationsActions {
     export const LOAD_SUCCESS = "[Stations] Load Success";
     export const LOAD_FAIL = "[Stations] Load Fail";
 
-    export const SET_ACTIVE = "[Stations] Set Active Station";
     export const UPDATE_ACTIVE = "[Stations] Update Active Station";
     export const UPDATE_ACTIVE_SUCCESS = "[Stations] Update Active Station Success";
     export const UPDATE_ACTIVE_FAIL = "[Stations] Update Active Station Fail";
@@ -38,12 +37,6 @@ export namespace StationsActions {
     /**
      * Update active station actions
      */
-    export class SetActive implements Action {
-        readonly type = SET_ACTIVE;
-
-        constructor(public payload: VlilleStation) {}
-    }
-
     export class UpdateActive implements Action {
         readonly type = UPDATE_ACTIVE;
 
@@ -69,7 +62,6 @@ export namespace StationsActions {
         = Load
         | LoadSuccess
         | LoadFail
-        | SetActive
         | UpdateActive
         | UpdateActiveSuccess
         | UpdateActiveFail;
