@@ -11,7 +11,7 @@ import { UserMarker } from '../../models/user-marker';
 
 import { AppSettings } from '../../app/app.settings';
 import { Store } from '@ngrx/store';
-import { AppState, selectMapIsClickable } from '../../app/app.reducers';
+import { AppState, selectMapIsClickable, selectMapCenter } from '../../app/app.reducers';
 import { ToastActions } from '../../actions/toast';
 import { StationsActions } from '../../actions/stations';
 
@@ -91,6 +91,11 @@ export class MapComponent implements OnInit {
             this.store.select(state => selectMapIsClickable(state)).subscribe(isClickable => {
                 this.setClickable(isClickable);
             });
+
+            // watch map center and perform center
+            this.store.select(state => selectMapCenter(state)).subscribe(mapCenter => {
+                this.setCenter(mapCenter, true);
+            })
 
             // init user marker
             this.initUserMarker(MapPosition.fromLatLng(AppSettings.defaultPosition)).then(() => {
