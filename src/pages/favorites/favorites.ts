@@ -5,6 +5,9 @@ import {FavoritesActions} from '../../actions/favorites';
 import {Store} from '@ngrx/store';
 import {AppState, selectFavorites} from '../../app/app.reducers';
 import { Observable } from 'rxjs';
+import {MapActions} from '../../actions/map';
+import {MapPosition} from '../../models/map-position';
+import {StationsActions} from '../../actions/stations';
 
 @Component({
     selector: 'favorites',
@@ -38,8 +41,13 @@ export class Favorites {
         this.store.dispatch(new FavoritesActions.Remove(station));
     }
 
+    /**
+     * Select station from favorites and center the map
+     * @param station
+     */
     selectFavorite(station: VlilleStation) {
-        // @todo
-        console.debug('not implemented yet!')
+        this.store.dispatch(new StationsActions.UpdateActive(station));
+        this.store.dispatch(new MapActions.SetCenter(new MapPosition(station.latitude, station.longitude)));
+        this.viewCtrl.dismiss();
     }
 }
