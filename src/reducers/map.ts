@@ -1,5 +1,6 @@
 import { MapActions } from '../actions/map';
 import { MapPosition } from '../models/map-position';
+import { AppSettings } from '../app/app.settings';
 
 /**
  *
@@ -11,11 +12,7 @@ export interface MapState {
 
 const initialState: MapState = {
     isClickable: true,
-    // Lille
-    center: MapPosition.fromLatLng({
-        lat: 50.633333,
-        lng: 3.066667
-    })
+    center: MapPosition.fromLatLng(AppSettings.defaultPosition)
 };
 
 /**
