@@ -47,7 +47,8 @@ export class Favorites {
      */
     selectFavorite(station: VlilleStation) {
         this.store.dispatch(new StationsActions.UpdateActive(station));
-        this.store.dispatch(new MapActions.SetCenter(new MapPosition(station.latitude, station.longitude)));
+        this.store.dispatch(new MapActions.SetCenter(MapPosition.fromCoordinates(station)));
+
         this.viewCtrl.dismiss();
     }
 }
