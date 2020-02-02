@@ -37,7 +37,6 @@ export class Favorites {
      */
     removeFavorite(station: VlilleStation) {
         station.isFavorite = !station.isFavorite;
-
         this.store.dispatch(new FavoritesActions.Remove(station));
     }
 
@@ -48,7 +47,6 @@ export class Favorites {
     selectFavorite(station: VlilleStation) {
         this.store.dispatch(new StationsActions.UpdateActive(station));
         this.store.dispatch(new MapActions.SetCenter(MapPosition.fromCoordinates(station)));
-
         this.viewCtrl.dismiss();
     }
 }

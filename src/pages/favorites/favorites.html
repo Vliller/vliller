@@ -12,10 +12,9 @@
 <ion-content>
     <ion-list>
         <ion-item-sliding
-            (click)="selectFavorite(station)"
             *ngFor="let station of favoriteStations | async"
         >
-            <ion-item>
+            <ion-item (click)="selectFavorite(station)">
                 <div item-start>
                     <pie-chart
                         class="station-fulfillment"
