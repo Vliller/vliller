@@ -1,0 +1,22 @@
+// Vliller Class Diagram
+[CoordinatesInterface|latitude: number; longitude: number; accuracy: number {bg:wheat}]
+[MapMarkerInterface||onClick(): Observable(ILatLng);isEqual(MapMarkerInterface): void; setIcon(MarkerIcon): void; setMarker(Marker): void; getMarker(): Marker; removeMarker(): void;{bg:wheat}]
+[ToastOptionsInterface|showSpinner: boolean; isError: boolean; duration: number;{bg:wheat}]
+[Toast|]
+[MapMarker|#marker: Marker|onClick(): Observable(ILatLng);isEqual(MapMarkerInterface): void; setIcon(MarkerIcon): void; setMarker(Marker): void; getMarker(): Marker; removeMarker(): void;]
+[MapPosition||fromLatLng(ILatLng): MapPosition; fromCoordinates(CoordinatesInterface): MapPosition; toLatLng(): ILatLng ]
+[UserMarker|#accuracyCircle: any;|create(any MapPosition): Promise(UserMarker);setPosition(MapPosition); setHeading(number); setAccuracy(number);  onClick(): Observable(any)]
+[VlilleStationStatus|NORMAL=0;UNAVAILABLE=1]
+[VlilleStation||get formatedDistance(): string; get fulfillmentInPercent(): number;isEqual(VlilleStation): boolean; fromObject(any): VlilleStation; rawDataToVlilleStation(data): VlilleStation;contains(VlilleStation[] VlilleStation): boolean]
+[VlilleStationMarker|#station: VlilleStation; #isStationActive: boolean = false;|create(any VlilleStation): Promise(VlilleStationMarker);updateIcon();isAvailable(): boolean;isActive(): boolean; setActive(boolean);setStation(VlilleStation)]
+
+//Relation
+[MapMarkerInterface]^[MapMarker]
+
+[CoordinatesInterface]^[MapPosition]
+
+[MapMarker]^[UserMarker]
+
+[CoordinatesInterface]^[VlilleStation]
+
+[MapMarker]^[VlilleStationMarker]

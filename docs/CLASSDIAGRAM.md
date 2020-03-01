@@ -1,3 +1,3 @@
 # Vliller Class Diagram
 
-<img src="/classDiagram.svg"/>
+![class diagram](/docs/classDiagram.svg)
