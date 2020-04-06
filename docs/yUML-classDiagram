@@ -1,4 +1,6 @@
 // Vliller Class Diagram
+
+// Package Models
 [CoordinatesInterface|latitude: number; longitude: number; accuracy: number {bg:wheat}]
 [MapMarkerInterface||onClick(): Observable(ILatLng);isEqual(MapMarkerInterface): void; setIcon(MarkerIcon): void; setMarker(Marker): void; getMarker(): Marker; removeMarker(): void;{bg:wheat}]
 [ToastOptionsInterface|showSpinner: boolean; isError: boolean; duration: number;{bg:wheat}]
@@ -10,7 +12,12 @@
 [VlilleStation||get formatedDistance(): string; get fulfillmentInPercent(): number;isEqual(VlilleStation): boolean; fromObject(any): VlilleStation; rawDataToVlilleStation(data): VlilleStation;contains(VlilleStation[] VlilleStation): boolean]
 [VlilleStationMarker|#station: VlilleStation; #isStationActive: boolean = false;|create(any VlilleStation): Promise(VlilleStationMarker);updateIcon();isAvailable(): boolean;isActive(): boolean; setActive(boolean);setStation(VlilleStation)]
 
-//Relation
+// Packages Components
+[CbIcon|active: boolean]
+[DirectionButton|station: VlilleStation; -navigationApp: any|navigate()]
+[FavoritesAddIcon|Input() station: VlilleStation|toggleFavorite()]
+
+// Relation
 [MapMarkerInterface]^[MapMarker]
 
 [CoordinatesInterface]^[MapPosition]
