@@ -5,17 +5,20 @@
 [MapMarkerInterface||onClick(): Observable(ILatLng);isEqual(MapMarkerInterface): void; setIcon(MarkerIcon): void; setMarker(Marker): void; getMarker(): Marker; removeMarker(): void;{bg:wheat}]
 [ToastOptionsInterface|showSpinner: boolean; isError: boolean; duration: number;{bg:wheat}]
 [Toast|]
-[MapMarker|#marker: Marker|onClick(): Observable(ILatLng);isEqual(MapMarkerInterface): void; setIcon(MarkerIcon): void; setMarker(Marker): void; getMarker(): Marker; removeMarker(): void;]
+[MapMarker|#marker: Marker|onClick(): Observable(ILatLng);isEqual(MapMarkerInterface): void; setIcon(MarkerIcon): void; setMarker(Marker): void; getMarker(): Marker; removeMarker(): void]
 [MapPosition||fromLatLng(ILatLng): MapPosition; fromCoordinates(CoordinatesInterface): MapPosition; toLatLng(): ILatLng ]
-[UserMarker|#accuracyCircle: any;|create(any MapPosition): Promise(UserMarker);setPosition(MapPosition); setHeading(number); setAccuracy(number);  onClick(): Observable(any)]
+[UserMarker|#accuracyCircle: any|create(any MapPosition): Promise(UserMarker);setPosition(MapPosition); setHeading(number); setAccuracy(number);  onClick(): Observable(any)]
 [VlilleStationStatus|NORMAL=0;UNAVAILABLE=1]
-[VlilleStation||get formatedDistance(): string; get fulfillmentInPercent(): number;isEqual(VlilleStation): boolean; fromObject(any): VlilleStation; rawDataToVlilleStation(data): VlilleStation;contains(VlilleStation[] VlilleStation): boolean]
-[VlilleStationMarker|#station: VlilleStation; #isStationActive: boolean = false;|create(any VlilleStation): Promise(VlilleStationMarker);updateIcon();isAvailable(): boolean;isActive(): boolean; setActive(boolean);setStation(VlilleStation)]
+[VlilleStation||get formatedDistance(): string; get fulfillmentInPercent(): number;isEqual(VlilleStation): boolean; fromObject(any): VlilleStation; rawDataToVlilleStation(data): VlilleStation;contains(VlilleStationArray VlilleStation): boolean]
+[VlilleStationMarker|#station: VlilleStation; #isStationActive: boolean = false|create(any VlilleStation): Promise(VlilleStationMarker);updateIcon();isAvailable(): boolean;isActive(): boolean; setActive(boolean);setStation(VlilleStation)]
 
 // Packages Components
 [CbIcon|active: boolean]
 [DirectionButton|station: VlilleStation; -navigationApp: any|navigate()]
 [FavoritesAddIcon|Input() station: VlilleStation|toggleFavorite()]
+[FavoritesButton|ViewChild() fabContainer:FabContainer;Input() favoriteStations: VlilleStationArray;Output() favoritesStationClick: EventEmitter(VlilleStation);-isOpened: boolean; Output() favoritesOpen: EventEmitter(any); Output() favoritesClose: EventEmitter(any)| emitOpenCloseEvent(); close(); toggleIsOpened(); favoriteClick(vlilleStation: VlilleStation)]
+[Enum LocationIconState|Default=0;Loading=1;Fixed=2;Disabled=3]
+[LocationIcon|+enumState: LocationIconState;Input() state: LocationIconState]
 
 // Relation
 [MapMarkerInterface]^[MapMarker]
@@ -27,3 +30,9 @@
 [CoordinatesInterface]^[VlilleStation]
 
 [MapMarker]^[VlilleStationMarker]
+
+[DirectionButton]1-1>[VlilleStation]
+[FavoritesAddIcon]1-1>[VlilleStation]
+[FavoritesButton]1-0..n>[VlilleStation]
+[LocationIcon]1-1>[Enum LocationIconState]
+[VlilleStationMarker]1-1>[VlilleStation]
