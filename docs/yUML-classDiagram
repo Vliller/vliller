@@ -30,9 +30,3 @@
 [CoordinatesInterface]^[VlilleStation]
 
 [MapMarker]^[VlilleStationMarker]
-
-[DirectionButton]1-1>[VlilleStation]
-[FavoritesAddIcon]1-1>[VlilleStation]
-[FavoritesButton]1-0..n>[VlilleStation]
-[LocationIcon]1-1>[Enum LocationIconState]
-[VlilleStationMarker]1-1>[VlilleStation]
