@@ -19,6 +19,14 @@
 [FavoritesButton|ViewChild() fabContainer:FabContainer;Input() favoriteStations: VlilleStationArray;Output() favoritesStationClick: EventEmitter(VlilleStation);-isOpened: boolean; Output() favoritesOpen: EventEmitter(any); Output() favoritesClose: EventEmitter(any)| emitOpenCloseEvent(); close(); toggleIsOpened(); favoriteClick(vlilleStation: VlilleStation)]
 [Enum LocationIconState|Default=0;Loading=1;Fixed=2;Disabled=3]
 [LocationIcon|+enumState: LocationIconState;Input() state: LocationIconState]
+[MapComponent|-mapInstance:any;-mapInstancePromise: Promise(any);-mapZoom: number;-markers: Map(number,VlilleStationMarker);-activeMarker: VlilleStationMarker;-userMarker: UserMarker;-userHeading: Observable(number);Input() station: Observable(VlilleStationArray);Input() userPosition: Observable(MapPosition);Input() activeStation: Observable(VlilleStation)|ngOnInit();initMap(): Promise(any);-initMarkers(stations: VlilleStationMarkerArray): Promise(VlilleStationArray);-initMarker(station: VlilleStation): Promise(VlilleStationMarker);-initUserMarker(position: MapPosition): Promise(UserMarker);-startActiveStationWatcher(activeStationObservable: Observable(VlilleStation));-startStationsStateWatcher(stationsObservable: Observable(VlilleStationArray));-setActiveMarker(marker: VlilleStationMarker);+setClickable(value: boolean);+setCenter(position: MapPosition, animate: boolean)]
+[Const MapIcon|ACTIVE;UNAVAILABLE;UNAVAILABLE_ACTIVE;USER]
+[DynamicMapIcon|getIcon(fulfillmentInPercent: number): any]
+[MapTools||+static rad(deg: number): number;+static computeDistance(p1: MapPosition, p2: MapPosition): number;+computeClosestStation(position: MapPosition, stations: VlilleStationArray): VlilleStation]
+[PieChart|Input() value: number;strokeDasharray: string|ngOnChanges()|-computeStrokeDasharray(valueInPercent: number): string]
+[StationCard|Input() station: VlilleStation;Input() isLoading: boolean]
+[StationCardMetric|+iconUrl: string;+color: string;+text: string;Input() type: string;Input() value: number;Input() isLoading: boolean|ngOnChanges();-computeColor(value: number): string;+computeIconUrl(type: string, color: string): string;-computeText(type: string, value: number): string]
+[ToastComponent|+showToast: boolean;+showSpinner: boolean;+message: string;+isError: boolean;-durationId: number|-show(toast: Toast);-hide()]
 
 // Relation
 [MapMarkerInterface]^[MapMarker]
