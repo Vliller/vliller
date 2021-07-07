@@ -1,0 +1,39 @@
+<ion-header>
+    <ion-navbar color="mustard">
+        <ion-title>Mes stations favorites</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="close()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-list>
+        <ion-item-sliding
+            *ngFor="let station of favoriteStations | async"
+        >
+            <ion-item (click)="selectFavorite(station)">
+                <div item-start>
+                    <pie-chart
+                        class="station-fulfillment"
+                        [value]="station.fulfillmentInPercent"
+                    ></pie-chart>
+                </div>
+                <h2>{{ station.name }}</h2>
+                <p>{{ station.bikes }} vélo(s) - {{ station.docks }} place(s)</p>
+            </ion-item>
+            <ion-item-options side="right">
+                <button
+                    ion-button
+                    color="danger"
+                    (click)="removeFavorite(station)"
+                >
+                    <ion-icon name="trash"></ion-icon>
+                    Supprimer
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
+</ion-content>

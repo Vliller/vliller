@@ -75,8 +75,8 @@ export class Home {
             )
         )
         .subscribe(closestStation => {
-            // updates active station
-            this.setActiveStation(closestStation, false);
+            // refresh station data
+            this.store.dispatch(new StationsActions.UpdateActive(closestStation));
         });
 
         // update position & stations data on resume
@@ -86,26 +86,6 @@ export class Home {
 
         // Hide splashscreen
         platform.ready().then(() => splashScreenPlugin.hide());
-    }
-
-    /**
-     * Put new value in activeStation stream
-     * Also, center the map by default.
-     *
-     * @param {VlilleStation} stationResume
-     * @param {boolean} centerMap
-     */
-    public setActiveStation(station: VlilleStation, centerMap: boolean = true) {
-        // immediately set 'cold' data, to get fast UI updates
-        this.store.dispatch(new StationsActions.SetActive(station));
-
-        // Update station data
-        this.store.dispatch(new StationsActions.UpdateActive(station));
-
-        //
-        if (centerMap) {
-            this.map.setCenter(MapPosition.fromCoordinates(station), true);
-        }
     }
 
     /**

@@ -26,14 +26,15 @@ export class StationsEffects {
     .ofType(StationsActions.LOAD)
     .pipe(
       startWith(new StationsActions.Load()),
-      switchMap(() => {
-        return this.vlilleService
-          .getAllStations()
-          .pipe(
-            map(stations => new StationsActions.LoadSuccess(stations)),
-            catchError(error => Observable.of(new StationsActions.LoadFail(error)))
-          );
-      })
+      switchMap(() =>
+        this.vlilleService.getAllStations()
+      ),
+      map(stations =>
+        new StationsActions.LoadSuccess(stations)
+      ),
+      catchError(error =>
+        Observable.of(new StationsActions.LoadFail(error))
+      )
     );
 
   /**
@@ -44,22 +45,38 @@ export class StationsEffects {
     .pipe(
       // get store value
       withLatestFrom(this.store$),
-      map(([action, state]: [StationsActions.UpdateActive, AppState]) => [action.payload, state.location.position, state.favorites.collection]),
-      switchMap(([activeStation, position, favorites]: [VlilleStation, MapPosition, VlilleStation[]]) => {
+
+      // fetch station data
+      switchMap(([action, state]: [StationsActions.UpdateActive, AppState]) => {
+        const stationId = action.payload.id
+        const position = state.location.position
+        const favorites = state.favorites.collection
+
         return this.vlilleService
-          .getStation(activeStation.id)
+          .getStation(stationId)
           .pipe(
-            map((station: VlilleStation) => {
-              // computes distance between station and last known position
-              station.distance = MapTools.computeDistance(MapPosition.fromCoordinates(station), position);
+            map(
+              station => [
+                station,
+                position,
+                favorites
+              ]
+            )
+          )
+      }),
 
-              // checks if the station is in favorites
-              station.isFavorite = VlilleStation.contains(favorites, station);
+      // adds computed values to station object
+      map(([station, position, favorites]: [VlilleStation, MapPosition, VlilleStation[]]) => {
+        // computes distance between station and last known position
+        station.distance = MapTools.computeDistance(MapPosition.fromCoordinates(station), position);
 
-              return new StationsActions.UpdateActiveSuccess(station);
-            }),
-            catchError(error => Observable.of(new StationsActions.UpdateActiveFail(error)))
-          );
-      })
+        // checks if the station is in favorites
+        station.isFavorite = VlilleStation.contains(favorites, station);
+
+        return new StationsActions.UpdateActiveSuccess(station);
+      }),
+      catchError(error =>
+        Observable.of(new StationsActions.UpdateActiveFail(error))
+      )
     );
 }
