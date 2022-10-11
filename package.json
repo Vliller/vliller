@@ -44,7 +44,7 @@
     "@ionic/storage": "2.2.0",
     "@ngrx/effects": "4.1.1",
     "@ngrx/store": "4.1.1",
-    "cordova-android": "7.1.4",
+    "cordova-android": "11.0.0",
     "cordova-ios": "5.0.1",
     "cordova-plugin-actionsheet": "^2.3.3",
     "cordova-plugin-advanced-http": "^2.2.0",
